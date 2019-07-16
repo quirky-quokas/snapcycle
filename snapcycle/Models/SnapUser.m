@@ -16,8 +16,5 @@
 @dynamic profImage;
 @dynamic trashArray;
 
-+ (nonnull NSString *)parseClassName {
-    return @"SnapUser";
-}
 
 @end

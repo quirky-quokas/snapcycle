@@ -11,9 +11,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SnapUser : PFUser <PFSubclassing>
-@property (nonatomic, strong) NSString *username;
-@property (nonatomic, strong) NSString *password;
-@property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) PFRelation *trashArray;
 @property (nonatomic, strong) PFFileObject *profImage;
 @end
