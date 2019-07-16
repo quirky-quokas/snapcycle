@@ -19,6 +19,10 @@
 		B1320C7022DE407E00A38B16 /* snapcycleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B1320C6F22DE407E00A38B16 /* snapcycleUITests.m */; };
 		B1320C8022DE5BA200A38B16 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1320C7F22DE5BA200A38B16 /* LoginViewController.m */; };
 		B1320C8322DE5BF700A38B16 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1320C8222DE5BF700A38B16 /* RegisterViewController.m */; };
+		B16C81EB22DE63C700E72713 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81EA22DE63C700E72713 /* CameraViewController.m */; };
+		B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81ED22DE641B00E72713 /* ProfileViewController.m */; };
+		B16C81F122DE643B00E72713 /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81F022DE643B00E72713 /* CategoriesViewController.m */; };
+		B16C81F422DE70D800E72713 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81F322DE70D800E72713 /* DetailsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +66,14 @@
 		B1320C7F22DE5BA200A38B16 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		B1320C8122DE5BF700A38B16 /* RegisterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		B1320C8222DE5BF700A38B16 /* RegisterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		B16C81E922DE63C700E72713 /* CameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
+		B16C81EA22DE63C700E72713 /* CameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
+		B16C81EC22DE641B00E72713 /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		B16C81ED22DE641B00E72713 /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		B16C81EF22DE643B00E72713 /* CategoriesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CategoriesViewController.h; sourceTree = "<group>"; };
+		B16C81F022DE643B00E72713 /* CategoriesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CategoriesViewController.m; sourceTree = "<group>"; };
+		B16C81F222DE70D800E72713 /* DetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
+		B16C81F322DE70D800E72713 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
 		B3A07F9C47C7041ECE916776 /* Pods-snapcycle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycle.release.xcconfig"; path = "Target Support Files/Pods-snapcycle/Pods-snapcycle.release.xcconfig"; sourceTree = "<group>"; };
 		C8136804A7D7CF45BE79F467 /* Pods-snapcycleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleUITests.debug.xcconfig"; path = "Target Support Files/Pods-snapcycleUITests/Pods-snapcycleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E041F324D7031C737648A917 /* Pods-snapcycleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleUITests.release.xcconfig"; path = "Target Support Files/Pods-snapcycleUITests/Pods-snapcycleUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -181,6 +193,14 @@
 				B1320C7F22DE5BA200A38B16 /* LoginViewController.m */,
 				B1320C8122DE5BF700A38B16 /* RegisterViewController.h */,
 				B1320C8222DE5BF700A38B16 /* RegisterViewController.m */,
+				B16C81E922DE63C700E72713 /* CameraViewController.h */,
+				B16C81EA22DE63C700E72713 /* CameraViewController.m */,
+				B16C81EC22DE641B00E72713 /* ProfileViewController.h */,
+				B16C81ED22DE641B00E72713 /* ProfileViewController.m */,
+				B16C81EF22DE643B00E72713 /* CategoriesViewController.h */,
+				B16C81F022DE643B00E72713 /* CategoriesViewController.m */,
+				B16C81F222DE70D800E72713 /* DetailsViewController.h */,
+				B16C81F322DE70D800E72713 /* DetailsViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -405,10 +425,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B16C81EB22DE63C700E72713 /* CameraViewController.m in Sources */,
 				B1320C5B22DE407E00A38B16 /* main.m in Sources */,
 				B1320C4D22DE407E00A38B16 /* AppDelegate.m in Sources */,
+				B16C81F122DE643B00E72713 /* CategoriesViewController.m in Sources */,
 				B1320C8022DE5BA200A38B16 /* LoginViewController.m in Sources */,
+				B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */,
 				B1320C8322DE5BF700A38B16 /* RegisterViewController.m in Sources */,
+				B16C81F422DE70D800E72713 /* DetailsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
