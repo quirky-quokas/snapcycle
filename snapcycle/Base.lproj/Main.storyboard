@@ -54,9 +54,9 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="BzN-ce-QcD" kind="relationship" relationship="viewControllers" id="UwC-vx-xiI"/>
-                        <segue destination="spz-gT-KP6" kind="relationship" relationship="viewControllers" id="ElL-fs-mGv"/>
                         <segue destination="9sc-fL-QzH" kind="relationship" relationship="viewControllers" id="y3p-TQ-dGi"/>
+                        <segue destination="BzN-ce-QcD" kind="relationship" relationship="viewControllers" id="uzT-71-Zfe"/>
+                        <segue destination="spz-gT-KP6" kind="relationship" relationship="viewControllers" id="3rt-kS-FMx"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5CT-Lf-LzQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
