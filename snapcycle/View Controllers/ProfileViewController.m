@@ -16,6 +16,9 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *recyclingStatsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *compostStatsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *landfillStatsLabel;
 
 @end
 
@@ -39,16 +42,15 @@
     PFQuery *recyclingQuery = [user.trashArray query];
     [recyclingQuery whereKey:@"type" equalTo:@"recycling"];
     [recyclingQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (objects) {
-            NSLog(@"recycling: %ld items", [objects count]);
-        }
+        // TODO: if there are no objects or error
+        self.recyclingStatsLabel.text = [NSString stringWithFormat:@"recycling: %ld items", [objects count]];
     }];
     
     PFQuery *landfillQuery = [user.trashArray query];
     [landfillQuery whereKey:@"type" equalTo:@"landfill"];
     [landfillQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (objects) {
-            NSLog(@"landfill: %ld items", [objects count]);
+            self.landfillStatsLabel.text = [NSString stringWithFormat:@"landfill: %ld items", [objects count]];
         }
     }];
     
@@ -56,7 +58,7 @@
     [compostQuery whereKey:@"type" equalTo:@"compost"];
     [compostQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (objects) {
-            NSLog(@"compost: %ld items", [objects count]);
+            self.compostStatsLabel.text = [NSString stringWithFormat:@"compost: %ld items", [objects count]];
         }
     }];
         
