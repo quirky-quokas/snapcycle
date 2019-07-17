@@ -18,25 +18,32 @@
 
 @implementation ProfileViewController
 
-- (void)viewDidLoad { //TODO: break up code chunks into methods
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     // set the scrollView frame
     self.scrollView.contentSize = CGSizeMake(375, 1300);
     
     // set the profile picture
-    self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
-    if (PFUser.currentUser[@"profileImage"]) { //TODO: potentially update with getting profile image from SnapUser instead of Parse database...
-        PFFileObject *imageFile = PFUser.currentUser[@"profileImage"];
-        UIImage *image = [[UIImage alloc] initWithData:imageFile.getData];
-        self.profileImage.image = image;
-    }
+    [self setProfilePicture];
     
     // set the welcome text
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
     
     // display a graph of their three trash piles
         
+}
+
+/**
+ Sets the user's profile image. If the user does not have a profile image, the default profile image icon is used.
+ */
+- (void)setProfilePicture {
+    self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
+    if (PFUser.currentUser[@"profileImage"]) { //TODO: potentially update with getting profile image from SnapUser instead of Parse database...
+        PFFileObject *imageFile = PFUser.currentUser[@"profileImage"];
+        UIImage *image = [[UIImage alloc] initWithData:imageFile.getData];
+        self.profileImage.image = image;
+    }
 }
 
 /*
