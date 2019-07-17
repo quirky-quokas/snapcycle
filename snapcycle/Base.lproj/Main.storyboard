@@ -93,16 +93,6 @@
                     <view key="view" contentMode="scaleToFill" id="u8M-sc-v7P">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AEV-vh-b3l">
-                                <rect key="frame" x="124" y="394" width="127" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Testing detail view"/>
-                                <connections>
-                                    <segue destination="5lJ-x6-utv" kind="show" id="7w4-Pl-59x"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="7zm-Rq-TmQ"/>
                     </view>
@@ -111,7 +101,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rFV-VH-wAq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2752.8000000000002" y="121.88905547226388"/>
+            <point key="canvasLocation" x="2729" y="122"/>
         </scene>
         <!--Camera-->
         <scene sceneID="EDR-gu-gB1">
@@ -434,7 +424,6 @@
         <image name="profile-pic-icon" width="673" height="673"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="AcR-1A-lSl"/>
         <segue reference="S6R-iF-SHQ"/>
     </inferredMetricsTieBreakers>
 </document>
