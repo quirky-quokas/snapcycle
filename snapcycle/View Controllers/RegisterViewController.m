@@ -8,6 +8,7 @@
 
 #import "RegisterViewController.h"
 #import "SnapUser.h"
+#import "LoginViewController.h"
 
 @interface RegisterViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
@@ -30,7 +31,8 @@
 - (IBAction)didTapSignup:(UIButton *)sender {
     // Confirm passwords match
     if (![self.passwordField.text isEqualToString:self.confirmPasswordField.text]) {
-        [self showErrorOKAlertWithMessage:@"passwords must match"];
+        UIAlertController *alert = [LoginViewController createErrorAlertWithOKAndMessage:@"passwords must match"];
+        [self presentViewController:alert animated:YES completion:nil];
     } else {
         // Initialize user
         SnapUser *newUser = [SnapUser user];
@@ -48,7 +50,8 @@
         
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if (error) {
-                [self showErrorOKAlertWithMessage:error.localizedDescription];
+                UIAlertController *alert = [LoginViewController createErrorAlertWithOKAndMessage:error.localizedDescription];
+                [self presentViewController:alert animated:YES completion:nil];
                 NSLog(@"Cannot create account: %@", error.localizedDescription);
             } else {
                 [self performSegueWithIdentifier:@"registeredSegue" sender:self];
@@ -56,21 +59,6 @@
             }
         }];
     }
-}
-
-// Show alert with title "Error" and given message
-// OK button dismisses alert
-- (void)showErrorOKAlertWithMessage:(NSString*)message {
-    // Create alert controller
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                   message:message preferredStyle:UIAlertControllerStyleAlert];
-    
-    // Add ok action
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-    [alert addAction:okAction];
-    
-    // Show alert
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 /*

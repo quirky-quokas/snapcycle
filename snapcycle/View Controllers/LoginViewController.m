@@ -33,16 +33,7 @@
     // Make login request
     [SnapUser logInWithUsernameInBackground:username password:password block:^(PFUser * _Nullable user, NSError * _Nullable error) {
         if (error) {
-            // Create alert controller
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                           message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-        
-            // Add ok action
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-            [alert addAction:okAction];
-    
-            
-            // Show alert
+            UIAlertController *alert = [LoginViewController createErrorAlertWithOKAndMessage:error.localizedDescription];
             [self presentViewController:alert animated:YES completion:nil];
             NSLog(@"%@", error.localizedDescription);
         } else {
@@ -50,6 +41,18 @@
             [self performSegueWithIdentifier:@"loggedInSegue" sender:self];
         }
     }];
+}
+
+// Show alert with title "Error" and given message
+// OK button dismisses alert
++ (UIAlertController*)createErrorAlertWithOKAndMessage:(NSString*)message {
+    // Create alert controller
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                   message:message preferredStyle:UIAlertControllerStyleAlert];
+    // Add ok action
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alert addAction:okAction];
+    return alert;
 }
 
 /*

@@ -10,6 +10,7 @@
 #import "Parse/Parse.h"
 #import "AppDelegate.h"
 #import "SnapUser.h"
+#import "LoginViewController.h"
 
 @interface ProfileViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -53,7 +54,8 @@
     // Logout user
     [SnapUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
         if (error) {
-            // TODO: alert
+            UIAlertController *alert = [LoginViewController createErrorAlertWithOKAndMessage:error.localizedDescription];
+            [self presentViewController:alert animated:YES completion:nil];
             NSLog(@"Error logging out: %@", error.localizedDescription);
         } else {
             // Return to login screen
