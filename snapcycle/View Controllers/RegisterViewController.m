@@ -38,8 +38,12 @@
     newUser.username = self.usernameField.text;
     newUser.password = self.passwordField.text;
     
-    // TODO: set up default profile pic
-    // TODO: loading
+    // Set up default profile pic
+    UIImage *profileImage = [UIImage imageNamed:@"profile-pic-icon"];
+    PFFileObject *imageFile = [PFFileObject fileObjectWithName:@"defaultProfImage.png" data:UIImagePNGRepresentation(profileImage)];
+    newUser.profImage = imageFile;
+    
+    // TODO: loading indicator
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (error) {
             NSLog(@"%@", error.localizedDescription);
