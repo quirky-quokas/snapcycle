@@ -7,8 +7,13 @@
 //
 
 #import "RegisterViewController.h"
+#import "SnapUser.h"
 
 @interface RegisterViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *emailField;
+@property (weak, nonatomic) IBOutlet UITextField *usernameField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordField;
+@property (weak, nonatomic) IBOutlet UITextField *confirmPasswordField;
 
 @end
 
@@ -20,19 +25,28 @@
 }
 
 /**
- User tapped the cancel button. Dismiss the RegisterVC to return to the LoginVC.
- */
-- (IBAction)didTapCancel:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-/**
  User tapped the Sign up button. Add the new user to the database. Dismiss the RegisterVC to return to the LoginVC.
  */
 - (IBAction)didTapSignup:(UIButton *)sender {
-    // TODO: add new user to database
+    //if (self.emailField.text.length != 0) {
+    // TODO: check that they have entered email, username, confirm passwords match
+    // Initialize user
+    SnapUser *newUser = [SnapUser user];
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    // Set properties
+    newUser.email = self.emailField.text;
+    newUser.username = self.usernameField.text;
+    newUser.password = self.passwordField.text;
+    
+    // TODO: set up default profile pic
+    // TODO: loading
+    [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%@", error.localizedDescription);
+        } else {
+            NSLog(@"user sucessfully registered");
+        }
+    }];
 }
 
 /*
