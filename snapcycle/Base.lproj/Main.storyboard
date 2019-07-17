@@ -153,6 +153,9 @@
                                 <rect key="frame" x="12" y="528" width="54" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Recycle"/>
+                                <connections>
+                                    <action selector="recycleTrash:" destination="5lJ-x6-utv" eventType="touchUpInside" id="48y-st-g9p"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2XP-RQ-DoA">
                                 <rect key="frame" x="156" y="528" width="63" height="30"/>
@@ -160,6 +163,9 @@
                                 <state key="normal" title="Compost">
                                     <color key="titleColor" red="0.39006317477613417" green="1" blue="0.25090094657637863" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
+                                <connections>
+                                    <action selector="compostTrash:" destination="5lJ-x6-utv" eventType="touchUpInside" id="Shz-AP-104"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hjo-rh-qSb">
                                 <rect key="frame" x="311" y="528" width="50" height="30"/>
@@ -167,6 +173,9 @@
                                 <state key="normal" title="Landfill">
                                     <color key="titleColor" white="0.0" alpha="0.93087037849999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="throwAwayTrash:" destination="5lJ-x6-utv" eventType="touchUpInside" id="qdY-Xf-YNG"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This can be recycled in your home recycling bin" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2nB-td-IPB">
                                 <rect key="frame" x="16" y="373" width="343" height="141"/>
