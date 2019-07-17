@@ -38,6 +38,12 @@
         
     }];
 }
+- (IBAction)recycleTrash:(id)sender {
+}
+- (IBAction)compostTrash:(id)sender {
+}
+- (IBAction)throwAwayTrash:(id)sender {
+}
 
 /*
 #pragma mark - Navigation

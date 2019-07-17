@@ -16,6 +16,9 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *recyclingStatsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *compostStatsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *landfillStatsLabel;
 
 @end
 
@@ -34,6 +37,30 @@
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
     
     // TODO: display a graph of their three trash piles
+    // temporarily display stats: how many of each type of disposal
+    SnapUser *user = [SnapUser currentUser];
+    PFQuery *recyclingQuery = [user.trashArray query];
+    [recyclingQuery whereKey:@"type" equalTo:@"recycling"];
+    [recyclingQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        // TODO: if there are no objects or error
+        self.recyclingStatsLabel.text = [NSString stringWithFormat:@"recycling: %ld items", [objects count]];
+    }];
+    
+    PFQuery *landfillQuery = [user.trashArray query];
+    [landfillQuery whereKey:@"type" equalTo:@"landfill"];
+    [landfillQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (objects) {
+            self.landfillStatsLabel.text = [NSString stringWithFormat:@"landfill: %ld items", [objects count]];
+        }
+    }];
+    
+    PFQuery *compostQuery = [user.trashArray query];
+    [compostQuery whereKey:@"type" equalTo:@"compost"];
+    [compostQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (objects) {
+            self.compostStatsLabel.text = [NSString stringWithFormat:@"compost: %ld items", [objects count]];
+        }
+    }];
         
 }
 
