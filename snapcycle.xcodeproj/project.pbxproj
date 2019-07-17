@@ -26,6 +26,7 @@
 		B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81ED22DE641B00E72713 /* ProfileViewController.m */; };
 		B16C81F122DE643B00E72713 /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81F022DE643B00E72713 /* CategoriesViewController.m */; };
 		B16C81F422DE70D800E72713 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81F322DE70D800E72713 /* DetailsViewController.m */; };
+		B67AA2E022DEA3C00066464A /* ParseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B67AA2DF22DEA3C00066464A /* ParseManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,8 @@
 		B16C81F222DE70D800E72713 /* DetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
 		B16C81F322DE70D800E72713 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
 		B3A07F9C47C7041ECE916776 /* Pods-snapcycle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycle.release.xcconfig"; path = "Target Support Files/Pods-snapcycle/Pods-snapcycle.release.xcconfig"; sourceTree = "<group>"; };
+		B67AA2DE22DEA3C00066464A /* ParseManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseManager.h; sourceTree = "<group>"; };
+		B67AA2DF22DEA3C00066464A /* ParseManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParseManager.m; sourceTree = "<group>"; };
 		C8136804A7D7CF45BE79F467 /* Pods-snapcycleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleUITests.debug.xcconfig"; path = "Target Support Files/Pods-snapcycleUITests/Pods-snapcycleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E041F324D7031C737648A917 /* Pods-snapcycleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleUITests.release.xcconfig"; path = "Target Support Files/Pods-snapcycleUITests/Pods-snapcycleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		E392621CD0CD837554F3211B /* Pods_snapcycleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_snapcycleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,8 +183,7 @@
 			children = (
 				B1320C7D22DE5B8100A38B16 /* View Controllers */,
 				8479E90922DE5B3F009174E7 /* Models */,
-				B1320C4B22DE407E00A38B16 /* AppDelegate.h */,
-				B1320C4C22DE407E00A38B16 /* AppDelegate.m */,
+				B67AA2DD22DEA3900066464A /* Backend */,
 				B1320C5122DE407E00A38B16 /* Main.storyboard */,
 				B1320C5422DE407E00A38B16 /* Assets.xcassets */,
 				B1320C5622DE407E00A38B16 /* LaunchScreen.storyboard */,
@@ -226,6 +228,17 @@
 				B16C81F322DE70D800E72713 /* DetailsViewController.m */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		B67AA2DD22DEA3900066464A /* Backend */ = {
+			isa = PBXGroup;
+			children = (
+				B1320C4B22DE407E00A38B16 /* AppDelegate.h */,
+				B1320C4C22DE407E00A38B16 /* AppDelegate.m */,
+				B67AA2DE22DEA3C00066464A /* ParseManager.h */,
+				B67AA2DF22DEA3C00066464A /* ParseManager.m */,
+			);
+			path = Backend;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -450,8 +463,8 @@
 			files = (
 				B16C81EB22DE63C700E72713 /* CameraViewController.m in Sources */,
 				8479E90C22DE5C6B009174E7 /* Trash.m in Sources */,
-				B1320C5022DE407E00A38B16 /* ViewController.m in Sources */,
 				8479E90F22DE5F90009174E7 /* Category.m in Sources */,
+				B67AA2E022DEA3C00066464A /* ParseManager.m in Sources */,
 				B1320C5B22DE407E00A38B16 /* main.m in Sources */,
 				8479E91522DE638E009174E7 /* SnapUser.m in Sources */,
 				B1320C4D22DE407E00A38B16 /* AppDelegate.m in Sources */,
