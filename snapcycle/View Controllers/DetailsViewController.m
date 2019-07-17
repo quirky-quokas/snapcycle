@@ -9,6 +9,12 @@
 #import "DetailsViewController.h"
 
 @interface DetailsViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *categoryImageView;
+@property (weak, nonatomic) IBOutlet UILabel *infoLabel;
+@property (weak, nonatomic) IBOutlet UIButton *recycleButton;
+@property (weak, nonatomic) IBOutlet UIButton *compostButton;
+@property (weak, nonatomic) IBOutlet UIButton *landfillButton;
 
 @end
 
@@ -17,6 +23,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.nameLabel.text = self.category.name;
+    self.infoLabel.text = self.category.info;
+    
+    PFFileObject *image = self.category.image;
+    [image getDataInBackgroundWithBlock:^(NSData * data, NSError * error) {
+        if (!error) {
+            UIImage *imageToLoad = [UIImage imageWithData:data];
+            [self.categoryImageView setImage:imageToLoad];
+        }
+        else {
+            NSLog(@"%@",error.localizedDescription);
+        }
+        
+    }];
 }
 
 /*
