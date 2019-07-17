@@ -36,7 +36,6 @@
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
     
     // display a graph of their three trash piles
-    
         
 }
 

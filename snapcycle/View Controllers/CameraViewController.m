@@ -7,8 +7,9 @@
 //
 
 #import "CameraViewController.h"
+#import "Parse/Parse.h"
 
-@interface CameraViewController ()
+@interface CameraViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @end
 
@@ -16,7 +17,39 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    // open the camera
+    [self initializeCamera];
+}
+
+/**
+ Opens a camera/camera roll.
+ */
+- (void) initializeCamera {
+    // instantiate a UIImagePickerController
+    UIImagePickerController *imagePickerVC = [UIImagePickerController new];
+    imagePickerVC.delegate = self;
+    imagePickerVC.allowsEditing = YES;
+    
+    // check if camera is supported
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+    } else {
+        imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    
+    // present UIImagePickerController
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
+}
+
+/**
+ The delegate method for UIImagePickerControllerDelegate. Picks the selected image.
+ */
+- (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *, id> *)info {
+    UIImage *editedImage = info[UIImagePickerControllerEditedImage];
+    [PFUser.currentUser[@"trashArray"] addObject:editedImage];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /*
