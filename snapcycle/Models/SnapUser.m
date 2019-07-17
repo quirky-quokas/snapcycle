@@ -10,14 +10,7 @@
 
 @implementation SnapUser
 
-//@dynamic username;
-//@dynamic password;
-//@dynamic email;
 @dynamic profImage;
 @dynamic trashArray;
-
-//+ (nonnull NSString *)parseClassName {
-//    return @"SnapUser";
-//}
 
 @end
