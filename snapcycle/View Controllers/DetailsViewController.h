@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Category.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DetailsViewController : UIViewController
-
+@property (nonatomic, strong) Category *category;
 @end
 
 NS_ASSUME_NONNULL_END
+
