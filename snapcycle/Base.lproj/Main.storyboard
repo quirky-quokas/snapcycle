@@ -195,17 +195,53 @@
             <objects>
                 <viewController id="spz-gT-KP6" customClass="ProfileViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sfC-F3-N5B">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bze-sv-Rwe">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="profile-pic-icon" translatesAutoresizingMaskIntoConstraints="NO" id="47x-g3-pBk">
+                                        <rect key="frame" x="101" y="619" width="240" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This label spans across the bottom of the VC." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="izU-Ur-l3s">
+                                        <rect key="frame" x="0.0" y="865" width="375" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Io-49-qxH">
+                                        <rect key="frame" x="86" y="19" width="281" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="profile-pic-icon" translatesAutoresizingMaskIntoConstraints="NO" id="XiW-Ii-sVt">
+                                        <rect key="frame" x="8" y="8" width="70" height="70"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="AtI-bQ-93I"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" id="Tyx-0E-8ac"/>
                     <navigationItem key="navigationItem" id="Yx5-XV-7oJ"/>
+                    <size key="freeformSize" width="375" height="1000"/>
+                    <connections>
+                        <outlet property="profileImage" destination="XiW-Ii-sVt" id="amY-Af-no2"/>
+                        <outlet property="scrollView" destination="bze-sv-Rwe" id="0CS-jW-gNa"/>
+                        <outlet property="welcomeLabel" destination="1Io-49-qxH" id="K13-OX-7jk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7vd-wa-xrJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1814" y="-621"/>
+            <point key="canvasLocation" x="1813.5999999999999" y="-771.8140929535233"/>
         </scene>
         <!--Profile-->
         <scene sceneID="1cr-Jr-4Nv">
@@ -306,6 +342,9 @@
             <point key="canvasLocation" x="-674.39999999999998" y="121.88905547226388"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="profile-pic-icon" width="673" height="673"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="7w4-Pl-59x"/>
     </inferredMetricsTieBreakers>
