@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "SnapUser.h"
 
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
@@ -25,9 +26,20 @@
  User tapped the login button. Log in the user and segue to CameraVC.
  */
 - (IBAction)didTapLogin:(UIButton *)sender {
-    // TODO: login the user
+    // Get info user entered
+    NSString *username = self.usernameField.text;
+    NSString *password = self.passwordField.text;
     
-    [self performSegueWithIdentifier:@"segueToCamera" sender:self];
+    // Make login request
+    [SnapUser logInWithUsernameInBackground:username password:password block:^(PFUser * _Nullable user, NSError * _Nullable error) {
+        if (error) {
+            //TODO: display error messages
+            NSLog(@"%@", error.localizedDescription);
+        } else {
+            NSLog(@"user logged in successfully");
+            [self performSegueWithIdentifier:@"loggedInSegue" sender:self];
+        }
+    }];
 }
 
 /*
