@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "Parse/Parse.h"
+#import "SnapUser.h"
 
 @interface AppDelegate ()
 
@@ -22,8 +23,13 @@
         configuration.applicationId = @"snapcycle";
         configuration.server = @"http://snapcycle.herokuapp.com/parse";
     }];
-    
     [Parse initializeWithConfiguration:config];
+    
+    // Check for cached user
+    if ([SnapUser currentUser]) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"tabBarController"];
+    }
     
     return YES;
 }

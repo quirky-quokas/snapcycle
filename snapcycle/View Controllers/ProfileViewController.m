@@ -8,6 +8,9 @@
 
 #import "ProfileViewController.h"
 #import "Parse/Parse.h"
+#import "AppDelegate.h"
+#import "SnapUser.h"
+#import "LoginViewController.h"
 
 @interface ProfileViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -30,7 +33,7 @@
     // set the welcome text
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
     
-    // display a graph of their three trash piles
+    // TODO: display a graph of their three trash piles
         
 }
 
@@ -39,11 +42,35 @@
  */
 - (void)setProfilePicture {
     self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
-    if (PFUser.currentUser[@"profileImage"]) { //TODO: potentially update with getting profile image from SnapUser instead of Parse database...
-        PFFileObject *imageFile = PFUser.currentUser[@"profileImage"];
-        UIImage *image = [[UIImage alloc] initWithData:imageFile.getData];
-        self.profileImage.image = image;
-    }
+    PFFileObject *imageFile = [SnapUser currentUser].profImage;
+    UIImage *image = [UIImage imageWithData:imageFile.getData];
+    self.profileImage.image = image;
+}
+
+/**
+ Logs out user
+ */
+- (IBAction)onLogoutTap:(id)sender {
+    // Logout user
+    [SnapUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+        if (error) {
+            UIAlertController *alert = [LoginViewController createErrorAlertWithOKAndMessage:error.localizedDescription];
+            [self presentViewController:alert animated:YES completion:nil];
+            NSLog(@"Error logging out: %@", error.localizedDescription);
+        } else {
+            // Return to login screen
+            // Get single instance of app delegate
+            AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            
+            // Create new instance of storyboard, starting from login screen
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            UINavigationController *loginNavigationController = [storyboard instantiateInitialViewController];
+            
+            // Set root view controller to switch views
+            appDelegate.window.rootViewController = loginNavigationController;
+            NSLog(@"Logout successful");
+        }
+    }];
 }
 
 /*

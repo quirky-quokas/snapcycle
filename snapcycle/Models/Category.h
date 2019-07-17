@@ -13,10 +13,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Category : PFObject<PFSubclassing>
 
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *description;
+@property (nonatomic, strong) NSString *info;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) PFFileObject *image;
+
++ (void) makeCategory;
 
 @end
 
 NS_ASSUME_NONNULL_END
+

@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LoginViewController : UIViewController
 
++ (UIAlertController*)createErrorAlertWithOKAndMessage:(NSString*)message;
+
 @end
 
 NS_ASSUME_NONNULL_END

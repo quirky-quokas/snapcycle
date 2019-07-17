@@ -8,6 +8,7 @@
 
 #import "RegisterViewController.h"
 #import "SnapUser.h"
+#import "LoginViewController.h"
 
 @interface RegisterViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
@@ -25,32 +26,53 @@
 }
 
 /**
- User tapped the Sign up button. Add the new user to the database. Dismiss the RegisterVC to return to the LoginVC.
+ User tapped the Sign up button. Add the new user to the database. Segues to logged in view
  */
 - (IBAction)didTapSignup:(UIButton *)sender {
-    //if (self.emailField.text.length != 0) {
-    // TODO: check that they have entered email, username, confirm passwords match
-    // Initialize user
-    SnapUser *newUser = [SnapUser user];
+    // Confirm passwords match
+    if (![self.passwordField.text isEqualToString:self.confirmPasswordField.text]) {
+        UIAlertController *alert = [LoginViewController createErrorAlertWithOKAndMessage:@"passwords must match"];
+        [self presentViewController:alert animated:YES completion:nil];
+    } else {
+        // Initialize user
+        SnapUser *newUser = [SnapUser user];
+        
+        // Set properties
+        newUser.email = self.emailField.text;
+        newUser.username = self.usernameField.text;
+        newUser.password = self.passwordField.text;
+        
+        // Set up default profile pic
+        newUser.profImage = [RegisterViewController getPFFileFromImage:[UIImage imageNamed:@"profile-pic-icon"]];
+        
+        [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            if (error) {
+                UIAlertController *alert = [LoginViewController createErrorAlertWithOKAndMessage:error.localizedDescription];
+                [self presentViewController:alert animated:YES completion:nil];
+                NSLog(@"Cannot create account: %@", error.localizedDescription);
+            } else {
+                [self performSegueWithIdentifier:@"registeredSegue" sender:self];
+                NSLog(@"user sucessfully registered");
+            }
+        }];
+    }
+}
+
+// Get file from image
++ (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {
+    // check if image is not nil
+    if (!image) {
+        return nil;
+    }
     
-    // Set properties
-    newUser.email = self.emailField.text;
-    newUser.username = self.usernameField.text;
-    newUser.password = self.passwordField.text;
+    NSData *imageData = UIImagePNGRepresentation(image);
+    // get image data and check if that is not nil
+    if (!imageData) {
+        return nil;
+    }
     
-    // Set up default profile pic
-    UIImage *profileImage = [UIImage imageNamed:@"profile-pic-icon"];
-    PFFileObject *imageFile = [PFFileObject fileObjectWithName:@"defaultProfImage.png" data:UIImagePNGRepresentation(profileImage)];
-    newUser.profImage = imageFile;
-    
-    // TODO: loading indicator
-    [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"%@", error.localizedDescription);
-        } else {
-            NSLog(@"user sucessfully registered");
-        }
-    }];
+    // return object with image
+    return [PFFileObject fileObjectWithName:@"image.png" data:imageData];
 }
 
 /*

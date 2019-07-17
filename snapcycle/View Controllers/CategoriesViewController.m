@@ -2,13 +2,18 @@
 //  CategoriesViewController.m
 //  snapcycle
 //
-//  Created by emilyabest on 7/16/19.
+//  Created by kfullen on 7/17/19.
 //  Copyright © 2019 Quirky Quokkas. All rights reserved.
 //
 
+#import "Category.h"
 #import "CategoriesViewController.h"
+#import "CategoriesCell.h"
+#import "DetailsViewController.h"
 
-@interface CategoriesViewController ()
+@interface CategoriesViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
+@property (weak, nonatomic) IBOutlet UICollectionView *categoriesCollectionView;
+@property (strong, nonatomic) NSArray *categories;
 
 @end
 
@@ -16,17 +21,63 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.categoriesCollectionView.dataSource = self;
+    self.categoriesCollectionView.delegate = self;
+    
+    [self fetchCategories];
+    
 }
 
-/*
+- (void) fetchCategories {
+    PFQuery *postQuery = [PFQuery queryWithClassName:@"Category"];
+    [postQuery includeKey:@"name"];
+    [postQuery includeKey:@"description"];
+    [postQuery includeKey:@"type"];
+    [postQuery includeKey:@"image"];
+    
+    [postQuery findObjectsInBackgroundWithBlock:^(NSArray<Category *> * _Nullable categories, NSError * _Nullable error) {
+        if (categories) {
+            // Store categories data in categories array
+            self.categories = categories;
+            
+            // Reload collection view to display categories
+            [self.categoriesCollectionView reloadData];
+        }
+        else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+}
+
+- (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    CategoriesCell *cell = [_categoriesCollectionView dequeueReusableCellWithReuseIdentifier:@"CategoriesCell" forIndexPath:indexPath];
+    
+    Category *category = self.categories[indexPath.item];
+    [cell setCategory:category];
+    
+    return cell;
+}
+
+- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.categories.count;
+}
+
+
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    UICollectionViewCell *tappedCell = sender;
+    NSIndexPath *indexPath = [self.categoriesCollectionView indexPathForCell:tappedCell];
+    Category *category = self.categories[indexPath.item];
+    
+    DetailsViewController *detailsViewController = [segue destinationViewController];
+    detailsViewController.category = category;
 }
-*/
+
+
 
 @end
+
