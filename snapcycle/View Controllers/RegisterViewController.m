@@ -9,6 +9,10 @@
 #import "RegisterViewController.h"
 
 @interface RegisterViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *emailField;
+@property (weak, nonatomic) IBOutlet UITextField *usernameField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordField;
+@property (weak, nonatomic) IBOutlet UITextField *confirmPasswordField;
 
 @end
 
@@ -17,13 +21,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-/**
- User tapped the cancel button. Dismiss the RegisterVC to return to the LoginVC.
- */
-- (IBAction)didTapCancel:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /**
