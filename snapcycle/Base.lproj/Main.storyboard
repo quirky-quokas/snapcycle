@@ -28,7 +28,6 @@
                                 </state>
                                 <connections>
                                     <action selector="didTapLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rjk-CG-2iD"/>
-                                    <segue destination="cUg-oz-gFf" kind="presentation" identifier="segueToCamera" id="QtZ-za-rEV"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h9q-vQ-hse">
@@ -61,11 +60,12 @@
                     <connections>
                         <outlet property="passwordField" destination="Usw-Fz-9ap" id="mWR-qI-loy"/>
                         <outlet property="usernameField" destination="h9q-vQ-hse" id="zCL-uS-Jts"/>
+                        <segue destination="cUg-oz-gFf" kind="presentation" identifier="loggedInSegue" id="dEH-UT-eFW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="264.80000000000001" y="121.88905547226388"/>
+            <point key="canvasLocation" x="223" y="122"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="q9T-wu-aFh">
@@ -280,14 +280,14 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NAk-ya-hrP">
                                 <rect key="frame" x="64" y="271" width="246" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J3M-85-Q5e">
                                 <rect key="frame" x="64" y="157" width="246" height="30"/>
