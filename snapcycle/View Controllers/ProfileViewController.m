@@ -34,6 +34,31 @@
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
     
     // TODO: display a graph of their three trash piles
+    // temporarily display stats: how many of each type of disposal
+    SnapUser *user = [SnapUser currentUser];
+    PFQuery *recyclingQuery = [user.trashArray query];
+    [recyclingQuery whereKey:@"type" equalTo:@"recycling"];
+    [recyclingQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (objects) {
+            NSLog(@"recycling: %ld items", [objects count]);
+        }
+    }];
+    
+    PFQuery *landfillQuery = [user.trashArray query];
+    [landfillQuery whereKey:@"type" equalTo:@"landfill"];
+    [landfillQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (objects) {
+            NSLog(@"landfill: %ld items", [objects count]);
+        }
+    }];
+    
+    PFQuery *compostQuery = [user.trashArray query];
+    [compostQuery whereKey:@"type" equalTo:@"compost"];
+    [compostQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (objects) {
+            NSLog(@"compost: %ld items", [objects count]);
+        }
+    }];
         
 }
 
