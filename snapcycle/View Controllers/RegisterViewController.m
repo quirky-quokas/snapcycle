@@ -43,10 +43,7 @@
         newUser.password = self.passwordField.text;
         
         // Set up default profile pic
-        // TODO: remove redundancy- get PFFileFromImage
-        UIImage *profileImage = [UIImage imageNamed:@"profile-pic-icon"];
-        PFFileObject *imageFile = [PFFileObject fileObjectWithName:@"defaultProfImage.png" data:UIImagePNGRepresentation(profileImage)];
-        newUser.profImage = imageFile;
+        newUser.profImage = [RegisterViewController getPFFileFromImage:[UIImage imageNamed:@"profile-pic-icon"]];
         
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if (error) {
@@ -59,6 +56,23 @@
             }
         }];
     }
+}
+
+// Get file from image
++ (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {
+    // check if image is not nil
+    if (!image) {
+        return nil;
+    }
+    
+    NSData *imageData = UIImagePNGRepresentation(image);
+    // get image data and check if that is not nil
+    if (!imageData) {
+        return nil;
+    }
+    
+    // return object with image
+    return [PFFileObject fileObjectWithName:@"image.png" data:imageData];
 }
 
 /*
