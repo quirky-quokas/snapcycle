@@ -312,7 +312,13 @@
                         <viewLayoutGuide key="safeArea" id="AtI-bQ-93I"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" id="Tyx-0E-8ac"/>
-                    <navigationItem key="navigationItem" id="Yx5-XV-7oJ"/>
+                    <navigationItem key="navigationItem" id="Yx5-XV-7oJ">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="hLt-YU-LTe">
+                            <connections>
+                                <action selector="onLogoutTap:" destination="spz-gT-KP6" id="qT4-oF-cYg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <size key="freeformSize" width="375" height="1000"/>
                     <connections>
                         <outlet property="profileImage" destination="XiW-Ii-sVt" id="amY-Af-no2"/>
@@ -408,7 +414,7 @@
         <!--Navigation Controller-->
         <scene sceneID="aY0-9g-zoT">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2pR-z1-WiI" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="LoginNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="2pR-z1-WiI" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tTm-mI-8EM">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>

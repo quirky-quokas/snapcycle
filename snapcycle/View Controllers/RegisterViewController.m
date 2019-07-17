@@ -41,15 +41,15 @@
         newUser.password = self.passwordField.text;
         
         // Set up default profile pic
+        // TODO: remove redundancy- get PFFileFromImage
         UIImage *profileImage = [UIImage imageNamed:@"profile-pic-icon"];
         PFFileObject *imageFile = [PFFileObject fileObjectWithName:@"defaultProfImage.png" data:UIImagePNGRepresentation(profileImage)];
         newUser.profImage = imageFile;
         
-        // TODO: loading indicator
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if (error) {
                 [self showErrorOKAlertWithMessage:error.localizedDescription];
-                NSLog(@"%@", error.localizedDescription);
+                NSLog(@"Cannot create account: %@", error.localizedDescription);
             } else {
                 [self performSegueWithIdentifier:@"registeredSegue" sender:self];
                 NSLog(@"user sucessfully registered");
