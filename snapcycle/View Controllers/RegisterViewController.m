@@ -46,6 +46,16 @@
     // TODO: loading indicator
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (error) {
+            // Create alert controller
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                           message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+            
+            // Add ok action
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            [alert addAction:okAction];
+            
+            // Show alert
+            [self presentViewController:alert animated:YES completion:nil];
             NSLog(@"%@", error.localizedDescription);
         } else {
             NSLog(@"user sucessfully registered");
