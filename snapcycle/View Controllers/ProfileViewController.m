@@ -40,13 +40,10 @@
  Sets the user's profile image. If the user does not have a profile image, the default profile image icon is used.
  */
 - (void)setProfilePicture {
-    // TODO: use SnapUser, profImage
     self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
-    if (PFUser.currentUser[@"profileImage"]) { //TODO: potentially update with getting profile image from SnapUser instead of Parse database...
-        PFFileObject *imageFile = PFUser.currentUser[@"profileImage"];
-        UIImage *image = [[UIImage alloc] initWithData:imageFile.getData];
-        self.profileImage.image = image;
-    }
+    PFFileObject *imageFile = [SnapUser currentUser].profImage;
+    UIImage *image = [UIImage imageWithData:imageFile.getData];
+    self.profileImage.image = image;
 }
 
 /**
