@@ -8,6 +8,7 @@
 
 #import "CameraViewController.h"
 #import "Parse/Parse.h"
+#import "Trash.h"
 
 @interface CameraViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -25,7 +26,7 @@
 /**
  Opens a camera/camera roll.
  */
-- (void) initializeCamera {
+- (void)initializeCamera {
     // instantiate a UIImagePickerController
     UIImagePickerController *imagePickerVC = [UIImagePickerController new];
     imagePickerVC.delegate = self;
@@ -45,11 +46,50 @@
 /**
  The delegate method for UIImagePickerControllerDelegate. Picks the selected image.
  */
-- (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *, id> *)info {
-    UIImage *editedImage = info[UIImagePickerControllerEditedImage];
-    [PFUser.currentUser[@"trashArray"] addObject:editedImage];
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *, id> *)info {
+    SnapUser *currUser = [SnapUser currentUser];
     
+    // get image
+    UIImage *editedImage = info[UIImagePickerControllerEditedImage];
+    PFFileObject *imagePFFile = [self getPFFileFromImage:editedImage];
+    
+    // make new Trash object
+    Trash *newTrash = [[Trash alloc] init];
+    newTrash.user = currUser;
+    //    newTrash.type = nil; // TODO: image recognition
+    //    newTrash.name = nil; // TODO: image recognition
+    newTrash.timestamp = [NSDate date];
+    newTrash.image = imagePFFile;
+    
+    // add new Trash object to trashArray
+    PFRelation *trashArray = [currUser relationForKey:@"trashArray"];
+    [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (!error) {
+            [trashArray addObject:newTrash];
+            [currUser saveInBackground];
+        } else {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
+
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+/**
+ Gets and returns a PFFile of a UIImage.
+ */
+- (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {
+    if (!image) {
+        return nil;
+    }
+    
+    NSData *imageData = UIImagePNGRepresentation(image);
+    
+    if (!imageData) {
+        return nil;
+    }
+    
+    return [PFFileObject fileObjectWithName:@"image.png" data:imageData];
 }
 
 /*
