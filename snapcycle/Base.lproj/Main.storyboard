@@ -350,6 +350,7 @@
                         <outlet property="emailField" destination="J3M-85-Q5e" id="at9-X3-S4V"/>
                         <outlet property="passwordField" destination="xvO-MX-cu3" id="VKA-cx-Kct"/>
                         <outlet property="usernameField" destination="jmP-GT-UAN" id="HI8-5h-9bk"/>
+                        <segue destination="cUg-oz-gFf" kind="presentation" identifier="registeredSegue" id="S6R-iF-SHQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AuS-7R-lI3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -378,4 +379,7 @@
     <resources>
         <image name="profile-pic-icon" width="673" height="673"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="S6R-iF-SHQ"/>
+    </inferredMetricsTieBreakers>
 </document>

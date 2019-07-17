@@ -25,7 +25,7 @@
 }
 
 /**
- User tapped the Sign up button. Add the new user to the database. Dismiss the RegisterVC to return to the LoginVC.
+ User tapped the Sign up button. Add the new user to the database. Segues to logged in view
  */
 - (IBAction)didTapSignup:(UIButton *)sender {
     // Confirm passwords match
@@ -51,12 +51,15 @@
                 [self showErrorOKAlertWithMessage:error.localizedDescription];
                 NSLog(@"%@", error.localizedDescription);
             } else {
+                [self performSegueWithIdentifier:@"registeredSegue" sender:self];
                 NSLog(@"user sucessfully registered");
             }
         }];
     }
 }
 
+// Show alert with title "Error" and given message
+// OK button dismisses alert
 - (void)showErrorOKAlertWithMessage:(NSString*)message {
     // Create alert controller
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
