@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SnapUser : PFUser <PFSubclassing>
-@property (nonatomic, strong) PFRelation *trashArray;
+@property (nonatomic, strong, readonly) PFRelation *trashArray;
 @property (nonatomic, strong) PFFileObject *profImage;
 @end
 
