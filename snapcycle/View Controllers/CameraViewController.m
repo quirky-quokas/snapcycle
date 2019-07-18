@@ -9,9 +9,15 @@
 #import "CameraViewController.h"
 #import "Parse/Parse.h"
 #import "Trash.h"
+#import "AVFoundation/AVFoundation.h"
 
 @interface CameraViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (strong, nonatomic) UIImage *chosenImage;
+@property (weak, nonatomic) IBOutlet UIView *previewView;
+@property (weak, nonatomic) IBOutlet UIImageView *captureImageView;
+@property (strong, nonatomic) AVCaptureSession *session;
+@property (strong, nonatomic) AVCapturePhotoOutput *stillImageOutput;
+@property (strong, nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 
 @end
 
@@ -31,9 +37,42 @@
 }
 
 /**
- Opens a camera/camera roll.
+ Opens a custom camera
  */
 - (void)initializeCamera {
+    // setup a new session
+    self.session = [AVCaptureSession new];
+    [self.session setSessionPreset:AVCaptureSessionPresetHigh];
+
+    // select input device
+    AVCaptureDevice *backCamera = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    if (!backCamera) {
+        // use camera roll?
+        NSLog(@"Unable to access back camera");
+    }
+    
+    // prepare and attach the input and output
+    NSError *error;
+    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:backCamera error:&error];
+    if (error) {
+        NSLog(@"Error: Unable to initialize back camera: %@", error.localizedDescription);
+    } else {
+        self.stillImageOutput = [AVCapturePhotoOutput new];
+        
+        if ([self.session canAddInput:input] && [self.session canAddOutput:self.stillImageOutput]) {
+            [self.session addInput:input];
+            [self.session addOutput:self.stillImageOutput];
+        }
+    }
+    
+    // attach the input and output
+    
+}
+
+/**
+ Opens a camera/camera roll.
+ */
+- (void)initializeCamera1 {
     // instantiate a UIImagePickerController
     UIImagePickerController *imagePickerVC = [UIImagePickerController new];
     imagePickerVC.delegate = self;
