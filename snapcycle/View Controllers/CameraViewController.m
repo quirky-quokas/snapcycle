@@ -25,6 +25,12 @@
 }
 
 /**
+ The user tapped the "Take photo" button.
+ */
+- (IBAction)didTakePhoto:(UIButton *)sender {
+}
+
+/**
  Opens a camera/camera roll.
  */
 - (void)initializeCamera {
@@ -39,9 +45,6 @@
     } else {
         imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
-
-    // show UIImagePickerController
-    [self presentViewController:imagePickerVC animated:NO completion:nil];
 }
 
 /**
@@ -54,32 +57,7 @@
     UIImage *editedImage = info[UIImagePickerControllerEditedImage];
     self.chosenImage = editedImage;
 
-    // make new Trash object
-    Trash *newTrash = [[Trash alloc] init];
-    newTrash.user = currUser;
-    //    newTrash.type = nil; // TODO: image recognition
-    //    newTrash.name = nil; // TODO: image recognition
-    newTrash.image = imagePFFile;
-
-//    // make new Trash object
-//    Trash *newTrash = [[Trash alloc] init];
-//    newTrash.user = currUser;
-//    //    newTrash.type = nil; // TODO: image recognition
-//    //    newTrash.name = nil; // TODO: image recognition
-//    newTrash.timestamp = [NSDate date];
-//    newTrash.image = imagePFFile;
-//
-//    // add new Trash object to trashArray
-//    PFRelation *trashArray = [currUser relationForKey:@"trashArray"];
-//    [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//        if (!error) {
-//            [trashArray addObject:newTrash];
-//            [currUser saveInBackground];
-//        } else {
-//            NSLog(@"Error: %@", error.localizedDescription);
-//        }
-//    }];
-
+    // dismiss UIImagePickerController to go back to ComposeVC
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
