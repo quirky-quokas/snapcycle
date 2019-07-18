@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Category.h"
+#import "Trash.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

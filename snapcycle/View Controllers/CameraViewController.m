@@ -9,7 +9,6 @@
 #import "CameraViewController.h"
 #import "Parse/Parse.h"
 #import "Trash.h"
-#import "AppDelegate.h"
 
 @interface CameraViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (strong, nonatomic) UIImage *chosenImage;
@@ -20,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     // open the camera
     [self initializeCamera];
 }
@@ -39,16 +38,13 @@
     UIImagePickerController *imagePickerVC = [UIImagePickerController new];
     imagePickerVC.delegate = self;
     imagePickerVC.allowsEditing = YES;
-    
+
     // check if camera is supported
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
     } else {
         imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
-
-    // present UIImagePickerController
-    [self presentViewController:imagePickerVC animated:YES completion:nil];
 }
 
 /**
@@ -56,7 +52,7 @@
  */
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *, id> *)info {
 //    SnapUser *currUser = [SnapUser currentUser];
-    
+
     // get image
     UIImage *editedImage = info[UIImagePickerControllerEditedImage];
     self.chosenImage = editedImage;
@@ -72,13 +68,13 @@
     if (!image) {
         return nil;
     }
-    
+
     NSData *imageData = UIImagePNGRepresentation(image);
-    
+
     if (!imageData) {
         return nil;
     }
-    
+
     return [PFFileObject fileObjectWithName:@"image.png" data:imageData];
 }
 

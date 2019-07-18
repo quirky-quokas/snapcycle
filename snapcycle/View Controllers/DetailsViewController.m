@@ -7,6 +7,8 @@
 //
 
 #import "DetailsViewController.h"
+#import "SnapUser.h"
+#import "Trash.h"
 
 @interface DetailsViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -39,12 +41,85 @@
     }];
 }
 - (IBAction)recycleTrash:(id)sender {
+    Trash *newTrash = [Trash new];
+    
+    newTrash.name = self.category.name;
+    newTrash.type = self.category.type;
+    newTrash.user = [SnapUser currentUser];
+    newTrash.image = self.category.image;
+    
+    [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            NSLog(@"Trash recycled");
+            [self dismissViewControllerAnimated:true completion:nil];
+            SnapUser *user = [SnapUser currentUser];
+            [user.trashArray addObject:newTrash];
+        }
+        else {
+            NSLog(@"Recycling trash failed");
+            NSString *alertTitle = @"Could not recycle trash";
+            [self showAlertwithTitle:alertTitle];
+        }
+    }];
 }
 - (IBAction)compostTrash:(id)sender {
+    Trash *newTrash = [Trash new];
+    
+    newTrash.name = self.category.name;
+    newTrash.type = self.category.type;
+    newTrash.user = [SnapUser currentUser];
+    newTrash.image = self.category.image;
+    
+    [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            NSLog(@"Trash composted");
+            [self dismissViewControllerAnimated:true completion:nil];
+            SnapUser *user = [SnapUser currentUser];
+            [user.trashArray addObject:newTrash];
+        }
+        else {
+            NSLog(@"Composting trash failed");
+            NSString *alertTitle = @"Could not compost trash";
+            [self showAlertwithTitle:alertTitle];
+        }
+    }];
 }
 - (IBAction)throwAwayTrash:(id)sender {
+    Trash *newTrash = [Trash new];
+    
+    newTrash.name = self.category.name;
+    newTrash.type = self.category.type;
+    newTrash.user = [SnapUser currentUser];
+    newTrash.image = self.category.image;
+    
+    [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            NSLog(@"Trash thrown away");
+            [self dismissViewControllerAnimated:true completion:nil];
+            SnapUser *user = [SnapUser currentUser];
+            [user.trashArray addObject:newTrash];
+        }
+        else {
+            NSLog(@"Throwing away trash failed");
+            NSString *alertTitle = @"Could not throw away trash";
+            [self showAlertwithTitle:alertTitle];
+        }
+    }];
 }
 
+- (void) showAlertwithTitle:(NSString*)title {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:@"Please try again" preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    [alert addAction:okAction];
+    
+    [self presentViewController:alert animated:YES completion:^{
+        
+    }];
+
+}
 /*
 #pragma mark - Navigation
 
