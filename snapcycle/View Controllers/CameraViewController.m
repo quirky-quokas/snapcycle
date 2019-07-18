@@ -9,11 +9,10 @@
 #import "CameraViewController.h"
 #import "Parse/Parse.h"
 #import "Trash.h"
-#import "AVFoundation/AVFoundation.h"
+#import "AppDelegate.h"
 
 @interface CameraViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (strong, nonatomic) UIImage *chosenImage;
-@property (weak, nonatomic) IBOutlet UIView *cameraView;
 
 @end
 
@@ -47,28 +46,9 @@
     } else {
         imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
-    
-//    imagePickerVC.navigationBar.translucent = YES;
-//    imagePickerVC.navigationBar.barStyle = UIBarStyleDefault;
-//    [imagePickerVC setNavigationBarHidden:YES animated:NO];
-    
-//    imagePickerVC.view.frame = CGRectMake(0, 64, 375, 554);
-//    imagePickerVC.accessibilityFrame = CGRectMake(0, 64, 375, 554);
-//    [imagePickerVC setAccessibilityFrame:CGRectMake(0, 64, 375, 554)];
-    //    [self.view addSubview:imagePickerVC.view];
-    
-//    UIView *controllerView = imagePickerVC.view;
-//    controllerView.alpha = 0.0;
-//    controllerView.transform = CGAffineTransformMakeScale(0.5, 0.5);
-//    [self.view addSubview:controllerView];
 
-//    NSLog(@"Checkpoint 1");
-//    imagePickerVC.view.frame = CGRectMake(0, 64, 375, 554);
-//    NSLog(@"Checkpoint 2");
-//    imagePickerVC.view.frame = CGRectMake(imagePickerVC.view.frame.origin.x, imagePickerVC.view.frame.origin.y, 375, 554);
-    
-    [self presentViewController:imagePickerVC animated:NO completion:nil];
-    [imagePickerVC.view addSubview:self.tabBarController.tabBar];
+    // present UIImagePickerController
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
 }
 
 /**
@@ -80,28 +60,8 @@
     // get image
     UIImage *editedImage = info[UIImagePickerControllerEditedImage];
     self.chosenImage = editedImage;
-    
-//    PFFileObject *imagePFFile = [self getPFFileFromImage:editedImage];
-    
-//    // make new Trash object
-//    Trash *newTrash = [[Trash alloc] init];
-//    newTrash.user = currUser;
-//    //    newTrash.type = nil; // TODO: image recognition
-//    //    newTrash.name = nil; // TODO: image recognition
-//    newTrash.timestamp = [NSDate date];
-//    newTrash.image = imagePFFile;
-//
-//    // add new Trash object to trashArray
-//    PFRelation *trashArray = [currUser relationForKey:@"trashArray"];
-//    [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//        if (!error) {
-//            [trashArray addObject:newTrash];
-//            [currUser saveInBackground];
-//        } else {
-//            NSLog(@"Error: %@", error.localizedDescription);
-//        }
-//    }];
 
+    // dismiss UIImagePickerController to go back to ComposeVC
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
