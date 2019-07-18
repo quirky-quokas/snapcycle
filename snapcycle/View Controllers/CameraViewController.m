@@ -58,7 +58,6 @@
     newTrash.user = currUser;
     //    newTrash.type = nil; // TODO: image recognition
     //    newTrash.name = nil; // TODO: image recognition
-    newTrash.timestamp = [NSDate date];
     newTrash.image = imagePFFile;
     
     // add new Trash object to trashArray

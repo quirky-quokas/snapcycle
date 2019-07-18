@@ -8,6 +8,7 @@
 
 #import <Parse/Parse.h>
 #import "SnapUser.h"
+#import "Category.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,9 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSDate *timestamp;
 @property (nonatomic, strong) PFFileObject *image;
 @property (nonatomic, strong) SnapUser *user;
+
++ (void) postTrash:(Category*)category withImage:(UIImage * _Nullable )image withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 
 @end
 
