@@ -11,9 +11,11 @@
 #import "DetailsViewController.h"
 #import "Category.h"
 
-@interface CategoriesViewController () <UICollectionViewDelegate, UICollectionViewDataSource, DetailsViewControllerDelegate>
+@interface CategoriesViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate, DetailsViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *categoriesCollectionView;
+@property (weak, nonatomic) IBOutlet UISearchBar *categoriesSearchBar;
 @property (strong, nonatomic) NSArray *categories;
+@property (strong, nonatomic) NSArray *filteredCategories;
 
 @end
 
@@ -24,6 +26,7 @@
     
     self.categoriesCollectionView.dataSource = self;
     self.categoriesCollectionView.delegate = self;
+    self.categoriesSearchBar.delegate = self;
     
     [self fetchCategories];
     
@@ -40,6 +43,7 @@
         if (categories) {
             // Store categories data in categories array
             self.categories = categories;
+            self.filteredCategories = self.categories;
             
             // Reload collection view to display categories
             [self.categoriesCollectionView reloadData];
@@ -53,14 +57,14 @@
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     CategoriesCell *cell = [_categoriesCollectionView dequeueReusableCellWithReuseIdentifier:@"CategoriesCell" forIndexPath:indexPath];
     
-    Category *category = self.categories[indexPath.item];
+    Category *category = self.filteredCategories[indexPath.item];
     [cell setCategory:category];
     
     return cell;
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.categories.count;
+    return self.filteredCategories.count;
 }
 
 - (void) postedTrash:(NSString*)message {
@@ -76,6 +80,36 @@
     }];
 }
 
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    
+    if (searchText.length != 0) {
+        
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(Category *evaluatedObject, NSDictionary *bindings) {
+            return [evaluatedObject.name containsString:searchText];
+        }];
+        self.filteredCategories = [self.categories filteredArrayUsingPredicate:predicate];
+        
+        NSLog(@"%@", self.filteredCategories);
+        
+    }
+    else {
+        self.filteredCategories = self.categories;
+    }
+    
+    [self.categoriesCollectionView reloadData];
+    
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.categoriesSearchBar.showsCancelButton = YES;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    self.categoriesSearchBar.showsCancelButton = NO;
+    self.categoriesSearchBar.text = @"";
+    [self.categoriesSearchBar resignFirstResponder];
+}
+
 
 #pragma mark - Navigation
 
@@ -83,7 +117,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     UICollectionViewCell *tappedCell = sender;
     NSIndexPath *indexPath = [self.categoriesCollectionView indexPathForCell:tappedCell];
-    Category *category = self.categories[indexPath.item];
+    Category *category = self.filteredCategories[indexPath.item];
     
     DetailsViewController *detailsViewController = [segue destinationViewController];
     detailsViewController.category = category;
