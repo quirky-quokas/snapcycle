@@ -95,16 +95,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BvN-uu-SIn">
-                                <rect key="frame" x="0.0" y="64" width="375" height="449"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="504"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BUS-0y-Rzt">
-                                <rect key="frame" x="284" y="521" width="91" height="97"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zH4-Ea-L8P">
-                                <rect key="frame" x="57" y="554" width="180" height="30"/>
+                                <rect key="frame" x="97" y="576" width="180" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Take photo"/>
                                 <connections>
@@ -118,13 +114,13 @@
                     <tabBarItem key="tabBarItem" title="Camera" id="8Iq-ed-Spt"/>
                     <navigationItem key="navigationItem" id="uKL-JT-wW2"/>
                     <connections>
-                        <outlet property="captureImageView" destination="BUS-0y-Rzt" id="Rf9-eE-6OF"/>
                         <outlet property="previewView" destination="BvN-uu-SIn" id="RFg-C4-Ae2"/>
+                        <segue destination="5lJ-x6-utv" kind="presentation" identifier="segueToDetailsVC" id="IG0-Za-uas"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rFV-VH-wAq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2728.8000000000002" y="121.88905547226388"/>
+            <point key="canvasLocation" x="2688.8000000000002" y="121.88905547226388"/>
         </scene>
         <!--Camera-->
         <scene sceneID="EDR-gu-gB1">
@@ -493,6 +489,7 @@
         <image name="profile-pic-icon" width="673" height="673"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="IG0-Za-uas"/>
         <segue reference="S6R-iF-SHQ"/>
     </inferredMetricsTieBreakers>
 </document>
