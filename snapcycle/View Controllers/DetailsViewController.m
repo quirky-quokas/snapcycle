@@ -44,16 +44,18 @@
     Trash *newTrash = [Trash new];
     
     newTrash.name = self.category.name;
-    newTrash.type = self.category.type;
+    newTrash.type = @"recycling";
     newTrash.user = [SnapUser currentUser];
     newTrash.image = self.category.image;
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"Trash recycled");
-            [self dismissViewControllerAnimated:true completion:nil];
             SnapUser *user = [SnapUser currentUser];
             [user.trashArray addObject:newTrash];
+            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            }];
+            [self dismissViewControllerAnimated:true completion:nil];
         }
         else {
             NSLog(@"Recycling trash failed");
@@ -66,16 +68,18 @@
     Trash *newTrash = [Trash new];
     
     newTrash.name = self.category.name;
-    newTrash.type = self.category.type;
+    newTrash.type = @"compost";
     newTrash.user = [SnapUser currentUser];
     newTrash.image = self.category.image;
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"Trash composted");
-            [self dismissViewControllerAnimated:true completion:nil];
             SnapUser *user = [SnapUser currentUser];
             [user.trashArray addObject:newTrash];
+            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            }];
+            [self dismissViewControllerAnimated:true completion:nil];
         }
         else {
             NSLog(@"Composting trash failed");
@@ -88,16 +92,18 @@
     Trash *newTrash = [Trash new];
     
     newTrash.name = self.category.name;
-    newTrash.type = self.category.type;
+    newTrash.type = @"landfill";
     newTrash.user = [SnapUser currentUser];
     newTrash.image = self.category.image;
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"Trash thrown away");
-            [self dismissViewControllerAnimated:true completion:nil];
             SnapUser *user = [SnapUser currentUser];
             [user.trashArray addObject:newTrash];
+            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            }];
+            [self dismissViewControllerAnimated:true completion:nil];
         }
         else {
             NSLog(@"Throwing away trash failed");
