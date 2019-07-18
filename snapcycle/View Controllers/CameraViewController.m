@@ -11,7 +11,7 @@
 #import "Trash.h"
 #import "AVFoundation/AVFoundation.h"
 
-@interface CameraViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface CameraViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate>
 @property (strong, nonatomic) UIImage *chosenImage;
 @property (weak, nonatomic) IBOutlet UIView *previewView;
 @property (weak, nonatomic) IBOutlet UIImageView *captureImageView;
@@ -31,12 +31,6 @@
 }
 
 /**
- The user tapped the "Take photo" button.
- */
-- (IBAction)didTakePhoto:(UIButton *)sender {
-}
-
-/**
  Opens a custom camera
  */
 - (void)initializeCamera {
@@ -51,7 +45,7 @@
         NSLog(@"Unable to access back camera");
     }
     
-    // prepare and attach the input and output
+    // prepare the input and output
     NSError *error;
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:backCamera error:&error];
     if (error) {
@@ -59,14 +53,37 @@
     } else {
         self.stillImageOutput = [AVCapturePhotoOutput new];
         
+        // attach the input and output
         if ([self.session canAddInput:input] && [self.session canAddOutput:self.stillImageOutput]) {
             [self.session addInput:input];
             [self.session addOutput:self.stillImageOutput];
+            [self setupLivePreview];
         }
     }
+}
+
+/**
+ Configures the live preview to display the camera's view on the screen.
+ */
+- (void)setupLivePreview {
+    self.videoPreviewLayer = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
     
-    // attach the input and output
-    
+    if (self.videoPreviewLayer) {
+        self.videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+        self.videoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait; //TODO: make landscape compatible?
+        [self.previewView.layer addSublayer:self.videoPreviewLayer];
+        
+        // start the session on the background thread (startRunning will block the UI if it's running on the main thread)
+        dispatch_queue_t globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+        dispatch_async(globalQueue, ^{
+            [self.session startRunning];
+            
+            // set preview layer to fit previewView
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.videoPreviewLayer.frame = self.previewView.bounds;
+            });
+        });
+    }
 }
 
 /**
@@ -118,6 +135,35 @@
 }
 
 
+/**
+ The user tapped the "Take photo" button.
+ */
+- (IBAction)didTakePhoto:(UIButton *)sender {
+    AVCapturePhotoSettings *settings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey: AVVideoCodecTypeJPEG}];
+    
+    [self.stillImageOutput capturePhotoWithSettings:settings delegate:self];
+}
+
+/**
+ Processes the captured photo.
+ */
+- (void)captureOutput:(AVCapturePhotoOutput *)output didFinishProcessingPhoto:(AVCapturePhoto *)photo error:(NSError *)error {
+    NSData *imageData = photo.fileDataRepresentation;
+    if (imageData) {
+        UIImage *image = [UIImage imageWithData:imageData];
+        self.captureImageView.image = image;
+    }
+}
+
+/**
+ Stop the session when the user leaves the camera view. TODO: needed?
+ */
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.session stopRunning];
+}
+
+/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -125,5 +171,6 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
+ */
 
 @end
