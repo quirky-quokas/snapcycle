@@ -43,8 +43,8 @@
 - (IBAction)recycleTrash:(id)sender {
     Trash *newTrash = [Trash new];
     
-    newTrash.name = self.category.name;
-    newTrash.type = @"recycling";
+    newTrash.category = self.category;
+    newTrash.userAction = @"recycling";
     newTrash.user = [SnapUser currentUser];
     newTrash.image = self.category.image;
     
@@ -67,8 +67,8 @@
 - (IBAction)compostTrash:(id)sender {
     Trash *newTrash = [Trash new];
     
-    newTrash.name = self.category.name;
-    newTrash.type = @"compost";
+    newTrash.category = self.category;
+    newTrash.userAction = @"compost";
     newTrash.user = [SnapUser currentUser];
     newTrash.image = self.category.image;
     
@@ -91,8 +91,8 @@
 - (IBAction)throwAwayTrash:(id)sender {
     Trash *newTrash = [Trash new];
     
-    newTrash.name = self.category.name;
-    newTrash.type = @"landfill";
+    newTrash.category = self.category;
+    newTrash.userAction = @"landfill";
     newTrash.user = [SnapUser currentUser];
     newTrash.image = self.category.image;
     

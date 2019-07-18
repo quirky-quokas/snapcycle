@@ -14,12 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Trash : PFObject<PFSubclassing>
 
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) Category *category;
+@property (nonatomic, strong) NSString *userAction;
 @property (nonatomic, strong) PFFileObject *image;
 @property (nonatomic, strong) SnapUser *user;
-
-+ (void) postTrash:(Category*)category withImage:(UIImage * _Nullable )image withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 
 @end
 
