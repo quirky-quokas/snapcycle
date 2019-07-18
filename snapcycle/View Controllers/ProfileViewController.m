@@ -44,41 +44,54 @@
     // set the welcome text
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
     
-    // TODO: display a graph of their three trash piles
-    // temporarily display stats: how many of each type of disposal
+    // Query for trash stats
     SnapUser *user = [SnapUser currentUser];
+    
+    // Create dispatch group so that pie chart is only set up after all three queries
+    dispatch_group_t queryGroup = dispatch_group_create();
+    
+    // TODO: reduce redundancy between these methods
     PFQuery *recyclingQuery = [user.trashArray query];
     [recyclingQuery whereKey:@"type" equalTo:@"recycling"];
+    dispatch_group_enter(queryGroup);
     [recyclingQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
         // TODO: if there are no objects or error
         self.recyclingItemCount = number;
         NSLog(@"recycling count returned: %i", number);
         self.recyclingStatsLabel.text = [NSString stringWithFormat:@"recycling: %i items", self.recyclingItemCount];
+        dispatch_group_leave(queryGroup);
     }];
     
     PFQuery *landfillQuery = [user.trashArray query];
     [landfillQuery whereKey:@"type" equalTo:@"landfill"];
+    dispatch_group_enter(queryGroup);
     [landfillQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
         self.landfillItemCount = number;
         NSLog(@"landfill count returned: %i", number);
         self.landfillStatsLabel.text = [NSString stringWithFormat:@"landfill: %i items", self.landfillItemCount];
-        [self setUpPieChart];
+        dispatch_group_leave(queryGroup);
     }];
     
     PFQuery *compostQuery = [user.trashArray query];
     [compostQuery whereKey:@"type" equalTo:@"compost"];
+    dispatch_group_enter(queryGroup);
     [compostQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
         self.compostItemCount = number;
         NSLog(@"compost count returned: %i", number);
-        self.compostStatsLabel.text = [NSString stringWithFormat:@"landfill: %i items", self.compostItemCount];
+        self.compostStatsLabel.text = [NSString stringWithFormat:@"compost: %i items", self.compostItemCount];
+        dispatch_group_leave(queryGroup);
     }];
 
-    // TODO: figure out when to call set up pie chart!!
+    // Set up pie chart once all calls hav returned
+    dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
+        NSLog(@"all completed");
+        [self setUpPieChart];
+    });
 }
 
 - (void)setUpPieChart {
     int itemTotal = self.compostItemCount + self.landfillItemCount + self.recyclingItemCount;
-    NSLog(@"%i", itemTotal);
+    // TODO: show placeholder if user has no stats
     if (itemTotal != 0) {
         // Configure chart options
         HIOptions *options = [[HIOptions alloc]init];
