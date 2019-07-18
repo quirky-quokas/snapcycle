@@ -44,7 +44,14 @@
     
     // set the welcome text
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [self refreshUserActionStats];
+}
+
+
+- (void)refreshUserActionStats {
     // Create dispatch group so that pie chart is only set up after all three queries
     dispatch_group_t queryGroup = dispatch_group_create();
     
@@ -66,7 +73,7 @@
         self.landfillItemCount = numberOfObjects;
         self.landfillStatsLabel.text = [NSString stringWithFormat:@"landfill: %i items", self.landfillItemCount];
     }];
-
+    
     // Set up pie chart once all calls have returned. Pie chart displays total user actions
     dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
         NSLog(@"all completed");
@@ -105,7 +112,7 @@
         
         // Tooltip
         HITooltip *tooltip = [[HITooltip alloc]init];
-        tooltip.pointFormat = @"<b>{point.percentage:.1f}%</b>";
+        tooltip.pointFormat = @"<b>{point.percentage:.1f}%</b> ({point.y} items)";
         options.tooltip = tooltip;
         
         // Plot options
@@ -128,21 +135,20 @@
         // Data
         // TODO: configure color
         HIPie *pie = [[HIPie alloc]init];
-        double doubleTotal = (double)itemTotal; // avoid losing precision
         pie.data = @[
                      @{
                          @"name": @"Recycling",
-                         @"y": @(self.recyclingItemCount/doubleTotal),
+                         @"y": @(self.recyclingItemCount),
                          @"color": @"#7db4eb"
                          },
                      @{
                          @"name": @"Compost",
-                         @"y": @(self.compostItemCount/doubleTotal),
+                         @"y": @(self.compostItemCount),
                          @"color": @"#95e47f"
                          },
                      @{
-                         @"name": @"Trash",
-                         @"y": @(self.landfillItemCount/doubleTotal),
+                         @"name": @"Landfill",
+                         @"y": @(self.landfillItemCount),
                          @"color": @"#43434b"
                          }
                      ];
