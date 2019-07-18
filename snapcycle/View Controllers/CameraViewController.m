@@ -11,6 +11,7 @@
 #import "Trash.h"
 
 @interface CameraViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@property (strong, nonatomic) UIImage *chosenImage;
 
 @end
 
@@ -18,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     // open the camera
     [self initializeCamera];
 }
@@ -31,45 +32,53 @@
     UIImagePickerController *imagePickerVC = [UIImagePickerController new];
     imagePickerVC.delegate = self;
     imagePickerVC.allowsEditing = YES;
-    
+
     // check if camera is supported
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
     } else {
         imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
-    
-    // present UIImagePickerController
-    [self presentViewController:imagePickerVC animated:YES completion:nil];
+
+    // show UIImagePickerController
+    [self presentViewController:imagePickerVC animated:NO completion:nil];
 }
 
 /**
  The delegate method for UIImagePickerControllerDelegate. Picks the selected image.
  */
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *, id> *)info {
-    SnapUser *currUser = [SnapUser currentUser];
-    
+//    SnapUser *currUser = [SnapUser currentUser];
+
     // get image
     UIImage *editedImage = info[UIImagePickerControllerEditedImage];
-    PFFileObject *imagePFFile = [self getPFFileFromImage:editedImage];
-    
+    self.chosenImage = editedImage;
+
     // make new Trash object
     Trash *newTrash = [[Trash alloc] init];
     newTrash.user = currUser;
     //    newTrash.type = nil; // TODO: image recognition
     //    newTrash.name = nil; // TODO: image recognition
     newTrash.image = imagePFFile;
-    
-    // add new Trash object to trashArray
-    PFRelation *trashArray = [currUser relationForKey:@"trashArray"];
-    [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (!error) {
-            [trashArray addObject:newTrash];
-            [currUser saveInBackground];
-        } else {
-            NSLog(@"Error: %@", error.localizedDescription);
-        }
-    }];
+
+//    // make new Trash object
+//    Trash *newTrash = [[Trash alloc] init];
+//    newTrash.user = currUser;
+//    //    newTrash.type = nil; // TODO: image recognition
+//    //    newTrash.name = nil; // TODO: image recognition
+//    newTrash.timestamp = [NSDate date];
+//    newTrash.image = imagePFFile;
+//
+//    // add new Trash object to trashArray
+//    PFRelation *trashArray = [currUser relationForKey:@"trashArray"];
+//    [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+//        if (!error) {
+//            [trashArray addObject:newTrash];
+//            [currUser saveInBackground];
+//        } else {
+//            NSLog(@"Error: %@", error.localizedDescription);
+//        }
+//    }];
 
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -81,17 +90,17 @@
     if (!image) {
         return nil;
     }
-    
+
     NSData *imageData = UIImagePNGRepresentation(image);
-    
+
     if (!imageData) {
         return nil;
     }
-    
+
     return [PFFileObject fileObjectWithName:@"image.png" data:imageData];
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -99,6 +108,5 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
 
 @end
