@@ -13,6 +13,7 @@
 #import "LoginViewController.h"
 #import <Highcharts/Highcharts.h>
 #import <UIKit/UIKit.h>
+#import "Category.h"
 
 @interface ProfileViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -43,50 +44,55 @@
     
     // set the welcome text
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
-    
-    // Query for trash stats
-    SnapUser *user = [SnapUser currentUser];
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [self refreshUserActionStats];
+}
+
+
+- (void)refreshUserActionStats {
     // Create dispatch group so that pie chart is only set up after all three queries
     dispatch_group_t queryGroup = dispatch_group_create();
     
-    // TODO: reduce redundancy between these methods
-    PFQuery *recyclingQuery = [user.trashArray query];
-    [recyclingQuery whereKey:@"type" equalTo:@"recycling"];
-    dispatch_group_enter(queryGroup);
-    [recyclingQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        // TODO: if there are no objects or error
-        self.recyclingItemCount = number;
-        NSLog(@"recycling count returned: %i", number);
+    // Query for trash stats for each user action
+    // Recycling
+    [self countObjectsQueryWithUserAction:@"recycling" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
+        self.recyclingItemCount = numberOfObjects;
         self.recyclingStatsLabel.text = [NSString stringWithFormat:@"recycling: %i items", self.recyclingItemCount];
-        dispatch_group_leave(queryGroup);
     }];
     
-    PFQuery *landfillQuery = [user.trashArray query];
-    [landfillQuery whereKey:@"type" equalTo:@"landfill"];
-    dispatch_group_enter(queryGroup);
-    [landfillQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        self.landfillItemCount = number;
-        NSLog(@"landfill count returned: %i", number);
-        self.landfillStatsLabel.text = [NSString stringWithFormat:@"landfill: %i items", self.landfillItemCount];
-        dispatch_group_leave(queryGroup);
-    }];
-    
-    PFQuery *compostQuery = [user.trashArray query];
-    [compostQuery whereKey:@"type" equalTo:@"compost"];
-    dispatch_group_enter(queryGroup);
-    [compostQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        self.compostItemCount = number;
-        NSLog(@"compost count returned: %i", number);
+    // Compost
+    [self countObjectsQueryWithUserAction:@"compost" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
+        self.compostItemCount = numberOfObjects;
         self.compostStatsLabel.text = [NSString stringWithFormat:@"compost: %i items", self.compostItemCount];
-        dispatch_group_leave(queryGroup);
     }];
-
-    // Set up pie chart once all calls hav returned
+    
+    // Landfill
+    [self countObjectsQueryWithUserAction:@"landfill" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
+        self.landfillItemCount = numberOfObjects;
+        self.landfillStatsLabel.text = [NSString stringWithFormat:@"landfill: %i items", self.landfillItemCount];
+    }];
+    
+    // Set up pie chart once all calls have returned. Pie chart displays total user actions
     dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
         NSLog(@"all completed");
         [self setUpPieChart];
     });
+}
+
+// Count objects for the specified user action (how the user disposed of the trash regardless of what they wre supposed to do.
+- (void)countObjectsQueryWithUserAction:(NSString*)userAction dispatchGroup:(dispatch_group_t)group completion:(void (^)(int numberOfObjects))setActionCount {
+    // Query for trash objects in user's array that match action
+    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
+    [trashQuery whereKey:@"userAction" equalTo:userAction];
+    
+    dispatch_group_enter(group);
+    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
+        // TODO: if there is an error
+        setActionCount(number);
+        dispatch_group_leave(group);
+    }];
 }
 
 - (void)setUpPieChart {
@@ -106,7 +112,7 @@
         
         // Tooltip
         HITooltip *tooltip = [[HITooltip alloc]init];
-        tooltip.pointFormat = @"<b>{point.percentage:.1f}%</b>";
+        tooltip.pointFormat = @"<b>{point.percentage:.1f}%</b> ({point.y} items)";
         options.tooltip = tooltip;
         
         // Plot options
@@ -129,21 +135,20 @@
         // Data
         // TODO: configure color
         HIPie *pie = [[HIPie alloc]init];
-        double doubleTotal = (double)itemTotal; // avoid losing precision
         pie.data = @[
                      @{
                          @"name": @"Recycling",
-                         @"y": @(self.recyclingItemCount/doubleTotal),
+                         @"y": @(self.recyclingItemCount),
                          @"color": @"#7db4eb"
                          },
                      @{
                          @"name": @"Compost",
-                         @"y": @(self.compostItemCount/doubleTotal),
+                         @"y": @(self.compostItemCount),
                          @"color": @"#95e47f"
                          },
                      @{
-                         @"name": @"Trash",
-                         @"y": @(self.landfillItemCount/doubleTotal),
+                         @"name": @"Landfill",
+                         @"y": @(self.landfillItemCount),
                          @"color": @"#43434b"
                          }
                      ];

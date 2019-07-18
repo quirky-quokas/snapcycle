@@ -23,6 +23,9 @@
 
 @implementation CameraViewController
 
+/**
+ Start camera when CameraVC first loads on Camera tab.
+ */
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -31,7 +34,14 @@
 }
 
 /**
- Opens a custom camera
+ Start camera when user navigates to CameraVC on Camera tab.
+ */
+- (void)viewDidAppear:(BOOL)animated {
+    [self setupLivePreview];
+}
+
+/**
+ Initializes a custom camera.
  */
 - (void)initializeCamera {
     // setup a new session
@@ -69,7 +79,7 @@
     self.videoPreviewLayer = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
     
     if (self.videoPreviewLayer) {
-        self.videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+        self.videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
         self.videoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait; //TODO: make landscape compatible?
         [self.previewView.layer addSublayer:self.videoPreviewLayer];
         
@@ -115,23 +125,6 @@
 
     // dismiss UIImagePickerController to go back to ComposeVC
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-/**
- Gets and returns a PFFile of a UIImage.
- */
-- (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {
-    if (!image) {
-        return nil;
-    }
-
-    NSData *imageData = UIImagePNGRepresentation(image);
-
-    if (!imageData) {
-        return nil;
-    }
-
-    return [PFFileObject fileObjectWithName:@"image.png" data:imageData];
 }
 
 
