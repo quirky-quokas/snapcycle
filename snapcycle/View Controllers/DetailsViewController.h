@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DetailsViewController : UIViewController
 @property (nonatomic, strong) Category *category;
+@property (nonatomic, strong) UIImage *image;
 @property (nonatomic, weak) id<DetailsViewControllerDelegate> delegate;
 @end
 
