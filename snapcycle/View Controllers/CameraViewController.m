@@ -13,6 +13,7 @@
 
 @interface CameraViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (strong, nonatomic) UIImage *chosenImage;
+@property (weak, nonatomic) IBOutlet UIView *cameraView;
 
 @end
 
@@ -23,6 +24,12 @@
     
     // open the camera
     [self initializeCamera];
+}
+
+/**
+ The user tapped the "Take photo" button.
+ */
+- (IBAction)didTakePhoto:(UIButton *)sender {
 }
 
 /**
@@ -41,8 +48,27 @@
         imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
     
-    // show UIImagePickerController
+//    imagePickerVC.navigationBar.translucent = YES;
+//    imagePickerVC.navigationBar.barStyle = UIBarStyleDefault;
+//    [imagePickerVC setNavigationBarHidden:YES animated:NO];
+    
+//    imagePickerVC.view.frame = CGRectMake(0, 64, 375, 554);
+//    imagePickerVC.accessibilityFrame = CGRectMake(0, 64, 375, 554);
+//    [imagePickerVC setAccessibilityFrame:CGRectMake(0, 64, 375, 554)];
+    //    [self.view addSubview:imagePickerVC.view];
+    
+//    UIView *controllerView = imagePickerVC.view;
+//    controllerView.alpha = 0.0;
+//    controllerView.transform = CGAffineTransformMakeScale(0.5, 0.5);
+//    [self.view addSubview:controllerView];
+
+//    NSLog(@"Checkpoint 1");
+//    imagePickerVC.view.frame = CGRectMake(0, 64, 375, 554);
+//    NSLog(@"Checkpoint 2");
+//    imagePickerVC.view.frame = CGRectMake(imagePickerVC.view.frame.origin.x, imagePickerVC.view.frame.origin.y, 375, 554);
+    
     [self presentViewController:imagePickerVC animated:NO completion:nil];
+    [imagePickerVC.view addSubview:self.tabBarController.tabBar];
 }
 
 /**
