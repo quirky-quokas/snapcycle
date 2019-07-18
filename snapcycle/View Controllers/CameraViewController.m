@@ -51,7 +51,7 @@
     // select input device
     AVCaptureDevice *backCamera = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     if (!backCamera) {
-        // use camera roll?
+        // TODO: use camera roll?
         NSLog(@"Unable to access back camera");
     }
     
@@ -129,7 +129,9 @@
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+/**
+ Prepare for segue to DetailsVC with data to send.
+ */
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     DetailsViewController *detailsViewController = [segue destinationViewController];
     

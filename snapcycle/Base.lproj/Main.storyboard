@@ -115,7 +115,7 @@
                     <navigationItem key="navigationItem" id="uKL-JT-wW2"/>
                     <connections>
                         <outlet property="previewView" destination="BvN-uu-SIn" id="RFg-C4-Ae2"/>
-                        <segue destination="5lJ-x6-utv" kind="presentation" identifier="segueToDetailsVC" id="IG0-Za-uas"/>
+                        <segue destination="5lJ-x6-utv" kind="show" identifier="segueToDetailsVC" id="IG0-Za-uas"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rFV-VH-wAq" userLabel="First Responder" sceneMemberID="firstResponder"/>
