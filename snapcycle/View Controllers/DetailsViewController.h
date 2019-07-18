@@ -12,8 +12,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol DetailsViewControllerDelegate
+- (void) postedTrash:(NSString*) message;
+@end
+
 @interface DetailsViewController : UIViewController
 @property (nonatomic, strong) Category *category;
+@property (nonatomic, weak) id<DetailsViewControllerDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

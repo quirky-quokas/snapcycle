@@ -50,15 +50,15 @@
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
-            NSLog(@"Trash recycled");
             SnapUser *user = [SnapUser currentUser];
             [user.trashArray addObject:newTrash];
             [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             }];
-            [self dismissViewControllerAnimated:true completion:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+            NSString* message = @"You've successfully recycled your trash";
+            [self.delegate postedTrash:message];
         }
         else {
-            NSLog(@"Recycling trash failed");
             NSString *alertTitle = @"Could not recycle trash";
             [self showAlertwithTitle:alertTitle];
         }
@@ -74,15 +74,15 @@
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
-            NSLog(@"Trash composted");
             SnapUser *user = [SnapUser currentUser];
             [user.trashArray addObject:newTrash];
             [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             }];
-            [self dismissViewControllerAnimated:true completion:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+            NSString* message = @"You've successfully composted your trash";
+            [self.delegate postedTrash:message];
         }
         else {
-            NSLog(@"Composting trash failed");
             NSString *alertTitle = @"Could not compost trash";
             [self showAlertwithTitle:alertTitle];
         }
@@ -98,15 +98,15 @@
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
-            NSLog(@"Trash thrown away");
             SnapUser *user = [SnapUser currentUser];
             [user.trashArray addObject:newTrash];
             [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             }];
-            [self dismissViewControllerAnimated:true completion:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+            NSString* message = @"You've successfully thrown away your trash";
+            [self.delegate postedTrash:message];
         }
         else {
-            NSLog(@"Throwing away trash failed");
             NSString *alertTitle = @"Could not throw away trash";
             [self showAlertwithTitle:alertTitle];
         }
