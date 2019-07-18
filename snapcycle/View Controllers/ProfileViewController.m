@@ -24,9 +24,9 @@
 
 // Graph
 @property (weak, nonatomic) IBOutlet HIChartView *chartView;
-@property NSUInteger compostItemCount;
-@property NSUInteger recyclingItemCount;
-@property NSUInteger landfillItemCount;
+@property int compostItemCount;
+@property int recyclingItemCount;
+@property int landfillItemCount;
 
 @end
 
@@ -49,93 +49,95 @@
     SnapUser *user = [SnapUser currentUser];
     PFQuery *recyclingQuery = [user.trashArray query];
     [recyclingQuery whereKey:@"type" equalTo:@"recycling"];
-    [recyclingQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+    [recyclingQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
         // TODO: if there are no objects or error
-        self.recyclingItemCount = [objects count];
-        self.recyclingStatsLabel.text = [NSString stringWithFormat:@"recycling: %ld items", self.recyclingItemCount];;
+        self.recyclingItemCount = number;
+        NSLog(@"recycling count returned: %i", number);
+        self.recyclingStatsLabel.text = [NSString stringWithFormat:@"recycling: %i items", self.recyclingItemCount];
     }];
     
     PFQuery *landfillQuery = [user.trashArray query];
     [landfillQuery whereKey:@"type" equalTo:@"landfill"];
-    [landfillQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (objects) {
-            self.landfillItemCount = [objects count];
-            self.landfillStatsLabel.text = [NSString stringWithFormat:@"landfill: %ld items", self.landfillItemCount];
-            [self setUpPieChart];
-        }
+    [landfillQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
+        self.landfillItemCount = number;
+        NSLog(@"landfill count returned: %i", number);
+        self.landfillStatsLabel.text = [NSString stringWithFormat:@"landfill: %i items", self.landfillItemCount];
+        [self setUpPieChart];
     }];
     
     PFQuery *compostQuery = [user.trashArray query];
     [compostQuery whereKey:@"type" equalTo:@"compost"];
-    [compostQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (objects) {
-            self.compostItemCount = [objects count];
-            self.compostStatsLabel.text = [NSString stringWithFormat:@"compost: %ld items", self.compostItemCount];
-        }
+    [compostQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
+        self.compostItemCount = number;
+        NSLog(@"compost count returned: %i", number);
+        self.compostStatsLabel.text = [NSString stringWithFormat:@"landfill: %i items", self.compostItemCount];
     }];
 
     // TODO: figure out when to call set up pie chart!!
 }
 
 - (void)setUpPieChart {
-    // Configure chart options
-    HIOptions *options = [[HIOptions alloc]init];
-    HIChart *chart = [[HIChart alloc]init];
-    chart.type = @"pie";
-    options.chart = chart;
-    
-    // Title
-    HITitle *title = [[HITitle alloc]init];
-    title.text = @"Your snapcycles";
-    options.title = title;
-    
-    // Tooltip
-    HITooltip *tooltip = [[HITooltip alloc]init];
-    tooltip.pointFormat = @"<b>{point.percentage:.1f}%</b>";
-    options.tooltip = tooltip;
-    
-    // Plot options
-    HIPlotOptions *plotoptions = [[HIPlotOptions alloc]init];
-    plotoptions.pie = [[HIPie alloc]init];
-    plotoptions.pie.allowPointSelect = [[NSNumber alloc] initWithBool:true];
-    plotoptions.pie.cursor = @"pointer";
-    options.plotOptions = plotoptions;
-    
-    // Diable credits
-    HICredits *credits = [[HICredits alloc] init];
-    credits.enabled = [[NSNumber alloc] initWithBool:false];
-    options.credits = credits;
-    
-    // Remove exporting hamburger button
-    HIExporting *exporting = [[HIExporting alloc] init];
-    exporting.enabled = [[NSNumber alloc] initWithBool:false];
-    options.exporting = exporting;
-    
-    // Data
-    // TODO: configure color
-    double itemTotal = (double)(self.compostItemCount + self.landfillItemCount + self.recyclingItemCount);
-    NSLog(@"%f", itemTotal);
-    HIPie *pie = [[HIPie alloc]init];
-    pie.data = @[
-                 @{
-                     @"name": @"Recycling",
-                     @"y": @(self.recyclingItemCount/itemTotal),
-                     //@"color": @"#0000FF"
-                     },
-                 @{
-                     @"name": @"Compost",
-                     @"y": @(self.compostItemCount/itemTotal),
-                     @"color": @"#00FF00"
-                     },
-                 @{
-                     @"name": @"Trash",
-                     @"y": @(self.landfillItemCount/itemTotal),
-                     @"color": @"#808080"
-                     }
-                 ];
-    options.series = [NSMutableArray arrayWithObjects:pie, nil];
-    
-    self.chartView.options = options;
+    int itemTotal = self.compostItemCount + self.landfillItemCount + self.recyclingItemCount;
+    NSLog(@"%i", itemTotal);
+    if (itemTotal != 0) {
+        // Configure chart options
+        HIOptions *options = [[HIOptions alloc]init];
+        HIChart *chart = [[HIChart alloc]init];
+        chart.type = @"pie";
+        options.chart = chart;
+        
+        // Title
+        HITitle *title = [[HITitle alloc]init];
+        title.text = @"Your snapcycles";
+        options.title = title;
+        
+        // Tooltip
+        HITooltip *tooltip = [[HITooltip alloc]init];
+        tooltip.pointFormat = @"<b>{point.percentage:.1f}%</b>";
+        options.tooltip = tooltip;
+        
+        // Plot options
+        HIPlotOptions *plotoptions = [[HIPlotOptions alloc]init];
+        plotoptions.pie = [[HIPie alloc]init];
+        plotoptions.pie.allowPointSelect = [[NSNumber alloc] initWithBool:true];
+        plotoptions.pie.cursor = @"pointer";
+        options.plotOptions = plotoptions;
+        
+        // Diable credits
+        HICredits *credits = [[HICredits alloc] init];
+        credits.enabled = [[NSNumber alloc] initWithBool:false];
+        options.credits = credits;
+        
+        // Remove exporting hamburger button
+        HIExporting *exporting = [[HIExporting alloc] init];
+        exporting.enabled = [[NSNumber alloc] initWithBool:false];
+        options.exporting = exporting;
+        
+        // Data
+        // TODO: configure color
+        HIPie *pie = [[HIPie alloc]init];
+        double doubleTotal = (double)itemTotal; // avoid losing precision
+        pie.data = @[
+                     @{
+                         @"name": @"Recycling",
+                         @"y": @(self.recyclingItemCount/doubleTotal),
+                         @"color": @"#7db4eb"
+                         },
+                     @{
+                         @"name": @"Compost",
+                         @"y": @(self.compostItemCount/doubleTotal),
+                         @"color": @"#95e47f"
+                         },
+                     @{
+                         @"name": @"Trash",
+                         @"y": @(self.landfillItemCount/doubleTotal),
+                         @"color": @"#43434b"
+                         }
+                     ];
+        options.series = [NSMutableArray arrayWithObjects:pie, nil];
+        
+        self.chartView.options = options;
+    }
     
 }
 
