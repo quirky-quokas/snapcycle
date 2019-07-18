@@ -34,6 +34,12 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+## Highcharts
+
+This is the repository for Highcharts iOS, a Objective-C wrapper for the JavaScript charting library: Highcharts.
+For commercial usage, a valid license is required. To purchase a license for Highcharts iOS, please see our website: https://shop.highsoft.com/
+In case of questions, please contact sales@highsoft.com
+
 ## Parse
 
 BSD License
