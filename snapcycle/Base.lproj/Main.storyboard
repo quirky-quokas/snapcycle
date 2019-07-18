@@ -93,31 +93,11 @@
                     <view key="view" contentMode="scaleToFill" id="u8M-sc-v7P">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="erh-Yd-sM9">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tFM-94-4BW">
-                                        <rect key="frame" x="149" y="516" width="76" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Take photo"/>
-                                        <connections>
-                                            <action selector="didTakePhoto:" destination="BzN-ce-QcD" eventType="touchUpInside" id="bfg-HI-hZH"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="7zm-Rq-TmQ"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Camera" id="8Iq-ed-Spt"/>
                     <navigationItem key="navigationItem" id="uKL-JT-wW2"/>
-                    <connections>
-                        <outlet property="cameraView" destination="erh-Yd-sM9" id="nb5-dr-Sd6"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rFV-VH-wAq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
