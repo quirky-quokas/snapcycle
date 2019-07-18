@@ -11,6 +11,8 @@
 #import "AppDelegate.h"
 #import "SnapUser.h"
 #import "LoginViewController.h"
+#import <Highcharts/Highcharts.h>
+#import <UIKit/UIKit.h>
 
 @interface ProfileViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -19,6 +21,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *recyclingStatsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *compostStatsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *landfillStatsLabel;
+
+// Graph
+@property (weak, nonatomic) IBOutlet HIChartView *chartView;
+@property int compostItemCount;
+@property int recyclingItemCount;
+@property int landfillItemCount;
 
 @end
 
@@ -36,32 +44,114 @@
     // set the welcome text
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
     
-    // TODO: display a graph of their three trash piles
-    // temporarily display stats: how many of each type of disposal
+    // Query for trash stats
     SnapUser *user = [SnapUser currentUser];
+    
+    // Create dispatch group so that pie chart is only set up after all three queries
+    dispatch_group_t queryGroup = dispatch_group_create();
+    
+    // TODO: reduce redundancy between these methods
     PFQuery *recyclingQuery = [user.trashArray query];
     [recyclingQuery whereKey:@"type" equalTo:@"recycling"];
-    [recyclingQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+    dispatch_group_enter(queryGroup);
+    [recyclingQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
         // TODO: if there are no objects or error
-        self.recyclingStatsLabel.text = [NSString stringWithFormat:@"recycling: %ld items", [objects count]];
+        self.recyclingItemCount = number;
+        NSLog(@"recycling count returned: %i", number);
+        self.recyclingStatsLabel.text = [NSString stringWithFormat:@"recycling: %i items", self.recyclingItemCount];
+        dispatch_group_leave(queryGroup);
     }];
     
     PFQuery *landfillQuery = [user.trashArray query];
     [landfillQuery whereKey:@"type" equalTo:@"landfill"];
-    [landfillQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (objects) {
-            self.landfillStatsLabel.text = [NSString stringWithFormat:@"landfill: %ld items", [objects count]];
-        }
+    dispatch_group_enter(queryGroup);
+    [landfillQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
+        self.landfillItemCount = number;
+        NSLog(@"landfill count returned: %i", number);
+        self.landfillStatsLabel.text = [NSString stringWithFormat:@"landfill: %i items", self.landfillItemCount];
+        dispatch_group_leave(queryGroup);
     }];
     
     PFQuery *compostQuery = [user.trashArray query];
     [compostQuery whereKey:@"type" equalTo:@"compost"];
-    [compostQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (objects) {
-            self.compostStatsLabel.text = [NSString stringWithFormat:@"compost: %ld items", [objects count]];
-        }
+    dispatch_group_enter(queryGroup);
+    [compostQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
+        self.compostItemCount = number;
+        NSLog(@"compost count returned: %i", number);
+        self.compostStatsLabel.text = [NSString stringWithFormat:@"compost: %i items", self.compostItemCount];
+        dispatch_group_leave(queryGroup);
     }];
+
+    // Set up pie chart once all calls hav returned
+    dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
+        NSLog(@"all completed");
+        [self setUpPieChart];
+    });
+}
+
+- (void)setUpPieChart {
+    int itemTotal = self.compostItemCount + self.landfillItemCount + self.recyclingItemCount;
+    // TODO: show placeholder if user has no stats
+    if (itemTotal != 0) {
+        // Configure chart options
+        HIOptions *options = [[HIOptions alloc]init];
+        HIChart *chart = [[HIChart alloc]init];
+        chart.type = @"pie";
+        options.chart = chart;
         
+        // Title
+        HITitle *title = [[HITitle alloc]init];
+        title.text = @"Your snapcycles";
+        options.title = title;
+        
+        // Tooltip
+        HITooltip *tooltip = [[HITooltip alloc]init];
+        tooltip.pointFormat = @"<b>{point.percentage:.1f}%</b>";
+        options.tooltip = tooltip;
+        
+        // Plot options
+        HIPlotOptions *plotoptions = [[HIPlotOptions alloc]init];
+        plotoptions.pie = [[HIPie alloc]init];
+        plotoptions.pie.allowPointSelect = [[NSNumber alloc] initWithBool:true];
+        plotoptions.pie.cursor = @"pointer";
+        options.plotOptions = plotoptions;
+        
+        // Diable credits
+        HICredits *credits = [[HICredits alloc] init];
+        credits.enabled = [[NSNumber alloc] initWithBool:false];
+        options.credits = credits;
+        
+        // Remove exporting hamburger button
+        HIExporting *exporting = [[HIExporting alloc] init];
+        exporting.enabled = [[NSNumber alloc] initWithBool:false];
+        options.exporting = exporting;
+        
+        // Data
+        // TODO: configure color
+        HIPie *pie = [[HIPie alloc]init];
+        double doubleTotal = (double)itemTotal; // avoid losing precision
+        pie.data = @[
+                     @{
+                         @"name": @"Recycling",
+                         @"y": @(self.recyclingItemCount/doubleTotal),
+                         @"color": @"#7db4eb"
+                         },
+                     @{
+                         @"name": @"Compost",
+                         @"y": @(self.compostItemCount/doubleTotal),
+                         @"color": @"#95e47f"
+                         },
+                     @{
+                         @"name": @"Trash",
+                         @"y": @(self.landfillItemCount/doubleTotal),
+                         @"color": @"#43434b"
+                         }
+                     ];
+        options.series = [NSMutableArray arrayWithObjects:pie, nil];
+        
+        self.chartView.options = options;
+    }
+    
 }
 
 /**

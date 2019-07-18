@@ -7,6 +7,7 @@ target 'snapcycle' do
 
   # Pods for snapcycle
   pod 'Parse'
+  pod 'Highcharts', '~> 7.1.3'
 
   target 'snapcycleTests' do
     inherit! :search_paths

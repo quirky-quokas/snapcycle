@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "Parse/Parse.h"
 #import "SnapUser.h"
+#import <Highcharts/Highcharts.h>
 
 @interface AppDelegate ()
 
@@ -18,6 +19,9 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Set up Highcharts
+    [HIChartView preload];
+    
     // Initialize Parse and point to snapcycle server
     ParseClientConfiguration *config = [ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         configuration.applicationId = @"snapcycle";
