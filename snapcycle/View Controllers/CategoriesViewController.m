@@ -6,12 +6,12 @@
 //  Copyright © 2019 Quirky Quokkas. All rights reserved.
 //
 
-#import "Category.h"
 #import "CategoriesViewController.h"
 #import "CategoriesCell.h"
 #import "DetailsViewController.h"
+#import "Category.h"
 
-@interface CategoriesViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface CategoriesViewController () <UICollectionViewDelegate, UICollectionViewDataSource, DetailsViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *categoriesCollectionView;
 @property (strong, nonatomic) NSArray *categories;
 
@@ -63,6 +63,18 @@
     return self.categories.count;
 }
 
+- (void) postedTrash:(NSString*)message {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Good work!" message:message preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    [alert addAction:okAction];
+    
+    [self presentViewController:alert animated:YES completion:^{
+        
+    }];
+}
 
 
 #pragma mark - Navigation
@@ -75,6 +87,7 @@
     
     DetailsViewController *detailsViewController = [segue destinationViewController];
     detailsViewController.category = category;
+    detailsViewController.delegate = self;
 }
 
 
