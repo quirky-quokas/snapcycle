@@ -34,7 +34,7 @@
     // instantiate the camera
     [self initializeCamera];
     
-    // instantiate the gesture recognizer
+    // instantiate the gesture recognizers
     UIPinchGestureRecognizer *pinchGR = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchZoom:)];
     [self.previewView addGestureRecognizer:pinchGR];
     self.previewView.userInteractionEnabled = YES;
