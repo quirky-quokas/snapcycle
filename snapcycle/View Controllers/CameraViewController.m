@@ -146,8 +146,6 @@
     }
 }
 
-// INSERT CAMERA STOP CODE
-
 #pragma mark - Navigation
 
 /**
