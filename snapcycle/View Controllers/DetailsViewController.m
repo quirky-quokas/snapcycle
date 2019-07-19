@@ -7,6 +7,9 @@
 //
 
 #import "DetailsViewController.h"
+#import "CameraViewController.h"
+#import "CategoriesViewController.h"
+#import "RegisterViewController.h"
 #import "SnapUser.h"
 #import "Trash.h"
 
@@ -46,7 +49,12 @@
     newTrash.category = self.category;
     newTrash.userAction = @"recycling";
     newTrash.user = [SnapUser currentUser];
-    newTrash.image = self.category.image;
+    if ([(NSObject*)self.delegate isKindOfClass:[CategoriesViewController class]]) {
+        newTrash.image = self.category.image;
+    }
+    else {
+        newTrash.image = [RegisterViewController getPFFileFromImage:self.image];
+    }
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
@@ -70,7 +78,12 @@
     newTrash.category = self.category;
     newTrash.userAction = @"compost";
     newTrash.user = [SnapUser currentUser];
-    newTrash.image = self.category.image;
+    if ([(NSObject*)self.delegate isKindOfClass:[CategoriesViewController class]]) {
+        newTrash.image = self.category.image;
+    }
+    else {
+        newTrash.image = [RegisterViewController getPFFileFromImage:self.image];
+    }
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
@@ -94,7 +107,12 @@
     newTrash.category = self.category;
     newTrash.userAction = @"landfill";
     newTrash.user = [SnapUser currentUser];
-    newTrash.image = self.category.image;
+    if ([(NSObject*)self.delegate isKindOfClass:[CategoriesViewController class]]) {
+        newTrash.image = self.category.image;
+    }
+    else {
+        newTrash.image = [RegisterViewController getPFFileFromImage:self.image];
+    }
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
