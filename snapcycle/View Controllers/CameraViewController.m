@@ -11,13 +11,15 @@
 #import "Trash.h"
 #import "AVFoundation/AVFoundation.h"
 #import "DetailsViewController.h"
+#import "RegisterViewController.h"
 
-@interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate>
+@interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) UIImage *capturedImage;
 @property (weak, nonatomic) IBOutlet UIView *previewView;
 @property (strong, nonatomic) AVCaptureSession *session;
 @property (strong, nonatomic) AVCapturePhotoOutput *stillImageOutput;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
+@property (strong, nonatomic) AVCaptureDevice *backCamera;
 
 @end
 
@@ -31,6 +33,13 @@
 
     // instantiate the camera
     [self initializeCamera];
+    
+    // instantiate the gesture recognizer
+    UIPinchGestureRecognizer *pinchGR = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchZoom:)];
+    [self.previewView addGestureRecognizer:pinchGR];
+    self.previewView.userInteractionEnabled = YES;
+    pinchGR.cancelsTouchesInView = NO;
+    pinchGR.delegate = self;
 }
 
 /**
@@ -49,15 +58,15 @@
     [self.session setSessionPreset:AVCaptureSessionPresetHigh];
 
     // select input device
-    AVCaptureDevice *backCamera = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    if (!backCamera) {
+    self.backCamera = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    if (!self.backCamera) {
         // TODO: use camera roll?
         NSLog(@"Unable to access back camera");
     }
     
     // prepare the input and output
     NSError *error;
-    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:backCamera error:&error];
+    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:self.backCamera error:&error];
     if (error) {
         NSLog(@"Error: Unable to initialize back camera: %@", error.localizedDescription);
     } else {
@@ -93,6 +102,25 @@
                 self.videoPreviewLayer.frame = self.previewView.bounds;
             });
         });
+    }
+}
+
+/**
+ Enables zoom in/out for the live preview.
+ */
+- (void)handlePinchZoom:(UIPinchGestureRecognizer *)pinchGR {
+    const CGFloat pinchVelocityDividerFactor = 5.0f;
+    
+    if (pinchGR.state == UIGestureRecognizerStateChanged) {
+        NSError *error = nil;
+        if ([self.backCamera lockForConfiguration:&error]) {
+            CGFloat desiredZoomFactor = self.backCamera.videoZoomFactor + atan2f(pinchGR.velocity, pinchVelocityDividerFactor);
+            // check if desiredZoomFactor fits required range from 1.0 to activeFormat.videoMaxZoomFactor
+            self.backCamera.videoZoomFactor = MAX(1.0, MIN(desiredZoomFactor, self.backCamera.activeFormat.videoMaxZoomFactor));
+            [self.backCamera unlockForConfiguration];
+        } else {
+            NSLog(@"Error with zoom: %@", error);
+        }
     }
 }
 
@@ -136,7 +164,7 @@
     DetailsViewController *detailsViewController = [segue destinationViewController];
     
     PFQuery *categoryQuery = [PFQuery queryWithClassName:@"Category"];
-    detailsViewController.category = [categoryQuery getObjectWithId:@"u42Xiik8ok"];
+    detailsViewController.category = [categoryQuery getObjectWithId:@"u42Xiik8ok"]; // TODO: not asynchronous access
     detailsViewController.image = self.capturedImage;
     detailsViewController.delegate = self;
 }
