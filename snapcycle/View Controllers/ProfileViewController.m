@@ -19,12 +19,10 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *recyclingStatsLabel;
-@property (weak, nonatomic) IBOutlet UILabel *compostStatsLabel;
-@property (weak, nonatomic) IBOutlet UILabel *landfillStatsLabel;
 
 // Graph
 @property (weak, nonatomic) IBOutlet HIChartView *chartView;
+@property (strong, nonatomic) HIOptions *options;
 @property int compostItemCount;
 @property int recyclingItemCount;
 @property int landfillItemCount;
@@ -47,6 +45,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [self configurePieChart];
     [self refreshUserActionStats];
 }
 
@@ -59,25 +58,22 @@
     // Recycling
     [self countObjectsQueryWithUserAction:@"recycling" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
         self.recyclingItemCount = numberOfObjects;
-        self.recyclingStatsLabel.text = [NSString stringWithFormat:@"recycling: %i items", self.recyclingItemCount];
     }];
     
     // Compost
     [self countObjectsQueryWithUserAction:@"compost" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
         self.compostItemCount = numberOfObjects;
-        self.compostStatsLabel.text = [NSString stringWithFormat:@"compost: %i items", self.compostItemCount];
     }];
     
     // Landfill
     [self countObjectsQueryWithUserAction:@"landfill" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
         self.landfillItemCount = numberOfObjects;
-        self.landfillStatsLabel.text = [NSString stringWithFormat:@"landfill: %i items", self.landfillItemCount];
     }];
     
     // Set up pie chart once all calls have returned. Pie chart displays total user actions
     dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
         NSLog(@"all completed");
-        [self setUpPieChart];
+        [self updatePieChartData];
     });
 }
 
@@ -95,44 +91,47 @@
     }];
 }
 
-- (void)setUpPieChart {
+- (void)configurePieChart {
+    // TODO: looks funky if there is 0 of one type
+    NSLog(@"configuring pie chart");
+    self.options = [[HIOptions alloc]init];
+    HIChart *chart = [[HIChart alloc]init];
+    chart.type = @"pie";
+    self.options.chart = chart;
+    
+    // Title
+    HITitle *title = [[HITitle alloc]init];
+    title.text = @"Total snapcycles";
+    self.options.title = title;
+    
+    // Tooltip
+    HITooltip *tooltip = [[HITooltip alloc]init];
+    tooltip.pointFormat = @"<b>{point.percentage:.1f}%</b> ({point.y} items)";
+    self.options.tooltip = tooltip;
+    
+    // Plot options
+    HIPlotOptions *plotoptions = [[HIPlotOptions alloc]init];
+    plotoptions.pie = [[HIPie alloc]init];
+    plotoptions.pie.allowPointSelect = [[NSNumber alloc] initWithBool:true];
+    plotoptions.pie.cursor = @"pointer";
+    self.options.plotOptions = plotoptions;
+    
+    // Diable credits
+    HICredits *credits = [[HICredits alloc] init];
+    credits.enabled = [[NSNumber alloc] initWithBool:false];
+    self.options.credits = credits;
+    
+    // Remove exporting hamburger button
+    HIExporting *exporting = [[HIExporting alloc] init];
+    exporting.enabled = [[NSNumber alloc] initWithBool:false];
+    self.options.exporting = exporting;
+}
+
+- (void)updatePieChartData {
+    NSLog(@"updating pie chart data");
     int itemTotal = self.compostItemCount + self.landfillItemCount + self.recyclingItemCount;
     // TODO: show placeholder if user has no stats
     if (itemTotal != 0) {
-        // Configure chart options
-        HIOptions *options = [[HIOptions alloc]init];
-        HIChart *chart = [[HIChart alloc]init];
-        chart.type = @"pie";
-        options.chart = chart;
-        
-        // Title
-        HITitle *title = [[HITitle alloc]init];
-        title.text = @"Your snapcycles";
-        options.title = title;
-        
-        // Tooltip
-        HITooltip *tooltip = [[HITooltip alloc]init];
-        tooltip.pointFormat = @"<b>{point.percentage:.1f}%</b> ({point.y} items)";
-        options.tooltip = tooltip;
-        
-        // Plot options
-        HIPlotOptions *plotoptions = [[HIPlotOptions alloc]init];
-        plotoptions.pie = [[HIPie alloc]init];
-        plotoptions.pie.allowPointSelect = [[NSNumber alloc] initWithBool:true];
-        plotoptions.pie.cursor = @"pointer";
-        options.plotOptions = plotoptions;
-        
-        // Diable credits
-        HICredits *credits = [[HICredits alloc] init];
-        credits.enabled = [[NSNumber alloc] initWithBool:false];
-        options.credits = credits;
-        
-        // Remove exporting hamburger button
-        HIExporting *exporting = [[HIExporting alloc] init];
-        exporting.enabled = [[NSNumber alloc] initWithBool:false];
-        options.exporting = exporting;
-        
-        // Data
         // TODO: configure color
         HIPie *pie = [[HIPie alloc]init];
         pie.data = @[
@@ -152,11 +151,10 @@
                          @"color": @"#43434b"
                          }
                      ];
-        options.series = [NSMutableArray arrayWithObjects:pie, nil];
+        self.options.series = [NSMutableArray arrayWithObjects:pie, nil];
         
-        self.chartView.options = options;
+        self.chartView.options = self.options;
     }
-    
 }
 
 /**
@@ -165,8 +163,10 @@
 - (void)setProfilePicture {
     self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
     PFFileObject *imageFile = [SnapUser currentUser].profImage;
-    UIImage *image = [UIImage imageWithData:imageFile.getData];
-    self.profileImage.image = image;
+    [imageFile getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
+        UIImage *image = [UIImage imageWithData:data];
+        self.profileImage.image = image;
+    }];
 }
 
 /**

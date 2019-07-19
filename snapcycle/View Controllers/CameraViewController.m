@@ -10,11 +10,11 @@
 #import "Parse/Parse.h"
 #import "Trash.h"
 #import "AVFoundation/AVFoundation.h"
+#import "DetailsViewController.h"
 
-@interface CameraViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate>
-@property (strong, nonatomic) UIImage *chosenImage;
+@interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate>
+@property (strong, nonatomic) UIImage *capturedImage;
 @property (weak, nonatomic) IBOutlet UIView *previewView;
-@property (weak, nonatomic) IBOutlet UIImageView *captureImageView;
 @property (strong, nonatomic) AVCaptureSession *session;
 @property (strong, nonatomic) AVCapturePhotoOutput *stillImageOutput;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
@@ -29,7 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    // open the camera
+    // instantiate the camera
     [self initializeCamera];
 }
 
@@ -37,7 +37,7 @@
  Start camera when user navigates to CameraVC on Camera tab.
  */
 - (void)viewDidAppear:(BOOL)animated {
-    [self setupLivePreview];
+    [self.session startRunning];
 }
 
 /**
@@ -51,7 +51,7 @@
     // select input device
     AVCaptureDevice *backCamera = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     if (!backCamera) {
-        // use camera roll?
+        // TODO: use camera roll?
         NSLog(@"Unable to access back camera");
     }
     
@@ -97,38 +97,6 @@
 }
 
 /**
- Opens a camera/camera roll.
- */
-- (void)initializeCamera1 {
-    // instantiate a UIImagePickerController
-    UIImagePickerController *imagePickerVC = [UIImagePickerController new];
-    imagePickerVC.delegate = self;
-    imagePickerVC.allowsEditing = YES;
-
-    // check if camera is supported
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
-    } else {
-        imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    }
-}
-
-/**
- The delegate method for UIImagePickerControllerDelegate. Picks the selected image.
- */
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *, id> *)info {
-//    SnapUser *currUser = [SnapUser currentUser];
-
-    // get image
-    UIImage *editedImage = info[UIImagePickerControllerEditedImage];
-    self.chosenImage = editedImage;
-
-    // dismiss UIImagePickerController to go back to ComposeVC
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-
-/**
  The user tapped the "Take photo" button.
  */
 - (IBAction)didTakePhoto:(UIButton *)sender {
@@ -144,7 +112,10 @@
     NSData *imageData = photo.fileDataRepresentation;
     if (imageData) {
         UIImage *image = [UIImage imageWithData:imageData];
-        self.captureImageView.image = image;
+        self.capturedImage = image;
+        
+        // segue to detailsVC
+        [self performSegueWithIdentifier:@"segueToDetailsVC" sender:self];
     }
 }
 
@@ -156,14 +127,34 @@
     [self.session stopRunning];
 }
 
-/*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
+/**
+ Prepare for segue to DetailsVC with data to send.
  */
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    DetailsViewController *detailsViewController = [segue destinationViewController];
+    
+    PFQuery *categoryQuery = [PFQuery queryWithClassName:@"Category"];
+    detailsViewController.category = [categoryQuery getObjectWithId:@"u42Xiik8ok"];
+    detailsViewController.image = self.capturedImage;
+    detailsViewController.delegate = self;
+}
+ 
+/**
+ DetailsViewControllerDelegate method. Posts an alert to show trash was posted successfully.
+ */
+- (void)postedTrash:(nonnull NSString *)message {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Good work!" message:message preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    [alert addAction:okAction];
+    
+    [self presentViewController:alert animated:YES completion:^{
+        
+    }];
+}
 
 @end
