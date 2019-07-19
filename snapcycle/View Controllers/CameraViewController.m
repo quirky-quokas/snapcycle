@@ -60,7 +60,6 @@
     // select input device
     self.backCamera = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     if (!self.backCamera) {
-        // TODO: use camera roll?
         NSLog(@"Unable to access back camera");
     }
     
@@ -164,7 +163,7 @@
     DetailsViewController *detailsViewController = [segue destinationViewController];
     
     PFQuery *categoryQuery = [PFQuery queryWithClassName:@"Category"];
-    detailsViewController.category = [categoryQuery getObjectWithId:@"u42Xiik8ok"]; // TODO: not asynchronous access
+    detailsViewController.category = [categoryQuery getObjectWithId:@"u42Xiik8ok"];
     detailsViewController.image = self.capturedImage;
     detailsViewController.delegate = self;
 }
