@@ -146,13 +146,7 @@
     }
 }
 
-/**
- Stop the session when the user leaves the camera view. TODO: needed?
- */
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [self.session stopRunning];
-}
+// INSERT CAMERA STOP CODE
 
 #pragma mark - Navigation
 
