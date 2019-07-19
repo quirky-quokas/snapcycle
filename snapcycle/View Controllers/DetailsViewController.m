@@ -48,7 +48,9 @@
         self.categoryImageView.image = self.image;
     }
 }
+
 - (IBAction)recycleTrash:(id)sender {
+    self.landfillButton.enabled = NO;
     Trash *newTrash = [Trash new];
     
     newTrash.category = self.category;
@@ -75,9 +77,12 @@
             NSString *alertTitle = @"Could not recycle trash";
             [self showAlertwithTitle:alertTitle];
         }
+        self.landfillButton.enabled = YES;
     }];
 }
+
 - (IBAction)compostTrash:(id)sender {
+    self.landfillButton.enabled = NO;
     Trash *newTrash = [Trash new];
     
     newTrash.category = self.category;
@@ -104,9 +109,12 @@
             NSString *alertTitle = @"Could not compost trash";
             [self showAlertwithTitle:alertTitle];
         }
+        self.landfillButton.enabled = YES;
     }];
 }
+
 - (IBAction)throwAwayTrash:(id)sender {
+    self.landfillButton.enabled = NO;
     Trash *newTrash = [Trash new];
     
     newTrash.category = self.category;
@@ -133,6 +141,7 @@
             NSString *alertTitle = @"Could not throw away trash";
             [self showAlertwithTitle:alertTitle];
         }
+        self.landfillButton.enabled = YES;
     }];
 }
 
@@ -149,6 +158,7 @@
     }];
 
 }
+
 /*
 #pragma mark - Navigation
 
