@@ -15,8 +15,10 @@
 #import <UIKit/UIKit.h>
 #import "Category.h"
 #import "TabBarController.h"
+#import "DetailsViewController.h"
+#import "RegisterViewController.h"
 
-@interface ProfileViewController ()
+@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
@@ -195,6 +197,39 @@
     }];
 }
 
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    
+    UIImage *editedImage = info[UIImagePickerControllerEditedImage];
+    
+    self.profileImage.image = editedImage;
+    SnapUser *currentUser = [SnapUser currentUser];
+    CGFloat imageWidth = editedImage.size.width/3;
+    CGFloat imageHeight = editedImage.size.height/3;
+    CGSize size = CGSizeMake(imageWidth, imageHeight);
+    UIImage *resizedImage = [DetailsViewController imageWithImage:editedImage scaledToFillSize:size];
+    currentUser.profImage = [RegisterViewController getPFFileFromImage:resizedImage];
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+    }];
+    
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)onTapEditPic:(id)sender {
+    UIImagePickerController *imagePickerVC = [UIImagePickerController new];
+    imagePickerVC.delegate = self;
+    imagePickerVC.allowsEditing = YES;
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+    }
+    else {
+        imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
+    
+}
 /*
 #pragma mark - Navigation
 
