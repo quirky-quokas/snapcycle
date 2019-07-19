@@ -10,6 +10,7 @@
 #import "CategoriesCell.h"
 #import "DetailsViewController.h"
 #import "Category.h"
+#import "TabBarController.h"
 
 @interface CategoriesViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate, DetailsViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *categoriesCollectionView;
@@ -68,16 +69,7 @@
 }
 
 - (void) postedTrash:(NSString*)message {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Good work!" message:message preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    
-    [alert addAction:okAction];
-    
-    [self presentViewController:alert animated:YES completion:^{
-        
-    }];
+    [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Good work"message:message];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {

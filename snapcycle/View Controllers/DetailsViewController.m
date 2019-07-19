@@ -12,6 +12,7 @@
 #import "RegisterViewController.h"
 #import "SnapUser.h"
 #import "Trash.h"
+#import "TabBarController.h"
 
 @interface DetailsViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -40,6 +41,7 @@
             }
             else {
                 NSLog(@"%@",error.localizedDescription);
+                [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:error.localizedDescription];
             }
             
         }];
@@ -74,8 +76,7 @@
             [self.delegate postedTrash:message];
         }
         else {
-            NSString *alertTitle = @"Could not recycle trash";
-            [self showAlertwithTitle:alertTitle];
+            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Could not recycle trash" message:error.localizedDescription];
         }
         self.landfillButton.enabled = YES;
     }];
@@ -106,8 +107,7 @@
             [self.delegate postedTrash:message];
         }
         else {
-            NSString *alertTitle = @"Could not compost trash";
-            [self showAlertwithTitle:alertTitle];
+            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Could not compost trash" message:error.localizedDescription];
         }
         self.landfillButton.enabled = YES;
     }];
@@ -138,25 +138,10 @@
             [self.delegate postedTrash:message];
         }
         else {
-            NSString *alertTitle = @"Could not throw away trash";
-            [self showAlertwithTitle:alertTitle];
+            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Could not throw away trash" message:error.localizedDescription];
         }
         self.landfillButton.enabled = YES;
     }];
-}
-
-- (void) showAlertwithTitle:(NSString*)title {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:@"Please try again" preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    
-    [alert addAction:okAction];
-    
-    [self presentViewController:alert animated:YES completion:^{
-        
-    }];
-
 }
 
 /*
