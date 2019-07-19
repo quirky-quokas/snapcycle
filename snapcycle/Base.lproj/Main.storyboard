@@ -336,11 +336,39 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Become a better Snapcycler!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ez6-Tx-hq7">
+                                        <rect key="frame" x="8" y="389" width="262" height="27"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PUB-2D-9IQ" customClass="HIChartView">
                                         <rect key="frame" x="8" y="121" width="359" height="260"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You've disposed 100 items incorrectly" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0R-4K-9rQ">
+                                        <rect key="frame" x="8" y="426" width="359" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="- 100 items thrown in the landfill that could have been composted" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rvf-Kx-T3f">
+                                        <rect key="frame" x="16" y="502" width="351" height="54"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="- 100 items thrown in the landfill that could have been recycled" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XqI-fK-KIY">
+                                        <rect key="frame" x="16" y="449" width="351" height="54"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                             </scrollView>
                         </subviews>
@@ -358,8 +386,11 @@
                     <size key="freeformSize" width="375" height="1000"/>
                     <connections>
                         <outlet property="chartView" destination="PUB-2D-9IQ" id="SeE-I2-Cs4"/>
+                        <outlet property="landfillCanCompostLabel" destination="rvf-Kx-T3f" id="w7R-Ed-xiF"/>
+                        <outlet property="landfillCanRecycleLabel" destination="XqI-fK-KIY" id="uqT-JW-U5X"/>
                         <outlet property="profileImage" destination="XiW-Ii-sVt" id="amY-Af-no2"/>
                         <outlet property="scrollView" destination="bze-sv-Rwe" id="0CS-jW-gNa"/>
+                        <outlet property="totalIncorrectLabel" destination="c0R-4K-9rQ" id="dCq-4z-q6s"/>
                         <outlet property="welcomeLabel" destination="1Io-49-qxH" id="K13-OX-7jk"/>
                     </connections>
                 </viewController>

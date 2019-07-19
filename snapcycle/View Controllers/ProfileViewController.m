@@ -28,6 +28,11 @@
 @property int recyclingItemCount;
 @property int landfillItemCount;
 
+// Improve
+@property (weak, nonatomic) IBOutlet UILabel *totalIncorrectLabel;
+@property (weak, nonatomic) IBOutlet UILabel *landfillCanRecycleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *landfillCanCompostLabel;
+
 @end
 
 @implementation ProfileViewController
@@ -52,6 +57,8 @@
 
 
 - (void)refreshUserActionStats {
+    [self updateWaysToImprove];
+    
     // Create dispatch group so that pie chart is only set up after all three queries
     dispatch_group_t queryGroup = dispatch_group_create();
     
@@ -76,6 +83,67 @@
         NSLog(@"all completed");
         [self updatePieChartData];
     });
+}
+
+- (void)updateWaysToImprove {
+    [self updateTotalIncorrect];
+    [self updateLandfillCouldHaveRecycled];
+    [self updateLandfillCouldHaveComposted];
+}
+
+-(void)updateTotalIncorrect {
+    PFQuery *categoryQuery = [Category query];
+    [categoryQuery includeKey:@"type"];
+    
+    NSLog(@"%@", [categoryQuery findObjects]);
+    
+    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
+    
+    // User's trash objects where they did the wrong thing
+    [trashQuery whereKey:@"userAction" doesNotMatchKey:@"type" inQuery:categoryQuery];
+    [trashQuery includeKey:@"category"];
+    
+    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
+        self.totalIncorrectLabel.text = [NSString stringWithFormat:@"You've disposed %i items incorrectly", number];
+    }];
+}
+
+-(void)updateLandfillCouldHaveRecycled {
+    // Update landfill could have been recycled
+    // Identify recyclable items
+    PFQuery *categoryQuery = [Category query];
+    [categoryQuery whereKey:@"type" equalTo:@"recycling"];
+    
+    // Get user's items that they put in the landfill
+    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
+    [trashQuery whereKey:@"userAction" equalTo:@"landfill"];
+    
+    // Only include items that are in the category of type recycling
+    [trashQuery includeKey:@"category"];
+    [trashQuery whereKey:@"category" matchesQuery:categoryQuery];
+    
+    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
+        self.landfillCanRecycleLabel.text = [NSString stringWithFormat:@"- %i items thrown in the landfill that could have been recycled", number];
+    }];
+}
+
+-(void)updateLandfillCouldHaveComposted {
+    // Update compost could have been recycled
+    // Identify recyclable items
+    PFQuery *categoryQuery = [Category query];
+    [categoryQuery whereKey:@"type" equalTo:@"compost"];
+    
+    // Get user's items that they put in the landfill
+    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
+    [trashQuery whereKey:@"userAction" equalTo:@"landfill"];
+    
+    // Only include items that are in the category of type recycling
+    [trashQuery includeKey:@"category"];
+    [trashQuery whereKey:@"category" matchesQuery:categoryQuery];
+    
+    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
+        self.landfillCanCompostLabel.text = [NSString stringWithFormat:@"- %i items thrown in the landfill that could have been composted", number];
+    }];
 }
 
 // Count objects for the specified user action (how the user disposed of the trash regardless of what they wre supposed to do.
