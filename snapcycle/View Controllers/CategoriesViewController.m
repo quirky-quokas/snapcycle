@@ -108,6 +108,8 @@
     self.categoriesSearchBar.showsCancelButton = NO;
     self.categoriesSearchBar.text = @"";
     [self.categoriesSearchBar resignFirstResponder];
+    self.filteredCategories = self.categories;
+    [self.categoriesCollectionView reloadData];
 }
 
 

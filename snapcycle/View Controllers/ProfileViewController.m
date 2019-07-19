@@ -163,8 +163,10 @@
 - (void)setProfilePicture {
     self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
     PFFileObject *imageFile = [SnapUser currentUser].profImage;
-    UIImage *image = [UIImage imageWithData:imageFile.getData];
-    self.profileImage.image = image;
+    [imageFile getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
+        UIImage *image = [UIImage imageWithData:data];
+        self.profileImage.image = image;
+    }];
 }
 
 /**

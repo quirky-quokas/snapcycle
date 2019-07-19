@@ -7,6 +7,9 @@
 //
 
 #import "DetailsViewController.h"
+#import "CameraViewController.h"
+#import "CategoriesViewController.h"
+#import "RegisterViewController.h"
 #import "SnapUser.h"
 #import "Trash.h"
 
@@ -28,17 +31,22 @@
     self.nameLabel.text = self.category.name;
     self.infoLabel.text = self.category.info;
     
-    PFFileObject *image = self.category.image;
-    [image getDataInBackgroundWithBlock:^(NSData * data, NSError * error) {
-        if (!error) {
-            UIImage *imageToLoad = [UIImage imageWithData:data];
-            [self.categoryImageView setImage:imageToLoad];
-        }
-        else {
-            NSLog(@"%@",error.localizedDescription);
-        }
-        
-    }];
+    if ([(NSObject*)self.delegate isKindOfClass:[CategoriesViewController class]]) {
+        PFFileObject *image = self.category.image;
+        [image getDataInBackgroundWithBlock:^(NSData * data, NSError * error) {
+            if (!error) {
+                UIImage *imageToLoad = [UIImage imageWithData:data];
+                [self.categoryImageView setImage:imageToLoad];
+            }
+            else {
+                NSLog(@"%@",error.localizedDescription);
+            }
+            
+        }];
+    }
+    else {
+        self.categoryImageView.image = self.image;
+    }
 }
 - (IBAction)recycleTrash:(id)sender {
     Trash *newTrash = [Trash new];
@@ -46,7 +54,12 @@
     newTrash.category = self.category;
     newTrash.userAction = @"recycling";
     newTrash.user = [SnapUser currentUser];
-    newTrash.image = self.category.image;
+    if ([(NSObject*)self.delegate isKindOfClass:[CategoriesViewController class]]) {
+        newTrash.image = self.category.image;
+    }
+    else {
+        newTrash.image = [RegisterViewController getPFFileFromImage:self.image];
+    }
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
@@ -70,7 +83,12 @@
     newTrash.category = self.category;
     newTrash.userAction = @"compost";
     newTrash.user = [SnapUser currentUser];
-    newTrash.image = self.category.image;
+    if ([(NSObject*)self.delegate isKindOfClass:[CategoriesViewController class]]) {
+        newTrash.image = self.category.image;
+    }
+    else {
+        newTrash.image = [RegisterViewController getPFFileFromImage:self.image];
+    }
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
@@ -94,7 +112,12 @@
     newTrash.category = self.category;
     newTrash.userAction = @"landfill";
     newTrash.user = [SnapUser currentUser];
-    newTrash.image = self.category.image;
+    if ([(NSObject*)self.delegate isKindOfClass:[CategoriesViewController class]]) {
+        newTrash.image = self.category.image;
+    }
+    else {
+        newTrash.image = [RegisterViewController getPFFileFromImage:self.image];
+    }
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
