@@ -12,6 +12,7 @@
 #import "RegisterViewController.h"
 #import "SnapUser.h"
 #import "Trash.h"
+#import "TabBarController.h"
 
 @interface DetailsViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -40,6 +41,7 @@
             }
             else {
                 NSLog(@"%@",error.localizedDescription);
+                [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:error.localizedDescription];
             }
             
         }];
@@ -60,7 +62,11 @@
         newTrash.image = self.category.image;
     }
     else {
-        newTrash.image = [RegisterViewController getPFFileFromImage:self.image];
+        CGFloat imageWidth = [UIScreen mainScreen].bounds.size.width/3;
+        CGFloat imageHeight = [UIScreen mainScreen].bounds.size.height/3;
+        CGSize size = CGSizeMake(imageWidth, imageHeight);
+        UIImage *resizedImage = [self imageWithImage:self.image scaledToFillSize:size];
+        newTrash.image = [RegisterViewController getPFFileFromImage:resizedImage];
     }
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
@@ -74,8 +80,7 @@
             [self.delegate postedTrash:message];
         }
         else {
-            NSString *alertTitle = @"Could not recycle trash";
-            [self showAlertwithTitle:alertTitle];
+            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Could not recycle trash" message:error.localizedDescription];
         }
         self.landfillButton.enabled = YES;
     }];
@@ -92,7 +97,11 @@
         newTrash.image = self.category.image;
     }
     else {
-        newTrash.image = [RegisterViewController getPFFileFromImage:self.image];
+        CGFloat imageWidth = [UIScreen mainScreen].bounds.size.width/3;
+        CGFloat imageHeight = [UIScreen mainScreen].bounds.size.height/3;
+        CGSize size = CGSizeMake(imageWidth, imageHeight);
+        UIImage *resizedImage = [self imageWithImage:self.image scaledToFillSize:size];
+        newTrash.image = [RegisterViewController getPFFileFromImage:resizedImage];
     }
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
@@ -106,8 +115,7 @@
             [self.delegate postedTrash:message];
         }
         else {
-            NSString *alertTitle = @"Could not compost trash";
-            [self showAlertwithTitle:alertTitle];
+            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Could not compost trash" message:error.localizedDescription];
         }
         self.landfillButton.enabled = YES;
     }];
@@ -124,7 +132,12 @@
         newTrash.image = self.category.image;
     }
     else {
-        newTrash.image = [RegisterViewController getPFFileFromImage:self.image];
+        CGFloat imageWidth = [UIScreen mainScreen].bounds.size.width/3;
+        CGFloat imageHeight = [UIScreen mainScreen].bounds.size.height/3;
+        CGSize size = CGSizeMake(imageWidth, imageHeight);
+        UIImage *resizedImage = [self imageWithImage:self.image scaledToFillSize:size];
+        newTrash.image = [RegisterViewController getPFFileFromImage:resizedImage];
+
     }
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
@@ -138,25 +151,27 @@
             [self.delegate postedTrash:message];
         }
         else {
-            NSString *alertTitle = @"Could not throw away trash";
-            [self showAlertwithTitle:alertTitle];
+            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Could not throw away trash" message:error.localizedDescription];
         }
         self.landfillButton.enabled = YES;
     }];
 }
 
-- (void) showAlertwithTitle:(NSString*)title {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:@"Please try again" preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
+- (UIImage *)imageWithImage:(UIImage *)image scaledToFillSize:(CGSize)size
+{
+    CGFloat scale = MAX(size.width/image.size.width, size.height/image.size.height);
+    CGFloat width = image.size.width * scale;
+    CGFloat height = image.size.height * scale;
+    CGRect imageRect = CGRectMake((size.width - width)/2.0f,
+                                  (size.height - height)/2.0f,
+                                  width,
+                                  height);
     
-    [alert addAction:okAction];
-    
-    [self presentViewController:alert animated:YES completion:^{
-        
-    }];
-
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+    [image drawInRect:imageRect];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 /*

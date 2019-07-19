@@ -14,6 +14,7 @@
 #import <Highcharts/Highcharts.h>
 #import <UIKit/UIKit.h>
 #import "Category.h"
+#import "TabBarController.h"
 
 @interface ProfileViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -176,9 +177,8 @@
     // Logout user
     [SnapUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
         if (error) {
-            UIAlertController *alert = [LoginViewController createErrorAlertWithOKAndMessage:error.localizedDescription];
-            [self presentViewController:alert animated:YES completion:nil];
-            NSLog(@"Error logging out: %@", error.localizedDescription);
+            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:error.localizedDescription];
+            NSLog(@"Error logging out (refactored alert): %@", error.localizedDescription);
         } else {
             // Return to login screen
             // Get single instance of app delegate
