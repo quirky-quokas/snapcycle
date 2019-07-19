@@ -65,7 +65,7 @@
         CGFloat imageWidth = [UIScreen mainScreen].bounds.size.width/3;
         CGFloat imageHeight = [UIScreen mainScreen].bounds.size.height/3;
         CGSize size = CGSizeMake(imageWidth, imageHeight);
-        UIImage *resizedImage = [self imageWithImage:self.image scaledToFillSize:size];
+        UIImage *resizedImage = [DetailsViewController imageWithImage:self.image scaledToFillSize:size];
         newTrash.image = [RegisterViewController getPFFileFromImage:resizedImage];
     }
     
@@ -100,7 +100,7 @@
         CGFloat imageWidth = [UIScreen mainScreen].bounds.size.width/3;
         CGFloat imageHeight = [UIScreen mainScreen].bounds.size.height/3;
         CGSize size = CGSizeMake(imageWidth, imageHeight);
-        UIImage *resizedImage = [self imageWithImage:self.image scaledToFillSize:size];
+        UIImage *resizedImage = [DetailsViewController imageWithImage:self.image scaledToFillSize:size];
         newTrash.image = [RegisterViewController getPFFileFromImage:resizedImage];
     }
     
@@ -135,7 +135,7 @@
         CGFloat imageWidth = [UIScreen mainScreen].bounds.size.width/3;
         CGFloat imageHeight = [UIScreen mainScreen].bounds.size.height/3;
         CGSize size = CGSizeMake(imageWidth, imageHeight);
-        UIImage *resizedImage = [self imageWithImage:self.image scaledToFillSize:size];
+        UIImage *resizedImage = [DetailsViewController imageWithImage:self.image scaledToFillSize:size];
         newTrash.image = [RegisterViewController getPFFileFromImage:resizedImage];
 
     }
@@ -157,7 +157,7 @@
     }];
 }
 
-- (UIImage *)imageWithImage:(UIImage *)image scaledToFillSize:(CGSize)size
++ (UIImage *)imageWithImage:(UIImage *)image scaledToFillSize:(CGSize)size
 {
     CGFloat scale = MAX(size.width/image.size.width, size.height/image.size.height);
     CGFloat width = image.size.width * scale;

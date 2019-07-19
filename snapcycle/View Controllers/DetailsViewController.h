@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) Category *category;
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, weak) id<DetailsViewControllerDelegate> delegate;
++ (UIImage *)imageWithImage:(UIImage *)image scaledToFillSize:(CGSize)size;
 @end
 
 NS_ASSUME_NONNULL_END
