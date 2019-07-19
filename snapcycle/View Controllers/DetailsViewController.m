@@ -31,17 +31,22 @@
     self.nameLabel.text = self.category.name;
     self.infoLabel.text = self.category.info;
     
-    PFFileObject *image = self.category.image;
-    [image getDataInBackgroundWithBlock:^(NSData * data, NSError * error) {
-        if (!error) {
-            UIImage *imageToLoad = [UIImage imageWithData:data];
-            [self.categoryImageView setImage:imageToLoad];
-        }
-        else {
-            NSLog(@"%@",error.localizedDescription);
-        }
-        
-    }];
+    if ([(NSObject*)self.delegate isKindOfClass:[CategoriesViewController class]]) {
+        PFFileObject *image = self.category.image;
+        [image getDataInBackgroundWithBlock:^(NSData * data, NSError * error) {
+            if (!error) {
+                UIImage *imageToLoad = [UIImage imageWithData:data];
+                [self.categoryImageView setImage:imageToLoad];
+            }
+            else {
+                NSLog(@"%@",error.localizedDescription);
+            }
+            
+        }];
+    }
+    else {
+        self.categoryImageView.image = self.image;
+    }
 }
 - (IBAction)recycleTrash:(id)sender {
     Trash *newTrash = [Trash new];
