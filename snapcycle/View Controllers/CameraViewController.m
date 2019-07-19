@@ -12,6 +12,7 @@
 #import "AVFoundation/AVFoundation.h"
 #import "DetailsViewController.h"
 #import "RegisterViewController.h"
+#import "TabBarController.h"
 
 @interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) UIImage *capturedImage;
@@ -60,6 +61,7 @@
     // select input device
     self.backCamera = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     if (!self.backCamera) {
+        [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:@"Unable to access back camera"];
         NSLog(@"Unable to access back camera");
     }
     
@@ -67,6 +69,7 @@
     NSError *error;
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:self.backCamera error:&error];
     if (error) {
+        [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:error.localizedDescription];
         NSLog(@"Error: Unable to initialize back camera: %@", error.localizedDescription);
     } else {
         self.stillImageOutput = [AVCapturePhotoOutput new];
@@ -164,16 +167,7 @@
  DetailsViewControllerDelegate method. Posts an alert to show trash was posted successfully.
  */
 - (void)postedTrash:(nonnull NSString *)message {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Good work!" message:message preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    
-    [alert addAction:okAction];
-    
-    [self presentViewController:alert animated:YES completion:^{
-        
-    }];
+    [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Good work!" message:message];
 }
 
 @end
