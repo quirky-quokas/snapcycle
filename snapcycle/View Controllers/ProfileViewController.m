@@ -203,16 +203,19 @@
     
     self.profileImage.image = editedImage;
     SnapUser *currentUser = [SnapUser currentUser];
-    CGFloat imageWidth = editedImage.size.width/3;
-    CGFloat imageHeight = editedImage.size.height/3;
+    CGFloat imageWidth = editedImage.size.width/2;
+    CGFloat imageHeight = editedImage.size.height/2;
     CGSize size = CGSizeMake(imageWidth, imageHeight);
     UIImage *resizedImage = [DetailsViewController imageWithImage:editedImage scaledToFillSize:size];
     currentUser.profImage = [RegisterViewController getPFFileFromImage:resizedImage];
     [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (error) {
+            NSString *title = @"Could not upload photo";
+            NSString *message = @"Please try again";
+            [(TabBarController*) self.tabBarController showOKAlertWithTitle:title message:message];
+        }
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
-    
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)onTapEditPic:(id)sender {
