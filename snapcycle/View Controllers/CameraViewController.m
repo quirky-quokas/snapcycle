@@ -13,6 +13,9 @@
 #import "DetailsViewController.h"
 #import "RegisterViewController.h"
 #import "TabBarController.h"
+#import "MobileNetV2.h"
+#import <Vision/Vision.h>
+
 
 @interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) UIImage *capturedImage;
@@ -21,6 +24,11 @@
 @property (strong, nonatomic) AVCapturePhotoOutput *stillImageOutput;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 @property (strong, nonatomic) AVCaptureDevice *backCamera;
+
+// Image recognition
+@property (strong, nonatomic) MLModel *model;
+@property (strong, nonatomic) VNCoreMLModel *coreModel;
+@property (strong, nonatomic) VNCoreMLRequest *request;
 
 @end
 
@@ -41,6 +49,24 @@
     self.previewView.userInteractionEnabled = YES;
     pinchGR.cancelsTouchesInView = NO;
     pinchGR.delegate = self;
+    
+    [self setUpImageRecognition];
+}
+
+- (void) setUpImageRecognition {
+    NSLog(@"Setting up image recognition");
+    self.model = [[[MobileNetV2 alloc] init] model];
+    self.coreModel = [VNCoreMLModel modelForMLModel:self.model error:nil];
+    
+    // Request to process image. completion handler will be called when a request handler is called with this request
+    self.request = [[VNCoreMLRequest alloc] initWithModel: self.coreModel completionHandler: (VNRequestCompletionHandler) ^(VNRequest *request, NSError *error){
+        // TODO: why does this need to be in the dispatch thing?
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Log results
+            NSLog(@"Logging results:");
+            NSLog(@"%@", request.results);
+        });
+    }];
 }
 
 /**
@@ -143,10 +169,32 @@
     if (imageData) {
         UIImage *image = [UIImage imageWithData:imageData];
         self.capturedImage = image;
+        [self recognizeImage];
         
         // segue to detailsVC
         [self performSegueWithIdentifier:@"segueToDetailsVC" sender:self];
     }
+}
+
+/**
+ Process image for image recognition
+ */
+- (void)recognizeImage {
+    NSLog(@"Recognizing image");
+    // Convert to CI image so that image recognition can analyze it
+    CIImage *ciImage = [[CIImage alloc] initWithCGImage:self.capturedImage.CGImage];
+    
+    NSDictionary *options = [[NSDictionary alloc] init];
+    NSArray *requestArray = @[self.request];
+    
+    // Create image recognition request for iamge
+    VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCIImage:ciImage options:options];
+    
+    // TODO: should this be synchronous or a sync?
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        NSLog(@"handler dispatch");
+        [handler performRequests:requestArray error:nil];
+    });
 }
 
 #pragma mark - Navigation
