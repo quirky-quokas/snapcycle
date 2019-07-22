@@ -10,7 +10,7 @@
 #import "Parse/Parse.h"
 
 @implementation Competition
-@dynamic userArray;
+@dynamic participantArray;
 @dynamic startDate;
 @dynamic endDate;
 
