@@ -14,6 +14,7 @@
 		8479E90C22DE5C6B009174E7 /* Trash.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E90B22DE5C6B009174E7 /* Trash.m */; };
 		8479E90F22DE5F90009174E7 /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E90E22DE5F90009174E7 /* Category.m */; };
 		8479E91522DE638E009174E7 /* SnapUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E91422DE638E009174E7 /* SnapUser.m */; };
+		84EC731922E62A2F00F37CA5 /* PhotoLogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */; };
 		B1320C4D22DE407E00A38B16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B1320C4C22DE407E00A38B16 /* AppDelegate.m */; };
 		B1320C5322DE407E00A38B16 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1320C5122DE407E00A38B16 /* Main.storyboard */; };
 		B1320C5522DE407E00A38B16 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1320C5422DE407E00A38B16 /* Assets.xcassets */; };
@@ -60,6 +61,8 @@
 		8479E90E22DE5F90009174E7 /* Category.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
 		8479E91322DE638E009174E7 /* SnapUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SnapUser.h; sourceTree = "<group>"; };
 		8479E91422DE638E009174E7 /* SnapUser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SnapUser.m; sourceTree = "<group>"; };
+		84EC731722E62A2F00F37CA5 /* PhotoLogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoLogCell.h; sourceTree = "<group>"; };
+		84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoLogCell.m; sourceTree = "<group>"; };
 		8EDE53E7A1B1342228638389 /* Pods-snapcycleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleTests.debug.xcconfig"; path = "Target Support Files/Pods-snapcycleTests/Pods-snapcycleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B1320C4822DE407E00A38B16 /* snapcycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = snapcycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1320C4B22DE407E00A38B16 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -151,6 +154,8 @@
 			children = (
 				844856EE22DFBF7100CC5600 /* CategoriesCell.h */,
 				844856EF22DFBF7100CC5600 /* CategoriesCell.m */,
+				84EC731722E62A2F00F37CA5 /* PhotoLogCell.h */,
+				84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -483,6 +488,7 @@
 				844856F022DFBF7100CC5600 /* CategoriesCell.m in Sources */,
 				B1320C4D22DE407E00A38B16 /* AppDelegate.m in Sources */,
 				B16C81F122DE643B00E72713 /* CategoriesViewController.m in Sources */,
+				84EC731922E62A2F00F37CA5 /* PhotoLogCell.m in Sources */,
 				B1320C8022DE5BA200A38B16 /* LoginViewController.m in Sources */,
 				B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */,
 				B1320C8322DE5BF700A38B16 /* RegisterViewController.m in Sources */,

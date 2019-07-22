@@ -17,8 +17,9 @@
 #import "TabBarController.h"
 #import "DetailsViewController.h"
 #import "RegisterViewController.h"
+#import "Trash.h"
 
-@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
@@ -29,6 +30,8 @@
 @property int compostItemCount;
 @property int recyclingItemCount;
 @property int landfillItemCount;
+
+@property (strong, nonatomic) NSArray *trash;
 
 @end
 
@@ -233,6 +236,34 @@
     [self presentViewController:imagePickerVC animated:YES completion:nil];
     
 }
+
+- (void) fetchTrash {
+    PFQuery *photoQuery = [[SnapUser currentUser].trashArray query];
+    [photoQuery orderByDescending:@"createdAt"];
+    [photoQuery findObjectsInBackgroundWithBlock:^(NSArray<Trash *> * _Nullable trash, NSError * _Nullable error) {
+        if (trash) {
+            // do something with the data fetched
+            self.trash = trash;
+            
+            // reload data
+            
+        }
+        else {
+            // handle error
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+    
+}
+
+/*
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 5;
+}
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+}
+*/
 /*
 #pragma mark - Navigation
 
