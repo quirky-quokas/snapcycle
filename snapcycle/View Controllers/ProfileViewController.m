@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
+@property (weak, nonatomic) IBOutlet UICollectionView *photoCollectionView;
 
 // Graph
 @property (weak, nonatomic) IBOutlet HIChartView *chartView;

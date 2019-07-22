@@ -11,6 +11,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PhotoLogCell : UICollectionViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *trashImageView;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *typeLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *markerImageView;
 
 @end
 
