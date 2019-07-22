@@ -54,7 +54,6 @@
 }
 
 - (void) setUpImageRecognition {
-    NSLog(@"Setting up image recognition");
     self.model = [[[MobileNetV2 alloc] init] model];
     self.coreModel = [VNCoreMLModel modelForMLModel:self.model error:nil];
     
@@ -180,7 +179,6 @@
  Process image for image recognition
  */
 - (void)recognizeImage {
-    NSLog(@"Recognizing image");
     // Convert to CI image so that image recognition can analyze it
     CIImage *ciImage = [[CIImage alloc] initWithCGImage:self.capturedImage.CGImage];
     
@@ -191,7 +189,7 @@
     VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCIImage:ciImage options:options];
     
     // TODO: should this be synchronous or a sync?
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         NSLog(@"handler dispatch");
         [handler performRequests:requestArray error:nil];
     });
