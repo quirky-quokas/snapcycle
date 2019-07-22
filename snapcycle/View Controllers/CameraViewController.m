@@ -15,6 +15,7 @@
 #import "TabBarController.h"
 #import "MobileNetV2.h"
 #import <Vision/Vision.h>
+#import "Category.h"
 
 
 @interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate>
@@ -29,6 +30,9 @@
 @property (strong, nonatomic) MLModel *model;
 @property (strong, nonatomic) VNCoreMLModel *coreModel;
 @property (strong, nonatomic) VNCoreMLRequest *request;
+
+@property (strong, nonatomic) NSArray<Category*> *categories;
+@property (strong, nonatomic) Category *identifiedCategory;
 
 @end
 
@@ -50,6 +54,12 @@
     pinchGR.cancelsTouchesInView = NO;
     pinchGR.delegate = self;
     
+    // Fetch categories
+    PFQuery *categoryQuery = [Category query];
+    [categoryQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        self.categories = (NSArray<Category*>*)objects;
+    }];
+    
     [self setUpImageRecognition];
 }
 
@@ -61,9 +71,35 @@
     self.request = [[VNCoreMLRequest alloc] initWithModel: self.coreModel completionHandler: (VNRequestCompletionHandler) ^(VNRequest *request, NSError *error){
         // TODO: why does this need to be in the dispatch thing?
         dispatch_async(dispatch_get_main_queue(), ^{
-            // Log results
-            NSLog(@"Logging results:");
-            NSLog(@"%@", request.results);
+            // Default to "Other" category if no matches are found
+            // TODO: Assumes that Other will be the last category, which doesn't seem like a good practice, but don't want to make another request
+            self.identifiedCategory = self.categories[self.categories.count - 1];
+            
+            BOOL categoryIdentified = NO;
+            int i = 0;
+            const int NUM_GUESSES_TO_CONSIDER = 10;
+            
+            // While we have yet to pick a guess and have not met threshold
+            while (!categoryIdentified && i < NUM_GUESSES_TO_CONSIDER) {
+                // Consider each guess in order (starting from highest confidence)
+                VNClassificationObservation *result = request.results[i];
+                NSString *guess = result.identifier;
+                NSLog(@"%@", guess);
+                
+                // Check to see if guess matches one of the categories
+                int j = 0;
+                while (!categoryIdentified && j < self.categories.count) {
+                    Category *category = self.categories[j];
+                    if ([guess localizedCaseInsensitiveContainsString:category.name]) {
+                        NSLog(@"Match found! Guess: %@, Category: %@", guess, category.name);
+                        self.identifiedCategory = category;
+                        categoryIdentified = YES;
+                    }
+                }
+            }
+            
+            // Segue to details view
+            [self performSegueWithIdentifier:@"segueToDetailsVC" sender:self];
         });
     }];
 }
@@ -171,7 +207,7 @@
         [self recognizeImage];
         
         // segue to detailsVC
-        [self performSegueWithIdentifier:@"segueToDetailsVC" sender:self];
+        //self performSegueWithIdentifier:@"segueToDetailsVC" sender:self];
     }
 }
 
@@ -190,7 +226,6 @@
     
     // TODO: should this be synchronous or a sync?
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSLog(@"handler dispatch");
         [handler performRequests:requestArray error:nil];
     });
 }
@@ -201,10 +236,17 @@
  Prepare for segue to DetailsVC with data to send.
  */
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSLog("SEgueing");
     DetailsViewController *detailsViewController = [segue destinationViewController];
     
+    /*
     PFQuery *categoryQuery = [PFQuery queryWithClassName:@"Category"];
     detailsViewController.category = [categoryQuery getObjectWithId:@"u42Xiik8ok"];
+     */
+    
+    detailsViewController.category = self.identifiedCategory;
+    
+    
     detailsViewController.image = self.capturedImage;
     detailsViewController.delegate = self;
 }
