@@ -13,6 +13,7 @@
 #import "DetailsViewController.h"
 #import "RegisterViewController.h"
 #import "TabBarController.h"
+#import "FocusFrame.h"
 
 @interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) UIImage *capturedImage;
@@ -35,12 +36,19 @@
     // instantiate the camera
     [self initializeCamera];
     
-    // instantiate the gesture recognizers
+    // instantiate the pinch gesture recognizer (zoom)
     UIPinchGestureRecognizer *pinchGR = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchZoom:)];
     [self.previewView addGestureRecognizer:pinchGR];
     self.previewView.userInteractionEnabled = YES;
     pinchGR.cancelsTouchesInView = NO;
     pinchGR.delegate = self;
+    
+    // instantiate the tap gesture recognizer (focus)
+    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFocus:)];
+    [self.previewView addGestureRecognizer:tapGR];
+    tapGR.numberOfTapsRequired = 1;
+    tapGR.numberOfTouchesRequired = 1;
+    tapGR.delegate = self;
 }
 
 /**
@@ -125,6 +133,53 @@
         }
     }
 }
+
+/**
+ Enables tap to focus for the live preview.
+ */
+- (void)handleTapFocus:(UITapGestureRecognizer *)tapGR{
+    // get the tapped point
+    CGPoint tapPoint = [tapGR locationInView:self.previewView];
+    
+    if([self.backCamera isFocusPointOfInterestSupported] && [self.backCamera isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        double screenWidth = screenRect.size.width;
+        double screenHeight = screenRect.size.height;
+        double focusX = tapPoint.x/screenWidth;
+        double focusY = tapPoint.y/screenHeight;
+        
+        // set focus and exposure modes
+        NSError *error = nil;
+        if ([self.backCamera lockForConfiguration:&error]) {
+            [self.backCamera setFocusPointOfInterest:CGPointMake(focusX, focusY)];
+            [self.backCamera setFocusMode:AVCaptureFocusModeContinuousAutoFocus];
+            
+            if([self.backCamera isExposureModeSupported:AVCaptureExposureModeAutoExpose]) {
+                [self.backCamera setExposureMode:AVCaptureExposureModeAutoExpose];
+            }
+            [self.backCamera unlockForConfiguration];
+        }
+        
+        // draw frame around the tapped focus point
+        [self drawFocusFrame:tapPoint];
+    }
+}
+
+/**
+ Draws a focus frame around the point of focus the user has tapped.
+ */
+- (void)drawFocusFrame:(struct CGPoint)point{
+    CGRect frameRect = CGRectMake(point.x-40, point.y-40, 60, 60);
+    FocusFrame *focusFrame = [[FocusFrame alloc] initWithFrame:frameRect];
+    [self.previewView addSubview:focusFrame];
+    [focusFrame setNeedsDisplay];
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:1.5];
+    [focusFrame setAlpha:0.0];
+    [UIView commitAnimations];
+}
+
 
 /**
  The user tapped the "Take photo" button.
