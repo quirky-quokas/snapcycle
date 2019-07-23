@@ -64,10 +64,11 @@
     
     // set up layout for trash photo log
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *) self.photoCollectionView.collectionViewLayout;
-    layout.minimumInteritemSpacing = 3;
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     layout.minimumLineSpacing = 0;
-    CGFloat postersPerLine = 3;
-    CGFloat itemWidth = (self.photoCollectionView.frame.size.width - layout.minimumLineSpacing * (postersPerLine - 1)) / postersPerLine;
+    layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    CGFloat photosPerLine = 2;
+    CGFloat itemWidth = (self.photoCollectionView.frame.size.width - layout.minimumLineSpacing * (photosPerLine - 1)) / photosPerLine;
     CGFloat itemHeight = 130;
     layout.itemSize = CGSizeMake(itemWidth, itemHeight);
 }
@@ -307,9 +308,11 @@
 - (void) fetchTrash {
     PFQuery *photoQuery = [[SnapUser currentUser].trashArray query];
     [photoQuery orderByDescending:@"createdAt"];
+    [photoQuery includeKey:@"category"];
     [photoQuery findObjectsInBackgroundWithBlock:^(NSArray<Trash *> * _Nullable trash, NSError * _Nullable error) {
         if (trash) {
             self.trash = trash;
+            //NSLog(@"%@",self.trash);
             [self.photoCollectionView reloadData];
         }
         else {
@@ -327,7 +330,6 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PhotoLogCell *cell = [self.photoCollectionView dequeueReusableCellWithReuseIdentifier:@"PhotoLogCell" forIndexPath:indexPath];
     Trash *trash = self.trash[indexPath.item];
-    
     [cell setPhotoLogCell:trash];
     return cell;
 }
