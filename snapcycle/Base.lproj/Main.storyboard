@@ -307,14 +307,43 @@
                     <view key="view" contentMode="scaleToFill" id="ymf-Bw-asX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c0X-OI-1qg">
+                                <rect key="frame" x="0.0" y="64" width="375" height="262"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Cb-tK-gdu">
+                                        <rect key="frame" x="115" y="160" width="145" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Join the competition!"/>
+                                        <connections>
+                                            <action selector="onJoinTap:" destination="SM7-ic-LZr" eventType="touchUpInside" id="MaN-QR-5Ff"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ready to show off your great snapcycling?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IVz-w0-lcw">
+                                        <rect key="frame" x="42" y="47" width="291" height="105"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="29"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="iKN-MS-cAg"/>
                     </view>
                     <navigationItem key="navigationItem" id="yRs-Hj-yLU"/>
+                    <connections>
+                        <outlet property="compView" destination="c0X-OI-1qg" id="a5K-Ew-07B"/>
+                        <outlet property="joinButton" destination="5Cb-tK-gdu" id="e17-8I-svR"/>
+                        <outlet property="joinPromptLabel" destination="IVz-w0-lcw" id="teN-bD-Dzh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zGf-p5-JQ7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1908" y="1627"/>
+            <point key="canvasLocation" x="1908" y="1626.8365817091455"/>
         </scene>
         <!--Categories-->
         <scene sceneID="ZH5-0l-dK0">
