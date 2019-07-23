@@ -13,7 +13,7 @@
 
 - (void) setPhotoLogCell: (Trash*) trash {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"dd-MM-yyyy"];
+    [formatter setDateFormat:@"MM/dd/yyyy"];
     NSString *dateString = [formatter stringFromDate:trash.createdAt];
     self.dateLabel.text = dateString;
     
@@ -30,6 +30,15 @@
         }
         
     }];
+    
+    if (trash.category.type != trash.userAction) {
+        UIImage *image = [UIImage imageNamed:@"red-x"];
+        self.markerImageView.image = image;
+    }
+    else {
+        UIImage *image = [UIImage imageNamed:@"star"];
+        self.markerImageView.image = image;
+    }
 }
 
 @end
