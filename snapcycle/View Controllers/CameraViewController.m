@@ -35,12 +35,19 @@
     // instantiate the camera
     [self initializeCamera];
     
-    // instantiate the gesture recognizers
+    // instantiate the pinch gesture recognizer (zoom)
     UIPinchGestureRecognizer *pinchGR = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchZoom:)];
     [self.previewView addGestureRecognizer:pinchGR];
     self.previewView.userInteractionEnabled = YES;
     pinchGR.cancelsTouchesInView = NO;
     pinchGR.delegate = self;
+    
+    // instantiate the tap gesture recognizer (focus)
+    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFocus:)];
+    [self.previewView addGestureRecognizer:tapGR];
+    tapGR.numberOfTapsRequired = 1;
+    tapGR.numberOfTouchesRequired = 1;
+    tapGR.delegate = self;
 }
 
 /**
@@ -124,6 +131,74 @@
             NSLog(@"Error with zoom: %@", error);
         }
     }
+}
+
+/**
+ Enables tap to focus for the live preview.
+ */
+- (void)handleTapFocus:(UITapGestureRecognizer *)tapGR{
+    // get the tapped point
+    CGPoint tapPoint = [tapGR locationInView:self.previewView];
+//    NSLog(@"tap point: %@", tapPoint);
+    
+    if([self.backCamera isFocusPointOfInterestSupported] && [self.backCamera isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        double screenWidth = screenRect.size.width;
+        double screenHeight = screenRect.size.height;
+        double focusX = tapPoint.x/screenWidth;
+        double focusY = tapPoint.y/screenHeight;
+        
+        NSLog(@"🌞 tap point X: %f", focusX);
+        NSLog(@"tap point Y: %f", focusY);
+
+
+        
+        // set focus and exposure modes, also draw focus frame
+        NSError *error = nil;
+        if ([self.backCamera lockForConfiguration:&error]) {
+            [self.backCamera setFocusPointOfInterest:CGPointMake(focusX, focusY)];
+//            [self.backCamera setFocusMode:AVCaptureFocusModeAutoFocus];
+            [self.backCamera setFocusMode:AVCaptureFocusModeContinuousAutoFocus];
+            
+            // DRAW FRAME ///////////
+            UIView *focusFrame = [self drawFocusFrameWithX:focusX WithY:focusY];
+            [self.previewView addSubview:focusFrame];
+            [focusFrame setNeedsDisplay];
+            
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:1.5];
+            [focusFrame setAlpha:0.0];
+            [UIView commitAnimations];
+            ////////////////////
+            
+            if([self.backCamera isExposureModeSupported:AVCaptureExposureModeAutoExpose]) {
+                [self.backCamera setExposureMode:AVCaptureExposureModeAutoExpose];
+            }
+            [self.backCamera unlockForConfiguration];
+        }
+    }
+}
+
+/**
+ Draws a focus frame around the point of focus the user has tapped.
+ */
+- (UIView *)drawFocusFrameWithX:(double)focusX WithY:(double)focusY {
+    NSLog(@"🌞 frame point X: %f", focusX);
+    NSLog(@"frame point Y: %f", focusY);
+    
+    // make the frame
+    UIView *frame = [[UIView alloc] initWithFrame:CGRectMake(focusX-40, focusY-40, 80, 80)];
+    [frame setBackgroundColor:[UIColor clearColor]];
+    [frame.layer setBorderWidth:2.0];
+    [frame.layer setBorderColor:[UIColor whiteColor].CGColor];
+    
+    // add animation?
+    CABasicAnimation *selectionAnimation = [CABasicAnimation animationWithKeyPath:@"borderColor"];
+    selectionAnimation.toValue = (id)[UIColor blueColor].CGColor;
+    selectionAnimation.repeatCount = 8;
+    [frame.layer addAnimation:selectionAnimation forKey:@"selectionAnimation"];
+    
+    return frame;
 }
 
 /**
