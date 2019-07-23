@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Competition : PFObject<PFSubclassing>
-@property (nonatomic, strong, readonly) PFRelation *userArray;
+@property (nonatomic, strong, readonly) PFRelation *participantArray;
 @property (nonatomic, strong) NSDate *startDate;
 @property (nonatomic, strong) NSDate *endDate;
 
