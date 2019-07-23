@@ -22,7 +22,7 @@
         [self.layer setBorderWidth:2.0];
         [self.layer setBorderColor:[UIColor whiteColor].CGColor];
         
-        // add animation?
+        // add blinking animation to frame
         CABasicAnimation *selectionAnimation = [CABasicAnimation animationWithKeyPath:@"borderColor"];
         selectionAnimation.toValue = (id)[UIColor blueColor].CGColor;
         selectionAnimation.repeatCount = 8;
