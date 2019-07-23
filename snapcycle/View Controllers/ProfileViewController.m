@@ -18,6 +18,7 @@
 #import "DetailsViewController.h"
 #import "RegisterViewController.h"
 #import "Trash.h"
+#import "PhotoLogCell.h"
 
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -53,6 +54,22 @@
     
     // set the welcome text
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
+    
+    // set collection view data source and delegate
+    self.photoCollectionView.delegate = self;
+    self.photoCollectionView.dataSource = self;
+    
+    // fetch trash objects
+    [self fetchTrash];
+    
+    // set up layout for trash photo log
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *) self.photoCollectionView.collectionViewLayout;
+    layout.minimumInteritemSpacing = 3;
+    layout.minimumLineSpacing = 0;
+    CGFloat postersPerLine = 3;
+    CGFloat itemWidth = (self.photoCollectionView.frame.size.width - layout.minimumLineSpacing * (postersPerLine - 1)) / postersPerLine;
+    CGFloat itemHeight = 130;
+    layout.itemSize = CGSizeMake(itemWidth, itemHeight);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -292,28 +309,30 @@
     [photoQuery orderByDescending:@"createdAt"];
     [photoQuery findObjectsInBackgroundWithBlock:^(NSArray<Trash *> * _Nullable trash, NSError * _Nullable error) {
         if (trash) {
-            // do something with the data fetched
             self.trash = trash;
-            
-            // reload data
-            
+            [self.photoCollectionView reloadData];
         }
         else {
-            // handle error
             NSLog(@"%@", error.localizedDescription);
+            [self fetchTrash];
         }
     }];
     
 }
 
-/*
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 5;
+    return self.trash.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    PhotoLogCell *cell = [self.photoCollectionView dequeueReusableCellWithReuseIdentifier:@"PhotoLogCell" forIndexPath:indexPath];
+    Trash *trash = self.trash[indexPath.item];
+    
+    [cell setPhotoLogCell:trash];
+    return cell;
 }
-*/
+
+
 /*
 #pragma mark - Navigation
 

@@ -392,57 +392,6 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hnz-dV-v7f">
-                                        <rect key="frame" x="8" y="594" width="359" height="128"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="c1B-Om-gFb">
-                                            <size key="itemSize" width="113" height="130"/>
-                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        </collectionViewFlowLayout>
-                                        <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoLogCell" id="Yjm-6a-7A6" customClass="PhotoLogCell">
-                                                <rect key="frame" x="0.0" y="-1" width="113" height="130"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                                    <rect key="frame" x="0.0" y="0.0" width="113" height="130"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7OB-xy-Bni">
-                                                            <rect key="frame" x="0.0" y="0.0" width="113" height="88"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lMv-97-05E">
-                                                            <rect key="frame" x="35" y="92" width="42" height="11"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TxA-XZ-fey">
-                                                            <rect key="frame" x="0.0" y="92" width="25" height="28"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mzP-D9-1zH">
-                                                            <rect key="frame" x="35" y="106" width="42" height="13"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </view>
-                                                <connections>
-                                                    <outlet property="dateLabel" destination="lMv-97-05E" id="Ngt-B3-o7d"/>
-                                                    <outlet property="markerImageView" destination="TxA-XZ-fey" id="N7o-UF-DEA"/>
-                                                    <outlet property="trashImageView" destination="7OB-xy-Bni" id="EtL-js-meG"/>
-                                                    <outlet property="typeLabel" destination="mzP-D9-1zH" id="WPj-AS-rMl"/>
-                                                </connections>
-                                            </collectionViewCell>
-                                        </cells>
-                                    </collectionView>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PUB-2D-9IQ" customClass="HIChartView">
                                         <rect key="frame" x="8" y="178" width="359" height="260"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -455,6 +404,77 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hnz-dV-v7f">
+                                        <rect key="frame" x="0.0" y="621" width="375" height="134"/>
+                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="134" id="BpD-V4-qFg"/>
+                                        </constraints>
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="c1B-Om-gFb">
+                                            <size key="itemSize" width="113" height="130"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoLogCell" id="Yjm-6a-7A6" customClass="PhotoLogCell">
+                                                <rect key="frame" x="0.0" y="2" width="113" height="130"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                                    <rect key="frame" x="0.0" y="0.0" width="113" height="130"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7OB-xy-Bni">
+                                                            <rect key="frame" x="0.0" y="0.0" width="113" height="88"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="88" id="SLb-go-UO3"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lMv-97-05E">
+                                                            <rect key="frame" x="35" y="92" width="74" height="14.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TxA-XZ-fey">
+                                                            <rect key="frame" x="6" y="92" width="25" height="28"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="28" id="Eow-Xa-cZk"/>
+                                                                <constraint firstAttribute="width" constant="25" id="XGt-o3-zg7"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mzP-D9-1zH">
+                                                            <rect key="frame" x="35" y="110.5" width="74" height="10.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </view>
+                                                <color key="backgroundColor" red="1" green="0.29607941139999999" blue="0.33089437919999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="lMv-97-05E" secondAttribute="trailing" constant="4" id="02w-an-K6I"/>
+                                                    <constraint firstItem="lMv-97-05E" firstAttribute="leading" secondItem="TxA-XZ-fey" secondAttribute="trailing" constant="4" id="4Ll-Xj-C6c"/>
+                                                    <constraint firstItem="mzP-D9-1zH" firstAttribute="leading" secondItem="TxA-XZ-fey" secondAttribute="trailing" constant="4" id="D1M-4J-n69"/>
+                                                    <constraint firstItem="mzP-D9-1zH" firstAttribute="top" secondItem="lMv-97-05E" secondAttribute="bottom" constant="4" id="MYp-Cm-3xx"/>
+                                                    <constraint firstItem="lMv-97-05E" firstAttribute="top" secondItem="7OB-xy-Bni" secondAttribute="bottom" constant="4" id="Prk-Vv-FbO"/>
+                                                    <constraint firstItem="TxA-XZ-fey" firstAttribute="top" secondItem="7OB-xy-Bni" secondAttribute="bottom" constant="4" id="QFM-WH-mt6"/>
+                                                    <constraint firstItem="TxA-XZ-fey" firstAttribute="leading" secondItem="Yjm-6a-7A6" secondAttribute="leading" constant="6" id="Rc5-6H-il4"/>
+                                                    <constraint firstItem="7OB-xy-Bni" firstAttribute="leading" secondItem="Yjm-6a-7A6" secondAttribute="leading" id="W4Y-mf-aN1"/>
+                                                    <constraint firstAttribute="trailing" secondItem="mzP-D9-1zH" secondAttribute="trailing" constant="4" id="eux-BF-Sc4"/>
+                                                    <constraint firstItem="7OB-xy-Bni" firstAttribute="top" secondItem="Yjm-6a-7A6" secondAttribute="top" id="fmu-4M-3RN"/>
+                                                    <constraint firstAttribute="trailing" secondItem="7OB-xy-Bni" secondAttribute="trailing" id="mme-Ko-cFa"/>
+                                                    <constraint firstAttribute="bottom" secondItem="mzP-D9-1zH" secondAttribute="bottom" constant="9" id="rzh-Jw-S3S"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="dateLabel" destination="lMv-97-05E" id="Ngt-B3-o7d"/>
+                                                    <outlet property="markerImageView" destination="TxA-XZ-fey" id="N7o-UF-DEA"/>
+                                                    <outlet property="trashImageView" destination="7OB-xy-Bni" id="EtL-js-meG"/>
+                                                    <outlet property="typeLabel" destination="mzP-D9-1zH" id="WPj-AS-rMl"/>
+                                                </connections>
+                                            </collectionViewCell>
+                                        </cells>
+                                    </collectionView>
                                 </subviews>
                             </scrollView>
                         </subviews>

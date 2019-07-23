@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Trash.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *typeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *markerImageView;
 
+-(void) setPhotoLogCell:(Trash*)trash;
 @end
 
 NS_ASSUME_NONNULL_END
