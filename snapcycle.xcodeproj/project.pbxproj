@@ -30,6 +30,7 @@
 		B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81ED22DE641B00E72713 /* ProfileViewController.m */; };
 		B16C81F122DE643B00E72713 /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81F022DE643B00E72713 /* CategoriesViewController.m */; };
 		B16C81F422DE70D800E72713 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81F322DE70D800E72713 /* DetailsViewController.m */; };
+		B1E88DA422E7C48B004DB1F1 /* FocusFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E88DA322E7C48B004DB1F1 /* FocusFrame.m */; };
 		B69CB8A222E2438900F6C390 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B69CB8A122E2438900F6C390 /* TabBarController.m */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +97,8 @@
 		B16C81F022DE643B00E72713 /* CategoriesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CategoriesViewController.m; sourceTree = "<group>"; };
 		B16C81F222DE70D800E72713 /* DetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
 		B16C81F322DE70D800E72713 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
+		B1E88DA222E7C48B004DB1F1 /* FocusFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FocusFrame.h; sourceTree = "<group>"; };
+		B1E88DA322E7C48B004DB1F1 /* FocusFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FocusFrame.m; sourceTree = "<group>"; };
 		B3A07F9C47C7041ECE916776 /* Pods-snapcycle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycle.release.xcconfig"; path = "Target Support Files/Pods-snapcycle/Pods-snapcycle.release.xcconfig"; sourceTree = "<group>"; };
 		B69CB8A022E2438900F6C390 /* TabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
 		B69CB8A122E2438900F6C390 /* TabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
@@ -162,6 +165,8 @@
 				844856EF22DFBF7100CC5600 /* CategoriesCell.m */,
 				84EC731722E62A2F00F37CA5 /* PhotoLogCell.h */,
 				84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */,
+				B1E88DA222E7C48B004DB1F1 /* FocusFrame.h */,
+				B1E88DA322E7C48B004DB1F1 /* FocusFrame.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -498,6 +503,7 @@
 				8479E91522DE638E009174E7 /* SnapUser.m in Sources */,
 				844856F022DFBF7100CC5600 /* CategoriesCell.m in Sources */,
 				B1320C4D22DE407E00A38B16 /* AppDelegate.m in Sources */,
+				B1E88DA422E7C48B004DB1F1 /* FocusFrame.m in Sources */,
 				B16C81F122DE643B00E72713 /* CategoriesViewController.m in Sources */,
 				84EC731922E62A2F00F37CA5 /* PhotoLogCell.m in Sources */,
 				B1320C8022DE5BA200A38B16 /* LoginViewController.m in Sources */,
