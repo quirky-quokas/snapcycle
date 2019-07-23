@@ -19,6 +19,8 @@
 @property (weak, nonatomic) IBOutlet UIView *leaderboardView;
 @property (weak, nonatomic) IBOutlet UILabel *joinPromptLabel;
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
+@property (weak, nonatomic) IBOutlet UILabel *leaderboardHeaderLabel;
+@property (weak, nonatomic) IBOutlet UILabel *leaderboardStatsLabel;
 
 //TODO: use usernames or SnapUsers as keys??
 //Concern with SnapUsers: mutable!
@@ -55,6 +57,11 @@
     }];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    // TODO: this assumes that user is in competition, also doesn't update if it's a new day
+    [self refreshCompetitionStats];
+}
+
 - (void)checkIfUserIsInCurrentComp {
     PFQuery *participantQuery = [self.currentComp.participantArray query];
     [participantQuery whereKey:@"objectId" equalTo:[SnapUser currentUser].objectId];
@@ -77,11 +84,15 @@
         // User has already joined current competition
         self.joinPromptLabel.hidden = YES;
         self.joinButton.hidden = YES;
+        self.leaderboardStatsLabel.hidden = NO;
+        self.leaderboardHeaderLabel.hidden = NO;
         [self refreshCompetitionStats];
     } else {
         // User hasn't joined current competition
         self.joinPromptLabel.hidden = NO;
         self.joinButton.hidden = NO;
+        self.leaderboardStatsLabel.hidden = YES;
+        self.leaderboardHeaderLabel.hidden = YES;
     }
 }
 
@@ -109,9 +120,13 @@
         dispatch_group_notify(group, dispatch_get_main_queue(), ^{
             // Order from least to most items and print
             NSArray<NSString*> *sorted = [self.usernameScores keysSortedByValueUsingSelector:@selector(compare:)];
-            for (NSString* username in sorted) {
-                NSLog(@"%@ : %@", username, [self.usernameScores objectForKey:username]);
+            NSMutableString *stats = [[NSMutableString alloc] init];
+            for (int i = 0; i < sorted.count; i++) {
+                NSString* username = sorted[i];
+                [stats appendFormat:@"#%i %@ : %@ items in the landfill today\n", i + 1, username, [self.usernameScores objectForKey:username]];
             }
+            self.leaderboardStatsLabel.text = stats;
+            [self.leaderboardStatsLabel sizeToFit];
         });
     }];
 }

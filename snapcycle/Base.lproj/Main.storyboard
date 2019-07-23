@@ -330,6 +330,20 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Daily Competition Leaderboard" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TlF-o2-eHb">
+                                        <rect key="frame" x="8" y="11" width="359" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="28"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fui-0X-FoX">
+                                        <rect key="frame" x="17" y="47" width="341" height="207"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -341,6 +355,8 @@
                     <connections>
                         <outlet property="joinButton" destination="5Cb-tK-gdu" id="e17-8I-svR"/>
                         <outlet property="joinPromptLabel" destination="IVz-w0-lcw" id="teN-bD-Dzh"/>
+                        <outlet property="leaderboardHeaderLabel" destination="TlF-o2-eHb" id="zIz-N1-Xd3"/>
+                        <outlet property="leaderboardStatsLabel" destination="Fui-0X-FoX" id="KPv-9h-VBg"/>
                         <outlet property="leaderboardView" destination="c0X-OI-1qg" id="uWu-Sc-1rO"/>
                     </connections>
                 </viewController>
