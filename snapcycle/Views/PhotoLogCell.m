@@ -7,7 +7,29 @@
 //
 
 #import "PhotoLogCell.h"
+#import "Trash.h"
 
 @implementation PhotoLogCell
+
+- (void) setPhotoLogCell: (Trash*) trash {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd-MM-yyyy"];
+    NSString *dateString = [formatter stringFromDate:trash.createdAt];
+    self.dateLabel.text = dateString;
+    
+    self.typeLabel.text = trash.category.type;
+    
+    PFFileObject *image = trash.image;
+    [image getDataInBackgroundWithBlock:^(NSData * data, NSError * error) {
+        if (!error) {
+            UIImage *imageToLoad = [UIImage imageWithData:data];
+            [self.trashImageView setImage:imageToLoad];
+        }
+        else {
+            NSLog(@"%@",error.localizedDescription);
+        }
+        
+    }];
+}
 
 @end
