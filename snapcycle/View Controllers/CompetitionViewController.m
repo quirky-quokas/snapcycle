@@ -13,6 +13,8 @@
 @interface CompetitionViewController ()
 @property (strong, nonatomic) NSArray *participantArray;
 @property (strong, nonatomic) NSCalendar *cal;
+
+// TODO: remove?
 @property (nonatomic) Boolean currComp;
 
 @end
@@ -25,13 +27,22 @@
     self.cal.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"PDT"];
     [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PDT"]];
 
+    // Check if there is currently a competition (current date is between start and end date)
+    PFQuery *competitionQuery = [Competition query];
+    [competitionQuery whereKey:@"startDate" lessThanOrEqualTo:[NSDate date]];
+    [competitionQuery whereKey:@"endDate" greaterThanOrEqualTo:[NSDate date]];
+    [competitionQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable competition, NSError * _Nullable error) {
+        if (competition) {
+            // There is an ongoing competition
+            NSLog(@"there is a current competition");
+        } else  {
+            // No current competition, make one
+            NSLog(@"no current competition");
+            [self makeCompetition];
+        }
+    }];
     
-    // start a competition if one is not started
-//    if (!self.currComp) {
-        [self makeCompetition];
-//    }
-    
-    [self fetchParticipants];
+    //[self fetchParticipants];
 }
 
 /**
@@ -59,18 +70,18 @@
 
 /**
  Make the daily competition.
+ TODO: change this to weekly
+ TODO: PDT
  */
 - (void)makeCompetition {
     Competition *newCompetition = [Competition new];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PDT"]];
     newCompetition.startDate = [self.cal startOfDayForDate:[NSDate date]];
     
-    newCompetition.endDate = [NSDate date];
-    
-//    NSDateInterval *compDuration = [[NSDateInterval alloc] initWithStartDate:startDate duration:86400];
+    // Calculate 24 hours after start date (in seconds)
+    newCompetition.endDate = [NSDate dateWithTimeInterval:86399 sinceDate:newCompetition.startDate];
     
     [newCompetition saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (error) {
