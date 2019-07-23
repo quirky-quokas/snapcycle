@@ -35,12 +35,19 @@
     // instantiate the camera
     [self initializeCamera];
     
-    // instantiate the gesture recognizers
+    // instantiate the pinch gesture recognizer (zoom)
     UIPinchGestureRecognizer *pinchGR = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchZoom:)];
     [self.previewView addGestureRecognizer:pinchGR];
     self.previewView.userInteractionEnabled = YES;
     pinchGR.cancelsTouchesInView = NO;
     pinchGR.delegate = self;
+    
+    // instantiate the tap gesture recognizer (tap)
+    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFocus:)];
+    [self.previewView addGestureRecognizer:tapGR];
+    tapGR.numberOfTapsRequired = 1;
+    tapGR.numberOfTouchesRequired = 1;
+    tapGR.delegate = self;
 }
 
 /**
@@ -122,6 +129,32 @@
             [self.backCamera unlockForConfiguration];
         } else {
             NSLog(@"Error with zoom: %@", error);
+        }
+    }
+}
+
+/**
+ Enables tap to focus for the live preview.
+ */
+- (void)handleTapFocus:(UITapGestureRecognizer *)tapGR{
+    // get the tapped point
+    CGPoint tapPoint = [tapGR locationInView:self.previewView];
+    
+    if([self.backCamera isFocusPointOfInterestSupported] && [self.backCamera isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        double screenWidth = screenRect.size.width;
+        double screenHeight = screenRect.size.height;
+        double focusX = tapPoint.x/screenWidth;
+        double focusY = tapPoint.y/screenHeight;
+        
+        NSError *error = nil;
+        if ([self.backCamera lockForConfiguration:&error]) {
+            [self.backCamera setFocusPointOfInterest:CGPointMake(focusX, focusY)];
+            [self.backCamera setFocusMode:AVCaptureFocusModeAutoFocus];
+            if([self.backCamera isExposureModeSupported:AVCaptureExposureModeAutoExpose]) {
+                [self.backCamera setExposureMode:AVCaptureExposureModeAutoExpose];
+            }
+            [self.backCamera unlockForConfiguration];
         }
     }
 }
