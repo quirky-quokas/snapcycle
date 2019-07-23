@@ -11,9 +11,13 @@
 #import "SnapUser.h"
 
 @interface CompetitionViewController ()
+
+@property (strong, nonatomic) Competition *currentComp;
 @property (strong, nonatomic) NSArray *participantArray;
 @property (strong, nonatomic) NSCalendar *cal;
-@property (nonatomic) Boolean currComp;
+@property (weak, nonatomic) IBOutlet UIView *compView;
+@property (weak, nonatomic) IBOutlet UILabel *joinPromptLabel;
+@property (weak, nonatomic) IBOutlet UIButton *joinButton;
 
 @end
 
@@ -25,60 +29,82 @@
     self.cal.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"PDT"];
     [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PDT"]];
 
-    
-    // start a competition if one is not started
-//    if (!self.currComp) {
-        [self makeCompetition];
-//    }
-    
-    [self fetchParticipants];
-}
-
-/**
- Get participants for current daily competition.
- */
-- (void)fetchParticipants {
-    PFQuery *query = [PFQuery queryWithClassName:@"Competition"];
-    [query whereKey:@"startDate" equalTo:[self.cal startOfDayForDate:[NSDate date]]];
-
-    [query includeKey:@"participantArray"];
-    [query includeKey:@"startDate"];
-    [query includeKey:@"endDate"];
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray<SnapUser *> * _Nullable participants, NSError * _Nullable error) {
-        if (participants) {
-            // Store participant data in participantsArray
-            self.participantArray = participants;
-            NSLog(@"Success?");
-        }
-        else {
-            NSLog(@"Error: %@", error.localizedDescription);
+    // Check if there is currently a competition (current date is between start and end date)
+    PFQuery *competitionQuery = [Competition query];
+    [competitionQuery whereKey:@"startDate" lessThanOrEqualTo:[NSDate date]];
+    [competitionQuery whereKey:@"endDate" greaterThanOrEqualTo:[NSDate date]];
+    [competitionQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable competition, NSError * _Nullable error) {
+        // TODO: remove this if/else
+        if (competition) {
+            // There is an ongoing competition
+            NSLog(@"there is a current competition");
+            self.currentComp = (Competition*)competition;
+            [self fetchParticipants];
+        } else  {
+            // No current competition, make one
+            NSLog(@"no current competition");
+            [self makeCompetition];
         }
     }];
 }
 
 /**
  Make the daily competition.
+ TODO: change this to weekly
+ TODO: PDT
  */
 - (void)makeCompetition {
     Competition *newCompetition = [Competition new];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PDT"]];
     newCompetition.startDate = [self.cal startOfDayForDate:[NSDate date]];
     
-    newCompetition.endDate = [NSDate date];
-    
-//    NSDateInterval *compDuration = [[NSDateInterval alloc] initWithStartDate:startDate duration:86400];
+    // Calculate 24 hours after start date (in seconds)
+    newCompetition.endDate = [NSDate dateWithTimeInterval:86399 sinceDate:newCompetition.startDate];
     
     [newCompetition saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
+        } else  {
+            self.currentComp = newCompetition;
+            [self fetchParticipants];
         }
     }];
+}
+
+/**
+ Get participants for current daily competition.
+ */
+- (void)fetchParticipants {
+    PFQuery *participantQuery = [self.currentComp.participantArray query];
     
-    self.currComp = YES;
+    [participantQuery findObjectsInBackgroundWithBlock:^(NSArray<SnapUser *> * _Nullable participants, NSError * _Nullable error) {
+        if (participants) {
+            // Store participant data in participantsArray
+            self.participantArray = participants;
+            [self setUpCompView];
+        }
+        else {
+            NSLog(@"Error fetching participants: %@", error.localizedDescription);
+        }
+    }];
+}
+
+- (void)setUpCompView {
+    if ([self.participantArray containsObject:[SnapUser currentUser]]) {
+        // User has already joined current competition
+        self.joinPromptLabel.hidden = YES;
+        self.joinButton.hidden = YES;
+    } else {
+        // User hasn't joined current competition
+        self.joinPromptLabel.hidden = NO;
+        self.joinButton.hidden = NO;
+        NSLog(@"not in current comp");
+    }
+}
+
+- (IBAction)onJoinTap:(id)sender {
 }
 
 /*
