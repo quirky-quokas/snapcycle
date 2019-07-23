@@ -339,9 +339,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="yRs-Hj-yLU"/>
                     <connections>
-                        <outlet property="compView" destination="c0X-OI-1qg" id="a5K-Ew-07B"/>
                         <outlet property="joinButton" destination="5Cb-tK-gdu" id="e17-8I-svR"/>
                         <outlet property="joinPromptLabel" destination="IVz-w0-lcw" id="teN-bD-Dzh"/>
+                        <outlet property="leaderboardView" destination="c0X-OI-1qg" id="uWu-Sc-1rO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zGf-p5-JQ7" userLabel="First Responder" sceneMemberID="firstResponder"/>

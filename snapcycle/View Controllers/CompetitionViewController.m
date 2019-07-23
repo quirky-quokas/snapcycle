@@ -9,17 +9,20 @@
 #import "CompetitionViewController.h"
 #import "Competition.h"
 #import "SnapUser.h"
+#import <Highcharts/Highcharts.h>
 
 @interface CompetitionViewController ()
 
 @property (strong, nonatomic) Competition *currentComp;
 @property (strong, nonatomic) NSCalendar *cal;
 
-@property (weak, nonatomic) IBOutlet UIView *compView;
+@property (weak, nonatomic) IBOutlet UIView *leaderboardView;
 @property (weak, nonatomic) IBOutlet UILabel *joinPromptLabel;
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
 
-
+//TODO: use usernames or SnapUsers as keys??
+//Concern with SnapUsers: mutable!
+@property (strong, nonatomic) NSMutableDictionary<NSString*, NSNumber*> *usernameScores;
 @end
 
 @implementation CompetitionViewController
@@ -30,6 +33,8 @@
     self.cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     self.cal.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"PDT"];
     [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PDT"]];
+    
+    self.usernameScores = [[NSMutableDictionary alloc] init];
 
     // TODO: refresh on a new day??
     // Check if there is currently a competition (current date is between start and end date)
@@ -80,19 +85,34 @@
     }
 }
 
-
 - (void)refreshCompetitionStats {
+    dispatch_group_t group = dispatch_group_create();
+    
     // Fetch all participants
     PFQuery *participantQuery = [self.currentComp.participantArray query];
     [participantQuery findObjectsInBackgroundWithBlock:^(NSArray<SnapUser*> * _Nullable participants, NSError * _Nullable error) {
         // TODO: optimize
+        // Find number of landfill items today for each user
         for (SnapUser *participant in participants) {
             PFQuery *landfillItemsQuery = [participant.trashArray query];
             [landfillItemsQuery whereKey:@"userAction" equalTo:@"landfill"];
+            [landfillItemsQuery whereKey:@"createdAt" greaterThanOrEqualTo:self.currentComp.startDate];
+            [landfillItemsQuery whereKey:@"createdAt" lessThanOrEqualTo:self.currentComp.endDate];
+            
+            dispatch_group_enter(group);
             [landfillItemsQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-                NSLog(@"%@ : %i", participant.username, number);
+                [self.usernameScores setValue:@(number) forKey:participant.username];
+                dispatch_group_leave(group);
             }];
         }
+        
+        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+            // Order from least to most items and print
+            NSArray<NSString*> *sorted = [self.usernameScores keysSortedByValueUsingSelector:@selector(compare:)];
+            for (NSString* username in sorted) {
+                NSLog(@"%@ : %@", username, [self.usernameScores objectForKey:username]);
+            }
+        });
     }];
 }
 
@@ -100,7 +120,7 @@
 
 /**
  Make the daily competition.
- TODO: change this to weekly
+ TODO: change this to weekly?
  TODO: PDT
  */
 - (void)makeCompetition {
