@@ -15,6 +15,7 @@
 
 @property (strong, nonatomic) Competition *currentComp;
 @property (strong, nonatomic) NSCalendar *cal;
+@property (strong, nonatomic) NSDate *today;
 
 @property (weak, nonatomic) IBOutlet UIView *leaderboardView;
 @property (weak, nonatomic) IBOutlet UILabel *joinPromptLabel;
@@ -35,14 +36,35 @@
     self.cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     self.cal.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"PDT"];
     [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PDT"]];
+    self.today = [NSDate date];
     
     self.usernameScores = [[NSMutableDictionary alloc] init];
 
-    // TODO: refresh on a new day??
+    [self getCurrentCompetition];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    // Update current date
+    self.today = [NSDate date];
+    
+    // If it's a different day from when we last fetched competition
+    if (self.currentComp && [self.currentComp.endDate compare:self.today] == NSOrderedAscending) {
+        NSLog(@"It's a new day, refetching competition");
+        // Reset cached scores bc we are no longer displaying the same competition
+        self.usernameScores = [[NSMutableDictionary alloc] init];
+
+        [self getCurrentCompetition];
+    } else {
+        // TODO: only refresh stats if user is currently in competition
+        [self refreshCompetitionStats];
+    }
+}
+
+- (void)getCurrentCompetition {
     // Check if there is currently a competition (current date is between start and end date)
     PFQuery *competitionQuery = [Competition query];
-    [competitionQuery whereKey:@"startDate" lessThanOrEqualTo:[NSDate date]];
-    [competitionQuery whereKey:@"endDate" greaterThanOrEqualTo:[NSDate date]];
+    [competitionQuery whereKey:@"startDate" lessThanOrEqualTo:self.today];
+    [competitionQuery whereKey:@"endDate" greaterThanOrEqualTo:self.today];
     [competitionQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable competition, NSError * _Nullable error) {
         if (competition) {
             // There is an ongoing competition
@@ -57,10 +79,6 @@
     }];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    // TODO: this assumes that user is in competition, also doesn't update if it's a new day
-    [self refreshCompetitionStats];
-}
 
 - (void)checkIfUserIsInCurrentComp {
     PFQuery *participantQuery = [self.currentComp.participantArray query];
@@ -141,9 +159,7 @@
 - (void)makeCompetition {
     Competition *newCompetition = [Competition new];
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    newCompetition.startDate = [self.cal startOfDayForDate:[NSDate date]];
+    newCompetition.startDate = [self.cal startOfDayForDate:self.today];
     
     // Calculate 24 hours after start date (in seconds)
     int NUM_SECONDS_IN_24_HOURS = 86399;
@@ -151,10 +167,12 @@
     
     [newCompetition saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (error) {
-            NSLog(@"Error: %@", error.localizedDescription);
+            NSLog(@"Error creating competition: %@", error.localizedDescription);
         } else  {
             self.currentComp = newCompetition;
-            [self checkIfUserIsInCurrentComp];
+            
+            // User cannot already be in competition because it was just created
+            [self refreshViewWithStatusInComp:NO];
         }
     }];
 }
@@ -166,7 +184,7 @@
     [self.currentComp saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (error) {
             // TODO: error
-            NSLog(@"%@", error.localizedDescription);
+            NSLog(@"Error joining: %@", error.localizedDescription);
         } else {
             [self refreshViewWithStatusInComp:YES];
         }
