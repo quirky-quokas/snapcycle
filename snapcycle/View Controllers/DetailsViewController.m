@@ -14,7 +14,7 @@
 #import "Trash.h"
 #import "TabBarController.h"
 
-@interface DetailsViewController ()
+@interface DetailsViewController () <UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *categoryImageView;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;
@@ -48,6 +48,15 @@
     }
     else {
         self.categoryImageView.image = self.image;
+        
+        // instantiate gesture recognizer
+        UITapGestureRecognizer *enlargeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapEnlarge:)];
+        [self.categoryImageView addGestureRecognizer:enlargeTap];
+        self.categoryImageView.userInteractionEnabled = YES;
+        enlargeTap.cancelsTouchesInView = NO;
+        enlargeTap.numberOfTouchesRequired = 1;
+        enlargeTap.numberOfTapsRequired = 1;
+        enlargeTap.delegate = self;
     }
 }
 
@@ -173,6 +182,38 @@
     UIGraphicsEndImageContext();
     return newImage;
 }
+
+/**
+ Allows user to tap their trash photo for an enlarged full screen view.
+ */
+- (void)handleTapEnlarge:(UITapGestureRecognizer *)tapGR {
+    UIViewController *fullScreenVC = [[UIViewController alloc] init];
+    
+    // show full screen view
+    UIImageView *fullScreenView = [[UIImageView alloc] initWithFrame:self.view.frame];
+    fullScreenView.contentMode = UIViewContentModeScaleAspectFit;
+    fullScreenView.image = self.categoryImageView.image;
+    fullScreenVC.view = fullScreenView;
+    
+    [self presentViewController:fullScreenVC animated:YES completion:nil];
+
+    // add gesture recognizer to remove full screen view
+    UITapGestureRecognizer *dismissTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeFullScreen:)];
+    [fullScreenVC.view addGestureRecognizer:dismissTap];
+    fullScreenVC.view.userInteractionEnabled = YES;
+    dismissTap.cancelsTouchesInView = NO;
+    dismissTap.numberOfTouchesRequired = 1;
+    dismissTap.numberOfTapsRequired = 1;
+}
+
+/**
+ Removes the enlarged full screen view of the user's trash photo.
+ */
+- (void)removeFullScreen:(UITapGestureRecognizer *)tapGR {
+    NSLog(@"Made it to remove method");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 /*
 #pragma mark - Navigation
