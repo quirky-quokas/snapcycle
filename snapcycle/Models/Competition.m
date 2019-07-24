@@ -13,7 +13,7 @@
 @dynamic participantArray;
 @dynamic startDate;
 @dynamic endDate;
-@dynamic winner;
+@dynamic rankingArray;
 
 + (nonnull NSString *)parseClassName {
     return @"Competition";
