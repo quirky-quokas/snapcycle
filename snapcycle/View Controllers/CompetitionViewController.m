@@ -209,8 +209,8 @@
         } else if (object) {
             NSLog(@"rankings have already been calculated, pull rankings");
             // in both cases we need to do this, figure out how to pull out but problems because of asyc
-            [self showPreviousWinner];
-            [self showPreviousUserRank];
+            [self loadPreviousWinner];
+            [self loadPreviousUserRank];
         } else {
             NSLog(@"%@", error);
         }
@@ -274,16 +274,15 @@
                         prevUserItems = userItems;
                     }
                     
-                    [self showPreviousWinner];
-                    [self showPreviousUserRank];
+                    [self loadPreviousWinner];
+                    [self loadPreviousUserRank];
                 }];
             }];
         });
     }];
 }
 
-- (void) showPreviousWinner {
-    // TODO: only need to fetch once bc should not change
+- (void) loadPreviousWinner {
     PFQuery *winnerQuery = [self.previousComp.rankingArray query];
     [winnerQuery whereKey:@"rank" equalTo:@(1)];
     [winnerQuery includeKey:@"user"];
@@ -306,7 +305,7 @@
     
 }
 
-- (void) showPreviousUserRank {
+- (void) loadPreviousUserRank {
     PFQuery *userRankQuery = [self.previousComp.rankingArray query];
     [userRankQuery whereKey:@"user" equalTo:[SnapUser currentUser]];
     [userRankQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
