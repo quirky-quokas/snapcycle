@@ -1,4 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-snapcycle/Pods-snapcycle-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework
 ${PODS_ROOT}/Highcharts/development/Highcharts.framework
+${BUILT_PRODUCTS_DIR}/MKDropdownMenu/MKDropdownMenu.framework
 ${BUILT_PRODUCTS_DIR}/Parse/Parse.framework

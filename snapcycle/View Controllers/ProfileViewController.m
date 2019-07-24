@@ -19,12 +19,14 @@
 #import "RegisterViewController.h"
 #import "Trash.h"
 #import "PhotoLogCell.h"
+#import "MKDropdownMenu.h"
 
-@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *photoCollectionView;
+@property (weak, nonatomic) IBOutlet MKDropdownMenu *photoDropdownMenu;
 
 // Graph
 @property (weak, nonatomic) IBOutlet HIChartView *chartView;
@@ -54,6 +56,10 @@
     
     // set the welcome text
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
+    
+    // set drop down menu data source and delegate
+    self.photoDropdownMenu.dataSource = self;
+    self.photoDropdownMenu.delegate = self;
     
     // set collection view data source and delegate
     self.photoCollectionView.delegate = self;
@@ -341,6 +347,23 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+}
+*/
+
+- (NSInteger)dropdownMenu:(nonnull MKDropdownMenu *)dropdownMenu numberOfRowsInComponent:(NSInteger)component {
+    return 5;
+}
+
+- (NSInteger)numberOfComponentsInDropdownMenu:(nonnull MKDropdownMenu *)dropdownMenu {
+    return 1;
+}
+
+- (NSString *)dropdownMenu:(MKDropdownMenu *)dropdownMenu titleForComponent:(NSInteger)component {
+    return @"Choose time";
+}
+
+/*
+- (NSString *)dropdownMenu:(MKDropdownMenu *)dropdownMenu titleForRow:(NSInteger)row forComponent:(NSInteger)component {
 }
 */
 
