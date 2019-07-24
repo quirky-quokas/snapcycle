@@ -30,6 +30,9 @@
 		B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81ED22DE641B00E72713 /* ProfileViewController.m */; };
 		B16C81F122DE643B00E72713 /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81F022DE643B00E72713 /* CategoriesViewController.m */; };
 		B16C81F422DE70D800E72713 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81F322DE70D800E72713 /* DetailsViewController.m */; };
+		B19CD8F522E8F65B008F9782 /* SourceSansPro-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD8F322E8F648008F9782 /* SourceSansPro-Light.otf */; };
+		B19CD8F722E8F6C0008F9782 /* SourceSansPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD8F622E8F6C0008F9782 /* SourceSansPro-Regular.otf */; };
+		B19CD8F922E8F6EB008F9782 /* SourceSansPro-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD8F822E8F6EA008F9782 /* SourceSansPro-Semibold.otf */; };
 		B1E88DA422E7C48B004DB1F1 /* FocusFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E88DA322E7C48B004DB1F1 /* FocusFrame.m */; };
 		B69CB8A222E2438900F6C390 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B69CB8A122E2438900F6C390 /* TabBarController.m */; };
 		B6CED37122E8D9160091B788 /* Ranking.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CED37022E8D9160091B788 /* Ranking.m */; };
@@ -98,6 +101,22 @@
 		B16C81F022DE643B00E72713 /* CategoriesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CategoriesViewController.m; sourceTree = "<group>"; };
 		B16C81F222DE70D800E72713 /* DetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
 		B16C81F322DE70D800E72713 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
+		B19CD8D622E8DD66008F9782 /* SourceSansPro-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Light.otf"; sourceTree = "<group>"; };
+		B19CD8D722E8DD66008F9782 /* SourceSansPro-LightIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-LightIt.otf"; sourceTree = "<group>"; };
+		B19CD8D822E8DD66008F9782 /* SourceSansPro-SemiboldIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-SemiboldIt.otf"; sourceTree = "<group>"; };
+		B19CD8D922E8DD66008F9782 /* SIL Open Font License.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SIL Open Font License.txt"; sourceTree = "<group>"; };
+		B19CD8DA22E8DD66008F9782 /* SourceSansPro-It.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-It.otf"; sourceTree = "<group>"; };
+		B19CD8DB22E8DD66008F9782 /* SourceSansPro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Bold.otf"; sourceTree = "<group>"; };
+		B19CD8DC22E8DD66008F9782 /* SourceSansPro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Regular.otf"; sourceTree = "<group>"; };
+		B19CD8DD22E8DD66008F9782 /* SourceSansPro-BoldIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-BoldIt.otf"; sourceTree = "<group>"; };
+		B19CD8DE22E8DD66008F9782 /* SourceSansPro-BlackIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-BlackIt.otf"; sourceTree = "<group>"; };
+		B19CD8DF22E8DD66008F9782 /* SourceSansPro-ExtraLightIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-ExtraLightIt.otf"; sourceTree = "<group>"; };
+		B19CD8E022E8DD66008F9782 /* SourceSansPro-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-ExtraLight.otf"; sourceTree = "<group>"; };
+		B19CD8E122E8DD66008F9782 /* SourceSansPro-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Semibold.otf"; sourceTree = "<group>"; };
+		B19CD8E222E8DD66008F9782 /* SourceSansPro-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Black.otf"; sourceTree = "<group>"; };
+		B19CD8F322E8F648008F9782 /* SourceSansPro-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SourceSansPro-Light.otf"; path = "../../source-sans-pro/SourceSansPro-Light.otf"; sourceTree = "<group>"; };
+		B19CD8F622E8F6C0008F9782 /* SourceSansPro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SourceSansPro-Regular.otf"; path = "../../source-sans-pro/SourceSansPro-Regular.otf"; sourceTree = "<group>"; };
+		B19CD8F822E8F6EA008F9782 /* SourceSansPro-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SourceSansPro-Semibold.otf"; path = "../../source-sans-pro/SourceSansPro-Semibold.otf"; sourceTree = "<group>"; };
 		B1E88DA222E7C48B004DB1F1 /* FocusFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FocusFrame.h; sourceTree = "<group>"; };
 		B1E88DA322E7C48B004DB1F1 /* FocusFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FocusFrame.m; sourceTree = "<group>"; };
 		B3A07F9C47C7041ECE916776 /* Pods-snapcycle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycle.release.xcconfig"; path = "Target Support Files/Pods-snapcycle/Pods-snapcycle.release.xcconfig"; sourceTree = "<group>"; };
@@ -216,11 +235,15 @@
 		B1320C4A22DE407E00A38B16 /* snapcycle */ = {
 			isa = PBXGroup;
 			children = (
+				B19CD8F822E8F6EA008F9782 /* SourceSansPro-Semibold.otf */,
+				B19CD8F622E8F6C0008F9782 /* SourceSansPro-Regular.otf */,
+				B19CD8F322E8F648008F9782 /* SourceSansPro-Light.otf */,
 				844856ED22DFBF5000CC5600 /* Views */,
 				B1320C7D22DE5B8100A38B16 /* View Controllers */,
 				8479E90922DE5B3F009174E7 /* Models */,
 				B67AA2DD22DEA3900066464A /* Backend */,
 				B1320C5122DE407E00A38B16 /* Main.storyboard */,
+				B19CD8D522E8DD66008F9782 /* source-sans-pro */,
 				B1320C5422DE407E00A38B16 /* Assets.xcassets */,
 				B1320C5622DE407E00A38B16 /* LaunchScreen.storyboard */,
 				B1320C5922DE407E00A38B16 /* Info.plist */,
@@ -268,6 +291,26 @@
 				B11D301622E627BD00CA1A36 /* CompetitionViewController.m */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		B19CD8D522E8DD66008F9782 /* source-sans-pro */ = {
+			isa = PBXGroup;
+			children = (
+				B19CD8D622E8DD66008F9782 /* SourceSansPro-Light.otf */,
+				B19CD8D722E8DD66008F9782 /* SourceSansPro-LightIt.otf */,
+				B19CD8D822E8DD66008F9782 /* SourceSansPro-SemiboldIt.otf */,
+				B19CD8D922E8DD66008F9782 /* SIL Open Font License.txt */,
+				B19CD8DA22E8DD66008F9782 /* SourceSansPro-It.otf */,
+				B19CD8DB22E8DD66008F9782 /* SourceSansPro-Bold.otf */,
+				B19CD8DC22E8DD66008F9782 /* SourceSansPro-Regular.otf */,
+				B19CD8DD22E8DD66008F9782 /* SourceSansPro-BoldIt.otf */,
+				B19CD8DE22E8DD66008F9782 /* SourceSansPro-BlackIt.otf */,
+				B19CD8DF22E8DD66008F9782 /* SourceSansPro-ExtraLightIt.otf */,
+				B19CD8E022E8DD66008F9782 /* SourceSansPro-ExtraLight.otf */,
+				B19CD8E122E8DD66008F9782 /* SourceSansPro-Semibold.otf */,
+				B19CD8E222E8DD66008F9782 /* SourceSansPro-Black.otf */,
+			);
+			path = "source-sans-pro";
 			sourceTree = "<group>";
 		};
 		B67AA2DD22DEA3900066464A /* Backend */ = {
@@ -386,8 +429,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B19CD8F722E8F6C0008F9782 /* SourceSansPro-Regular.otf in Resources */,
 				B1320C5822DE407E00A38B16 /* LaunchScreen.storyboard in Resources */,
 				B1320C5522DE407E00A38B16 /* Assets.xcassets in Resources */,
+				B19CD8F522E8F65B008F9782 /* SourceSansPro-Light.otf in Resources */,
+				B19CD8F922E8F6EB008F9782 /* SourceSansPro-Semibold.otf in Resources */,
 				B1320C5322DE407E00A38B16 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
