@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *categoryImageView;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *moreInfoLabel;
 @property (weak, nonatomic) IBOutlet UIButton *recycleButton;
 @property (weak, nonatomic) IBOutlet UIButton *compostButton;
 @property (weak, nonatomic) IBOutlet UIButton *landfillButton;
@@ -31,6 +32,7 @@
     // Do any additional setup after loading the view.
     self.nameLabel.text = self.category.name;
     self.infoLabel.text = self.category.info;
+    self.moreInfoLabel.text = self.category.moreInfo;
     
     if ([(NSObject*)self.delegate isKindOfClass:[CategoriesViewController class]]) {
         PFFileObject *image = self.category.image;
@@ -52,7 +54,6 @@
         // instantiate gesture recognizer
         UITapGestureRecognizer *enlargeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapEnlarge:)];
         [self.categoryImageView addGestureRecognizer:enlargeTap];
-        self.categoryImageView.userInteractionEnabled = YES;
         enlargeTap.cancelsTouchesInView = NO;
         enlargeTap.numberOfTouchesRequired = 1;
         enlargeTap.numberOfTapsRequired = 1;

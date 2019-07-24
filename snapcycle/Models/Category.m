@@ -13,6 +13,7 @@
 
 @dynamic name;
 @dynamic info;
+@dynamic moreInfo;
 @dynamic type;
 @dynamic image;
 
