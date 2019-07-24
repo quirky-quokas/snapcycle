@@ -89,16 +89,14 @@
             return [evaluatedObject.name containsString:searchText];
         }];
         self.filteredCategories = [self.categories filteredArrayUsingPredicate:predicate];
-        
-        NSLog(@"%@", self.filteredCategories);
-        
+        [self.categoriesCollectionView reloadData];
     }
     else {
         self.filteredCategories = self.categories;
+        [self.categoriesCollectionView performBatchUpdates:^{
+            [self.categoriesCollectionView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.categoriesCollectionView.numberOfSections)]];
+        } completion:nil];
     }
-    
-    [self.categoriesCollectionView reloadData];
-    
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
@@ -106,11 +104,20 @@
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    self.categoriesSearchBar.showsCancelButton = NO;
-    self.categoriesSearchBar.text = @"";
-    [self.categoriesSearchBar resignFirstResponder];
-    self.filteredCategories = self.categories;
-    [self.categoriesCollectionView reloadData];
+    if ([self.categoriesSearchBar.text isEqualToString:@""]) {
+        self.categoriesSearchBar.showsCancelButton = NO;
+        [self.categoriesSearchBar resignFirstResponder];
+    }
+    else {
+        self.categoriesSearchBar.showsCancelButton = NO;
+        self.categoriesSearchBar.text = @"";
+        [self.categoriesSearchBar resignFirstResponder];
+        self.filteredCategories = self.categories;
+        [self.categoriesCollectionView performBatchUpdates:^{
+            [self.categoriesCollectionView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.categoriesCollectionView.numberOfSections)]];
+        } completion:nil];
+    }
+    
 }
 
 
