@@ -543,6 +543,11 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dNu-bY-TOR" customClass="MKDropdownMenu">
+                                        <rect key="frame" x="218" y="596" width="136" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
                                 </subviews>
                             </scrollView>
                         </subviews>
@@ -563,6 +568,7 @@
                         <outlet property="landfillCanCompostLabel" destination="rvf-Kx-T3f" id="w7R-Ed-xiF"/>
                         <outlet property="landfillCanRecycleLabel" destination="XqI-fK-KIY" id="uqT-JW-U5X"/>
                         <outlet property="photoCollectionView" destination="8Rl-jP-3am" id="LUw-65-CHv"/>
+                        <outlet property="photoDropdownMenu" destination="dNu-bY-TOR" id="ahZ-TC-Iwb"/>
                         <outlet property="profileImage" destination="XiW-Ii-sVt" id="amY-Af-no2"/>
                         <outlet property="scrollView" destination="bze-sv-Rwe" id="0CS-jW-gNa"/>
                         <outlet property="welcomeLabel" destination="1Io-49-qxH" id="K13-OX-7jk"/>
