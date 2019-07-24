@@ -25,6 +25,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *leaderboardHeaderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *leaderboardStatsLabel;
 
+@property (weak, nonatomic) IBOutlet UILabel *previousWinnerLabel;
+@property (weak, nonatomic) IBOutlet UILabel *previousUserRankLabel;
+
 //TODO: use usernames or SnapUsers as keys??
 //Concern with SnapUsers: mutable!
 @property (strong, nonatomic) NSMutableDictionary<NSString*, NSNumber*> *usernameScores;
@@ -148,15 +151,30 @@
             // Order from least to most items and print
             NSArray<NSString*> *sorted = [self.usernameScores keysSortedByValueUsingSelector:@selector(compare:)];
             NSMutableString *stats = [[NSMutableString alloc] init];
-            for (int i = 0; i < sorted.count; i++) {
-                NSString* username = sorted[i];
-                [stats appendFormat:@"#%i %@ : %@ items in the landfill today\n", i + 1, username, [self.usernameScores objectForKey:username]];
+            
+            int rank = 0;
+            NSNumber *prevUserItems = @(-1);
+            
+            for (NSString* username in sorted) {
+                NSNumber *userItems = [self.usernameScores objectForKey:username];
+                
+                // Check for ties. Rank should only increase if the current user has a different score than the
+                // previous user since the users are sorted
+                if (![prevUserItems isEqualToNumber:userItems]) {
+                    rank++;
+                }
+                
+                [stats appendFormat:@"#%i %@ : %@ items in the landfill today\n", rank, username, userItems];
+                
+                // Update prevUserItems for next iteration of loop
+                prevUserItems = userItems;
             }
             self.leaderboardStatsLabel.text = stats;
             [self.leaderboardStatsLabel sizeToFit];
         });
     }];
 }
+
 
 #pragma mark - Previous Competition Results
 
@@ -190,6 +208,9 @@
             [self calculateAndPostPreviousRanking];
         } else if (object) {
             NSLog(@"rankings have already been calculated, pull rankings");
+            // in both cases we need to do this, figure out how to pull out but problems because of asyc
+            [self showPreviousWinner];
+            [self showPreviousUserRank];
         } else {
             NSLog(@"%@", error);
         }
@@ -234,18 +255,79 @@
                 
                 [rankQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable sorted, NSError * _Nullable error) {
                     NSLog(@"sorting rankings");
-                    for (int i = 0; i < sorted.count; i++) {
-                        Ranking *ranking = (Ranking*)(sorted[i]);
-                        ranking.rank = @(i+1);
+                    int rank = 0;
+                    NSNumber *prevUserItems = @(-1);
+                    
+                    for (Ranking* ranking in sorted) {
+                        NSNumber *userItems = ranking.score;
+                        
+                        // Check for ties. Rank should only increase if the current user has a different score than the
+                        // previous user since the users are sorted
+                        if (![prevUserItems isEqualToNumber:userItems]) {
+                            rank++;
+                        }
+                        
+                        ranking.rank = @(rank);
                         [ranking saveInBackground];
+                        
+                        // Update prevUserItems for next iteration of loop
+                        prevUserItems = userItems;
                     }
+                    
+                    [self showPreviousWinner];
+                    [self showPreviousUserRank];
                 }];
             }];
         });
     }];
 }
 
+- (void) showPreviousWinner {
+    // TODO: only need to fetch once bc should not change
+    PFQuery *winnerQuery = [self.previousComp.rankingArray query];
+    [winnerQuery whereKey:@"rank" equalTo:@(1)];
+    [winnerQuery includeKey:@"user"];
+    [winnerQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        NSMutableString *results = [NSMutableString stringWithString:@"Winner(s): "];
+        if (objects.count != 0) {
+            NSArray<Ranking*> *winners = (NSArray<Ranking*>*)objects;
+            [results appendString: winners[0].user.username];
+            for (int i = 1; i < winners.count; i++) {
+                [results appendFormat:@", %@", winners[i].user.username];
+            }
+            [results appendFormat:@" with %@ items in the landfill", winners[0].score];
+            self.previousWinnerLabel.text = results;
+            
+        } else {
+            [results appendString: @"no winner"];
+        }
+        self.previousWinnerLabel.text = results;
+    }];
+    
+}
 
+- (void) showPreviousUserRank {
+    PFQuery *userRankQuery = [self.previousComp.rankingArray query];
+    [userRankQuery whereKey:@"user" equalTo:[SnapUser currentUser]];
+    [userRankQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        if (!object) {
+            // User did not participate in yesterday's competition
+            self.previousUserRankLabel.hidden = YES;
+        } else if (error) {
+            NSLog(@"%@", error.localizedDescription);
+        } else {
+            // User participated in yesterday's competition
+            Ranking *userRank = (Ranking*)object;
+            
+            if ([userRank.rank isEqualToNumber:@(1)]) {
+                self.previousUserRankLabel.text = @"Congrats, you're a winner! Thanks for snapcycling!";
+            } else {
+                self.previousUserRankLabel.text = [NSString stringWithFormat:@"You ranked #%@ with %@ items in the landfill. Thanks for snapcycling!", userRank.rank, userRank.score];
+            }
+            self.previousUserRankLabel.hidden = NO;
+        }
+    }];
+}
 
 #pragma mark - Organize competitions
 
