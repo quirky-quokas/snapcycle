@@ -120,7 +120,9 @@
                         <viewLayoutGuide key="safeArea" id="7zm-Rq-TmQ"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Camera" id="8Iq-ed-Spt"/>
-                    <navigationItem key="navigationItem" id="uKL-JT-wW2"/>
+                    <navigationItem key="navigationItem" id="uKL-JT-wW2">
+                        <barButtonItem key="backBarButtonItem" title="Camera" id="hqk-b1-9O1"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="previewView" destination="BvN-uu-SIn" id="RFg-C4-Ae2"/>
                         <segue destination="5lJ-x6-utv" kind="show" identifier="segueToDetailsVC" id="IG0-Za-uas"/>
@@ -219,7 +221,7 @@
             </objects>
             <point key="canvasLocation" x="3716" y="496.10194902548727"/>
         </scene>
-        <!--Categories-->
+        <!--snapcycle-->
         <scene sceneID="CsM-Fw-HSw">
             <objects>
                 <viewController id="9sc-fL-QzH" customClass="CategoriesViewController" sceneMemberID="viewController">
@@ -276,7 +278,9 @@
                         <viewLayoutGuide key="safeArea" id="k0y-L2-NYq"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Categories" id="ph0-td-ah2"/>
-                    <navigationItem key="navigationItem" id="gdx-2f-Pzq"/>
+                    <navigationItem key="navigationItem" title="snapcycle" id="gdx-2f-Pzq">
+                        <barButtonItem key="backBarButtonItem" title="Categories" id="2Y9-Cg-qfJ"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="categoriesCollectionView" destination="nIN-80-Ixw" id="pUH-ET-cnK"/>
                         <outlet property="categoriesSearchBar" destination="1VQ-ae-jR5" id="egW-hp-exR"/>
@@ -676,7 +680,7 @@
         <image name="clipped to font" width="449" height="105"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="AcR-1A-lSl"/>
+        <segue reference="IG0-Za-uas"/>
         <segue reference="S6R-iF-SHQ"/>
     </inferredMetricsTieBreakers>
 </document>
