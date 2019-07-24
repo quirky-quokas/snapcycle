@@ -175,7 +175,7 @@
     [focusFrame setNeedsDisplay];
     
     [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:1.5];
+    [UIView setAnimationDuration:1.0];
     [focusFrame setAlpha:0.0];
     [UIView commitAnimations];
 }
