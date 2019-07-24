@@ -18,12 +18,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="clipped to font" translatesAutoresizingMaskIntoConstraints="NO" id="hmS-7s-bNW">
-                                <rect key="frame" x="47" y="234" width="280" height="65"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cropped icon" translatesAutoresizingMaskIntoConstraints="NO" id="mGg-hP-iqr">
                                 <rect key="frame" x="129" y="307" width="117" height="108"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo pic" translatesAutoresizingMaskIntoConstraints="NO" id="2f8-XW-yAk">
+                                <rect key="frame" x="28" y="212" width="318" height="87"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -37,7 +37,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="clipped to font" width="449" height="105"/>
-        <image name="cropped icon" width="119.5" height="119.5"/>
+        <image name="cropped icon" width="120" height="120"/>
+        <image name="logo pic" width="407" height="113"/>
     </resources>
 </document>

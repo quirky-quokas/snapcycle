@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "clipped to font@3x.png",
+      "filename" : "logo clipped.png",
       "scale" : "1x"
     },
     {
@@ -12,11 +12,6 @@
     {
       "idiom" : "universal",
       "scale" : "3x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x",
-      "unassigned" : true
     }
   ],
   "info" : {
