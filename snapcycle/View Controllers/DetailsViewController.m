@@ -33,6 +33,19 @@
     self.nameLabel.text = self.category.name;
     self.infoLabel.text = self.category.info;
     self.moreInfoLabel.text = self.category.moreInfo;
+    [self.moreInfoLabel sizeToFit];
+    
+    // update color of info label text
+    if ([self.infoLabel.text containsString:@"recycle bin"]) {
+        UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
+        [self.infoLabel setTextColor:scBlue];
+    } else if ([self.infoLabel.text containsString:@"compost bin"]) {
+        UIColor *scGreen = [UIColor colorWithRed:148.0/255.0 green:200.0/255.0 blue:61.0/255.0 alpha:1.0];
+        [self.infoLabel setTextColor:scGreen];
+    } else if ([self.infoLabel.text containsString:@"garbage bin"]) {
+        UIColor *scBrown = [UIColor colorWithRed:150.0/255.0 green:75.0/255.0 blue:0.0/255.0 alpha:1.0];
+        [self.infoLabel setTextColor:scBrown];
+    }
     
     if ([(NSObject*)self.delegate isKindOfClass:[CategoriesViewController class]]) {
         PFFileObject *image = self.category.image;
