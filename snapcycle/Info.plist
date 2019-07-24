@@ -4,6 +4,8 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>SourceSansPro-Semibold.otf</string>
+		<string>SourceSansPro-Regular.otf</string>
 		<string>SourceSansPro-Light.otf</string>
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
