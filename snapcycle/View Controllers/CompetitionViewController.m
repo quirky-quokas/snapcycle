@@ -60,6 +60,9 @@
     }
 }
 
+#pragma mark - Current Competition
+
+// Fetch current daily competition, or create a new one if there is none
 - (void)getCurrentCompetition {
     // Check if there is currently a competition (current date is between start and end date)
     PFQuery *competitionQuery = [Competition query];
@@ -79,7 +82,7 @@
     }];
 }
 
-
+// Check if user is in current competition and refresh view
 - (void)checkIfUserIsInCurrentComp {
     PFQuery *participantQuery = [self.currentComp.participantArray query];
     [participantQuery whereKey:@"objectId" equalTo:[SnapUser currentUser].objectId];
@@ -97,6 +100,7 @@
     }];
 }
 
+// Refresh display based on whether user is currently in competition
 - (void)refreshViewWithStatusInComp:(BOOL)userInComp {
     if (userInComp) {
         // User has already joined current competition
@@ -114,6 +118,7 @@
     }
 }
 
+// Fetch competition stats and reload leaderboard
 - (void)refreshCompetitionStats {
     dispatch_group_t group = dispatch_group_create();
     
@@ -148,6 +153,8 @@
         });
     }];
 }
+
+#pragma mark - Previous Competition Results
 
 #pragma mark - Organize competitions
 
