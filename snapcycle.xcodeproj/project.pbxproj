@@ -30,9 +30,9 @@
 		B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81ED22DE641B00E72713 /* ProfileViewController.m */; };
 		B16C81F122DE643B00E72713 /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81F022DE643B00E72713 /* CategoriesViewController.m */; };
 		B16C81F422DE70D800E72713 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81F322DE70D800E72713 /* DetailsViewController.m */; };
-		B19CD8FE22E9209C008F9782 /* SourceSansPro-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD8FC22E92090008F9782 /* SourceSansPro-Light.otf */; };
-		B19CD90022E9216C008F9782 /* SourceSansPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD8FF22E9216C008F9782 /* SourceSansPro-Regular.otf */; };
-		B19CD90222E92194008F9782 /* SourceSansPro-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD90122E92194008F9782 /* SourceSansPro-Semibold.otf */; };
+		B19CD90622E923CE008F9782 /* SourceSansPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD90522E923CE008F9782 /* SourceSansPro-Regular.otf */; };
+		B19CD90822E923EF008F9782 /* SourceSansPro-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD90722E923EF008F9782 /* SourceSansPro-Light.otf */; };
+		B19CD90A22E923FA008F9782 /* SourceSansPro-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD90922E923FA008F9782 /* SourceSansPro-Semibold.otf */; };
 		B1E88DA422E7C48B004DB1F1 /* FocusFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E88DA322E7C48B004DB1F1 /* FocusFrame.m */; };
 		B69CB8A222E2438900F6C390 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B69CB8A122E2438900F6C390 /* TabBarController.m */; };
 		B6CED37122E8D9160091B788 /* Ranking.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CED37022E8D9160091B788 /* Ranking.m */; };
@@ -101,9 +101,9 @@
 		B16C81F022DE643B00E72713 /* CategoriesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CategoriesViewController.m; sourceTree = "<group>"; };
 		B16C81F222DE70D800E72713 /* DetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
 		B16C81F322DE70D800E72713 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
-		B19CD8FC22E92090008F9782 /* SourceSansPro-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SourceSansPro-Light.otf"; path = "../../Flix2/source-sans-pro/SourceSansPro-Light.otf"; sourceTree = "<group>"; };
-		B19CD8FF22E9216C008F9782 /* SourceSansPro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SourceSansPro-Regular.otf"; path = "../../Flix2/source-sans-pro/SourceSansPro-Regular.otf"; sourceTree = "<group>"; };
-		B19CD90122E92194008F9782 /* SourceSansPro-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SourceSansPro-Semibold.otf"; path = "../../Flix2/source-sans-pro/SourceSansPro-Semibold.otf"; sourceTree = "<group>"; };
+		B19CD90522E923CE008F9782 /* SourceSansPro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Regular.otf"; sourceTree = "<group>"; };
+		B19CD90722E923EF008F9782 /* SourceSansPro-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Light.otf"; sourceTree = "<group>"; };
+		B19CD90922E923FA008F9782 /* SourceSansPro-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Semibold.otf"; sourceTree = "<group>"; };
 		B1E88DA222E7C48B004DB1F1 /* FocusFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FocusFrame.h; sourceTree = "<group>"; };
 		B1E88DA322E7C48B004DB1F1 /* FocusFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FocusFrame.m; sourceTree = "<group>"; };
 		B3A07F9C47C7041ECE916776 /* Pods-snapcycle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycle.release.xcconfig"; path = "Target Support Files/Pods-snapcycle/Pods-snapcycle.release.xcconfig"; sourceTree = "<group>"; };
@@ -222,9 +222,9 @@
 		B1320C4A22DE407E00A38B16 /* snapcycle */ = {
 			isa = PBXGroup;
 			children = (
-				B19CD90122E92194008F9782 /* SourceSansPro-Semibold.otf */,
-				B19CD8FC22E92090008F9782 /* SourceSansPro-Light.otf */,
-				B19CD8FF22E9216C008F9782 /* SourceSansPro-Regular.otf */,
+				B19CD90922E923FA008F9782 /* SourceSansPro-Semibold.otf */,
+				B19CD90722E923EF008F9782 /* SourceSansPro-Light.otf */,
+				B19CD90522E923CE008F9782 /* SourceSansPro-Regular.otf */,
 				844856ED22DFBF5000CC5600 /* Views */,
 				B1320C7D22DE5B8100A38B16 /* View Controllers */,
 				8479E90922DE5B3F009174E7 /* Models */,
@@ -395,11 +395,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B19CD90022E9216C008F9782 /* SourceSansPro-Regular.otf in Resources */,
+				B19CD90622E923CE008F9782 /* SourceSansPro-Regular.otf in Resources */,
 				B1320C5822DE407E00A38B16 /* LaunchScreen.storyboard in Resources */,
 				B1320C5522DE407E00A38B16 /* Assets.xcassets in Resources */,
-				B19CD8FE22E9209C008F9782 /* SourceSansPro-Light.otf in Resources */,
-				B19CD90222E92194008F9782 /* SourceSansPro-Semibold.otf in Resources */,
+				B19CD90822E923EF008F9782 /* SourceSansPro-Light.otf in Resources */,
+				B19CD90A22E923FA008F9782 /* SourceSansPro-Semibold.otf in Resources */,
 				B1320C5322DE407E00A38B16 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
