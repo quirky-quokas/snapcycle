@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) PFRelation *participantArray;
 @property (nonatomic, strong) NSDate *startDate;
 @property (nonatomic, strong) NSDate *endDate;
-@property (nonatomic, strong) PFUser* winner;
+@property (nonatomic, strong, readonly) PFRelation *rankingArray;
 
 @end
 
