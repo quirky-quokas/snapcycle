@@ -23,9 +23,9 @@
         [self.layer setBorderColor:[UIColor whiteColor].CGColor];
         
         // add blinking animation to frame
-        UIColor *scGreen = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
+        UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
         CABasicAnimation *selectionAnimation = [CABasicAnimation animationWithKeyPath:@"borderColor"];
-        selectionAnimation.toValue = (id)scGreen.CGColor;
+        selectionAnimation.toValue = (id)scBlue.CGColor;
         selectionAnimation.repeatCount = 6;
         [self.layer addAnimation:selectionAnimation forKey:@"selectionAnimation"];
     }

@@ -91,7 +91,7 @@
             </objects>
             <point key="canvasLocation" x="1088.8" y="121.88905547226388"/>
         </scene>
-        <!--Camera-->
+        <!--snapcycle-->
         <scene sceneID="wf0-Tn-kEC">
             <objects>
                 <viewController id="BzN-ce-QcD" customClass="CameraViewController" sceneMemberID="viewController">
@@ -120,7 +120,7 @@
                         <viewLayoutGuide key="safeArea" id="7zm-Rq-TmQ"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Camera" id="8Iq-ed-Spt"/>
-                    <navigationItem key="navigationItem" id="uKL-JT-wW2">
+                    <navigationItem key="navigationItem" title="snapcycle" id="uKL-JT-wW2">
                         <barButtonItem key="backBarButtonItem" title="Camera" id="hqk-b1-9O1"/>
                     </navigationItem>
                     <connections>
