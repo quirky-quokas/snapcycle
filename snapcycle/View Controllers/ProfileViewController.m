@@ -19,6 +19,7 @@
 #import "RegisterViewController.h"
 #import "Trash.h"
 #import "PhotoLogCell.h"
+#import "MKDropdownMenu.h"
 
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
