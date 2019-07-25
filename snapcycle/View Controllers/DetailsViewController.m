@@ -53,12 +53,12 @@
             if (!error) {
                 UIImage *imageToLoad = [UIImage imageWithData:data];
                 [self.categoryImageView setImage:imageToLoad];
+                self.categoryImageView.contentMode = UIViewContentModeScaleAspectFit;
             }
             else {
                 NSLog(@"%@",error.localizedDescription);
                 [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:error.localizedDescription];
             }
-            
         }];
     }
     else {
