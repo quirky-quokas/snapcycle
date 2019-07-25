@@ -127,7 +127,7 @@
  Enables zoom in/out for the live preview.
  */
 - (void)handlePinchZoom:(UIPinchGestureRecognizer *)pinchGR {
-    const CGFloat pinchVelocityDividerFactor = 5.0f;
+    const CGFloat pinchVelocityDividerFactor = 10.0f;
     
     if (pinchGR.state == UIGestureRecognizerStateChanged) {
         NSError *error = nil;
