@@ -599,6 +599,7 @@
                                                     <outlet property="markerImageView" destination="nDo-EM-FKO" id="ljI-z3-rch"/>
                                                     <outlet property="trashImageView" destination="76P-Xe-zAK" id="1UL-ew-ogv"/>
                                                     <outlet property="typeLabel" destination="2Hm-P2-ABg" id="hNy-YM-zxx"/>
+                                                    <segue destination="8Sq-UZ-MH6" kind="presentation" animates="NO" modalPresentationStyle="overCurrentContext" id="LjK-gh-TSE"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>
@@ -644,6 +645,60 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7vd-wa-xrJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1908" y="-772.71364317841085"/>
+        </scene>
+        <!--Photo Pop Up View Controller-->
+        <scene sceneID="0Qr-Fe-fB3">
+            <objects>
+                <viewController id="8Sq-UZ-MH6" customClass="PhotoPopUpViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="G7W-8f-U7F">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="behind-popup-view" translatesAutoresizingMaskIntoConstraints="NO" id="unS-Es-U2C">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="kUK-N2-6yX" appends="YES" id="0bI-8h-K4U"/>
+                                </connections>
+                            </imageView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HBh-cp-CNz">
+                                <rect key="frame" x="36" y="163" width="303" height="340"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XJ3-cr-MmE">
+                                        <rect key="frame" x="0.0" y="0.0" width="303" height="230"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This is the 3rd can you've thrown away" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84p-fZ-aUp">
+                                        <rect key="frame" x="8" y="238" width="287" height="94"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="BFd-Cl-mYm"/>
+                    </view>
+                    <connections>
+                        <outlet property="backgroundImageView" destination="unS-Es-U2C" id="BvA-N9-Dmv"/>
+                        <outlet property="cellPopUpView" destination="HBh-cp-CNz" id="LFA-JY-pgj"/>
+                        <outlet property="infoLabel" destination="84p-fZ-aUp" id="eYb-PV-3qv"/>
+                        <outlet property="photoImageView" destination="XJ3-cr-MmE" id="kCr-7M-gQK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XmW-8p-kMD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="kUK-N2-6yX">
+                    <connections>
+                        <action selector="onOutsideTap:" destination="8Sq-UZ-MH6" id="krp-lp-7ie"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="3013.5999999999999" y="-721.88905547226398"/>
         </scene>
         <!--Profile-->
         <scene sceneID="1cr-Jr-4Nv">
@@ -750,6 +805,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="behind-popup-view" width="320" height="460"/>
         <image name="logo pic" width="407" height="113"/>
     </resources>
     <inferredMetricsTieBreakers>
