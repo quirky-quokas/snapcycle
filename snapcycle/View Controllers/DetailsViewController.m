@@ -13,7 +13,7 @@
 #import "SnapUser.h"
 #import "Trash.h"
 #import "TabBarController.h"
-#import "Ranking.h"
+#import "Competitor.h"
 
 @interface DetailsViewController () <UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -173,7 +173,7 @@
             }];
             
             // Update competition score
-            PFQuery *rankingQuery = [Ranking query];
+            PFQuery *rankingQuery = [Competitor query];
             [rankingQuery whereKey:@"user" equalTo:user];
             // TODO: specify current competition
             [rankingQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {

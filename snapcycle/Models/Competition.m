@@ -10,10 +10,9 @@
 #import "Parse/Parse.h"
 
 @implementation Competition
-@dynamic participantArray;
 @dynamic startDate;
 @dynamic endDate;
-@dynamic rankingArray;
+@dynamic competitorArray;
 
 + (nonnull NSString *)parseClassName {
     return @"Competition";

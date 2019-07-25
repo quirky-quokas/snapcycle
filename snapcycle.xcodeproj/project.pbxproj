@@ -36,7 +36,8 @@
 		B19CD90A22E923FA008F9782 /* SourceSansPro-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD90922E923FA008F9782 /* SourceSansPro-Semibold.otf */; };
 		B1E88DA422E7C48B004DB1F1 /* FocusFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E88DA322E7C48B004DB1F1 /* FocusFrame.m */; };
 		B69CB8A222E2438900F6C390 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B69CB8A122E2438900F6C390 /* TabBarController.m */; };
-		B6CED37122E8D9160091B788 /* Ranking.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CED37022E8D9160091B788 /* Ranking.m */; };
+		B6CE94DE22EA50DD003B4732 /* CompetitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CE94DD22EA50DD003B4732 /* CompetitionManager.m */; };
+		B6CED37122E8D9160091B788 /* Competitor.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CED37022E8D9160091B788 /* Competitor.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,8 +113,10 @@
 		B3A07F9C47C7041ECE916776 /* Pods-snapcycle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycle.release.xcconfig"; path = "Target Support Files/Pods-snapcycle/Pods-snapcycle.release.xcconfig"; sourceTree = "<group>"; };
 		B69CB8A022E2438900F6C390 /* TabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
 		B69CB8A122E2438900F6C390 /* TabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
-		B6CED36F22E8D9160091B788 /* Ranking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ranking.h; sourceTree = "<group>"; };
-		B6CED37022E8D9160091B788 /* Ranking.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Ranking.m; sourceTree = "<group>"; };
+		B6CE94DC22EA50DD003B4732 /* CompetitionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompetitionManager.h; sourceTree = "<group>"; };
+		B6CE94DD22EA50DD003B4732 /* CompetitionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompetitionManager.m; sourceTree = "<group>"; };
+		B6CED36F22E8D9160091B788 /* Competitor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Competitor.h; sourceTree = "<group>"; };
+		B6CED37022E8D9160091B788 /* Competitor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Competitor.m; sourceTree = "<group>"; };
 		C8136804A7D7CF45BE79F467 /* Pods-snapcycleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleUITests.debug.xcconfig"; path = "Target Support Files/Pods-snapcycleUITests/Pods-snapcycleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E041F324D7031C737648A917 /* Pods-snapcycleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleUITests.release.xcconfig"; path = "Target Support Files/Pods-snapcycleUITests/Pods-snapcycleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		E392621CD0CD837554F3211B /* Pods_snapcycleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_snapcycleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -196,8 +199,8 @@
 				8479E91422DE638E009174E7 /* SnapUser.m */,
 				B11D301222E6248400CA1A36 /* Competition.h */,
 				B11D301322E6248400CA1A36 /* Competition.m */,
-				B6CED36F22E8D9160091B788 /* Ranking.h */,
-				B6CED37022E8D9160091B788 /* Ranking.m */,
+				B6CED36F22E8D9160091B788 /* Competitor.h */,
+				B6CED37022E8D9160091B788 /* Competitor.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -289,6 +292,8 @@
 			children = (
 				B1320C4B22DE407E00A38B16 /* AppDelegate.h */,
 				B1320C4C22DE407E00A38B16 /* AppDelegate.m */,
+				B6CE94DC22EA50DD003B4732 /* CompetitionManager.h */,
+				B6CE94DD22EA50DD003B4732 /* CompetitionManager.m */,
 			);
 			path = Backend;
 			sourceTree = "<group>";
@@ -521,11 +526,12 @@
 				B69CB8A222E2438900F6C390 /* TabBarController.m in Sources */,
 				B11D301722E627BD00CA1A36 /* CompetitionViewController.m in Sources */,
 				8479E90F22DE5F90009174E7 /* Category.m in Sources */,
+				B6CE94DE22EA50DD003B4732 /* CompetitionManager.m in Sources */,
 				B1320C5B22DE407E00A38B16 /* main.m in Sources */,
 				B155009C22EA28A400FAFF8F /* CameraView.m in Sources */,
 				8479E91522DE638E009174E7 /* SnapUser.m in Sources */,
 				844856F022DFBF7100CC5600 /* CategoriesCell.m in Sources */,
-				B6CED37122E8D9160091B788 /* Ranking.m in Sources */,
+				B6CED37122E8D9160091B788 /* Competitor.m in Sources */,
 				B1320C4D22DE407E00A38B16 /* AppDelegate.m in Sources */,
 				B1E88DA422E7C48B004DB1F1 /* FocusFrame.m in Sources */,
 				B16C81F122DE643B00E72713 /* CategoriesViewController.m in Sources */,
