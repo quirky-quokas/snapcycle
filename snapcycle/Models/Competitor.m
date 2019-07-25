@@ -6,9 +6,9 @@
 //  Copyright © 2019 Quirky Quokkas. All rights reserved.
 //
 
-#import "Ranking.h"
+#import "Competitor.h"
 
-@implementation Ranking
+@implementation Competitor
 
 @dynamic user;
 @dynamic rank;

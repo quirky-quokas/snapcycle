@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Ranking : PFObject<PFSubclassing>
+@interface Competitor : PFObject<PFSubclassing>
 
 @property (nonatomic, strong) SnapUser *user;
 @property (nonatomic, strong) NSNumber *rank;
