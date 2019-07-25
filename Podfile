@@ -9,6 +9,7 @@ target 'snapcycle' do
   pod 'Parse'
   pod 'Highcharts', '~> 7.1.3'
   pod 'MKDropdownMenu'
+  pod 'DateTools'
 
   target 'snapcycleTests' do
     inherit! :search_paths

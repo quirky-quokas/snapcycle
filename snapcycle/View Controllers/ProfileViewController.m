@@ -20,6 +20,7 @@
 #import "Trash.h"
 #import "PhotoLogCell.h"
 #import "MKDropdownMenu.h"
+#import "DateTools.h"
 
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -36,6 +37,7 @@
 @property int landfillItemCount;
 
 @property (strong, nonatomic) NSArray *trash;
+@property (strong, nonatomic) NSArray *dropdownData;
 
 // Improve
 @property (weak, nonatomic) IBOutlet UILabel *landfillCanRecycleLabel;
@@ -60,13 +62,11 @@
     // set drop down menu data source and delegate
     self.photoDropdownMenu.dataSource = self;
     self.photoDropdownMenu.delegate = self;
+    self.dropdownData = @[@"Past day", @"Past week", @"Past month", @"Past 6 months", @"Past year", @"All"];
     
     // set collection view data source and delegate
     self.photoCollectionView.delegate = self;
     self.photoCollectionView.dataSource = self;
-    
-    // fetch trash objects
-    [self fetchTrash];
     
     // set up layout for trash photo log
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *) self.photoCollectionView.collectionViewLayout;
@@ -82,6 +82,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [self configurePieChart];
     [self refreshUserActionStats];
+    [self fetchTrash:@"All"];
 }
 
 
@@ -311,18 +312,44 @@
     
 }
 
-- (void)fetchTrash {
+- (void)fetchTrash: (NSString*)time {
     PFQuery *photoQuery = [[SnapUser currentUser].trashArray query];
     [photoQuery orderByDescending:@"createdAt"];
     [photoQuery includeKey:@"category"];
+    NSDate *now = [NSDate date];
+    NSDate *since = [NSDate date];
+    if ([time isEqualToString:@"All"]){
+    }
+    else if ([time isEqualToString:@"Past year"]){
+        since = [now dateBySubtractingYears:1];
+    }
+    else if ([time isEqualToString:@"Past 6 months"]){
+        since = [now dateBySubtractingMonths:6];
+    }
+    else if ([time isEqualToString:@"Past month"]){
+        since = [now dateBySubtractingMonths:1];
+    }
+    else if ([time isEqualToString:@"Past week"]){
+        since = [now dateBySubtractingWeeks:1];
+    }
+    else {
+        since = [now dateBySubtractingDays:1];
+    }
+    
+    if (![time isEqualToString:@"All"]){
+        [photoQuery whereKey:@"createdAt" greaterThan:since];
+    }
+    
     [photoQuery findObjectsInBackgroundWithBlock:^(NSArray<Trash *> * _Nullable trash, NSError * _Nullable error) {
         if (trash) {
             self.trash = trash;
-            [self.photoCollectionView reloadData];
+            [self.photoCollectionView performBatchUpdates:^{
+                [self.photoCollectionView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.photoCollectionView.numberOfSections)]];
+            } completion:nil];
         }
         else {
             NSLog(@"%@", error.localizedDescription);
-            [self fetchTrash];
+            [self fetchTrash:time];
         }
     }];
     
@@ -339,6 +366,43 @@
     return cell;
 }
 
+- (NSInteger)dropdownMenu:(nonnull MKDropdownMenu *)dropdownMenu numberOfRowsInComponent:(NSInteger)component {
+    return 6;
+}
+
+- (NSInteger)numberOfComponentsInDropdownMenu:(nonnull MKDropdownMenu *)dropdownMenu {
+    return 1;
+}
+
+- (NSAttributedString *)dropdownMenu:(MKDropdownMenu *)dropdownMenu attributedTitleForComponent:(NSInteger)component {
+    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:@"Choose time"];
+    [title addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16.0 weight:UIFontWeightLight] range:NSMakeRange(0, title.length)];
+    return (NSAttributedString*) title;
+}
+
+- (NSAttributedString *)dropdownMenu:(MKDropdownMenu *)dropdownMenu attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:self.dropdownData[row]];
+    [title addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0 weight:UIFontWeightLight] range:NSMakeRange(0, title.length)];
+    return (NSAttributedString*) title;
+}
+
+-(void)dropdownMenu:(MKDropdownMenu *)dropdownMenu didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    NSString *time = self.dropdownData[row];
+    [self fetchTrash:time];
+    [self.photoDropdownMenu selectRow:row inComponent:component];
+    [self.photoDropdownMenu closeAllComponentsAnimated:YES];
+}
+
+- (UIColor *)dropdownMenu:(MKDropdownMenu *)dropdownMenu backgroundColorForRow:(NSInteger)row forComponent:(NSInteger)component {
+    NSIndexSet *selectedRows = [self.photoDropdownMenu selectedRowsInComponent:component];
+    NSInteger selectedRow = (NSInteger)selectedRows.firstIndex;
+    if (row == selectedRow) {
+        return UIColor.greenColor;
+    }
+    else {
+        return UIColor.whiteColor;
+    }
+}
 
 /*
 #pragma mark - Navigation
@@ -350,21 +414,5 @@
 }
 */
 
-- (NSInteger)dropdownMenu:(nonnull MKDropdownMenu *)dropdownMenu numberOfRowsInComponent:(NSInteger)component {
-    return 5;
-}
-
-- (NSInteger)numberOfComponentsInDropdownMenu:(nonnull MKDropdownMenu *)dropdownMenu {
-    return 1;
-}
-
-- (NSString *)dropdownMenu:(MKDropdownMenu *)dropdownMenu titleForComponent:(NSInteger)component {
-    return @"Choose time";
-}
-
-/*
-- (NSString *)dropdownMenu:(MKDropdownMenu *)dropdownMenu titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-}
-*/
 
 @end
