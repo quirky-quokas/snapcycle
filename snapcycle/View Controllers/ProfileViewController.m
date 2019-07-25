@@ -22,7 +22,7 @@
 #import "MKDropdownMenu.h"
 #import "DateTools.h"
 
-@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource>
+@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource, UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
@@ -55,6 +55,8 @@
     
     // set the profile picture
     [self setProfilePicture];
+    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editProfilePicture:)];
+    [self.profileImage addGestureRecognizer:tapGR];
     
     // set the welcome text
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
@@ -251,6 +253,26 @@
 }
 
 /**
+ Edits the user's profile image.
+ */
+- (void)editProfilePicture: (UITapGestureRecognizer *)tapGR {
+    UIImagePickerController *imagePickerVC = [UIImagePickerController new];
+    imagePickerVC.delegate = self;
+    imagePickerVC.allowsEditing = YES;
+    
+    // TODO: instead of only showing one or the other, show a pop up to let the user choose
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+    }
+    else {
+        imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
+}
+
+/**
  Logs out user
  */
 - (IBAction)onLogoutTap:(id)sender {
@@ -294,22 +316,6 @@
         }
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
-}
-
-- (IBAction)onTapEditPic:(id)sender {
-    UIImagePickerController *imagePickerVC = [UIImagePickerController new];
-    imagePickerVC.delegate = self;
-    imagePickerVC.allowsEditing = YES;
-    
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
-    }
-    else {
-        imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    }
-    
-    [self presentViewController:imagePickerVC animated:YES completion:nil];
-    
 }
 
 - (void)fetchTrash: (NSString*)time {

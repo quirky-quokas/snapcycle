@@ -22,7 +22,7 @@
                                 <rect key="frame" x="129" y="307" width="117" height="108"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo pic" translatesAutoresizingMaskIntoConstraints="NO" id="2f8-XW-yAk">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="clipped to font-1" translatesAutoresizingMaskIntoConstraints="NO" id="2f8-XW-yAk">
                                 <rect key="frame" x="28" y="212" width="318" height="87"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -37,7 +37,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="clipped to font-1" width="406" height="105"/>
         <image name="cropped icon" width="120" height="120"/>
-        <image name="logo pic" width="407" height="113"/>
     </resources>
 </document>
