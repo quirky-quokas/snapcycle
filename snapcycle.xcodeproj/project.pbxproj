@@ -15,6 +15,7 @@
 		8479E90F22DE5F90009174E7 /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E90E22DE5F90009174E7 /* Category.m */; };
 		8479E91522DE638E009174E7 /* SnapUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E91422DE638E009174E7 /* SnapUser.m */; };
 		84EC731922E62A2F00F37CA5 /* PhotoLogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */; };
+		84FB4A3222EA2BF300F6FB95 /* PhotoPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FB4A3122EA2BF300F6FB95 /* PhotoPopUpViewController.m */; };
 		B11D301422E6248400CA1A36 /* Competition.m in Sources */ = {isa = PBXBuildFile; fileRef = B11D301322E6248400CA1A36 /* Competition.m */; };
 		B11D301722E627BD00CA1A36 /* CompetitionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B11D301622E627BD00CA1A36 /* CompetitionViewController.m */; };
 		B1320C4D22DE407E00A38B16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B1320C4C22DE407E00A38B16 /* AppDelegate.m */; };
@@ -71,6 +72,8 @@
 		8479E91422DE638E009174E7 /* SnapUser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SnapUser.m; sourceTree = "<group>"; };
 		84EC731722E62A2F00F37CA5 /* PhotoLogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoLogCell.h; sourceTree = "<group>"; };
 		84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoLogCell.m; sourceTree = "<group>"; };
+		84FB4A3022EA2BF300F6FB95 /* PhotoPopUpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPopUpViewController.h; sourceTree = "<group>"; };
+		84FB4A3122EA2BF300F6FB95 /* PhotoPopUpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoPopUpViewController.m; sourceTree = "<group>"; };
 		8EDE53E7A1B1342228638389 /* Pods-snapcycleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleTests.debug.xcconfig"; path = "Target Support Files/Pods-snapcycleTests/Pods-snapcycleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B11D301222E6248400CA1A36 /* Competition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Competition.h; sourceTree = "<group>"; };
 		B11D301322E6248400CA1A36 /* Competition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Competition.m; sourceTree = "<group>"; };
@@ -280,6 +283,8 @@
 				B69CB8A122E2438900F6C390 /* TabBarController.m */,
 				B11D301522E627BD00CA1A36 /* CompetitionViewController.h */,
 				B11D301622E627BD00CA1A36 /* CompetitionViewController.m */,
+				84FB4A3022EA2BF300F6FB95 /* PhotoPopUpViewController.h */,
+				84FB4A3122EA2BF300F6FB95 /* PhotoPopUpViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -518,6 +523,7 @@
 			files = (
 				B16C81EB22DE63C700E72713 /* CameraViewController.m in Sources */,
 				8479E90C22DE5C6B009174E7 /* Trash.m in Sources */,
+				84FB4A3222EA2BF300F6FB95 /* PhotoPopUpViewController.m in Sources */,
 				B69CB8A222E2438900F6C390 /* TabBarController.m in Sources */,
 				B11D301722E627BD00CA1A36 /* CompetitionViewController.m in Sources */,
 				8479E90F22DE5F90009174E7 /* Category.m in Sources */,
