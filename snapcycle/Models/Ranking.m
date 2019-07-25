@@ -13,6 +13,7 @@
 @dynamic user;
 @dynamic rank;
 @dynamic score;
+@dynamic competition;
 
 + (nonnull NSString *)parseClassName {
     return @"Ranking";

@@ -13,6 +13,7 @@
 #import "SnapUser.h"
 #import "Trash.h"
 #import "TabBarController.h"
+#import "Ranking.h"
 
 @interface DetailsViewController () <UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -165,10 +166,27 @@
     
     [newTrash saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
+            // Save landfill item to user's array
             SnapUser *user = [SnapUser currentUser];
             [user.trashArray addObject:newTrash];
             [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             }];
+            
+            // Update competition score
+            PFQuery *rankingQuery = [Ranking query];
+            [rankingQuery whereKey:@"user" equalTo:user];
+            // TODO: specify current competition
+            [rankingQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+                if (error) {
+                    // Also catches case where user is not in competition
+                    NSLog(@"%@", error.localizedDescription);
+                } else {
+                    NSLog(@"%@", object);
+                    [object incrementKey:@"score"];
+                    [object saveInBackground];
+                }
+            }];
+            
             [self.navigationController popViewControllerAnimated:YES];
             NSString* message = @"You've successfully thrown away your trash";
             [self.delegate postedTrash:message];

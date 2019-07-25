@@ -16,6 +16,11 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>DateTools.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
 		<key>Highcharts.xcscheme</key>
 		<dict>
 			<key>isShown</key>

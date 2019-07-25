@@ -8,6 +8,7 @@
 
 #import <Parse/Parse.h>
 #import "SnapUser.h"
+#import "Competition.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) SnapUser *user;
 @property (nonatomic, strong) NSNumber *rank;
 @property (nonatomic, strong) NSNumber *score;
+@property (nonatomic, strong) Competition *competition;
 
 @end
 
