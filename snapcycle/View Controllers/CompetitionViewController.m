@@ -179,9 +179,11 @@
 #pragma mark - Previous Competition Results
 
 - (void) showPreviousResults {
+    // TODO: can add competitions from other days
     [self getYesterdayCompetition];
 }
 
+// TODO: assumes there was always a competition yesterday, which isn't true if no one opened the app yesterday
 - (void) getYesterdayCompetition {
     NSLog(@"getting yesterday's competition");
     // Yesterday
@@ -194,8 +196,12 @@
     [yesterdayCompQuery whereKey:@"startDate" lessThanOrEqualTo:yesterday];
     [yesterdayCompQuery whereKey:@"endDate" greaterThanOrEqualTo:yesterday];
     [yesterdayCompQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        self.previousComp = (Competition*)object;
-        [self checkPreviousRanking];
+        if (object) {
+            self.previousComp = (Competition*)object;
+            [self checkPreviousRanking];
+        } else {
+            NSLog(@"no competition yesterday");
+        }
     }];
 }
 
@@ -253,6 +259,7 @@
                 PFQuery *rankQuery = [self.previousComp.rankingArray query];
                 [rankQuery orderByAscending:@"score"];
                 
+                // TODO: similar to refresh competition stats
                 [rankQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable sorted, NSError * _Nullable error) {
                     NSLog(@"sorting rankings");
                     int rank = 0;
