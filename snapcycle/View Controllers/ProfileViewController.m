@@ -221,17 +221,17 @@
                      @{
                          @"name": @"Recycling",
                          @"y": @(self.recyclingItemCount),
-                         @"color": @"#7db4eb"
+                         @"color": @"#0070c2"
                          },
                      @{
                          @"name": @"Compost",
                          @"y": @(self.compostItemCount),
-                         @"color": @"#95e47f"
+                         @"color": @"#94c83d"
                          },
                      @{
                          @"name": @"Landfill",
                          @"y": @(self.landfillItemCount),
-                         @"color": @"#43434b"
+                         @"color": @"#964b00"
                          }
                      ];
         self.options.series = [NSMutableArray arrayWithObjects:pie, nil];
