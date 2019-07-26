@@ -35,15 +35,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // TODO: remove
-    // self.usernameScores = [[NSMutableDictionary alloc] init];
-    
     self.manager = [CompetitionManager shared];
     self.manager.delegate = self;
     
     // Will call back self to update view
     [self.manager refreshCurrentCompetition];
-
     [self.manager refreshYesterdayCompetition];
 }
 
@@ -51,6 +47,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     if (userScoreChanged) {
         // TODO: only regrab stats array?
+        // Will call back self to update view
         [self.manager refreshCurrentCompetition];
         self.userScoreChanged = NO;
     }

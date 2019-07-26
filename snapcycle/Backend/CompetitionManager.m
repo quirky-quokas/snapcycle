@@ -191,7 +191,6 @@
     [minusOneDay setDay:-1];
     NSDate *yesterday = [self.cal dateByAddingComponents:minusOneDay toDate:self.today options:0];
     
-    // TODO: abstract out, can share with current comp query --> competition for day
     [self competitionQueryForDay:yesterday completion:^(PFObject * _Nullable competition, NSError * _Nullable error) {
         if (competition) {
             self.previousComp = (Competition*)competition;
