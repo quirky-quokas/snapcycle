@@ -14,7 +14,7 @@
 
 @interface CompetitionViewController ()
 
-@property (weak, nonatomic) IBOutlet UIView *leaderboardView;
+@property (weak, nonatomic) IBOutlet HIChartView *leaderboardChart;
 @property (weak, nonatomic) IBOutlet UILabel *joinPromptLabel;
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
 @property (weak, nonatomic) IBOutlet UILabel *leaderboardHeaderLabel;
@@ -62,8 +62,10 @@
         // User is in current competition
         self.joinPromptLabel.hidden = YES;
         self.joinButton.hidden = YES;
-        self.leaderboardStatsLabel.hidden = NO;
-        self.leaderboardHeaderLabel.hidden = NO;
+        
+        // TODO: change back to nos
+        self.leaderboardStatsLabel.hidden = YES;
+        self.leaderboardHeaderLabel.hidden = YES;
         
         [self showCompetitionStats:sorted];
     } else {
@@ -77,7 +79,38 @@
 
 // Load leaderboard
 - (void)showCompetitionStats:(NSArray<Competitor*>*)sorted {
-    NSMutableString *stats = [[NSMutableString alloc] init];
+    // Leaderboard chart
+    HIChart *chart = [[HIChart alloc]init];
+    chart.type = @"bar";
+
+    HITitle *title = [[HITitle alloc]init];
+    title.text = @"Daily Competition Leaderboard";
+    
+    HISubtitle *subtitle = [[HISubtitle alloc]init];
+    subtitle.text = @"Least number of items thrown in the landfill today";
+    
+    HITooltip *tooltip = [[HITooltip alloc]init];
+    tooltip.valueSuffix = @" items";
+    
+    HIPlotOptions *plotOptions = [[HIPlotOptions alloc]init];
+    plotOptions.bar = [[HIBar alloc]init];
+    
+    HICredits *credits = [[HICredits alloc]init];
+    credits.enabled = [[NSNumber alloc] initWithBool:false];
+    
+    HIExporting *exporting = [[HIExporting alloc] init];
+    exporting.enabled = [[NSNumber alloc] initWithBool:false];
+    
+    HIYAxis *yaxis = [[HIYAxis alloc]init];
+    yaxis.min = @0;
+    yaxis.title = [[HITitle alloc]init];
+    yaxis.title.text = @"Items in landfill";
+    yaxis.title.align = @"high";
+    
+    // Users and rank
+    HIXAxis * xaxis = [[HIXAxis alloc]init];
+    NSMutableArray<NSString*> *rankedUsernames = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber*> *itemsInLandfill = [[NSMutableArray alloc] init];
     
     int rank = 0;
     NSNumber *prevUserItems = @(-1);
@@ -91,12 +124,37 @@
             rank++;
         }
         
-        [stats appendFormat:@"#%i %@ : %@ items in the landfill today\n", rank, competitor.user.username, userItems];
+        [rankedUsernames addObject:[NSString stringWithFormat:@"#%i. %@", rank, competitor.user.username]];
+        [itemsInLandfill addObject:competitor.score];
+        
         // Update prevUserItems for next iteration of loop
         prevUserItems = userItems;
     }
-    self.leaderboardStatsLabel.text = stats;
-    [self.leaderboardStatsLabel sizeToFit];
+    
+    xaxis.categories = rankedUsernames;
+    xaxis.labels = [[HILabels alloc] init];
+    xaxis.labels.align = @"left";
+    xaxis.labels.reserveSpace = [[NSNumber alloc] initWithBool:true];
+    
+    HIBar *bar1 = [[HIBar alloc]init];
+    bar1.name = @"Landfill";
+    bar1.showInLegend = [[NSNumber alloc] initWithBool:false];
+    bar1.data = itemsInLandfill;
+    // TODO: configure color
+    
+    HIOptions *options = [[HIOptions alloc]init];
+    options.chart = chart;
+    options.title = title;
+    options.subtitle = subtitle;
+    options.xAxis = [NSMutableArray arrayWithObjects:xaxis, nil];
+    options.yAxis = [NSMutableArray arrayWithObjects:yaxis, nil];
+    options.tooltip = tooltip;
+    options.plotOptions = plotOptions;
+    options.credits = credits;
+    options.exporting = exporting;
+    options.series = [NSMutableArray arrayWithObjects:bar1, nil];
+    
+    self.leaderboardChart.options = options;
 }
 
 #pragma mark - Previous Competition Results

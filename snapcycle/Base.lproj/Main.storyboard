@@ -378,6 +378,11 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="262"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gJt-1i-mRq" customClass="HIChartView">
+                                        <rect key="frame" x="11" y="11" width="353" height="243"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Cb-tK-gdu">
                                         <rect key="frame" x="115" y="160" width="145" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -446,9 +451,9 @@
                     <connections>
                         <outlet property="joinButton" destination="5Cb-tK-gdu" id="e17-8I-svR"/>
                         <outlet property="joinPromptLabel" destination="IVz-w0-lcw" id="teN-bD-Dzh"/>
+                        <outlet property="leaderboardChart" destination="gJt-1i-mRq" id="LWE-kg-XZs"/>
                         <outlet property="leaderboardHeaderLabel" destination="TlF-o2-eHb" id="zIz-N1-Xd3"/>
                         <outlet property="leaderboardStatsLabel" destination="Fui-0X-FoX" id="KPv-9h-VBg"/>
-                        <outlet property="leaderboardView" destination="c0X-OI-1qg" id="uWu-Sc-1rO"/>
                         <outlet property="previousUserRankLabel" destination="EEJ-xm-hbS" id="xLd-ut-WaK"/>
                         <outlet property="previousWinnerLabel" destination="Ibj-nA-Km6" id="tpQ-1C-86b"/>
                     </connections>

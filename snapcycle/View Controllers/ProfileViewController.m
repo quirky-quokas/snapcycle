@@ -82,6 +82,8 @@
     CGFloat itemWidth = (self.photoCollectionView.frame.size.width - layout.minimumLineSpacing * (photosPerLine - 1)) / photosPerLine;
     CGFloat itemHeight = 200;
     layout.itemSize = CGSizeMake(itemWidth, itemHeight);
+    
+    [self configurePieChart];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -92,7 +94,7 @@
         self.badgesLabel.text = [NSString stringWithFormat:@"Badges: %@", badges.numBadges];
     }];
     
-    [self configurePieChart];
+    [self updatePieChartData];
     [self refreshUserActionStats];
     [self fetchTrash:@"All"];
 }
