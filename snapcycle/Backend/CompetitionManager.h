@@ -24,8 +24,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<CompetitionDisplayer> delegate;
 
 + (instancetype)shared;
+
+// Current Competition
 - (void)refreshCurrentCompetition;
 - (void)addUserToCurrentCompetition;
+
+// Previous Competition
+- (void)refreshYesterdayCompetition;
 
 @end
 

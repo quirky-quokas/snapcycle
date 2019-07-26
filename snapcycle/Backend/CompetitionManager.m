@@ -14,10 +14,11 @@
 @interface CompetitionManager()
 
 @property (strong, nonatomic) Competition *currentComp;
+@property (strong, nonatomic) NSMutableArray *sortedCompetitors;
+
 @property (strong, nonatomic) Competition *previousComp;
 @property (strong, nonatomic) NSCalendar *cal;
 @property (strong, nonatomic) NSDate *today;
-
 
 @end
 
@@ -67,6 +68,7 @@
             // There is an ongoing competition
             NSLog(@"there is a current competition");
             self.currentComp = (Competition*)competition;
+            [self storeSortedCompetitors];
             [self checkIfUserIsInCurrentComp]; // TODO: move this logic out of if/else with dispatch group?
         } else  {
             // No current competition, make one
@@ -85,7 +87,7 @@
     for (Competitor *competitor in self.currentComp.competitorArray) {
         if ([competitor.user.username isEqualToString:user.username]) {
             NSLog(@"user in competition");
-            arrayToShow = self.currentComp.competitorArray;
+            arrayToShow = self.sortedCompetitors;
             break;
         }
     }
@@ -140,11 +142,76 @@
             [self.currentComp addObject:competitor forKey:@"competitorArray"];
             [self.currentComp saveInBackground];
             
-            // TODO: get current competitors
-            [self.delegate showCurrentCompetitionView:self.currentComp.competitorArray];
+            // TODO: doesn't refresh competitors
+            [self storeSortedCompetitors];
+            [self.delegate showCurrentCompetitionView:self.sortedCompetitors];
         }];
     }];
+}
+- (void)storeSortedCompetitors {
+    self.sortedCompetitors = [NSMutableArray arrayWithArray:self.currentComp.competitorArray];
+    [self.sortedCompetitors sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        NSNumber* first = ((Competitor*)obj1).score;
+        NSNumber* second = ((Competitor*)obj2).score;
+        return [first compare:second];
+    }];
+}
+
+# pragma mark - Previous Competition
+- (void)refreshYesterdayCompetition {
+    // Yesterday
+    NSDateComponents *minusOneDay = [[NSDateComponents alloc] init];
+    [minusOneDay setDay:-1];
+    NSDate *yesterday = [self.cal dateByAddingComponents:minusOneDay toDate:self.today options:0];
     
+    // TODO: abstract out, can share with current comp query --> competition for day
+    PFQuery *yesterdayCompQuery = [Competition query];
+    [yesterdayCompQuery whereKey:@"startDate" lessThanOrEqualTo:yesterday];
+    [yesterdayCompQuery whereKey:@"endDate" greaterThanOrEqualTo:yesterday];
+    [yesterdayCompQuery includeKey:@"competitorArray"];
+    
+    //TODO: investigate
+    [yesterdayCompQuery includeKey:@"competitorArray.user"];
+    
+    [yesterdayCompQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        if (object) {
+            self.previousComp = (Competition*)object;
+            [self checkPreviousRanking];
+        } else {
+            NSLog(@"no competition yesterday");
+        }
+    }];
+}
+
+- (void) checkPreviousRanking {
+    if (self.previousComp.competitorArray.count != 0) {
+        // Competition had participants
+        if (self.previousComp.competitorArray[0].rank) {
+            // Competitors have already been ranked
+            
+        } else {
+            // Competitors have not yet been ranked
+        }
+    } else {
+        NSLog(@"no participants");
+    }
+    /*
+    PFQuery *rankingQuery = [self.previousComp.rankingArray query];
+    // TODO: change this to count? which is better? really just want to check if it's empty
+    [rankingQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        if (!object) {
+            NSLog(@"rankings have not yet been calculated");
+            [self calculateAndPostPreviousRanking];
+        } else if (object) {
+            NSLog(@"rankings have already been calculated, pull rankings");
+            // in both cases we need to do this, figure out how to pull out but problems because of asyc
+            [self loadPreviousWinner];
+            [self loadPreviousUserRank];
+        } else {
+            NSLog(@"%@", error);
+        }
+    }];
+     */
 }
 
 
