@@ -12,6 +12,5 @@
 
 @dynamic profImage;
 @dynamic trashArray;
-@dynamic numBadges;
 
 @end

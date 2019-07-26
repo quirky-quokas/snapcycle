@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) PFRelation *trashArray;
 @property (nonatomic, strong) PFFileObject *profImage;
-@property (nonatomic, strong) NSNumber *numBadges;
 
 @end
 
