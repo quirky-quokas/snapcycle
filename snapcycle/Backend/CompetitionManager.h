@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 // If array is null, then the user is not in the compeition and the join screen should be displayed instead
 - (void)showCurrentCompetitionView:(NSArray<Competitor*>* _Nullable)sorted;
 
+- (void)showPreviousWinners:(NSArray<Competitor*>* _Nullable)sorted;
+
 @end
 
 @interface CompetitionManager : NSObject

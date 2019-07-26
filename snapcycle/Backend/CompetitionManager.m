@@ -14,9 +14,11 @@
 @interface CompetitionManager()
 
 @property (strong, nonatomic) Competition *currentComp;
-@property (strong, nonatomic) NSMutableArray *sortedCompetitors;
+@property (strong, nonatomic) NSArray *sortedCompetitors;
 
 @property (strong, nonatomic) Competition *previousComp;
+@property (strong, nonatomic) NSArray *sortedPrevious;
+
 @property (strong, nonatomic) NSCalendar *cal;
 @property (strong, nonatomic) NSDate *today;
 
@@ -68,7 +70,7 @@
             // There is an ongoing competition
             NSLog(@"there is a current competition");
             self.currentComp = (Competition*)competition;
-            [self storeSortedCompetitors];
+            self.sortedCompetitors = [self sortCompetitors:self.currentComp.competitorArray];
             [self checkIfUserIsInCurrentComp]; // TODO: move this logic out of if/else with dispatch group?
         } else  {
             // No current competition, make one
@@ -143,17 +145,9 @@
             [self.currentComp saveInBackground];
             
             // TODO: doesn't refresh competitors
-            [self storeSortedCompetitors];
+            self.sortedCompetitors = [self sortCompetitors:self.currentComp.competitorArray];
             [self.delegate showCurrentCompetitionView:self.sortedCompetitors];
         }];
-    }];
-}
-- (void)storeSortedCompetitors {
-    self.sortedCompetitors = [NSMutableArray arrayWithArray:self.currentComp.competitorArray];
-    [self.sortedCompetitors sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        NSNumber* first = ((Competitor*)obj1).score;
-        NSNumber* second = ((Competitor*)obj2).score;
-        return [first compare:second];
     }];
 }
 
@@ -183,36 +177,60 @@
     }];
 }
 
-- (void) checkPreviousRanking {
+- (void)checkPreviousRanking {
+    
     if (self.previousComp.competitorArray.count != 0) {
-        // Competition had participants
+        // Competition had participants, sort them by score
+        self.sortedPrevious = [self sortCompetitors:self.previousComp.competitorArray];
+        
         if (self.previousComp.competitorArray[0].rank) {
-            // Competitors have already been ranked
-            
+            // Competitors have already been ranked, pass results to delegate
+            [self.delegate showPreviousWinners:self.sortedPrevious];
         } else {
             // Competitors have not yet been ranked
+            [self calculateAndPostPreviousRanking];
         }
     } else {
         NSLog(@"no participants");
     }
-    /*
-    PFQuery *rankingQuery = [self.previousComp.rankingArray query];
-    // TODO: change this to count? which is better? really just want to check if it's empty
-    [rankingQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        if (!object) {
-            NSLog(@"rankings have not yet been calculated");
-            [self calculateAndPostPreviousRanking];
-        } else if (object) {
-            NSLog(@"rankings have already been calculated, pull rankings");
-            // in both cases we need to do this, figure out how to pull out but problems because of asyc
-            [self loadPreviousWinner];
-            [self loadPreviousUserRank];
-        } else {
-            NSLog(@"%@", error);
-        }
-    }];
-     */
 }
+
+
+- (void) calculateAndPostPreviousRanking {
+    int rank = 0;
+    NSNumber *prevUserItems = @(-1);
+    
+    
+    for (Competitor* competitor in self.sortedPrevious) {
+        NSNumber *userItems = competitor.score;
+
+        // Check for ties. Rank should only increase if the current user has a different score than the
+        // previous user since the users are sorted
+        if (![prevUserItems isEqualToNumber:userItems]) {
+            rank++;
+        }
+        
+        competitor.rank = @(rank);
+        [competitor saveInBackground];
+        
+        // Update prevUserItems for next iteration of loop
+        prevUserItems = userItems;
+    }
+    
+    // Pass results to delegate
+    [self.delegate showPreviousWinners:self.sortedPrevious];
+}
+
+
+- (NSArray<Competitor*>*)sortCompetitors:(NSArray<Competitor*>*)competitorArray {
+    return [competitorArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        NSNumber* first = ((Competitor*)obj1).score;
+        NSNumber* second = ((Competitor*)obj2).score;
+        return [first compare:second];
+    }];
+}
+
+
 
 
 

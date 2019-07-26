@@ -55,8 +55,7 @@
     // Will call back self to update view
     [self.manager refreshCurrentCompetition];
 
-    // TODO: yesterday
-    //[self showPreviousResults];
+    [self.manager refreshYesterdayCompetition];
 }
 
 // TODO: pull to refresh instead
@@ -124,6 +123,10 @@
 }
 
 #pragma mark - Previous Competition Results
+
+- (void)showPreviousWinners:(NSArray<Competitor*>* _Nullable)sorted {
+    // TODO: implement view
+}
 
 /*
 - (void) showPreviousResults {
