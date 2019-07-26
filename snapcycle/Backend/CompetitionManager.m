@@ -70,14 +70,7 @@
     [self updateToday];
     
     // Check if there is currently a competition (current date is between start and end date)
-    PFQuery *competitionQuery = [Competition query];
-    [competitionQuery whereKey:@"startDate" lessThanOrEqualTo:self.today];
-    [competitionQuery whereKey:@"endDate" greaterThanOrEqualTo:self.today];
-    
-    // Also fetch all competitors, including info about users
-    [competitionQuery includeKey:@"competitorArray"];
-    [competitionQuery includeKey:@"competitorArray.user"];
-    [competitionQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable competition, NSError * _Nullable error) {
+    [self competitionQueryForDay:self.today completion:^(PFObject * _Nullable competition, NSError * _Nullable error) {
         if (competition) {
             // There is an ongoing competition
             NSLog(@"there is a current competition");
@@ -193,15 +186,9 @@
     NSDate *yesterday = [self.cal dateByAddingComponents:minusOneDay toDate:self.today options:0];
     
     // TODO: abstract out, can share with current comp query --> competition for day
-    PFQuery *yesterdayCompQuery = [Competition query];
-    [yesterdayCompQuery whereKey:@"startDate" lessThanOrEqualTo:yesterday];
-    [yesterdayCompQuery whereKey:@"endDate" greaterThanOrEqualTo:yesterday];
-    [yesterdayCompQuery includeKey:@"competitorArray"];
-    [yesterdayCompQuery includeKey:@"competitorArray.user"];
-    
-    [yesterdayCompQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        if (object) {
-            self.previousComp = (Competition*)object;
+    [self competitionQueryForDay:yesterday completion:^(PFObject * _Nullable competition, NSError * _Nullable error) {
+        if (competition) {
+            self.previousComp = (Competition*)competition;
             [self checkPreviousRanking];
         } else {
             NSLog(@"no competition yesterday");
@@ -253,13 +240,23 @@
     [self.delegate showPreviousResults:self.sortedPrevious];
 }
 
-# pragma mark - Sort participants
+# pragma mark - Helper methods
 - (NSArray<Competitor*>*)sortCompetitors:(NSArray<Competitor*>*)competitorArray {
     return [competitorArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         NSNumber* first = ((Competitor*)obj1).score;
         NSNumber* second = ((Competitor*)obj2).score;
         return [first compare:second];
     }];
+}
+
+- (void)competitionQueryForDay:(NSDate*)day completion:(void(^)(PFObject * _Nullable competition, NSError * _Nullable error))completion  {
+    PFQuery *compQuery = [Competition query];
+    [compQuery whereKey:@"startDate" lessThanOrEqualTo:day];
+    [compQuery whereKey:@"endDate" greaterThanOrEqualTo:day];
+    [compQuery includeKey:@"competitorArray"];
+    [compQuery includeKey:@"competitorArray.user"];
+    
+    [compQuery getFirstObjectInBackgroundWithBlock:completion];
 }
 
 @end
