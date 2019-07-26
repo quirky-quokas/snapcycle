@@ -13,6 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol CompetitionDisplayer
 
+// YES- user score has changed (they have thrown away a landfill item)
+// NO- user score has not changed, no need to refresh stats
+@property BOOL userScoreChanged;
+
 // Passed an array of Competitors sorted in ascending order by score
 // If array is null, then the user is not in the competition and the join screen should be displayed instead
 - (void)showCurrentCompetitionView:(NSArray<Competitor*>* _Nullable)sorted;

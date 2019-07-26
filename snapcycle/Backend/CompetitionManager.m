@@ -126,6 +126,8 @@
     }];
 }
 
+#pragma mark - Manage user
+
 - (void)addUserToCurrentCompetition {
     // Create Competitor object
     SnapUser *currentUser = [SnapUser currentUser];
@@ -170,7 +172,11 @@
         } else {
             NSLog(@"%@", object);
             [object incrementKey:@"score"];
-            [object saveInBackground];
+            [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                NSLog(@"%@", self.currentComp.competitorArray);
+                self.delegate.userScoreChanged = YES;
+            }];
+            
         }
     }];
 }
@@ -214,15 +220,13 @@
     }
 }
 
-
 - (void) calculateAndPostPreviousRanking {
     int rank = 0;
     NSNumber *prevUserItems = @(-1);
     
-    
     for (Competitor* competitor in self.sortedPrevious) {
         NSNumber *userItems = competitor.score;
-
+        
         // Check for ties. Rank should only increase if the current user has a different score than the
         // previous user since the users are sorted
         if (![prevUserItems isEqualToNumber:userItems]) {
@@ -235,7 +239,6 @@
         // Update prevUserItems for next iteration of loop
         prevUserItems = userItems;
     }
-    
     // Pass results to delegate
     [self.delegate showPreviousResults:self.sortedPrevious];
 }

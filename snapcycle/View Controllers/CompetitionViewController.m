@@ -29,6 +29,8 @@
 
 @implementation CompetitionViewController
 
+@synthesize userScoreChanged;
+
 #pragma mark - Load and refresh views
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,7 +49,11 @@
 
 // TODO: pull to refresh instead
 - (void)viewDidAppear:(BOOL)animated {
-
+    if (userScoreChanged) {
+        // TODO: only regrab stats array?
+        [self.manager refreshCurrentCompetition];
+        self.userScoreChanged = NO;
+    }
 }
 
 #pragma mark - Current Competition
