@@ -10,6 +10,7 @@
 #import "Parse/Parse.h"
 #import "SnapUser.h"
 #import <Highcharts/Highcharts.h>
+#import "CompetitionManager.h"
 
 @interface AppDelegate ()
 
@@ -28,6 +29,10 @@
         configuration.server = @"http://snapcycle.herokuapp.com/parse";
     }];
     [Parse initializeWithConfiguration:config];
+    
+    // Load competition
+    // TODO: also load yesterday's competition? Might reduce need to requery for badge
+    [[CompetitionManager shared] refreshCurrentCompetition];
     
     // Check for cached user
     if ([SnapUser currentUser]) {
