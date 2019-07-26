@@ -16,9 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *info;
 @property (nonatomic, strong) NSString *moreInfo;
 @property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSString *landfillInfo;
+@property (nonatomic, strong) NSString *compostInfo;
+@property (nonatomic, strong) NSString *recyclingInfo;
 @property (nonatomic, strong) PFFileObject *image;
-
-+ (void) makeCategory;
 
 @end
 

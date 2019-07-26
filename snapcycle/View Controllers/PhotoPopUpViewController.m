@@ -12,10 +12,14 @@
 @interface PhotoPopUpViewController ()
 @property (weak, nonatomic) IBOutlet UIView *cellPopUpView;
 @property (weak, nonatomic) IBOutlet UIImageView *photoImageView;
-@property (weak, nonatomic) IBOutlet UILabel *infoLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *moreInfoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *landfillLabel;
+@property (weak, nonatomic) IBOutlet UILabel *compostLabel;
+@property (weak, nonatomic) IBOutlet UILabel *recyclingLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *landfillImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *compostImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *recyclingImageView;
 
 @end
 
@@ -26,57 +30,25 @@
     // Do any additional setup after loading the view.
     self.photoImageView.image = self.convertedImage;
     self.nameLabel.text = self.trash.category.name;
-    
-    NSMutableString *action = [NSMutableString string];
+    self.landfillLabel.text = self.trash.category.landfillInfo;
+    self.compostLabel.text = self.trash.category.compostInfo;
+    self.recyclingLabel.text = self.trash.category.recyclingInfo;
     
     if ([self.trash.category.type isEqualToString:@"recycling"]) {
-        [action setString:@"recycled"];
+        self.recyclingImageView.image = [UIImage imageNamed:@"green-thumb"];
+        self.landfillImageView.image = [UIImage imageNamed:@"stop-hand"];
+        self.compostImageView.image = [UIImage imageNamed:@"stop-hand"];
     }
-    else if ([self.trash.category.type isEqualToString:@"compost"]) {
-        [action setString:@"composted"];
+    else if ([self.trash.category.type isEqualToString:@"landfill"]) {
+        self.recyclingImageView.image = [UIImage imageNamed:@"stop-hand"];
+        self.landfillImageView.image = [UIImage imageNamed:@"green-thumb"];
+        self.compostImageView.image = [UIImage imageNamed:@"stop-hand"];
     }
     else {
-        [action setString:@"thrown away"];
+        self.recyclingImageView.image = [UIImage imageNamed:@"stop-hand"];
+        self.landfillImageView.image = [UIImage imageNamed:@"stop-hand"];
+        self.compostImageView.image = [UIImage imageNamed:@"green-thumb"];
     }
-    
-    PFQuery *query = [[SnapUser currentUser].trashArray query];
-    PFQuery *categoryQuery = [Category query];
-    [categoryQuery whereKey:@"name" equalTo:self.trash.category.name];
-    [query whereKey:@"category" matchesQuery:categoryQuery];
-    [query whereKey:@"userAction" equalTo:self.trash.category.type];
-    [query countObjectsInBackgroundWithBlock:^(int count, NSError * _Nullable error) {
-        if (!error){
-            if (count > 1) {
-                self.infoLabel.text = [NSString stringWithFormat:@"You've %@ %d %@ items in total! Good job!", action, count, self.trash.category.name];
-            }
-            else {
-                self.infoLabel.text = [NSString stringWithFormat:@"You've %@ %d %@ items in total", action, count, self.trash.category.name];
-            }
-        }
-        else {
-            self.infoLabel.text = [NSString stringWithFormat:@"You've %@ ... %@ items in total!", action, self.trash.category.name];
-        }
-    }];
-    
-    PFQuery *secondQuery = [[SnapUser currentUser].trashArray query];
-    PFQuery *secondCategoryQuery = [Category query];
-    [secondCategoryQuery whereKey:@"name" equalTo:self.trash.category.name];
-    [secondQuery whereKey:@"category" matchesQuery:categoryQuery];
-    [secondQuery whereKey:@"userAction" notEqualTo:self.trash.category.type];
-    [secondQuery countObjectsInBackgroundWithBlock:^(int count, NSError * _Nullable error) {
-        if (!error){
-            if (count > 0) {
-                self.moreInfoLabel.text = [NSString stringWithFormat:@"You should've %@ %d %@ items", action, count, self.trash.category.name];
-            }
-            else {
-                self.moreInfoLabel.text = [NSString stringWithFormat:@"Wow, you've %@ all your %@ items successfully! You're awesome :)", action, self.trash.category.name];
-            }
-        }
-        else {
-            self.moreInfoLabel.text = [NSString stringWithFormat:@"However, you should've %@ ... %@ items", action, self.trash.category.name];
-        }
-    }];
-    
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onOutsideTap:)];
     [self.backgroundImageView setUserInteractionEnabled:YES];

@@ -16,25 +16,12 @@
 @dynamic moreInfo;
 @dynamic type;
 @dynamic image;
+@dynamic landfillInfo;
+@dynamic compostInfo;
+@dynamic recyclingInfo;
 
 + (nonnull NSString *)parseClassName {
     return @"Category";
-}
-
-+ (void) makeCategory {
-    Category *newCategory = [Category new];
-    newCategory.name = @"cans";
-    newCategory.type = @"recycling";
-    newCategory.info = @"recycle dis";
-    
-    UIImage *image = [UIImage imageNamed:@"can"];
-    newCategory.image = [self getPFFileFromImage:image];
-    
-    [newCategory saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (error) {
-            NSLog(@"Error: %@", error.description);
-        }
-    }];
 }
 
 + (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {
