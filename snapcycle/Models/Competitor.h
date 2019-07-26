@@ -8,14 +8,19 @@
 
 #import <Parse/Parse.h>
 #import "SnapUser.h"
+#import "Competition.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Ranking : PFObject<PFSubclassing>
+@interface Competitor : PFObject<PFSubclassing>
 
 @property (nonatomic, strong) SnapUser *user;
-@property (nonatomic, strong) NSNumber *rank;
 @property (nonatomic, strong) NSNumber *score;
+@property (nonatomic, strong) Competition *competition;
+
+// Should only be stored in parse after competition finishes
+@property (nonatomic, strong) NSNumber *rank;
+
 
 @end
 

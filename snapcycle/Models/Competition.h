@@ -10,11 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// Fix import cycle between Competition and Competitor
+@class Competitor;
+
 @interface Competition : PFObject<PFSubclassing>
-@property (nonatomic, strong, readonly) PFRelation *participantArray;
+
 @property (nonatomic, strong) NSDate *startDate;
 @property (nonatomic, strong) NSDate *endDate;
-@property (nonatomic, strong, readonly) PFRelation *rankingArray;
+@property (nonatomic, strong, readonly) NSMutableArray<Competitor*> *competitorArray;
 
 @end
 

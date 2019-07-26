@@ -6,16 +6,17 @@
 //  Copyright © 2019 Quirky Quokkas. All rights reserved.
 //
 
-#import "Ranking.h"
+#import "Competitor.h"
 
-@implementation Ranking
+@implementation Competitor
 
 @dynamic user;
-@dynamic rank;
 @dynamic score;
+@dynamic competition;
+@dynamic rank;
 
 + (nonnull NSString *)parseClassName {
-    return @"Ranking";
+    return @"Competitor";
 }
 
 @end

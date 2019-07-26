@@ -10,14 +10,9 @@
 #import "Competition.h"
 #import "SnapUser.h"
 #import <Highcharts/Highcharts.h>
-#import "Ranking.h"
+#import "Competitor.h"
 
 @interface CompetitionViewController ()
-
-@property (strong, nonatomic) Competition *currentComp;
-@property (strong, nonatomic) Competition *previousComp;
-@property (strong, nonatomic) NSCalendar *cal;
-@property (strong, nonatomic) NSDate *today;
 
 @property (weak, nonatomic) IBOutlet UIView *leaderboardView;
 @property (weak, nonatomic) IBOutlet UILabel *joinPromptLabel;
@@ -28,96 +23,54 @@
 @property (weak, nonatomic) IBOutlet UILabel *previousWinnerLabel;
 @property (weak, nonatomic) IBOutlet UILabel *previousUserRankLabel;
 
-//TODO: use usernames or SnapUsers as keys??
-//Concern with SnapUsers: mutable!
-@property (strong, nonatomic) NSMutableDictionary<NSString*, NSNumber*> *usernameScores;
+@property (strong, nonatomic) CompetitionManager *manager;
+
 @end
 
 @implementation CompetitionViewController
 
+@synthesize userScoreChanged;
+
 #pragma mark - Load and refresh views
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    self.cal.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"PDT"];
-    [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PDT"]];
-    self.today = [NSDate date];
     
-    self.usernameScores = [[NSMutableDictionary alloc] init];
+    // TODO: remove
+    // self.usernameScores = [[NSMutableDictionary alloc] init];
+    
+    self.manager = [CompetitionManager shared];
+    self.manager.delegate = self;
+    
+    // Will call back self to update view
+    [self.manager refreshCurrentCompetition];
 
-    [self getCurrentCompetition];
-    [self showPreviousResults];
+    [self.manager refreshYesterdayCompetition];
 }
 
+// TODO: pull to refresh instead
 - (void)viewDidAppear:(BOOL)animated {
-    // Update current date
-    self.today = [NSDate date];
-    
-    // If it's a different day from when we last fetched competition
-    if (self.currentComp && [self.currentComp.endDate compare:self.today] == NSOrderedAscending) {
-        NSLog(@"It's a new day, refetching competition");
-        // Reset cached scores bc we are no longer displaying the same competition
-        self.usernameScores = [[NSMutableDictionary alloc] init];
-
-        [self getCurrentCompetition];
-        [self showPreviousResults];
-    } else {
-        // TODO: only refresh stats if user is currently in competition
-        [self refreshCompetitionStats];
+    if (userScoreChanged) {
+        // TODO: only regrab stats array?
+        [self.manager refreshCurrentCompetition];
+        self.userScoreChanged = NO;
     }
 }
 
 #pragma mark - Current Competition
 
-// Fetch current daily competition, or create a new one if there is none
-- (void)getCurrentCompetition {
-    // Check if there is currently a competition (current date is between start and end date)
-    PFQuery *competitionQuery = [Competition query];
-    [competitionQuery whereKey:@"startDate" lessThanOrEqualTo:self.today];
-    [competitionQuery whereKey:@"endDate" greaterThanOrEqualTo:self.today];
-    [competitionQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable competition, NSError * _Nullable error) {
-        if (competition) {
-            // There is an ongoing competition
-            NSLog(@"there is a current competition");
-            self.currentComp = (Competition*)competition;
-            [self checkIfUserIsInCurrentComp]; // TODO: move this logic out of if/else with dispatch group?
-        } else  {
-            // No current competition, make one
-            NSLog(@"no current competition, creating one");
-            [self makeCompetition];
-        }
-    }];
-}
-
-// Check if user is in current competition and refresh view
-- (void)checkIfUserIsInCurrentComp {
-    PFQuery *participantQuery = [self.currentComp.participantArray query];
-    [participantQuery whereKey:@"objectId" equalTo:[SnapUser currentUser].objectId];
-    
-    [participantQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"Error fetching participants: %@", error.localizedDescription);
-        } else if (number == 0) {
-            // User is not in competition
-            [self refreshViewWithStatusInComp:NO];
-        } else {
-            // User is in competion
-            [self refreshViewWithStatusInComp:YES];
-        }
-    }];
-}
-
-// Refresh display based on whether user is currently in competition
-- (void)refreshViewWithStatusInComp:(BOOL)userInComp {
-    if (userInComp) {
-        // User has already joined current competition
+// Passed an array of Competitors sorted in ascending order by score
+// If array is null, then the user is not in the compeition and the join screen should be displayed instead
+- (void)showCurrentCompetitionView:(NSArray<Competitor*>* _Nullable)sorted {
+    if (sorted) {
+        // User is in current competition
         self.joinPromptLabel.hidden = YES;
         self.joinButton.hidden = YES;
         self.leaderboardStatsLabel.hidden = NO;
         self.leaderboardHeaderLabel.hidden = NO;
-        [self refreshCompetitionStats];
+        
+        [self showCompetitionStats:sorted];
     } else {
-        // User hasn't joined current competition
+        // User is not in current competition
         self.joinPromptLabel.hidden = NO;
         self.joinButton.hidden = NO;
         self.leaderboardStatsLabel.hidden = YES;
@@ -125,266 +78,98 @@
     }
 }
 
-// Fetch competition stats and reload leaderboard
-- (void)refreshCompetitionStats {
-    dispatch_group_t group = dispatch_group_create();
+// Load leaderboard
+- (void)showCompetitionStats:(NSArray<Competitor*>*)sorted {
+    NSMutableString *stats = [[NSMutableString alloc] init];
     
-    // Fetch all participants
-    PFQuery *participantQuery = [self.currentComp.participantArray query];
-    [participantQuery findObjectsInBackgroundWithBlock:^(NSArray<SnapUser*> * _Nullable participants, NSError * _Nullable error) {
-        // TODO: optimize
-        // Find number of landfill items today for each user
-        for (SnapUser *participant in participants) {
-            PFQuery *landfillItemsQuery = [participant.trashArray query];
-            [landfillItemsQuery whereKey:@"userAction" equalTo:@"landfill"];
-            [landfillItemsQuery whereKey:@"createdAt" greaterThanOrEqualTo:self.currentComp.startDate];
-            [landfillItemsQuery whereKey:@"createdAt" lessThanOrEqualTo:self.currentComp.endDate];
-            
-            dispatch_group_enter(group);
-            [landfillItemsQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-                [self.usernameScores setValue:@(number) forKey:participant.username];
-                dispatch_group_leave(group);
-            }];
+    int rank = 0;
+    NSNumber *prevUserItems = @(-1);
+    
+    for (Competitor* competitor in sorted) {
+        NSNumber *userItems = competitor.score;
+        
+        // Check for ties. Rank should only increase if the current user has a different score than the
+        // previous user since the users are sorted
+        if (![prevUserItems isEqualToNumber:userItems]) {
+            rank++;
         }
         
-        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-            // Order from least to most items and print
-            NSArray<NSString*> *sorted = [self.usernameScores keysSortedByValueUsingSelector:@selector(compare:)];
-            NSMutableString *stats = [[NSMutableString alloc] init];
-            
-            int rank = 0;
-            NSNumber *prevUserItems = @(-1);
-            
-            for (NSString* username in sorted) {
-                NSNumber *userItems = [self.usernameScores objectForKey:username];
-                
-                // Check for ties. Rank should only increase if the current user has a different score than the
-                // previous user since the users are sorted
-                if (![prevUserItems isEqualToNumber:userItems]) {
-                    rank++;
-                }
-                
-                [stats appendFormat:@"#%i %@ : %@ items in the landfill today\n", rank, username, userItems];
-                
-                // Update prevUserItems for next iteration of loop
-                prevUserItems = userItems;
-            }
-            self.leaderboardStatsLabel.text = stats;
-            [self.leaderboardStatsLabel sizeToFit];
-        });
-    }];
+        [stats appendFormat:@"#%i %@ : %@ items in the landfill today\n", rank, competitor.user.username, userItems];
+        // Update prevUserItems for next iteration of loop
+        prevUserItems = userItems;
+    }
+    self.leaderboardStatsLabel.text = stats;
+    [self.leaderboardStatsLabel sizeToFit];
 }
-
 
 #pragma mark - Previous Competition Results
 
-- (void) showPreviousResults {
-    // TODO: can add competitions from other days
-    [self getYesterdayCompetition];
+- (void)showPreviousResults:(NSArray<Competitor*>* _Nullable)sorted {
+    NSLog(@"sorted: %@", sorted);
+    
+    if (sorted) {
+        [self showPreviousWinner:sorted];
+        [self showPreviousUserRank:sorted];
+    } else {
+        self.previousUserRankLabel.hidden = YES;
+        self.previousWinnerLabel.text = @"No competition yesterday.";
+    }
 }
 
-// TODO: assumes there was always a competition yesterday, which isn't true if no one opened the app yesterday
-- (void) getYesterdayCompetition {
-    NSLog(@"getting yesterday's competition");
-    // Yesterday
-    NSDateComponents *minusOneDay = [[NSDateComponents alloc] init];
-    [minusOneDay setDay:-1];
-    NSDate *yesterday = [self.cal dateByAddingComponents:minusOneDay toDate:self.today options:0];
+// Display winner given non-null,sorted array of Competitors
+- (void) showPreviousWinner:(NSArray<Competitor*>*)sorted {
+    NSMutableString *results = [NSMutableString stringWithString:@"Winner(s): "];
+    [results appendString: sorted[0].user.username];
     
-    // TODO: abstract out, can share with current comp query --> competition for day
-    PFQuery *yesterdayCompQuery = [Competition query];
-    [yesterdayCompQuery whereKey:@"startDate" lessThanOrEqualTo:yesterday];
-    [yesterdayCompQuery whereKey:@"endDate" greaterThanOrEqualTo:yesterday];
-    [yesterdayCompQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        if (object) {
-            self.previousComp = (Competition*)object;
-            [self checkPreviousRanking];
+    int i = 1;
+    while (i < sorted.count && [sorted[i].rank isEqualToNumber:@(1)]) {
+        [results appendFormat:@", %@", sorted[i].user.username];
+        i++;
+    }
+    
+    [results appendFormat:@" with %@ items in the landfill", sorted[0].score];
+    self.previousWinnerLabel.text = results;
+}
+
+// Display the user's rank from the previous competition given non-null, sorted array of Competitors
+- (void) showPreviousUserRank:(NSArray<Competitor*>*)sorted {
+    // Find user in array of competitors
+    Competitor *userCompetitor = NULL;
+    for (Competitor *competitor in sorted) {
+        // If we have found the user
+        if ([competitor.user.username isEqualToString:[SnapUser currentUser].username]) {
+            userCompetitor = competitor;
+            break;
+        }
+    }
+    
+    if (userCompetitor) {
+        // User participated yesterday
+        if ([userCompetitor.rank isEqualToNumber:@(1)]) {
+            self.previousUserRankLabel.text = @"Congrats, you're a winner! Thanks for snapcycling!";
         } else {
-            NSLog(@"no competition yesterday");
+            self.previousUserRankLabel.text = [NSString stringWithFormat:@"You ranked #%@ with %@ items in the landfill. Thanks for snapcycling!", userCompetitor.rank, userCompetitor.score];
         }
-    }];
+        self.previousUserRankLabel.hidden = NO;
+    } else {
+        // User did not participate yesterday
+        self.previousUserRankLabel.hidden = YES;
+    }
 }
-
-- (void) checkPreviousRanking {
-    PFQuery *rankingQuery = [self.previousComp.rankingArray query];
-    // TODO: change this to count? which is better? really just want to check if it's empty
-    [rankingQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        if (!object) {
-            NSLog(@"rankings have not yet been calculated");
-            [self calculateAndPostPreviousRanking];
-        } else if (object) {
-            NSLog(@"rankings have already been calculated, pull rankings");
-            // in both cases we need to do this, figure out how to pull out but problems because of asyc
-            [self loadPreviousWinner];
-            [self loadPreviousUserRank];
-        } else {
-            NSLog(@"%@", error);
-        }
-    }];
-}
-
-- (void) calculateAndPostPreviousRanking {
-    // TODO: abstract out with current comp code
-    NSLog(@"calculating rankings");
-    dispatch_group_t group = dispatch_group_create();
-    
-    // Fetch all participants
-    PFQuery *participantQuery = [self.previousComp.participantArray query];
-    [participantQuery findObjectsInBackgroundWithBlock:^(NSArray<SnapUser*> * _Nullable participants, NSError * _Nullable error) {
-        
-        // Find number of landfill items today for each user
-        for (SnapUser *participant in participants) {
-            PFQuery *landfillItemsQuery = [participant.trashArray query];
-            [landfillItemsQuery whereKey:@"userAction" equalTo:@"landfill"];
-            [landfillItemsQuery whereKey:@"createdAt" greaterThanOrEqualTo:self.previousComp.startDate];
-            [landfillItemsQuery whereKey:@"createdAt" lessThanOrEqualTo:self.previousComp.endDate];
-            
-            dispatch_group_enter(group);
-            [landfillItemsQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-                Ranking *rank = [Ranking new];
-                rank.user = participant;
-                rank.score = @(number);
-                
-                [rank saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                    [self.previousComp.rankingArray addObject:rank];
-                    dispatch_group_leave(group);
-                }];
-            }];
-        }
-        
-        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-            // Order from least to most items and print
-            NSLog(@"Posting rankings");
-            [self.previousComp saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                PFQuery *rankQuery = [self.previousComp.rankingArray query];
-                [rankQuery orderByAscending:@"score"];
-                
-                // TODO: similar to refresh competition stats
-                [rankQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable sorted, NSError * _Nullable error) {
-                    NSLog(@"sorting rankings");
-                    int rank = 0;
-                    NSNumber *prevUserItems = @(-1);
-                    
-                    for (Ranking* ranking in sorted) {
-                        NSNumber *userItems = ranking.score;
-                        
-                        // Check for ties. Rank should only increase if the current user has a different score than the
-                        // previous user since the users are sorted
-                        if (![prevUserItems isEqualToNumber:userItems]) {
-                            rank++;
-                        }
-                        
-                        ranking.rank = @(rank);
-                        [ranking saveInBackground];
-                        
-                        // Update prevUserItems for next iteration of loop
-                        prevUserItems = userItems;
-                    }
-                    
-                    [self loadPreviousWinner];
-                    [self loadPreviousUserRank];
-                }];
-            }];
-        });
-    }];
-}
-
-- (void) loadPreviousWinner {
-    PFQuery *winnerQuery = [self.previousComp.rankingArray query];
-    [winnerQuery whereKey:@"rank" equalTo:@(1)];
-    [winnerQuery includeKey:@"user"];
-    [winnerQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        NSMutableString *results = [NSMutableString stringWithString:@"Winner(s): "];
-        if (objects.count != 0) {
-            NSArray<Ranking*> *winners = (NSArray<Ranking*>*)objects;
-            [results appendString: winners[0].user.username];
-            for (int i = 1; i < winners.count; i++) {
-                [results appendFormat:@", %@", winners[i].user.username];
-            }
-            [results appendFormat:@" with %@ items in the landfill", winners[0].score];
-            self.previousWinnerLabel.text = results;
-            
-        } else {
-            [results appendString: @"no winner"];
-        }
-        self.previousWinnerLabel.text = results;
-    }];
-    
-}
-
-- (void) loadPreviousUserRank {
-    PFQuery *userRankQuery = [self.previousComp.rankingArray query];
-    [userRankQuery whereKey:@"user" equalTo:[SnapUser currentUser]];
-    [userRankQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        if (!object) {
-            // User did not participate in yesterday's competition
-            self.previousUserRankLabel.hidden = YES;
-        } else if (error) {
-            NSLog(@"%@", error.localizedDescription);
-        } else {
-            // User participated in yesterday's competition
-            Ranking *userRank = (Ranking*)object;
-            
-            if ([userRank.rank isEqualToNumber:@(1)]) {
-                self.previousUserRankLabel.text = @"Congrats, you're a winner! Thanks for snapcycling!";
-            } else {
-                self.previousUserRankLabel.text = [NSString stringWithFormat:@"You ranked #%@ with %@ items in the landfill. Thanks for snapcycling!", userRank.rank, userRank.score];
-            }
-            self.previousUserRankLabel.hidden = NO;
-        }
-    }];
-}
-
-#pragma mark - Organize competitions
-
-/**
- Make the daily competition.
- TODO: change this to weekly?
- TODO: PDT
- */
-- (void)makeCompetition {
-    Competition *newCompetition = [Competition new];
-    
-    newCompetition.startDate = [self.cal startOfDayForDate:self.today];
-    
-    // Calculate 24 hours after start date (in seconds)
-    int NUM_SECONDS_IN_24_HOURS = 86399;
-    newCompetition.endDate = [NSDate dateWithTimeInterval:NUM_SECONDS_IN_24_HOURS sinceDate:newCompetition.startDate];
-    
-    [newCompetition saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"Error creating competition: %@", error.localizedDescription);
-        } else  {
-            self.currentComp = newCompetition;
-            
-            // User cannot already be in competition because it was just created
-            [self refreshViewWithStatusInComp:NO];
-        }
-    }];
-}
-
 
 #pragma mark - User Actions
 - (IBAction)onJoinTap:(id)sender {
-    [self.currentComp.participantArray addObject:[SnapUser currentUser]];
-    [self.currentComp saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (error) {
-            // TODO: error
-            NSLog(@"Error joining: %@", error.localizedDescription);
-        } else {
-            [self refreshViewWithStatusInComp:YES];
-        }
-    }];
+    [self.manager addUserToCurrentCompetition];
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
