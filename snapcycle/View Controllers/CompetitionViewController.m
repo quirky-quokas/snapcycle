@@ -14,11 +14,11 @@
 
 @interface CompetitionViewController ()
 
+// Leaderboard chart
 @property (weak, nonatomic) IBOutlet HIChartView *leaderboardChart;
+@property (strong, nonatomic) HIOptions *options;
 @property (weak, nonatomic) IBOutlet UILabel *joinPromptLabel;
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
-@property (weak, nonatomic) IBOutlet UILabel *leaderboardHeaderLabel;
-@property (weak, nonatomic) IBOutlet UILabel *leaderboardStatsLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *previousWinnerLabel;
 @property (weak, nonatomic) IBOutlet UILabel *previousUserRankLabel;
@@ -37,6 +37,8 @@
     
     self.manager = [CompetitionManager shared];
     self.manager.delegate = self;
+    
+    [self configureLeaderboardChart];
     
     // Will call back self to update view
     [self.manager refreshCurrentCompetition];
@@ -63,26 +65,19 @@
         self.joinPromptLabel.hidden = YES;
         self.joinButton.hidden = YES;
         
-        // TODO: change back to nos
-        self.leaderboardStatsLabel.hidden = YES;
-        self.leaderboardHeaderLabel.hidden = YES;
-        
         [self showCompetitionStats:sorted];
     } else {
         // User is not in current competition
         self.joinPromptLabel.hidden = NO;
         self.joinButton.hidden = NO;
-        self.leaderboardStatsLabel.hidden = YES;
-        self.leaderboardHeaderLabel.hidden = YES;
+        self.leaderboardChart.hidden = YES;
     }
 }
 
-// Load leaderboard
-- (void)showCompetitionStats:(NSArray<Competitor*>*)sorted {
-    // Leaderboard chart
+- (void)configureLeaderboardChart {
     HIChart *chart = [[HIChart alloc]init];
     chart.type = @"bar";
-
+    
     HITitle *title = [[HITitle alloc]init];
     title.text = @"Daily Competition Leaderboard";
     
@@ -107,14 +102,25 @@
     yaxis.title.text = @"Items in landfill";
     yaxis.title.align = @"high";
     
-    // Users and rank
-    HIXAxis * xaxis = [[HIXAxis alloc]init];
+    self.options = [[HIOptions alloc]init];
+    self.options.chart = chart;
+    self.options.title = title;
+    self.options.subtitle = subtitle;
+    self.options.yAxis = [NSMutableArray arrayWithObjects:yaxis, nil];
+    self.options.tooltip = tooltip;
+    self.options.plotOptions = plotOptions;
+    self.options.credits = credits;
+    self.options.exporting = exporting;
+}
+
+// Load leaderboard
+- (void)showCompetitionStats:(NSArray<Competitor*>*)sorted {
+    // Get users and rank, get scores
     NSMutableArray<NSString*> *rankedUsernames = [[NSMutableArray alloc] init];
     NSMutableArray<NSNumber*> *itemsInLandfill = [[NSMutableArray alloc] init];
     
     int rank = 0;
     NSNumber *prevUserItems = @(-1);
-    
     for (Competitor* competitor in sorted) {
         NSNumber *userItems = competitor.score;
         
@@ -131,30 +137,22 @@
         prevUserItems = userItems;
     }
     
+    HIXAxis * xaxis = [[HIXAxis alloc]init];
     xaxis.categories = rankedUsernames;
     xaxis.labels = [[HILabels alloc] init];
     xaxis.labels.align = @"left";
     xaxis.labels.reserveSpace = [[NSNumber alloc] initWithBool:true];
     
+    // TODO: configure color
     HIBar *bar1 = [[HIBar alloc]init];
     bar1.name = @"Landfill";
     bar1.showInLegend = [[NSNumber alloc] initWithBool:false];
     bar1.data = itemsInLandfill;
-    // TODO: configure color
     
-    HIOptions *options = [[HIOptions alloc]init];
-    options.chart = chart;
-    options.title = title;
-    options.subtitle = subtitle;
-    options.xAxis = [NSMutableArray arrayWithObjects:xaxis, nil];
-    options.yAxis = [NSMutableArray arrayWithObjects:yaxis, nil];
-    options.tooltip = tooltip;
-    options.plotOptions = plotOptions;
-    options.credits = credits;
-    options.exporting = exporting;
-    options.series = [NSMutableArray arrayWithObjects:bar1, nil];
-    
-    self.leaderboardChart.options = options;
+    self.options.xAxis = [NSMutableArray arrayWithObjects:xaxis, nil];
+    self.options.series = [NSMutableArray arrayWithObjects:bar1, nil];
+    self.leaderboardChart.options = self.options;
+    self.leaderboardChart.hidden = NO;
 }
 
 #pragma mark - Previous Competition Results

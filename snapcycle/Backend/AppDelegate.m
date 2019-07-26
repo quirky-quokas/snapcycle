@@ -31,6 +31,7 @@
     [Parse initializeWithConfiguration:config];
     
     // Load competition
+    // TODO: also load yesterday's competition? Might reduce need to requery for badge
     [[CompetitionManager shared] refreshCurrentCompetition];
     
     // Check for cached user
