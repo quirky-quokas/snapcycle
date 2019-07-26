@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cropped icon" translatesAutoresizingMaskIntoConstraints="NO" id="mGg-hP-iqr">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="camButIcon artboard white" translatesAutoresizingMaskIntoConstraints="NO" id="mGg-hP-iqr">
                                 <rect key="frame" x="129" y="307" width="117" height="108"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -37,7 +37,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="camButIcon artboard white" width="269" height="236"/>
         <image name="clipped to font-1" width="406" height="105"/>
-        <image name="cropped icon" width="120" height="120"/>
     </resources>
 </document>

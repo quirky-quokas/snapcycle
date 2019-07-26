@@ -24,6 +24,7 @@
 @property (strong, nonatomic) AVCapturePhotoOutput *stillImageOutput;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 @property (strong, nonatomic) AVCaptureDevice *backCamera;
+@property (weak, nonatomic) IBOutlet UIButton *cameraButton;
 
 @end
 

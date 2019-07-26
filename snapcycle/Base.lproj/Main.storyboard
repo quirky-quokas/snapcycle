@@ -112,11 +112,10 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zH4-Ea-L8P">
-                                <rect key="frame" x="97" y="576" width="180" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zH4-Ea-L8P">
+                                <rect key="frame" x="155" y="545" width="74" height="65"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.58039215686274503" green="0.78431372549019607" blue="0.23921568627450979" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <state key="normal" title="Snap photo">
+                                <state key="normal" image="camButIcon artboard white">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -132,6 +131,7 @@
                         <barButtonItem key="backBarButtonItem" title="Camera" id="hqk-b1-9O1"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="cameraButton" destination="zH4-Ea-L8P" id="4JS-Tp-U15"/>
                         <outlet property="cameraView" destination="BvN-uu-SIn" id="jAc-Ig-7Aq"/>
                         <segue destination="5lJ-x6-utv" kind="show" identifier="segueToDetailsVC" id="IG0-Za-uas"/>
                     </connections>
@@ -806,6 +806,7 @@
     </scenes>
     <resources>
         <image name="behind-popup-view" width="320" height="460"/>
+        <image name="camButIcon artboard white" width="269" height="236"/>
         <image name="logo pic" width="407" height="113"/>
     </resources>
     <inferredMetricsTieBreakers>
