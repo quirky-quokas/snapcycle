@@ -173,10 +173,8 @@
             // Also catches case where user is not in competition
             NSLog(@"%@", error.localizedDescription);
         } else {
-            NSLog(@"%@", object);
             [object incrementKey:@"score"];
             [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                NSLog(@"%@", self.currentComp.competitorArray);
                 self.delegate.userScoreChanged = YES;
             }];
             

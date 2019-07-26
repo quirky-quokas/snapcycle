@@ -102,8 +102,6 @@
 #pragma mark - Previous Competition Results
 
 - (void)showPreviousResults:(NSArray<Competitor*>* _Nullable)sorted {
-    NSLog(@"sorted: %@", sorted);
-    
     if (sorted) {
         [self showPreviousWinner:sorted];
         [self showPreviousUserRank:sorted];
