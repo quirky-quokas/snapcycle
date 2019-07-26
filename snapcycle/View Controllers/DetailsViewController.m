@@ -53,12 +53,12 @@
             if (!error) {
                 UIImage *imageToLoad = [UIImage imageWithData:data];
                 [self.categoryImageView setImage:imageToLoad];
+                self.categoryImageView.contentMode = UIViewContentModeScaleAspectFit;
             }
             else {
                 NSLog(@"%@",error.localizedDescription);
                 [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:error.localizedDescription];
             }
-            
         }];
     }
     else {
@@ -208,7 +208,7 @@
     fullScreenView.contentMode = UIViewContentModeScaleAspectFit;
     fullScreenView.image = self.categoryImageView.image;
     fullScreenVC.view = fullScreenView;
-    
+
     [self presentViewController:fullScreenVC animated:YES completion:nil];
 
     // add gesture recognizer to remove full screen view
@@ -224,10 +224,8 @@
  Removes the enlarged full screen view of the user's trash photo.
  */
 - (void)removeFullScreen:(UITapGestureRecognizer *)tapGR {
-    NSLog(@"Made it to remove method");
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 
 /*
 #pragma mark - Navigation
