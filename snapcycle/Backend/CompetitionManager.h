@@ -33,6 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)refreshCurrentCompetition;
 - (void)addUserToCurrentCompetition;
 
+// Increasees user's score by 1 in current competition
+// If user is not in current competition, then nothing happens
+- (void)incrementUserLandfillScore;
+
 // Previous Competition
 - (void)refreshYesterdayCompetition;
 

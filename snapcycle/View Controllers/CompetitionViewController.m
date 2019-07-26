@@ -47,20 +47,7 @@
 
 // TODO: pull to refresh instead
 - (void)viewDidAppear:(BOOL)animated {
-    /*
-    // If it's a different day from when we last fetched competition
-    if (self.currentComp && [self.currentComp.endDate compare:self.today] == NSOrderedAscending) {
-        NSLog(@"It's a new day, refetching competition");
-        // Reset cached scores bc we are no longer displaying the same competition
-        self.usernameScores = [[NSMutableDictionary alloc] init];
 
-        [self getCurrentCompetition];
-        [self showPreviousResults];
-    } else {
-        // TODO: only refresh stats if user is currently in competition
-        [self refreshCompetitionStats];
-    }
-     */
 }
 
 #pragma mark - Current Competition

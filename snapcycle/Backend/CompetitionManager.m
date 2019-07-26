@@ -13,9 +13,11 @@
 
 @interface CompetitionManager()
 
+// Current competition
 @property (strong, nonatomic) Competition *currentComp;
 @property (strong, nonatomic) NSArray *sortedCompetitors;
 
+// Previous competition
 @property (strong, nonatomic) Competition *previousComp;
 @property (strong, nonatomic) NSArray *sortedPrevious;
 
@@ -49,13 +51,23 @@
     return self;
 }
 
+- (void) updateToday {
+    self.today = [NSDate date];
+    // If it's a different day from when we last fetched competition
+    if (self.currentComp && [self.currentComp.endDate compare:self.today] == NSOrderedAscending) {
+        NSLog(@"It's a new day, refetching competition");
+        [self refreshCurrentCompetition];
+    }
+}
+
+
 #pragma mark - Current Competition
 
 // Fetch current daily competition, or create a new one if there is none
 - (void)refreshCurrentCompetition {
     // Update today
     // TODO: figure out when to update today
-    self.today = [NSDate date];
+    [self updateToday];
     
     // Check if there is currently a competition (current date is between start and end date)
     PFQuery *competitionQuery = [Competition query];
@@ -71,7 +83,7 @@
             NSLog(@"there is a current competition");
             self.currentComp = (Competition*)competition;
             self.sortedCompetitors = [self sortCompetitors:self.currentComp.competitorArray];
-            [self checkIfUserIsInCurrentComp]; // TODO: move this logic out of if/else with dispatch group?
+            [self checkIfUserIsInCurrentComp];
         } else  {
             // No current competition, make one
             NSLog(@"no current competition, creating one");
@@ -99,7 +111,6 @@
 /**
  Make the daily competition.
  TODO: change this to weekly?
- TODO: PDT
  */
 - (void)makeCompetition {
     Competition *newCompetition = [Competition new];
@@ -151,8 +162,31 @@
     }];
 }
 
+- (void)incrementUserLandfillScore {
+    // TODO: updateToday is async.
+    [self updateToday];
+    
+    // Update competition score
+    PFQuery *competitorQuery = [Competitor query];
+    [competitorQuery whereKey:@"user" equalTo:[SnapUser currentUser]];
+    [competitorQuery whereKey:@"competition" equalTo:self.currentComp];
+    [competitorQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        if (error) {
+            // Also catches case where user is not in competition
+            NSLog(@"%@", error.localizedDescription);
+        } else {
+            NSLog(@"%@", object);
+            [object incrementKey:@"score"];
+            [object saveInBackground];
+        }
+    }];
+}
+
 # pragma mark - Previous Competition
 - (void)refreshYesterdayCompetition {
+    // TODO: updateToday is async.
+    [self updateToday];
+    
     // Yesterday
     NSDateComponents *minusOneDay = [[NSDateComponents alloc] init];
     [minusOneDay setDay:-1];
@@ -163,8 +197,6 @@
     [yesterdayCompQuery whereKey:@"startDate" lessThanOrEqualTo:yesterday];
     [yesterdayCompQuery whereKey:@"endDate" greaterThanOrEqualTo:yesterday];
     [yesterdayCompQuery includeKey:@"competitorArray"];
-    
-    //TODO: investigate
     [yesterdayCompQuery includeKey:@"competitorArray.user"];
     
     [yesterdayCompQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
@@ -178,7 +210,6 @@
 }
 
 - (void)checkPreviousRanking {
-    
     if (self.previousComp.competitorArray && self.previousComp.competitorArray.count != 0) {
         // Competition had participants, sort them by score
         self.sortedPrevious = [self sortCompetitors:self.previousComp.competitorArray];
@@ -222,7 +253,7 @@
     [self.delegate showPreviousResults:self.sortedPrevious];
 }
 
-
+# pragma mark - Sort participants
 - (NSArray<Competitor*>*)sortCompetitors:(NSArray<Competitor*>*)competitorArray {
     return [competitorArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         NSNumber* first = ((Competitor*)obj1).score;
@@ -230,9 +261,5 @@
         return [first compare:second];
     }];
 }
-
-
-
-
 
 @end

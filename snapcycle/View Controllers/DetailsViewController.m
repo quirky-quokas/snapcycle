@@ -13,7 +13,7 @@
 #import "SnapUser.h"
 #import "Trash.h"
 #import "TabBarController.h"
-#import "Competitor.h"
+#import "CompetitionManager.h"
 
 @interface DetailsViewController () <UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -172,20 +172,8 @@
             [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             }];
             
-            // Update competition score
-            PFQuery *rankingQuery = [Competitor query];
-            [rankingQuery whereKey:@"user" equalTo:user];
-            // TODO: specify current competition
-            [rankingQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-                if (error) {
-                    // Also catches case where user is not in competition
-                    NSLog(@"%@", error.localizedDescription);
-                } else {
-                    NSLog(@"%@", object);
-                    [object incrementKey:@"score"];
-                    [object saveInBackground];
-                }
-            }];
+            // Update user score 
+            [[CompetitionManager shared] incrementUserLandfillScore];
             
             [self.navigationController popViewControllerAnimated:YES];
             NSString* message = @"You've successfully thrown away your trash";
