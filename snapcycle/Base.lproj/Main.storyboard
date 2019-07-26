@@ -663,17 +663,31 @@
                                 </connections>
                             </imageView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HBh-cp-CNz">
-                                <rect key="frame" x="36" y="163" width="303" height="340"/>
+                                <rect key="frame" x="36" y="163" width="303" height="373"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XJ3-cr-MmE">
-                                        <rect key="frame" x="0.0" y="0.0" width="303" height="230"/>
+                                        <rect key="frame" x="0.0" y="43" width="303" height="189"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This is the 3rd can you've thrown away" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84p-fZ-aUp">
-                                        <rect key="frame" x="8" y="238" width="287" height="94"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You've thrown away 4 cans! Good job!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84p-fZ-aUp">
+                                        <rect key="frame" x="8" y="240" width="287" height="53"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xub-H6-yq3">
+                                        <rect key="frame" x="8" y="14" width="287" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You should've thrown away 3 cans" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r5U-mZ-lMd">
+                                        <rect key="frame" x="8" y="301" width="287" height="64"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -688,6 +702,8 @@
                         <outlet property="backgroundImageView" destination="unS-Es-U2C" id="BvA-N9-Dmv"/>
                         <outlet property="cellPopUpView" destination="HBh-cp-CNz" id="LFA-JY-pgj"/>
                         <outlet property="infoLabel" destination="84p-fZ-aUp" id="eYb-PV-3qv"/>
+                        <outlet property="moreInfoLabel" destination="r5U-mZ-lMd" id="YQz-p5-JcG"/>
+                        <outlet property="nameLabel" destination="xub-H6-yq3" id="uUp-tc-ndU"/>
                         <outlet property="photoImageView" destination="XJ3-cr-MmE" id="kCr-7M-gQK"/>
                     </connections>
                 </viewController>
