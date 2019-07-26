@@ -36,7 +36,7 @@
         self.markerImageView.image = image;
     }
     else {
-        UIImage *image = [UIImage imageNamed:@"star"];
+        UIImage *image = [UIImage imageNamed:@"green-check"];
         self.markerImageView.image = image;
     }
 }

@@ -14,14 +14,17 @@
 #import "RegisterViewController.h"
 #import "TabBarController.h"
 #import "FocusFrame.h"
+//#import "CameraView.h"
 
-@interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate>
+@interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate> //CameraViewDelegate
 @property (strong, nonatomic) UIImage *capturedImage;
-@property (weak, nonatomic) IBOutlet UIView *previewView;
+//@property (weak, nonatomic) IBOutlet CameraView *cameraView2;
+@property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (strong, nonatomic) AVCaptureSession *session;
 @property (strong, nonatomic) AVCapturePhotoOutput *stillImageOutput;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 @property (strong, nonatomic) AVCaptureDevice *backCamera;
+@property (weak, nonatomic) IBOutlet UIButton *cameraButton;
 
 @end
 
@@ -32,24 +35,26 @@
  */
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     // instantiate the camera
     [self initializeCamera];
-    
+
+//    self.cameraView.delegate = self;
+
     // instantiate the pinch gesture recognizer (zoom)
     UIPinchGestureRecognizer *pinchGR = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchZoom:)];
-    [self.previewView addGestureRecognizer:pinchGR];
-    self.previewView.userInteractionEnabled = YES;
+    [self.cameraView addGestureRecognizer:pinchGR];
+    self.cameraView.userInteractionEnabled = YES;
     pinchGR.cancelsTouchesInView = NO;
     pinchGR.delegate = self;
-    
+
     // instantiate the tap gesture recognizer (focus)
     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFocus:)];
-    [self.previewView addGestureRecognizer:tapGR];
+    [self.cameraView addGestureRecognizer:tapGR];
     tapGR.numberOfTapsRequired = 1;
     tapGR.numberOfTouchesRequired = 1;
     tapGR.delegate = self;
-    
+
     // set the navigation bar font
     UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:scBlue, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Light" size:25]}];
@@ -103,8 +108,8 @@
     
     if (self.videoPreviewLayer) {
         self.videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-        self.videoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait; //TODO: make landscape compatible?
-        [self.previewView.layer addSublayer:self.videoPreviewLayer];
+        self.videoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+        [self.cameraView.layer addSublayer:self.videoPreviewLayer];
         
         // start the session on the background thread (startRunning will block the UI if it's running on the main thread)
         dispatch_queue_t globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
@@ -113,7 +118,7 @@
             
             // set preview layer to fit previewView
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.videoPreviewLayer.frame = self.previewView.bounds;
+                self.videoPreviewLayer.frame = self.cameraView.bounds;
             });
         });
     }
@@ -123,7 +128,7 @@
  Enables zoom in/out for the live preview.
  */
 - (void)handlePinchZoom:(UIPinchGestureRecognizer *)pinchGR {
-    const CGFloat pinchVelocityDividerFactor = 5.0f;
+    const CGFloat pinchVelocityDividerFactor = 10.0f;
     
     if (pinchGR.state == UIGestureRecognizerStateChanged) {
         NSError *error = nil;
@@ -143,7 +148,7 @@
  */
 - (void)handleTapFocus:(UITapGestureRecognizer *)tapGR{
     // get the tapped point
-    CGPoint tapPoint = [tapGR locationInView:self.previewView];
+    CGPoint tapPoint = [tapGR locationInView:self.cameraView];
     
     if([self.backCamera isFocusPointOfInterestSupported] && [self.backCamera isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
         CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -175,18 +180,17 @@
 - (void)drawFocusFrame:(struct CGPoint)point{
     CGRect frameRect = CGRectMake(point.x-40, point.y-40, 60, 60);
     FocusFrame *focusFrame = [[FocusFrame alloc] initWithFrame:frameRect];
-    [self.previewView addSubview:focusFrame];
+    [self.cameraView addSubview:focusFrame];
     [focusFrame setNeedsDisplay];
-    
+
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:1.0];
     [focusFrame setAlpha:0.0];
     [UIView commitAnimations];
 }
 
-
 /**
- The user tapped the "Take photo" button.
+ The user tapped the "Snap photo" button.
  */
 - (IBAction)didTakePhoto:(UIButton *)sender {
     AVCapturePhotoSettings *settings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey: AVVideoCodecTypeJPEG}];
@@ -221,7 +225,7 @@
     detailsViewController.image = self.capturedImage;
     detailsViewController.delegate = self;
 }
- 
+
 /**
  DetailsViewControllerDelegate method. Posts an alert to show trash was posted successfully.
  */

@@ -21,6 +21,7 @@
 #import "PhotoLogCell.h"
 #import "MKDropdownMenu.h"
 #import "DateTools.h"
+#import "PhotoPopUpViewController.h"
 
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource, UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -259,16 +260,16 @@
     UIImagePickerController *imagePickerVC = [UIImagePickerController new];
     imagePickerVC.delegate = self;
     imagePickerVC.allowsEditing = YES;
-    
+
     // TODO: instead of only showing one or the other, show a pop up to let the user choose
-    
+
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
     }
     else {
         imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
-    
+
     [self presentViewController:imagePickerVC animated:YES completion:nil];
 }
 
@@ -410,15 +411,25 @@
     }
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    PhotoPopUpViewController *photoPopUpViewController = [segue destinationViewController];
+    
+    PhotoLogCell *tappedCell = sender;
+    NSIndexPath *indexPath = [self.photoCollectionView indexPathForCell:tappedCell];
+    Trash *trash = self.trash[indexPath.item];
+    UIImage *image = tappedCell.trashImageView.image;
+    
+    photoPopUpViewController.trash = trash;
+    photoPopUpViewController.convertedImage = image;
+    
+    
 }
-*/
+
 
 
 @end

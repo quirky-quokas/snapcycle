@@ -107,16 +107,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BvN-uu-SIn" customClass="CameraView">
+                            <view clipsSubviews="YES" contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BvN-uu-SIn">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zH4-Ea-L8P">
-                                <rect key="frame" x="97" y="576" width="180" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zH4-Ea-L8P">
+                                <rect key="frame" x="155" y="545" width="74" height="65"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.58039215686274503" green="0.78431372549019607" blue="0.23921568627450979" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <state key="normal" title="Snap photo">
+                                <state key="normal" image="camButIcon artboard white">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -132,7 +131,8 @@
                         <barButtonItem key="backBarButtonItem" title="Camera" id="hqk-b1-9O1"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="previewView" destination="BvN-uu-SIn" id="RFg-C4-Ae2"/>
+                        <outlet property="cameraButton" destination="zH4-Ea-L8P" id="4JS-Tp-U15"/>
+                        <outlet property="cameraView" destination="BvN-uu-SIn" id="jAc-Ig-7Aq"/>
                         <segue destination="5lJ-x6-utv" kind="show" identifier="segueToDetailsVC" id="IG0-Za-uas"/>
                     </connections>
                 </viewController>
@@ -239,7 +239,7 @@
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" semanticContentAttribute="spatial" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UDG-XE-O8M">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" semanticContentAttribute="spatial" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UDG-XE-O8M">
                                 <rect key="frame" x="76" y="159" width="222" height="222"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -599,6 +599,7 @@
                                                     <outlet property="markerImageView" destination="nDo-EM-FKO" id="ljI-z3-rch"/>
                                                     <outlet property="trashImageView" destination="76P-Xe-zAK" id="1UL-ew-ogv"/>
                                                     <outlet property="typeLabel" destination="2Hm-P2-ABg" id="hNy-YM-zxx"/>
+                                                    <segue destination="8Sq-UZ-MH6" kind="presentation" animates="NO" modalPresentationStyle="overCurrentContext" id="LjK-gh-TSE"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>
@@ -644,6 +645,76 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7vd-wa-xrJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1908" y="-772.71364317841085"/>
+        </scene>
+        <!--Photo Pop Up View Controller-->
+        <scene sceneID="0Qr-Fe-fB3">
+            <objects>
+                <viewController id="8Sq-UZ-MH6" customClass="PhotoPopUpViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="G7W-8f-U7F">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="behind-popup-view" translatesAutoresizingMaskIntoConstraints="NO" id="unS-Es-U2C">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="kUK-N2-6yX" appends="YES" id="0bI-8h-K4U"/>
+                                </connections>
+                            </imageView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HBh-cp-CNz">
+                                <rect key="frame" x="36" y="163" width="303" height="373"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XJ3-cr-MmE">
+                                        <rect key="frame" x="0.0" y="43" width="303" height="189"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You've thrown away 4 cans! Good job!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84p-fZ-aUp">
+                                        <rect key="frame" x="8" y="240" width="287" height="53"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xub-H6-yq3">
+                                        <rect key="frame" x="8" y="14" width="287" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You should've thrown away 3 cans" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r5U-mZ-lMd">
+                                        <rect key="frame" x="8" y="301" width="287" height="64"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="BFd-Cl-mYm"/>
+                    </view>
+                    <connections>
+                        <outlet property="backgroundImageView" destination="unS-Es-U2C" id="BvA-N9-Dmv"/>
+                        <outlet property="cellPopUpView" destination="HBh-cp-CNz" id="LFA-JY-pgj"/>
+                        <outlet property="infoLabel" destination="84p-fZ-aUp" id="eYb-PV-3qv"/>
+                        <outlet property="moreInfoLabel" destination="r5U-mZ-lMd" id="YQz-p5-JcG"/>
+                        <outlet property="nameLabel" destination="xub-H6-yq3" id="uUp-tc-ndU"/>
+                        <outlet property="photoImageView" destination="XJ3-cr-MmE" id="kCr-7M-gQK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XmW-8p-kMD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="kUK-N2-6yX">
+                    <connections>
+                        <action selector="onOutsideTap:" destination="8Sq-UZ-MH6" id="krp-lp-7ie"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="3013.5999999999999" y="-721.88905547226398"/>
         </scene>
         <!--Profile-->
         <scene sceneID="1cr-Jr-4Nv">
@@ -750,6 +821,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="behind-popup-view" width="320" height="460"/>
+        <image name="camButIcon artboard white" width="269" height="236"/>
         <image name="logo pic" width="407" height="113"/>
     </resources>
     <inferredMetricsTieBreakers>
