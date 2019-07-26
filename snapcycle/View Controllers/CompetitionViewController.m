@@ -14,13 +14,6 @@
 
 @interface CompetitionViewController ()
 
-/*
-@property (strong, nonatomic) Competition *currentComp;
-@property (strong, nonatomic) Competition *previousComp;
-@property (strong, nonatomic) NSCalendar *cal;
-@property (strong, nonatomic) NSDate *today;
- */
-
 @property (weak, nonatomic) IBOutlet UIView *leaderboardView;
 @property (weak, nonatomic) IBOutlet UILabel *joinPromptLabel;
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
@@ -31,12 +24,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *previousUserRankLabel;
 
 @property (strong, nonatomic) CompetitionManager *manager;
-
-/*
-//TODO: use usernames or SnapUsers as keys??
-//Concern with SnapUsers: mutable!
-@property (strong, nonatomic) NSMutableDictionary<NSString*, NSNumber*> *usernameScores;
-*/
 
 @end
 
@@ -124,63 +111,58 @@
 
 #pragma mark - Previous Competition Results
 
-- (void)showPreviousWinners:(NSArray<Competitor*>* _Nullable)sorted {
-    // TODO: implement view
-}
-
-/*
-- (void) showPreviousResults {
-    // TODO: can add competitions from other days
-    [self getYesterdayCompetition];
-}
-
-
-- (void) loadPreviousWinner {
-    PFQuery *winnerQuery = [self.previousComp.rankingArray query];
-    [winnerQuery whereKey:@"rank" equalTo:@(1)];
-    [winnerQuery includeKey:@"user"];
-    [winnerQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        NSMutableString *results = [NSMutableString stringWithString:@"Winner(s): "];
-        if (objects.count != 0) {
-            NSArray<Competitor*> *winners = (NSArray<Competitor*>*)objects;
-            [results appendString: winners[0].user.username];
-            for (int i = 1; i < winners.count; i++) {
-                [results appendFormat:@", %@", winners[i].user.username];
-            }
-            [results appendFormat:@" with %@ items in the landfill", winners[0].score];
-            self.previousWinnerLabel.text = results;
-            
-        } else {
-            [results appendString: @"no winner"];
-        }
-        self.previousWinnerLabel.text = results;
-    }];
+- (void)showPreviousResults:(NSArray<Competitor*>* _Nullable)sorted {
+    NSLog(@"sorted: %@", sorted);
     
+    if (sorted) {
+        [self showPreviousWinner:sorted];
+        [self showPreviousUserRank:sorted];
+    } else {
+        self.previousUserRankLabel.hidden = YES;
+        self.previousWinnerLabel.text = @"No competition yesterday.";
+    }
 }
 
-- (void) loadPreviousUserRank {
-    PFQuery *userRankQuery = [self.previousComp.rankingArray query];
-    [userRankQuery whereKey:@"user" equalTo:[SnapUser currentUser]];
-    [userRankQuery getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        if (!object) {
-            // User did not participate in yesterday's competition
-            self.previousUserRankLabel.hidden = YES;
-        } else if (error) {
-            NSLog(@"%@", error.localizedDescription);
-        } else {
-            // User participated in yesterday's competition
-            Competitor *userRank = (Competitor*)object;
-            
-            if ([userRank.rank isEqualToNumber:@(1)]) {
-                self.previousUserRankLabel.text = @"Congrats, you're a winner! Thanks for snapcycling!";
-            } else {
-                self.previousUserRankLabel.text = [NSString stringWithFormat:@"You ranked #%@ with %@ items in the landfill. Thanks for snapcycling!", userRank.rank, userRank.score];
-            }
-            self.previousUserRankLabel.hidden = NO;
-        }
-    }];
+// Display winner given non-null,sorted array of Competitors
+- (void) showPreviousWinner:(NSArray<Competitor*>*)sorted {
+    NSMutableString *results = [NSMutableString stringWithString:@"Winner(s): "];
+    [results appendString: sorted[0].user.username];
+    
+    int i = 1;
+    while (i < sorted.count && [sorted[i].rank isEqualToNumber:@(1)]) {
+        [results appendFormat:@", %@", sorted[i].user.username];
+        i++;
+    }
+    
+    [results appendFormat:@" with %@ items in the landfill", sorted[0].score];
+    self.previousWinnerLabel.text = results;
 }
- */
+
+// Display the user's rank from the previous competition given non-null, sorted array of Competitors
+- (void) showPreviousUserRank:(NSArray<Competitor*>*)sorted {
+    // Find user in array of competitors
+    Competitor *userCompetitor = NULL;
+    for (Competitor *competitor in sorted) {
+        // If we have found the user
+        if ([competitor.user.username isEqualToString:[SnapUser currentUser].username]) {
+            userCompetitor = competitor;
+            break;
+        }
+    }
+    
+    if (userCompetitor) {
+        // User participated yesterday
+        if ([userCompetitor.rank isEqualToNumber:@(1)]) {
+            self.previousUserRankLabel.text = @"Congrats, you're a winner! Thanks for snapcycling!";
+        } else {
+            self.previousUserRankLabel.text = [NSString stringWithFormat:@"You ranked #%@ with %@ items in the landfill. Thanks for snapcycling!", userCompetitor.rank, userCompetitor.score];
+        }
+        self.previousUserRankLabel.hidden = NO;
+    } else {
+        // User did not participate yesterday
+        self.previousUserRankLabel.hidden = YES;
+    }
+}
 
 #pragma mark - User Actions
 - (IBAction)onJoinTap:(id)sender {

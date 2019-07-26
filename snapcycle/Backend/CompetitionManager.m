@@ -179,19 +179,20 @@
 
 - (void)checkPreviousRanking {
     
-    if (self.previousComp.competitorArray.count != 0) {
+    if (self.previousComp.competitorArray && self.previousComp.competitorArray.count != 0) {
         // Competition had participants, sort them by score
         self.sortedPrevious = [self sortCompetitors:self.previousComp.competitorArray];
         
         if (self.previousComp.competitorArray[0].rank) {
             // Competitors have already been ranked, pass results to delegate
-            [self.delegate showPreviousWinners:self.sortedPrevious];
+            [self.delegate showPreviousResults:self.sortedPrevious];
         } else {
             // Competitors have not yet been ranked
             [self calculateAndPostPreviousRanking];
         }
     } else {
         NSLog(@"no participants");
+        [self.delegate showPreviousResults:NULL];
     }
 }
 
@@ -218,7 +219,7 @@
     }
     
     // Pass results to delegate
-    [self.delegate showPreviousWinners:self.sortedPrevious];
+    [self.delegate showPreviousResults:self.sortedPrevious];
 }
 
 
