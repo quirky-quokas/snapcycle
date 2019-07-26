@@ -7,6 +7,7 @@
 //
 
 #import <Parse/Parse.h>
+#import "Badges.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) PFRelation *trashArray;
 @property (nonatomic, strong) PFFileObject *profImage;
+@property (nonatomic, strong) Badges *badges;
 
 @end
 

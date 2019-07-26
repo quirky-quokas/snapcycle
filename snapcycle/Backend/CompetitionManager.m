@@ -11,6 +11,9 @@
 #import "Competitor.h"
 #import "SnapUser.h"
 
+// TODO: remove
+#import "Badges.h"
+
 @interface CompetitionManager()
 
 // Current competition
@@ -230,6 +233,12 @@
         // previous user since the users are sorted
         if (![prevUserItems isEqualToNumber:userItems]) {
             rank++;
+        }
+        
+        // If user is a winner, update number of badges
+        if (rank == 1) {
+            [competitor.user.badges incrementKey:@"numBadges"];
+            [competitor.user.badges saveInBackground];
         }
         
         competitor.rank = @(rank);
