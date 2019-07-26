@@ -11,6 +11,9 @@
 #import "Competitor.h"
 #import "SnapUser.h"
 
+// TODO: remove
+#import "Badges.h"
+
 @interface CompetitionManager()
 
 // Current competition
@@ -170,10 +173,8 @@
             // Also catches case where user is not in competition
             NSLog(@"%@", error.localizedDescription);
         } else {
-            NSLog(@"%@", object);
             [object incrementKey:@"score"];
             [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                NSLog(@"%@", self.currentComp.competitorArray);
                 self.delegate.userScoreChanged = YES;
             }];
             
@@ -230,6 +231,12 @@
         // previous user since the users are sorted
         if (![prevUserItems isEqualToNumber:userItems]) {
             rank++;
+        }
+        
+        // If user is a winner, update number of badges
+        if (rank == 1) {
+            [competitor.user.badges incrementKey:@"numBadges"];
+            [competitor.user.badges saveInBackground];
         }
         
         competitor.rank = @(rank);

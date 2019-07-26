@@ -9,6 +9,7 @@
 #import "RegisterViewController.h"
 #import "SnapUser.h"
 #import "LoginViewController.h"
+#import "Badges.h"
 
 @interface RegisterViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
@@ -41,6 +42,11 @@
         newUser.email = self.emailField.text;
         newUser.username = self.usernameField.text;
         newUser.password = self.passwordField.text;
+        
+        // Create badges object for user
+        Badges *badges = [Badges new];
+        badges.numBadges = @(0);
+        newUser.badges = badges;
         
         // Set up default profile pic
         newUser.profImage = [RegisterViewController getPFFileFromImage:[UIImage imageNamed:@"profile-pic-icon"]];

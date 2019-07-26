@@ -44,6 +44,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *landfillCanRecycleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *landfillCanCompostLabel;
 
+@property (weak, nonatomic) IBOutlet UILabel *badgesLabel;
+
 @end
 
 @implementation ProfileViewController
@@ -83,6 +85,13 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    // TODO: make prettier. Do want to always refresh?
+    // set the badges label
+    Badges *badges = SnapUser.currentUser.badges;
+    [badges fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        self.badgesLabel.text = [NSString stringWithFormat:@"Badges: %@", badges.numBadges];
+    }];
+    
     [self configurePieChart];
     [self refreshUserActionStats];
     [self fetchTrash:@"All"];

@@ -38,6 +38,7 @@
 		B1E88DA422E7C48B004DB1F1 /* FocusFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E88DA322E7C48B004DB1F1 /* FocusFrame.m */; };
 		B69CB8A222E2438900F6C390 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B69CB8A122E2438900F6C390 /* TabBarController.m */; };
 		B6CE94DE22EA50DD003B4732 /* CompetitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CE94DD22EA50DD003B4732 /* CompetitionManager.m */; };
+		B6CE94E122EB9A53003B4732 /* Badges.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CE94E022EB9A53003B4732 /* Badges.m */; };
 		B6CED37122E8D9160091B788 /* Competitor.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CED37022E8D9160091B788 /* Competitor.m */; };
 /* End PBXBuildFile section */
 
@@ -118,6 +119,8 @@
 		B69CB8A122E2438900F6C390 /* TabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
 		B6CE94DC22EA50DD003B4732 /* CompetitionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompetitionManager.h; sourceTree = "<group>"; };
 		B6CE94DD22EA50DD003B4732 /* CompetitionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompetitionManager.m; sourceTree = "<group>"; };
+		B6CE94DF22EB9A53003B4732 /* Badges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Badges.h; sourceTree = "<group>"; };
+		B6CE94E022EB9A53003B4732 /* Badges.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Badges.m; sourceTree = "<group>"; };
 		B6CED36F22E8D9160091B788 /* Competitor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Competitor.h; sourceTree = "<group>"; };
 		B6CED37022E8D9160091B788 /* Competitor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Competitor.m; sourceTree = "<group>"; };
 		C8136804A7D7CF45BE79F467 /* Pods-snapcycleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleUITests.debug.xcconfig"; path = "Target Support Files/Pods-snapcycleUITests/Pods-snapcycleUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -204,6 +207,8 @@
 				B11D301322E6248400CA1A36 /* Competition.m */,
 				B6CED36F22E8D9160091B788 /* Competitor.h */,
 				B6CED37022E8D9160091B788 /* Competitor.m */,
+				B6CE94DF22EB9A53003B4732 /* Badges.h */,
+				B6CE94E022EB9A53003B4732 /* Badges.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -541,6 +546,7 @@
 				B1320C4D22DE407E00A38B16 /* AppDelegate.m in Sources */,
 				B1E88DA422E7C48B004DB1F1 /* FocusFrame.m in Sources */,
 				B16C81F122DE643B00E72713 /* CategoriesViewController.m in Sources */,
+				B6CE94E122EB9A53003B4732 /* Badges.m in Sources */,
 				84EC731922E62A2F00F37CA5 /* PhotoLogCell.m in Sources */,
 				B1320C8022DE5BA200A38B16 /* LoginViewController.m in Sources */,
 				B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */,
