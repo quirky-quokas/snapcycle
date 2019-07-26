@@ -260,16 +260,16 @@
     UIImagePickerController *imagePickerVC = [UIImagePickerController new];
     imagePickerVC.delegate = self;
     imagePickerVC.allowsEditing = YES;
-    
+
     // TODO: instead of only showing one or the other, show a pop up to let the user choose
-    
+
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
     }
     else {
         imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
-    
+
     [self presentViewController:imagePickerVC animated:YES completion:nil];
 }
 
