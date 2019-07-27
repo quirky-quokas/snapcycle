@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *photoCollectionView;
+@property (weak, nonatomic) IBOutlet UIImageView *backdropImageView;
 @property (weak, nonatomic) IBOutlet MKDropdownMenu *photoDropdownMenu;
 
 // Graph
@@ -54,7 +55,10 @@
     [super viewDidLoad];
     
     // set the scrollView frame
-    self.scrollView.contentSize = CGSizeMake(375, 1300);
+    self.scrollView.contentSize = CGSizeMake(375, 1680);
+    
+    // set backdrop picture
+    self.backdropImageView.image = [UIImage imageNamed:@"nature-backdrop"];
     
     // set the profile picture
     [self setProfilePicture];
@@ -68,6 +72,8 @@
     self.photoDropdownMenu.dataSource = self;
     self.photoDropdownMenu.delegate = self;
     self.dropdownData = @[@"Past day", @"Past week", @"Past month", @"Past 6 months", @"Past year", @"All"];
+    self.photoDropdownMenu.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.photoDropdownMenu.layer.borderWidth = 1.0f;
     
     // set collection view data source and delegate
     self.photoCollectionView.delegate = self;
@@ -78,7 +84,7 @@
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     layout.minimumLineSpacing = 5;
     layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    CGFloat photosPerLine = 2;
+    CGFloat photosPerLine = 2.5;
     CGFloat itemWidth = (self.photoCollectionView.frame.size.width - layout.minimumLineSpacing * (photosPerLine - 1)) / photosPerLine;
     CGFloat itemHeight = 200;
     layout.itemSize = CGSizeMake(itemWidth, itemHeight);
@@ -398,7 +404,7 @@
 
 - (NSAttributedString *)dropdownMenu:(MKDropdownMenu *)dropdownMenu attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component {
     NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:self.dropdownData[row]];
-    [title addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0 weight:UIFontWeightLight] range:NSMakeRange(0, title.length)];
+    [title addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0 weight:UIFontWeightThin] range:NSMakeRange(0, title.length)];
     return (NSAttributedString*) title;
 }
 

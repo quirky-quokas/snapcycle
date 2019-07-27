@@ -28,6 +28,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.cellPopUpView.layer.cornerRadius = 5;
+    self.cellPopUpView.layer.masksToBounds = YES;
+    
     self.photoImageView.image = self.convertedImage;
     self.nameLabel.text = self.trash.category.name;
     self.landfillLabel.text = self.trash.category.landfillInfo;
