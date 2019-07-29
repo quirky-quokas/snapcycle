@@ -38,6 +38,14 @@
 #pragma mark - Load and refresh views
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // UIPageViewController
+
+    self.pageIndex = 1;
+    
+    
+    ///////
+    
     self.cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     self.cal.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"PDT"];
     [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PDT"]];

@@ -1,8 +1,8 @@
 //
-//  CompetitionViewController.h
+//  ContainerViewController.h
 //  snapcycle
 //
-//  Created by emilyabest on 7/22/19.
+//  Created by emilyabest on 7/26/19.
 //  Copyright © 2019 Quirky Quokkas. All rights reserved.
 //
 
@@ -10,9 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CompetitionViewController : UIViewController
-
-@property NSUInteger pageIndex;
+@interface ContainerViewController : UIViewController
 
 @end
 
