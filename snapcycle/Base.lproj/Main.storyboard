@@ -416,12 +416,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wl5-MV-7RN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2846" y="1051"/>
+            <point key="canvasLocation" x="2948" y="993"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="w41-ZG-BWa">
             <objects>
-                <viewController storyboardIdentifier="compVC1" id="3Sv-Nq-soe" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="compVC1" id="3Sv-Nq-soe" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FPj-KO-cml">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -444,7 +444,7 @@
         <!--View Controller-->
         <scene sceneID="g17-eI-aYW">
             <objects>
-                <viewController storyboardIdentifier="compVC2" id="IbO-dL-oov" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="compVC2" id="IbO-dL-oov" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jtA-r4-QpZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -466,7 +466,7 @@
         <!--View Controller-->
         <scene sceneID="UUc-5X-eQO">
             <objects>
-                <viewController storyboardIdentifier="compVC3" id="Ffl-JZ-Xw4" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="compVC3" id="Ffl-JZ-Xw4" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="O6S-8F-7tO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -488,7 +488,7 @@
         <!--View Controller-->
         <scene sceneID="FsZ-Bw-T5m">
             <objects>
-                <viewController storyboardIdentifier="compVC4" id="Gc4-Ik-3Az" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="compVC4" id="Gc4-Ik-3Az" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Odd-lL-gVO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

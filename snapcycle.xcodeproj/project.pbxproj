@@ -27,6 +27,7 @@
 		B1320C7022DE407E00A38B16 /* snapcycleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B1320C6F22DE407E00A38B16 /* snapcycleUITests.m */; };
 		B1320C8022DE5BA200A38B16 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1320C7F22DE5BA200A38B16 /* LoginViewController.m */; };
 		B1320C8322DE5BF700A38B16 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1320C8222DE5BF700A38B16 /* RegisterViewController.m */; };
+		B15019B122EF5FD300CBB846 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B15019B022EF5FD300CBB846 /* ViewController.m */; };
 		B155009C22EA28A400FAFF8F /* CameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = B155009B22EA28A400FAFF8F /* CameraView.m */; };
 		B16C81EB22DE63C700E72713 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81EA22DE63C700E72713 /* CameraViewController.m */; };
 		B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81ED22DE641B00E72713 /* ProfileViewController.m */; };
@@ -99,6 +100,8 @@
 		B1320C7F22DE5BA200A38B16 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		B1320C8122DE5BF700A38B16 /* RegisterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		B1320C8222DE5BF700A38B16 /* RegisterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		B15019AF22EF5FD300CBB846 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		B15019B022EF5FD300CBB846 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		B155009A22EA28A400FAFF8F /* CameraView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraView.h; sourceTree = "<group>"; };
 		B155009B22EA28A400FAFF8F /* CameraView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraView.m; sourceTree = "<group>"; };
 		B16C81E922DE63C700E72713 /* CameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
@@ -295,6 +298,8 @@
 				B16D50E922EB6E99000A039B /* CompPageViewController.m */,
 				B16D50EB22EBAB73000A039B /* CompContainerViewController.h */,
 				B16D50EC22EBAB73000A039B /* CompContainerViewController.m */,
+				B15019AF22EF5FD300CBB846 /* ViewController.h */,
+				B15019B022EF5FD300CBB846 /* ViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -551,6 +556,7 @@
 				B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */,
 				B11D301422E6248400CA1A36 /* Competition.m in Sources */,
 				B1320C8322DE5BF700A38B16 /* RegisterViewController.m in Sources */,
+				B15019B122EF5FD300CBB846 /* ViewController.m in Sources */,
 				B16C81F422DE70D800E72713 /* DetailsViewController.m in Sources */,
 				B16D50ED22EBAB73000A039B /* CompContainerViewController.m in Sources */,
 			);

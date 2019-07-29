@@ -19,6 +19,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    
+//    [self addChildViewController:self.compPVC]
+//    [self.container addSubview:self.compPVC.view];
+//    [self.compPVC didMoveToParentViewController:self];
         // Do any additional setup after loading the view.
 }
 

@@ -7,10 +7,11 @@
 //
 
 #import "CompPageViewController.h"
+#import "ViewController.h"
 
 @interface CompPageViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
 
-@property (strong, nonatomic) UIPageViewController *pageVC;
+//@property (strong, nonatomic) UIPageViewController *pageVC;
 @property (strong, nonatomic) NSMutableArray *pages;
 
 @end
@@ -20,11 +21,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
         
-    self.pageVC.delegate = self;
-    self.pageVC.dataSource = self;
+    self.delegate = self;
+    self.dataSource = self;
     
     self.pages = [NSMutableArray new];
-    
+
     // get view controllers
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *vc1 = [storyboard instantiateViewControllerWithIdentifier:@"compVC1"];
@@ -32,14 +33,19 @@
     UIViewController *vc3 = [storyboard instantiateViewControllerWithIdentifier:@"compVC3"];
     UIViewController *vc4 = [storyboard instantiateViewControllerWithIdentifier:@"compVC4"];
 
+//    NSArray *viewControllers = @[vc1, vc2, vc3, vc4];
+
     [self.pages addObject:vc1];
     [self.pages addObject:vc2];
     [self.pages addObject:vc3];
     [self.pages addObject:vc4];
-    
-    [self.pageVC setViewControllers:self.pages[0] direction:UIPageViewControllerNavigationDirectionForward animated:false completion:nil];
+
+    [self setViewControllers:self.pages[0]  direction:UIPageViewControllerNavigationDirectionForward animated:false completion:nil];
 }
 
+//- (UIViewController *) viewControllerAtIndex: (NSUInteger)index {
+//
+//}
 /*
 #pragma mark - Navigation
 
