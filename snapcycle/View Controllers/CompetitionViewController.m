@@ -98,6 +98,7 @@
     
     HIYAxis *yaxis = [[HIYAxis alloc]init];
     yaxis.min = @0;
+    yaxis.allowDecimals = [[NSNumber alloc] initWithBool:false];
     yaxis.title = [[HITitle alloc]init];
     yaxis.title.text = @"Items in landfill";
     yaxis.title.align = @"high";
