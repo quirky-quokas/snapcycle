@@ -12,14 +12,18 @@
 @implementation CameraView
 
 // TODO: instantiateGR method? GRDelegate only allowed as VC, not view
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    NSLog(@"SUCCESS");
+}
 
 /**
  Draws a focus frame around the point of focus the user has tapped.
  */
-+ (void)drawFocusFrame:(struct CGPoint)point{
+- (void)drawFocusFrame:(struct CGPoint)point{
     CGRect frameRect = CGRectMake(point.x-40, point.y-40, 60, 60);
     FocusFrame *focusFrame = [[FocusFrame alloc] initWithFrame:frameRect];
-//    [self addSubview:focusFrame];
+    [self addSubview:focusFrame];
     [focusFrame setNeedsDisplay];
 
     [UIView beginAnimations:nil context:NULL];

@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CameraView : UIView
 
 @property (nonatomic, weak) id <CameraViewDelegate> delegate;
-+ (void)drawFocusFrame:(struct CGPoint)point;
+- (void)drawFocusFrame:(struct CGPoint)point;
 
 @end
 
