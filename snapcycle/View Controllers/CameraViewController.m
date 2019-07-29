@@ -124,6 +124,7 @@
 }
 
 /**
+ CameraViewDelegate method.
  Enables zoom in/out for the live preview.
  */
 - (void)handlePinchZoom:(UIPinchGestureRecognizer *)pinchGR {
@@ -143,6 +144,7 @@
 }
 
 /**
+ CameraViewDelegate method.
  Enables tap to focus for the live preview.
  */
 - (void)handleTapFocus:(UITapGestureRecognizer *)tapGR{

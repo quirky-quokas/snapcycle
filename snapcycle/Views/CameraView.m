@@ -12,10 +12,10 @@
 @implementation CameraView
 
 // TODO: instantiateGR method? GRDelegate only allowed as VC, not view
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    NSLog(@"SUCCESS");
-}
+//- (void)awakeFromNib {
+//    [super awakeFromNib];
+//    NSLog(@"SUCCESS");
+//}
 
 /**
  Draws a focus frame around the point of focus the user has tapped.
