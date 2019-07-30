@@ -116,7 +116,7 @@
     // set the badges label
     Badges *badges = SnapUser.currentUser.badges;
     [badges fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        self.badgesLabel.text = [NSString stringWithFormat:@"1st: %@ 2nd: %@ 3rd: %@", badges.numFirstPlace, badges.numSecondPlace, badges.numThirdPlace];
+        self.badgesLabel.text = [NSString stringWithFormat:@"Your Badges  1st: %@  2nd: %@  3rd: %@", badges.numFirstPlace, badges.numSecondPlace, badges.numThirdPlace];
     }];
     
     [self updatePieChartData];
