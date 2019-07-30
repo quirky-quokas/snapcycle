@@ -10,7 +10,9 @@
 
 @implementation Badges
 
-@dynamic numBadges;
+@dynamic numFirstPlace;
+@dynamic numSecondPlace;
+@dynamic numThirdPlace;
 
 + (nonnull NSString *)parseClassName {
     return @"Badges";
