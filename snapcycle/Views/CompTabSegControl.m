@@ -17,16 +17,13 @@
     self.backgroundColor = UIColor.whiteColor;
     
     // font TODO: set font for all UIControlStates?
-    [self setTitleTextAttributes:@{NSForegroundColorAttributeName:scGreen, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Regular" size:20]} forState: UIControlStateNormal];
+    [self setTitleTextAttributes:@{NSForegroundColorAttributeName:UIColor.darkGrayColor, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Regular" size:20]} forState: UIControlStateNormal];
     [self setTitleTextAttributes:@{NSForegroundColorAttributeName:scGreen, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Semibold" size:20]} forState: UIControlStateSelected];
     [self setTitleTextAttributes:@{NSForegroundColorAttributeName:scGreen, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Semibold" size:20]} forState: UIControlStateHighlighted];
 }
 
-- (void)setUnderline {
-    CGSize size = CGSizeMake(2, 29);
-    CGFloat lineWidth = 2;
-    
-    [self setTitleTextAttributes:@{NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone)} forState:UIControlStateSelected];
+- (void)setUnderline {    
+//    [self setTitleTextAttributes:@{NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone)} forState:UIControlStateSelected]; // DON'T WANT
     
 //    self.apportionsSegmentWidthsByContent = true; // DON'T WANT
     

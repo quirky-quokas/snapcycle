@@ -90,17 +90,6 @@
 
 -(void)setupTabsDesign {
     [self.compTab setColorAndFont];
-
-    
-
-    
-    /*
-     1. COLOR
-     2. FONT
-     3. TAB DISPLAY, NOT BUTTON SEGMENTS
-     */
-    
-    
 }
 /*
 #pragma mark - Navigation
