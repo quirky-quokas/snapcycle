@@ -16,8 +16,6 @@
 		8479E91522DE638E009174E7 /* SnapUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E91422DE638E009174E7 /* SnapUser.m */; };
 		84EC731922E62A2F00F37CA5 /* PhotoLogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */; };
 		84FB4A3222EA2BF300F6FB95 /* PhotoPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FB4A3122EA2BF300F6FB95 /* PhotoPopUpViewController.m */; };
-		B1016E8D22EFA3B300747D1B /* TodayCompViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1016E8C22EFA3B300747D1B /* TodayCompViewController.m */; };
-		B1016E9022EFA3C000747D1B /* YesterdayCompViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1016E8F22EFA3C000747D1B /* YesterdayCompViewController.m */; };
 		B11D301422E6248400CA1A36 /* Competition.m in Sources */ = {isa = PBXBuildFile; fileRef = B11D301322E6248400CA1A36 /* Competition.m */; };
 		B11D301722E627BD00CA1A36 /* CompetitionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B11D301622E627BD00CA1A36 /* CompetitionViewController.m */; };
 		B1320C4D22DE407E00A38B16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B1320C4C22DE407E00A38B16 /* AppDelegate.m */; };
@@ -30,7 +28,6 @@
 		B1320C8022DE5BA200A38B16 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1320C7F22DE5BA200A38B16 /* LoginViewController.m */; };
 		B1320C8322DE5BF700A38B16 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1320C8222DE5BF700A38B16 /* RegisterViewController.m */; };
 		B155009C22EA28A400FAFF8F /* CameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = B155009B22EA28A400FAFF8F /* CameraView.m */; };
-		B15CD60822EF9FC600E652D9 /* CompViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B15CD60722EF9FC600E652D9 /* CompViewController.m */; };
 		B16C81EB22DE63C700E72713 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81EA22DE63C700E72713 /* CameraViewController.m */; };
 		B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81ED22DE641B00E72713 /* ProfileViewController.m */; };
 		B16C81F122DE643B00E72713 /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81F022DE643B00E72713 /* CategoriesViewController.m */; };
@@ -78,10 +75,6 @@
 		84FB4A3022EA2BF300F6FB95 /* PhotoPopUpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPopUpViewController.h; sourceTree = "<group>"; };
 		84FB4A3122EA2BF300F6FB95 /* PhotoPopUpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoPopUpViewController.m; sourceTree = "<group>"; };
 		8EDE53E7A1B1342228638389 /* Pods-snapcycleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleTests.debug.xcconfig"; path = "Target Support Files/Pods-snapcycleTests/Pods-snapcycleTests.debug.xcconfig"; sourceTree = "<group>"; };
-		B1016E8B22EFA3B300747D1B /* TodayCompViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayCompViewController.h; sourceTree = "<group>"; };
-		B1016E8C22EFA3B300747D1B /* TodayCompViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayCompViewController.m; sourceTree = "<group>"; };
-		B1016E8E22EFA3C000747D1B /* YesterdayCompViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YesterdayCompViewController.h; sourceTree = "<group>"; };
-		B1016E8F22EFA3C000747D1B /* YesterdayCompViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YesterdayCompViewController.m; sourceTree = "<group>"; };
 		B11D301222E6248400CA1A36 /* Competition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Competition.h; sourceTree = "<group>"; };
 		B11D301322E6248400CA1A36 /* Competition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Competition.m; sourceTree = "<group>"; };
 		B11D301522E627BD00CA1A36 /* CompetitionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompetitionViewController.h; sourceTree = "<group>"; };
@@ -106,8 +99,6 @@
 		B1320C8222DE5BF700A38B16 /* RegisterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		B155009A22EA28A400FAFF8F /* CameraView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraView.h; sourceTree = "<group>"; };
 		B155009B22EA28A400FAFF8F /* CameraView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraView.m; sourceTree = "<group>"; };
-		B15CD60622EF9FC600E652D9 /* CompViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompViewController.h; sourceTree = "<group>"; };
-		B15CD60722EF9FC600E652D9 /* CompViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompViewController.m; sourceTree = "<group>"; };
 		B16C81E922DE63C700E72713 /* CameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
 		B16C81EA22DE63C700E72713 /* CameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		B16C81EC22DE641B00E72713 /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
@@ -294,12 +285,6 @@
 				B11D301622E627BD00CA1A36 /* CompetitionViewController.m */,
 				84FB4A3022EA2BF300F6FB95 /* PhotoPopUpViewController.h */,
 				84FB4A3122EA2BF300F6FB95 /* PhotoPopUpViewController.m */,
-				B15CD60622EF9FC600E652D9 /* CompViewController.h */,
-				B15CD60722EF9FC600E652D9 /* CompViewController.m */,
-				B1016E8B22EFA3B300747D1B /* TodayCompViewController.h */,
-				B1016E8C22EFA3B300747D1B /* TodayCompViewController.m */,
-				B1016E8E22EFA3C000747D1B /* YesterdayCompViewController.h */,
-				B1016E8F22EFA3C000747D1B /* YesterdayCompViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -539,7 +524,6 @@
 				B16C81EB22DE63C700E72713 /* CameraViewController.m in Sources */,
 				8479E90C22DE5C6B009174E7 /* Trash.m in Sources */,
 				84FB4A3222EA2BF300F6FB95 /* PhotoPopUpViewController.m in Sources */,
-				B15CD60822EF9FC600E652D9 /* CompViewController.m in Sources */,
 				B69CB8A222E2438900F6C390 /* TabBarController.m in Sources */,
 				B11D301722E627BD00CA1A36 /* CompetitionViewController.m in Sources */,
 				8479E90F22DE5F90009174E7 /* Category.m in Sources */,
@@ -547,13 +531,11 @@
 				B155009C22EA28A400FAFF8F /* CameraView.m in Sources */,
 				8479E91522DE638E009174E7 /* SnapUser.m in Sources */,
 				844856F022DFBF7100CC5600 /* CategoriesCell.m in Sources */,
-				B1016E8D22EFA3B300747D1B /* TodayCompViewController.m in Sources */,
 				B6CED37122E8D9160091B788 /* Ranking.m in Sources */,
 				B1320C4D22DE407E00A38B16 /* AppDelegate.m in Sources */,
 				B1E88DA422E7C48B004DB1F1 /* FocusFrame.m in Sources */,
 				B16C81F122DE643B00E72713 /* CategoriesViewController.m in Sources */,
 				84EC731922E62A2F00F37CA5 /* PhotoLogCell.m in Sources */,
-				B1016E9022EFA3C000747D1B /* YesterdayCompViewController.m in Sources */,
 				B1320C8022DE5BA200A38B16 /* LoginViewController.m in Sources */,
 				B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */,
 				B11D301422E6248400CA1A36 /* Competition.m in Sources */,

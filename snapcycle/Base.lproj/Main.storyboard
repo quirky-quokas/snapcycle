@@ -359,82 +359,48 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="pjl-Nx-U6D" kind="relationship" relationship="rootViewController" id="2Uk-k4-r4a"/>
+                        <segue destination="XVi-Q2-BTM" kind="relationship" relationship="rootViewController" id="4Qn-uo-9fI"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DoQ-Xr-1ec" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1089" y="1627"/>
         </scene>
-        <!--Comp Container View Controller-->
-        <scene sceneID="UKX-aI-jMt">
+        <!--View Controller-->
+        <scene sceneID="HdC-e3-lAV">
             <objects>
-                <viewController id="pjl-Nx-U6D" customClass="CompContainerViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="E1P-LL-sQe">
+                <viewController id="XVi-Q2-BTM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tR5-XK-dpn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JrL-Ei-4r3">
-                                <rect key="frame" x="0.0" y="64" width="385" height="554"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                            </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uzb-0R-9gZ">
+                                <rect key="frame" x="51" y="74" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aDX-JZ-UM1">
+                                <rect key="frame" x="272" y="78" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Uvv-Qo-KCl">
+                                <rect key="frame" x="16" y="125" width="343" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="aWM-s2-RAp"/>
+                        <viewLayoutGuide key="safeArea" id="dW7-Xe-ue3"/>
                     </view>
-                    <navigationItem key="navigationItem" id="fuG-2u-1we"/>
-                    <connections>
-                        <outlet property="container" destination="JrL-Ei-4r3" id="Klx-If-QBT"/>
-                    </connections>
+                    <navigationItem key="navigationItem" id="NIJ-yb-uAp"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9zl-Do-KGI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wQv-0x-MFm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1896.8" y="1632.2338830584708"/>
-        </scene>
-        <!--Today Comp View Controller-->
-        <scene sceneID="Euf-sx-aYD">
-            <objects>
-                <viewController storyboardIdentifier="comp1Today" id="D48-TR-DLd" customClass="TodayCompViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="rT6-aH-ye2">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="Kp5-E8-U7g"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JS4-ZD-ypF" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2311" y="2333"/>
-        </scene>
-        <!--Yesterday Comp View Controller-->
-        <scene sceneID="9Ch-bH-ALk">
-            <objects>
-                <viewController storyboardIdentifier="comp2Yest" id="Ttl-FM-XeB" customClass="YesterdayCompViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ni6-Wu-l6K">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="G9o-pO-kir"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bDR-q2-lzN" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3014" y="2333"/>
-        </scene>
-        <!--Comp View Controller-->
-        <scene sceneID="jBy-s6-hPN">
-            <objects>
-                <viewController id="XjG-zI-iVc" customClass="CompViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="iYV-dc-wRj">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="JHa-m2-c8j"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9rD-rh-7Vz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2658" y="1632"/>
+            <point key="canvasLocation" x="1908" y="1626.8365817091455"/>
         </scene>
         <!--Competition View Controller-->
         <scene sceneID="mD5-H3-gtx">
