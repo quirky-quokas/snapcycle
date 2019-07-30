@@ -35,6 +35,9 @@
 		B19CD90622E923CE008F9782 /* SourceSansPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD90522E923CE008F9782 /* SourceSansPro-Regular.otf */; };
 		B19CD90822E923EF008F9782 /* SourceSansPro-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD90722E923EF008F9782 /* SourceSansPro-Light.otf */; };
 		B19CD90A22E923FA008F9782 /* SourceSansPro-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD90922E923FA008F9782 /* SourceSansPro-Semibold.otf */; };
+		B1B9EDD022F0B22200C0A6F4 /* CompTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B9EDCF22F0B22200C0A6F4 /* CompTabViewController.m */; };
+		B1B9EDD922F0B6C100C0A6F4 /* TodayCompViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B9EDD822F0B6C100C0A6F4 /* TodayCompViewController.m */; };
+		B1B9EDDC22F0B6D100C0A6F4 /* YesterdayCompViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B9EDDB22F0B6D100C0A6F4 /* YesterdayCompViewController.m */; };
 		B1E88DA422E7C48B004DB1F1 /* FocusFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E88DA322E7C48B004DB1F1 /* FocusFrame.m */; };
 		B69CB8A222E2438900F6C390 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B69CB8A122E2438900F6C390 /* TabBarController.m */; };
 		B6CED37122E8D9160091B788 /* Ranking.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CED37022E8D9160091B788 /* Ranking.m */; };
@@ -110,6 +113,12 @@
 		B19CD90522E923CE008F9782 /* SourceSansPro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Regular.otf"; sourceTree = "<group>"; };
 		B19CD90722E923EF008F9782 /* SourceSansPro-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Light.otf"; sourceTree = "<group>"; };
 		B19CD90922E923FA008F9782 /* SourceSansPro-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Semibold.otf"; sourceTree = "<group>"; };
+		B1B9EDCE22F0B22200C0A6F4 /* CompTabViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompTabViewController.h; sourceTree = "<group>"; };
+		B1B9EDCF22F0B22200C0A6F4 /* CompTabViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompTabViewController.m; sourceTree = "<group>"; };
+		B1B9EDD722F0B6C100C0A6F4 /* TodayCompViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayCompViewController.h; sourceTree = "<group>"; };
+		B1B9EDD822F0B6C100C0A6F4 /* TodayCompViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayCompViewController.m; sourceTree = "<group>"; };
+		B1B9EDDA22F0B6D100C0A6F4 /* YesterdayCompViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YesterdayCompViewController.h; sourceTree = "<group>"; };
+		B1B9EDDB22F0B6D100C0A6F4 /* YesterdayCompViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YesterdayCompViewController.m; sourceTree = "<group>"; };
 		B1E88DA222E7C48B004DB1F1 /* FocusFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FocusFrame.h; sourceTree = "<group>"; };
 		B1E88DA322E7C48B004DB1F1 /* FocusFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FocusFrame.m; sourceTree = "<group>"; };
 		B3A07F9C47C7041ECE916776 /* Pods-snapcycle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycle.release.xcconfig"; path = "Target Support Files/Pods-snapcycle/Pods-snapcycle.release.xcconfig"; sourceTree = "<group>"; };
@@ -285,6 +294,12 @@
 				B11D301622E627BD00CA1A36 /* CompetitionViewController.m */,
 				84FB4A3022EA2BF300F6FB95 /* PhotoPopUpViewController.h */,
 				84FB4A3122EA2BF300F6FB95 /* PhotoPopUpViewController.m */,
+				B1B9EDCE22F0B22200C0A6F4 /* CompTabViewController.h */,
+				B1B9EDCF22F0B22200C0A6F4 /* CompTabViewController.m */,
+				B1B9EDD722F0B6C100C0A6F4 /* TodayCompViewController.h */,
+				B1B9EDD822F0B6C100C0A6F4 /* TodayCompViewController.m */,
+				B1B9EDDA22F0B6D100C0A6F4 /* YesterdayCompViewController.h */,
+				B1B9EDDB22F0B6D100C0A6F4 /* YesterdayCompViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -531,11 +546,14 @@
 				B155009C22EA28A400FAFF8F /* CameraView.m in Sources */,
 				8479E91522DE638E009174E7 /* SnapUser.m in Sources */,
 				844856F022DFBF7100CC5600 /* CategoriesCell.m in Sources */,
+				B1B9EDD022F0B22200C0A6F4 /* CompTabViewController.m in Sources */,
+				B1B9EDD922F0B6C100C0A6F4 /* TodayCompViewController.m in Sources */,
 				B6CED37122E8D9160091B788 /* Ranking.m in Sources */,
 				B1320C4D22DE407E00A38B16 /* AppDelegate.m in Sources */,
 				B1E88DA422E7C48B004DB1F1 /* FocusFrame.m in Sources */,
 				B16C81F122DE643B00E72713 /* CategoriesViewController.m in Sources */,
 				84EC731922E62A2F00F37CA5 /* PhotoLogCell.m in Sources */,
+				B1B9EDDC22F0B6D100C0A6F4 /* YesterdayCompViewController.m in Sources */,
 				B1320C8022DE5BA200A38B16 /* LoginViewController.m in Sources */,
 				B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */,
 				B11D301422E6248400CA1A36 /* Competition.m in Sources */,

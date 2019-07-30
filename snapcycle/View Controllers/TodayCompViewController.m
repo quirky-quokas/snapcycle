@@ -2,7 +2,7 @@
 //  TodayCompViewController.m
 //  snapcycle
 //
-//  Created by emilyabest on 7/29/19.
+//  Created by emilyabest on 7/30/19.
 //  Copyright © 2019 Quirky Quokkas. All rights reserved.
 //
 
@@ -19,13 +19,6 @@
     // Do any additional setup after loading the view.
 }
 
-/**
- XLPagerTAbStripViewControllerDelegate method
- */
-- (NSString *)titleForPagerTabStripViewController:(XLPagerTabStripViewController *)pagerTabStripViewController {
-    return @"Today";
-}
-
 /*
 #pragma mark - Navigation
 
@@ -36,9 +29,4 @@
 }
 */
 
-  @end
-
-  
-
-  
-  
+@end

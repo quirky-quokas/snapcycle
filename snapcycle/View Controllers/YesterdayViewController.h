@@ -1,5 +1,5 @@
 //
-//  TodayCompViewController.h
+//  YesterdayViewController.h
 //  snapcycle
 //
 //  Created by emilyabest on 7/30/19.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TodayCompViewController : UIViewController
+@interface YesterdayViewController : UIViewController
 
 @end
 

@@ -1,18 +1,18 @@
 //
-//  YesterdayCompViewController.m
+//  TodayViewController.m
 //  snapcycle
 //
 //  Created by emilyabest on 7/30/19.
 //  Copyright © 2019 Quirky Quokkas. All rights reserved.
 //
 
-#import "YesterdayCompViewController.h"
+#import "TodayViewController.h"
 
-@interface YesterdayCompViewController ()
+@interface TodayViewController ()
 
 @end
 
-@implementation YesterdayCompViewController
+@implementation TodayViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
