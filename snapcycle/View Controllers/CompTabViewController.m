@@ -24,6 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupTabs];
     [self instantiateVCs];
     [self setupView];
 }
@@ -82,6 +83,8 @@
     [childVC removeFromParentViewController];
 }
 
+-(void)setupTabs {
+}
 /*
 #pragma mark - Navigation
 
