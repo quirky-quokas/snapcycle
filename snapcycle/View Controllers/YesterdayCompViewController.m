@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) NSArray<Competitor *> * results;
+@property (weak, nonatomic) IBOutlet UILabel *didNotCompeteLabel;
 
 @end
 
@@ -68,10 +69,12 @@
         // TODO: move over
         [self.previousUserRankView setUpRankingViewForCompetitor:userCompetitor isCurrentUser:YES badgesAwarded:YES];
         self.previousUserRankView.hidden = NO;
+        self.didNotCompeteLabel.hidden = YES;
         
     } else {
         // User did not participate yesterday
         self.previousUserRankView.hidden = YES;
+        self.didNotCompeteLabel.hidden = NO;
     }
 }
 
