@@ -375,7 +375,7 @@
             </objects>
             <point key="canvasLocation" x="1089" y="1627"/>
         </scene>
-        <!--Comp Tab View Controller-->
+        <!--snapcycle-->
         <scene sceneID="HdC-e3-lAV">
             <objects>
                 <viewController id="XVi-Q2-BTM" customClass="CompTabViewController" sceneMemberID="viewController">
@@ -399,7 +399,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="dW7-Xe-ue3"/>
                     </view>
-                    <navigationItem key="navigationItem" id="NIJ-yb-uAp"/>
+                    <navigationItem key="navigationItem" title="snapcycle" id="NIJ-yb-uAp"/>
                     <connections>
                         <outlet property="compTab" destination="Uvv-Qo-KCl" id="5TR-fL-5Pc"/>
                         <outlet property="tabView" destination="6SA-bs-1fn" id="WkR-Ww-k04"/>
@@ -409,10 +409,10 @@
             </objects>
             <point key="canvasLocation" x="1908" y="1626.8365817091455"/>
         </scene>
-        <!--View Controller-->
+        <!--Today Comp View Controller-->
         <scene sceneID="PIW-l5-6cq">
             <objects>
-                <viewController storyboardIdentifier="todayComp" id="H1G-Nz-snq" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="todayComp" id="H1G-Nz-snq" customClass="TodayCompViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6gS-Z0-cjT">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -447,10 +447,10 @@
             </objects>
             <point key="canvasLocation" x="1429.5999999999999" y="2345.577211394303"/>
         </scene>
-        <!--View Controller-->
+        <!--Yesterday Comp View Controller-->
         <scene sceneID="s9i-Ep-e80">
             <objects>
-                <viewController storyboardIdentifier="yestComp" id="E9I-Eg-WR9" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="yestComp" id="E9I-Eg-WR9" customClass="YesterdayCompViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Sw5-fu-U3c">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
