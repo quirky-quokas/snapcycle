@@ -10,6 +10,7 @@ target 'snapcycle' do
   pod 'Highcharts', '~> 7.1.3'
   pod 'MKDropdownMenu'
   pod 'DateTools'
+  pod 'XLPagerTabStrip', '~> 2.0'
 
   target 'snapcycleTests' do
     inherit! :search_paths
