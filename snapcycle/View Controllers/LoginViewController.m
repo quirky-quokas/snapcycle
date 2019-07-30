@@ -19,7 +19,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.    
+    // Do any additional setup after loading the view.
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOffKeyboard:)];
+    [self.view setUserInteractionEnabled:YES];
+    [self.view addGestureRecognizer:tapGestureRecognizer];
 }
 
 /**
@@ -41,6 +44,9 @@
             [self performSegueWithIdentifier:@"loggedInSegue" sender:self];
         }
     }];
+}
+- (IBAction)tapOffKeyboard:(id)sender {
+    [self.view endEditing:YES];
 }
 
 // Show alert with title "Error" and given message

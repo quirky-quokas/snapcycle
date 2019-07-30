@@ -24,6 +24,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOffKeyboard:)];
+    [self.view setUserInteractionEnabled:YES];
+    [self.view addGestureRecognizer:tapGestureRecognizer];
 }
 
 /**
@@ -62,6 +65,9 @@
             }
         }];
     }
+}
+- (IBAction)tapOffKeyboard:(id)sender {
+    [self.view endEditing:YES];
 }
 
 // Get file from image

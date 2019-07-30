@@ -66,7 +66,11 @@
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Zk4-6g-eG4" appends="YES" id="lbI-dl-r3S"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="5bb-Ma-8OC"/>
                     <connections>
@@ -76,6 +80,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Zk4-6g-eG4">
+                    <connections>
+                        <action selector="tapOffKeyboard:" destination="BYZ-38-t0r" id="2aN-hT-lbA"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="221.59999999999999" y="121.88905547226388"/>
         </scene>
@@ -881,7 +890,11 @@
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <viewLayoutGuide key="safeArea" id="fRj-4d-rDy"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="q8t-QC-lrD" appends="YES" id="Lja-fv-xp1"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="confirmPasswordField" destination="NAk-ya-hrP" id="7oV-cK-3eN"/>
@@ -892,6 +905,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AuS-7R-lI3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="q8t-QC-lrD">
+                    <connections>
+                        <action selector="tapOffKeyboard:" destination="gah-JD-YhB" id="eM5-Hu-qdJ"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="264.80000000000001" y="902.69865067466276"/>
         </scene>
