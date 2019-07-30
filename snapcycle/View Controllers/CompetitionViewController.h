@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CompetitionViewController : UIViewController<CurrentCompetitionDisplayer, PreviousResultsDisplayer>
 
+@property NSUInteger pageIndex;
+
 @end
 
 NS_ASSUME_NONNULL_END

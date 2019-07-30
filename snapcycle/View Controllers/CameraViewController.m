@@ -14,12 +14,11 @@
 #import "RegisterViewController.h"
 #import "TabBarController.h"
 #import "FocusFrame.h"
-//#import "CameraView.h"
+#import "CameraView.h"
 
-@interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate> //CameraViewDelegate
+@interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate, CameraViewDelegate>
 @property (strong, nonatomic) UIImage *capturedImage;
-//@property (weak, nonatomic) IBOutlet CameraView *cameraView2;
-@property (weak, nonatomic) IBOutlet UIView *cameraView;
+@property (weak, nonatomic) IBOutlet CameraView *cameraView;
 @property (strong, nonatomic) AVCaptureSession *session;
 @property (strong, nonatomic) AVCapturePhotoOutput *stillImageOutput;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
@@ -39,8 +38,8 @@
     // instantiate the camera
     [self initializeCamera];
 
-//    self.cameraView.delegate = self;
-
+    self.cameraView.delegate = self;
+    
     // instantiate the pinch gesture recognizer (zoom)
     UIPinchGestureRecognizer *pinchGR = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchZoom:)];
     [self.cameraView addGestureRecognizer:pinchGR];
@@ -125,6 +124,7 @@
 }
 
 /**
+ CameraViewDelegate method.
  Enables zoom in/out for the live preview.
  */
 - (void)handlePinchZoom:(UIPinchGestureRecognizer *)pinchGR {
@@ -144,6 +144,7 @@
 }
 
 /**
+ CameraViewDelegate method.
  Enables tap to focus for the live preview.
  */
 - (void)handleTapFocus:(UITapGestureRecognizer *)tapGR{
@@ -170,24 +171,24 @@
         }
         
         // draw frame around the tapped focus point
-        [self drawFocusFrame:tapPoint];
+        [self.cameraView drawFocusFrame:tapPoint];
     }
 }
 
-/**
- Draws a focus frame around the point of focus the user has tapped.
- */
-- (void)drawFocusFrame:(struct CGPoint)point{
-    CGRect frameRect = CGRectMake(point.x-40, point.y-40, 60, 60);
-    FocusFrame *focusFrame = [[FocusFrame alloc] initWithFrame:frameRect];
-    [self.cameraView addSubview:focusFrame];
-    [focusFrame setNeedsDisplay];
-
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:1.0];
-    [focusFrame setAlpha:0.0];
-    [UIView commitAnimations];
-}
+///**
+// Draws a focus frame around the point of focus the user has tapped.
+// */
+//- (void)drawFocusFrame:(struct CGPoint)point{
+//    CGRect frameRect = CGRectMake(point.x-40, point.y-40, 60, 60);
+//    FocusFrame *focusFrame = [[FocusFrame alloc] initWithFrame:frameRect];
+//    [self.cameraView addSubview:focusFrame];
+//    [focusFrame setNeedsDisplay];
+//
+//    [UIView beginAnimations:nil context:NULL];
+//    [UIView setAnimationDuration:1.0];
+//    [focusFrame setAlpha:0.0];
+//    [UIView commitAnimations];
+//}
 
 /**
  The user tapped the "Snap photo" button.
