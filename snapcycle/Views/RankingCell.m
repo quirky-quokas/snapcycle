@@ -78,7 +78,7 @@
     } else {
         self.usernameLabel.text = competitor.user.username;
     }
-    self.numBadgesLabel.text = [NSString stringWithFormat:@"Badges  1st: %@  2nd: %@  3rd: %@", competitor.user.badges.numFirstPlace, competitor.user.badges.numSecondPlace, competitor.user.badges.numThirdPlace];
+    self.numBadgesLabel.text = [NSString stringWithFormat:@"1st Place Badges: %@", competitor.user.badges.numFirstPlace];
     
     // Profile pic view
     self.profilePicView.layer.cornerRadius = self.profilePicView.frame.size.width / 2;
