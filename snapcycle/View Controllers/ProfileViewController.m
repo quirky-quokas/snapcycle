@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *photoCollectionView;
 @property (weak, nonatomic) IBOutlet UIImageView *backdropImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *pinImageView;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet MKDropdownMenu *photoDropdownMenu;
 
@@ -74,6 +75,7 @@
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
     
     // set up Location Manager
+    self.pinImageView.image = [UIImage imageNamed:@"location-pin"];
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
@@ -457,9 +459,9 @@
         
         NSString *city = placemark.locality;
         NSString *state = placemark.administrativeArea;
-        NSString *country = placemark.country;
+        NSString *country = placemark.ISOcountryCode;
         
-        self.locationLabel.text = [NSString stringWithFormat:@"%@, %@, %@", city, state, country];
+        self.locationLabel.text = [NSString stringWithFormat:@"%@, %@, %@",city,state,country];
         
         [self.locationManager stopUpdatingLocation];
     }];
