@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface CameraView : UIView
+@interface CameraView : UIView <UIGestureRecognizerDelegate> // duplicate interface error?
 
 @property (nonatomic, weak) id <CameraViewDelegate> delegate;
 - (void)drawFocusFrame:(struct CGPoint)point;
