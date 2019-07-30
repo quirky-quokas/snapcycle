@@ -9,8 +9,8 @@
 #import "PhotoPopUpViewController.h"
 #import "Parse/Parse.h"
 
-@interface PhotoPopUpViewController ()
-@property (weak, nonatomic) IBOutlet UIView *cellPopUpView;
+@interface PhotoPopUpViewController () <UIScrollViewDelegate>
+
 @property (weak, nonatomic) IBOutlet UIImageView *photoImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *landfillImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *compostImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *recyclingImageView;
+@property (weak, nonatomic) IBOutlet UIScrollView *cellScrollView;
+@property (weak, nonatomic) IBOutlet UIView *enclosingView;
 
 @end
 
@@ -28,8 +30,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.cellPopUpView.layer.cornerRadius = 5;
-    self.cellPopUpView.layer.masksToBounds = YES;
+    self.cellScrollView.delegate = self;
+    CGFloat contentWidth = self.cellScrollView.bounds.size.width;
+    CGFloat contentHeight = self.cellScrollView.bounds.size.height * 1.5;
+    self.cellScrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
+    
+    self.enclosingView.layer.cornerRadius = 5;
+    self.enclosingView.layer.masksToBounds = YES;
     
     self.photoImageView.image = self.convertedImage;
     self.nameLabel.text = self.trash.category.name;
@@ -62,6 +69,11 @@
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    if (self.cellScrollView.contentOffset.x != 0) {
+//        self.cellScrollView.contentOffset.x = 0;
+//    }
+//}
 /*
 #pragma mark - Navigation
 
