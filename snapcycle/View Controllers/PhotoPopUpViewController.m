@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *compostImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *recyclingImageView;
 @property (weak, nonatomic) IBOutlet UIScrollView *cellScrollView;
+@property (weak, nonatomic) IBOutlet UIView *enclosingView;
 
 @end
 
@@ -33,6 +34,9 @@
     CGFloat contentWidth = self.cellScrollView.bounds.size.width;
     CGFloat contentHeight = self.cellScrollView.bounds.size.height * 1.5;
     self.cellScrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
+    
+    self.enclosingView.layer.cornerRadius = 5;
+    self.enclosingView.layer.masksToBounds = YES;
     
     self.photoImageView.image = self.convertedImage;
     self.nameLabel.text = self.trash.category.name;

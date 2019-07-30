@@ -875,6 +875,7 @@
                         <outlet property="cellScrollView" destination="HBh-cp-CNz" id="ASY-Pi-ZpO"/>
                         <outlet property="compostImageView" destination="ykm-MK-yW1" id="Upb-eY-VkK"/>
                         <outlet property="compostLabel" destination="r5U-mZ-lMd" id="8dx-yG-baj"/>
+                        <outlet property="enclosingView" destination="d0g-3X-fSL" id="ODs-hE-Llc"/>
                         <outlet property="landfillImageView" destination="jxH-OC-CYo" id="c05-fd-EVb"/>
                         <outlet property="landfillLabel" destination="84p-fZ-aUp" id="Mhf-cI-cLk"/>
                         <outlet property="nameLabel" destination="xub-H6-yq3" id="uUp-tc-ndU"/>
