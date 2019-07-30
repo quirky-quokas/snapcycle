@@ -52,15 +52,15 @@
 
 - (void)setUpRankingViewForCompetitor:(Competitor*)competitor isCurrentUser:(BOOL)isCurrentUser badgesAwarded:(BOOL)badgesAwarded {
     // Set up ranking info
-    if ([competitor.rank isEqualToNumber:@(1)]) {
+    if ([competitor.rank isEqualToNumber:@(1)] && badgesAwarded) {
         self.crownView.hidden = NO;
         self.rankingLabel.hidden = YES;
         self.badgeView.image = [UIImage imageNamed:@"first-place"];
-    } else if ([competitor.rank isEqualToNumber:@(2)]) {
+    } else if ([competitor.rank isEqualToNumber:@(2)] && badgesAwarded) {
         self.crownView.hidden = YES;
         self.rankingLabel.hidden = YES;
         self.badgeView.image = [UIImage imageNamed:@"second-place"];
-    } else if ([competitor.rank isEqualToNumber:@(3)]) {
+    } else if ([competitor.rank isEqualToNumber:@(3)] && badgesAwarded) {
         self.crownView.hidden = YES;
         self.rankingLabel.hidden = YES;
         self.badgeView.image = [UIImage imageNamed:@"third-place"];

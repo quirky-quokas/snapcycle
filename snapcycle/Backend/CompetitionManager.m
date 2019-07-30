@@ -235,7 +235,7 @@
         
         // If user is a winner, update number of badges
         if (rank == 1) {
-            [competitor.user.badges incrementKey:@"numBadges"];
+            [competitor.user.badges incrementKey:@"numFirstPlace"];
             [competitor.user.badges saveInBackground];
         }
         
