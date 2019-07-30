@@ -494,17 +494,24 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PNu-H1-grO">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="225"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="189"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
                                             <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XiW-Ii-sVt">
-                                                <rect key="frame" x="142" y="179" width="90" height="84"/>
+                                                <rect key="frame" x="129" y="97" width="116" height="114"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Welcome" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Io-49-qxH">
-                                                <rect key="frame" x="50" y="271" width="275" height="30"/>
+                                                <rect key="frame" x="50" y="219" width="275" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="San Francisco, CA" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxR-nB-RMj">
+                                                <rect key="frame" x="8" y="263" width="359" height="34"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -665,6 +672,7 @@
                         <outlet property="chartView" destination="PUB-2D-9IQ" id="SeE-I2-Cs4"/>
                         <outlet property="landfillCanCompostLabel" destination="rvf-Kx-T3f" id="w7R-Ed-xiF"/>
                         <outlet property="landfillCanRecycleLabel" destination="XqI-fK-KIY" id="uqT-JW-U5X"/>
+                        <outlet property="locationLabel" destination="qxR-nB-RMj" id="b7y-wy-KZm"/>
                         <outlet property="photoCollectionView" destination="8Rl-jP-3am" id="LUw-65-CHv"/>
                         <outlet property="photoDropdownMenu" destination="dNu-bY-TOR" id="ahZ-TC-Iwb"/>
                         <outlet property="profileImage" destination="XiW-Ii-sVt" id="amY-Af-no2"/>

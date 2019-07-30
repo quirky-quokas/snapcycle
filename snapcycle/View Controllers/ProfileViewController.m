@@ -22,14 +22,19 @@
 #import "MKDropdownMenu.h"
 #import "DateTools.h"
 #import "PhotoPopUpViewController.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource, UIGestureRecognizerDelegate>
+@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource, UIGestureRecognizerDelegate, CLLocationManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *photoCollectionView;
 @property (weak, nonatomic) IBOutlet UIImageView *backdropImageView;
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet MKDropdownMenu *photoDropdownMenu;
+
+@property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) CLGeocoder *geocoder;
 
 // Graph
 @property (weak, nonatomic) IBOutlet HIChartView *chartView;
@@ -67,6 +72,14 @@
     
     // set the welcome text
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
+    
+    // set up Location Manager
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+    self.geocoder = [[CLGeocoder alloc] init];
+    [self.locationManager startUpdatingLocation];
+    
     
     // set drop down menu data source and delegate
     self.photoDropdownMenu.dataSource = self;
@@ -390,6 +403,8 @@
     return cell;
 }
 
+#pragma mark - MKDropDownMenuDelegate
+
 - (NSInteger)dropdownMenu:(nonnull MKDropdownMenu *)dropdownMenu numberOfRowsInComponent:(NSInteger)component {
     return 6;
 }
@@ -426,6 +441,28 @@
     else {
         return UIColor.whiteColor;
     }
+}
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    self.locationLabel.text = @"North Pole";
+    NSLog(@"didFailWithError: %@", error);
+}
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+    [self.geocoder reverseGeocodeLocation:[locations lastObject] completionHandler:^(NSArray *placemarks, NSError *error) {
+        CLPlacemark *placemark = [placemarks lastObject];
+        
+        NSString *city = placemark.locality;
+        NSString *state = placemark.administrativeArea;
+        NSString *country = placemark.country;
+        
+        self.locationLabel.text = [NSString stringWithFormat:@"%@, %@, %@", city, state, country];
+        
+        [self.locationManager stopUpdatingLocation];
+    }];
 }
 
 #pragma mark - Navigation

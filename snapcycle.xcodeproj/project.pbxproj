@@ -16,6 +16,7 @@
 		8479E91522DE638E009174E7 /* SnapUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E91422DE638E009174E7 /* SnapUser.m */; };
 		84EC731922E62A2F00F37CA5 /* PhotoLogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */; };
 		84FB4A3222EA2BF300F6FB95 /* PhotoPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FB4A3122EA2BF300F6FB95 /* PhotoPopUpViewController.m */; };
+		84FD569C22EF9C1900C5DBED /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FD569B22EF9C1900C5DBED /* CoreLocation.framework */; };
 		B11D301422E6248400CA1A36 /* Competition.m in Sources */ = {isa = PBXBuildFile; fileRef = B11D301322E6248400CA1A36 /* Competition.m */; };
 		B11D301722E627BD00CA1A36 /* CompetitionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B11D301622E627BD00CA1A36 /* CompetitionViewController.m */; };
 		B1320C4D22DE407E00A38B16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B1320C4C22DE407E00A38B16 /* AppDelegate.m */; };
@@ -76,6 +77,7 @@
 		84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoLogCell.m; sourceTree = "<group>"; };
 		84FB4A3022EA2BF300F6FB95 /* PhotoPopUpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPopUpViewController.h; sourceTree = "<group>"; };
 		84FB4A3122EA2BF300F6FB95 /* PhotoPopUpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoPopUpViewController.m; sourceTree = "<group>"; };
+		84FD569B22EF9C1900C5DBED /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		8EDE53E7A1B1342228638389 /* Pods-snapcycleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleTests.debug.xcconfig"; path = "Target Support Files/Pods-snapcycleTests/Pods-snapcycleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B11D301222E6248400CA1A36 /* Competition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Competition.h; sourceTree = "<group>"; };
 		B11D301322E6248400CA1A36 /* Competition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Competition.m; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84FD569C22EF9C1900C5DBED /* CoreLocation.framework in Frameworks */,
 				32B1E4290ADE7E9489A9DC27 /* Pods_snapcycle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -159,6 +162,7 @@
 		35C2CCA3A3F0B8D3A1DEA813 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84FD569B22EF9C1900C5DBED /* CoreLocation.framework */,
 				59B548157ECDEB7F16DEA4FF /* Pods_snapcycle.framework */,
 				40228DBD9FA8C985853BE112 /* Pods_snapcycleTests.framework */,
 				E392621CD0CD837554F3211B /* Pods_snapcycleUITests.framework */,
