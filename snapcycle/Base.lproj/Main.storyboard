@@ -387,7 +387,7 @@
                                 <rect key="frame" x="0.0" y="110" width="375" height="508"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </containerView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Uvv-Qo-KCl">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Uvv-Qo-KCl" customClass="CompTabSegControl">
                                 <rect key="frame" x="16" y="74" width="343" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
@@ -401,7 +401,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="snapcycle" id="NIJ-yb-uAp"/>
                     <connections>
-                        <outlet property="compTab" destination="Uvv-Qo-KCl" id="5TR-fL-5Pc"/>
+                        <outlet property="compTab" destination="Uvv-Qo-KCl" id="3FX-2i-EXg"/>
                         <outlet property="tabView" destination="6SA-bs-1fn" id="WkR-Ww-k04"/>
                     </connections>
                 </viewController>

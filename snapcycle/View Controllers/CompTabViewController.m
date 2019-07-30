@@ -10,9 +10,10 @@
 #import "TodayCompViewController.h"
 #import "YesterdayCompViewController.h"
 #import "ViewController.h"
+#import "CompTabSegControl.h"
 
 @interface CompTabViewController ()
-@property (weak, nonatomic) IBOutlet UISegmentedControl *compTab;
+@property (weak, nonatomic) IBOutlet CompTabSegControl *compTab;
 @property (strong, nonatomic) TodayCompViewController *todayComp;
 @property (strong, nonatomic) YesterdayCompViewController *yestComp;
 @property (weak, nonatomic) IBOutlet UIView *tabView;
@@ -28,7 +29,7 @@
     UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:scBlue, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Light" size:25]}];
     
-    [self setupTabs];
+    [self setupTabsDesign];
     [self instantiateVCs];
     [self setupView];
 }
@@ -87,7 +88,19 @@
     [childVC removeFromParentViewController];
 }
 
--(void)setupTabs {
+-(void)setupTabsDesign {
+    [self.compTab setColorAndFont];
+
+    
+
+    
+    /*
+     1. COLOR
+     2. FONT
+     3. TAB DISPLAY, NOT BUTTON SEGMENTS
+     */
+    
+    
 }
 /*
 #pragma mark - Navigation
