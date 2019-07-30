@@ -12,7 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Badges : PFObject<PFSubclassing>
 
-@property (strong, nonatomic) NSNumber *numBadges;
+@property (strong, nonatomic) NSNumber *numFirstPlace;
+@property (strong, nonatomic) NSNumber *numSecondPlace;
+@property (strong, nonatomic) NSNumber *numThirdPlace;
 
 @end
 

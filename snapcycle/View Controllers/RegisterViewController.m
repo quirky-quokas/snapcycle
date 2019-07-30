@@ -48,7 +48,9 @@
         
         // Create badges object for user
         Badges *badges = [Badges new];
-        badges.numBadges = @(0);
+        badges.numFirstPlace = @(0);
+        badges.numSecondPlace = @(0);
+        badges.numThirdPlace = @(0);
         newUser.badges = badges;
         
         // Set up default profile pic
