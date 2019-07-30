@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CompetitionManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface YesterdayCompViewController : UIViewController
+@interface YesterdayCompViewController : UIViewController<PreviousResultsDisplayer>
 
 @end
 

@@ -264,6 +264,7 @@
     [compQuery whereKey:@"endDate" greaterThanOrEqualTo:day];
     [compQuery includeKey:@"competitorArray"];
     [compQuery includeKey:@"competitorArray.user"];
+    [compQuery includeKey:@"competitorArray.user.badges"];
     
     [compQuery getFirstObjectInBackgroundWithBlock:completion];
 }

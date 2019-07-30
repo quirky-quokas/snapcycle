@@ -60,6 +60,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // set the navigation bar font
+    UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:scBlue, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Light" size:25]}];
+    
     // set the scrollView frame
     self.scrollView.contentSize = CGSizeMake(375, 1680);
     
@@ -112,7 +116,7 @@
     // set the badges label
     Badges *badges = SnapUser.currentUser.badges;
     [badges fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        self.badgesLabel.text = [NSString stringWithFormat:@"1st: %@ 2nd: %@ 3rd: %@", badges.numFirstPlace, badges.numSecondPlace, badges.numThirdPlace];
+        self.badgesLabel.text = [NSString stringWithFormat:@"Your Badges  1st: %@  2nd: %@  3rd: %@", badges.numFirstPlace, badges.numSecondPlace, badges.numThirdPlace];
     }];
     
     [self updatePieChartData];

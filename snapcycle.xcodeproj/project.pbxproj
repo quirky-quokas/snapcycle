@@ -45,6 +45,8 @@
 		B6CE94DE22EA50DD003B4732 /* CompetitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CE94DD22EA50DD003B4732 /* CompetitionManager.m */; };
 		B6CE94E122EB9A53003B4732 /* Badges.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CE94E022EB9A53003B4732 /* Badges.m */; };
 		B6CED37122E8D9160091B788 /* Competitor.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CED37022E8D9160091B788 /* Competitor.m */; };
+		B6E4F2D422F0EE1000C8B2AD /* RankingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E4F2D322F0EE1000C8B2AD /* RankingCell.m */; };
+		B6E4F2D722F0EE1B00C8B2AD /* RankingXIB.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6E4F2D622F0EE1B00C8B2AD /* RankingXIB.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +139,9 @@
 		B6CE94E022EB9A53003B4732 /* Badges.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Badges.m; sourceTree = "<group>"; };
 		B6CED36F22E8D9160091B788 /* Competitor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Competitor.h; sourceTree = "<group>"; };
 		B6CED37022E8D9160091B788 /* Competitor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Competitor.m; sourceTree = "<group>"; };
+		B6E4F2D322F0EE1000C8B2AD /* RankingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RankingCell.m; sourceTree = "<group>"; };
+		B6E4F2D522F0EE1700C8B2AD /* RankingCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RankingCell.h; sourceTree = "<group>"; };
+		B6E4F2D622F0EE1B00C8B2AD /* RankingXIB.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RankingXIB.xib; sourceTree = "<group>"; };
 		C8136804A7D7CF45BE79F467 /* Pods-snapcycleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleUITests.debug.xcconfig"; path = "Target Support Files/Pods-snapcycleUITests/Pods-snapcycleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E041F324D7031C737648A917 /* Pods-snapcycleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleUITests.release.xcconfig"; path = "Target Support Files/Pods-snapcycleUITests/Pods-snapcycleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		E392621CD0CD837554F3211B /* Pods_snapcycleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_snapcycleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -208,6 +213,9 @@
 				B155009B22EA28A400FAFF8F /* CameraView.m */,
 				B1B9EDE022F0F11D00C0A6F4 /* CompTabSegControl.h */,
 				B1B9EDE122F0F11D00C0A6F4 /* CompTabSegControl.m */,
+				B6E4F2D622F0EE1B00C8B2AD /* RankingXIB.xib */,
+				B6E4F2D522F0EE1700C8B2AD /* RankingCell.h */,
+				B6E4F2D322F0EE1000C8B2AD /* RankingCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -443,6 +451,7 @@
 				B1320C5822DE407E00A38B16 /* LaunchScreen.storyboard in Resources */,
 				B1320C5522DE407E00A38B16 /* Assets.xcassets in Resources */,
 				B19CD90822E923EF008F9782 /* SourceSansPro-Light.otf in Resources */,
+				B6E4F2D722F0EE1B00C8B2AD /* RankingXIB.xib in Resources */,
 				B19CD90A22E923FA008F9782 /* SourceSansPro-Semibold.otf in Resources */,
 				B1320C5322DE407E00A38B16 /* Main.storyboard in Resources */,
 			);
@@ -562,6 +571,7 @@
 				B11D301722E627BD00CA1A36 /* CompetitionViewController.m in Sources */,
 				8479E90F22DE5F90009174E7 /* Category.m in Sources */,
 				B6CE94DE22EA50DD003B4732 /* CompetitionManager.m in Sources */,
+				B6E4F2D422F0EE1000C8B2AD /* RankingCell.m in Sources */,
 				B1320C5B22DE407E00A38B16 /* main.m in Sources */,
 				B155009C22EA28A400FAFF8F /* CameraView.m in Sources */,
 				8479E91522DE638E009174E7 /* SnapUser.m in Sources */,
