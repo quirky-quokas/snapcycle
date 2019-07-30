@@ -101,7 +101,7 @@
             break;
         }
     }
-    [self.delegate showCurrentCompetitionView:arrayToShow];
+    [self.currentCompetitionDisplayer showCurrentCompetitionView:arrayToShow];
 }
 
 /**
@@ -124,7 +124,7 @@
             self.currentComp = newCompetition;
             
             // User cannot already be in competition because it was just created
-            [self.delegate showCurrentCompetitionView:NULL];
+            [self.currentCompetitionDisplayer showCurrentCompetitionView:NULL];
         }
     }];
 }
@@ -155,7 +155,7 @@
             
             // TODO: doesn't refresh competitors
             self.sortedCompetitors = [self sortCompetitors:self.currentComp.competitorArray];
-            [self.delegate showCurrentCompetitionView:self.sortedCompetitors];
+            [self.currentCompetitionDisplayer showCurrentCompetitionView:self.sortedCompetitors];
         }];
     }];
 }
@@ -175,7 +175,7 @@
         } else {
             [object incrementKey:@"score"];
             [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                self.delegate.userScoreChanged = YES;
+                self.currentCompetitionDisplayer.userScoreChanged = YES;
             }];
             
         }
@@ -209,14 +209,14 @@
         
         if (self.previousComp.competitorArray[0].rank) {
             // Competitors have already been ranked, pass results to delegate
-            [self.delegate showPreviousResults:self.sortedPrevious];
+            [self.previousResultsDisplayer showPreviousResults:self.sortedPrevious];
         } else {
             // Competitors have not yet been ranked
             [self calculateAndPostPreviousRanking];
         }
     } else {
         NSLog(@"no participants");
-        [self.delegate showPreviousResults:NULL];
+        [self.previousResultsDisplayer showPreviousResults:NULL];
     }
 }
 
@@ -246,7 +246,7 @@
         prevUserItems = userItems;
     }
     // Pass results to delegate
-    [self.delegate showPreviousResults:self.sortedPrevious];
+    [self.previousResultsDisplayer showPreviousResults:self.sortedPrevious];
 }
 
 # pragma mark - Helper methods

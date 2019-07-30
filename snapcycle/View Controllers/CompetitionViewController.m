@@ -36,7 +36,8 @@
     [super viewDidLoad];
     
     self.manager = [CompetitionManager shared];
-    self.manager.delegate = self;
+    self.manager.currentCompetitionDisplayer = self;
+    self.manager.previousResultsDisplayer = self;
     
     [self configureLeaderboardChart];
     
