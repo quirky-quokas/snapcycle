@@ -375,7 +375,7 @@
             </objects>
             <point key="canvasLocation" x="1089" y="1627"/>
         </scene>
-        <!--Comp Tab View Controller-->
+        <!--snapcycle-->
         <scene sceneID="HdC-e3-lAV">
             <objects>
                 <viewController id="XVi-Q2-BTM" customClass="CompTabViewController" sceneMemberID="viewController">
@@ -387,7 +387,7 @@
                                 <rect key="frame" x="0.0" y="110" width="375" height="508"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </containerView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Uvv-Qo-KCl">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Uvv-Qo-KCl" customClass="CompTabSegControl">
                                 <rect key="frame" x="16" y="74" width="343" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
@@ -399,9 +399,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="dW7-Xe-ue3"/>
                     </view>
-                    <navigationItem key="navigationItem" id="NIJ-yb-uAp"/>
+                    <navigationItem key="navigationItem" title="snapcycle" id="NIJ-yb-uAp"/>
                     <connections>
-                        <outlet property="compTab" destination="Uvv-Qo-KCl" id="5TR-fL-5Pc"/>
+                        <outlet property="compTab" destination="Uvv-Qo-KCl" id="3FX-2i-EXg"/>
                         <outlet property="tabView" destination="6SA-bs-1fn" id="WkR-Ww-k04"/>
                     </connections>
                 </viewController>
