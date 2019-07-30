@@ -472,7 +472,7 @@
             </objects>
             <point key="canvasLocation" x="1089" y="903"/>
         </scene>
-        <!--Profile-->
+        <!--snapcycle-->
         <scene sceneID="sTd-WF-gtR">
             <objects>
                 <viewController id="spz-gT-KP6" customClass="ProfileViewController" sceneMemberID="viewController">
@@ -671,7 +671,7 @@
                         <viewLayoutGuide key="safeArea" id="AtI-bQ-93I"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" id="Tyx-0E-8ac"/>
-                    <navigationItem key="navigationItem" id="Yx5-XV-7oJ">
+                    <navigationItem key="navigationItem" title="snapcycle" id="Yx5-XV-7oJ">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="hLt-YU-LTe">
                             <connections>
                                 <action selector="onLogoutTap:" destination="spz-gT-KP6" id="qT4-oF-cYg"/>
@@ -1012,7 +1012,7 @@
         <image name="logo pic" width="407" height="113"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="IG0-Za-uas"/>
-        <segue reference="S6R-iF-SHQ"/>
+        <segue reference="AcR-1A-lSl"/>
+        <segue reference="dEH-UT-eFW"/>
     </inferredMetricsTieBreakers>
 </document>
