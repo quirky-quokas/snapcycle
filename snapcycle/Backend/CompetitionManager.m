@@ -221,6 +221,12 @@
         if (rank == 1) {
             [competitor.user.badges incrementKey:@"numFirstPlace"];
             [competitor.user.badges saveInBackground];
+        } else if (rank == 2) {
+            [competitor.user.badges incrementKey:@"numSecondPlace"];
+            [competitor.user.badges saveInBackground];
+        } else if (rank == 3) {
+            [competitor.user.badges incrementKey:@"numThirdPlace"];
+            [competitor.user.badges saveInBackground];
         }
         
         competitor.rank = @(rank);
