@@ -54,7 +54,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *landfillCanRecycleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *landfillCanCompostLabel;
 
-@property (weak, nonatomic) IBOutlet UILabel *badgesLabel;
+// Badges
+@property (weak, nonatomic) IBOutlet UILabel *numFirstLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numSecondLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numThirdLabel;
+
 
 @end
 
@@ -125,7 +129,9 @@
     // set the badges label
     Badges *badges = SnapUser.currentUser.badges;
     [badges fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        self.badgesLabel.text = [NSString stringWithFormat:@"Your Badges  1st: %@  2nd: %@  3rd: %@", badges.numFirstPlace, badges.numSecondPlace, badges.numThirdPlace];
+        self.numFirstLabel.text = [NSString stringWithFormat:@"%@", badges.numFirstPlace];
+        self.numSecondLabel.text = [NSString stringWithFormat:@"%@", badges.numSecondPlace];
+        self.numThirdLabel.text = [NSString stringWithFormat:@"%@", badges.numThirdPlace];;
     }];
     
     [self updatePieChartData];
