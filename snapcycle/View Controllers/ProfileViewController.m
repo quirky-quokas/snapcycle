@@ -35,6 +35,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet MKDropdownMenu *photoDropdownMenu;
 
+@property (strong, nonatomic) UIImagePickerController *imagePickerVC;
+
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLGeocoder *geocoder;
 
@@ -77,6 +79,11 @@
     [self setProfilePicture];
     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editProfilePicture:)];
     [self.profileImage addGestureRecognizer:tapGR];
+    
+    // set profile image picker
+    self.imagePickerVC = [UIImagePickerController new];
+    self.imagePickerVC.delegate = self;
+    self.imagePickerVC.allowsEditing = YES;
     
     // set the welcome text
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
@@ -305,20 +312,17 @@
  Edits the user's profile image.
  */
 - (void)editProfilePicture: (UITapGestureRecognizer *)tapGR {
-    UIImagePickerController *imagePickerVC = [UIImagePickerController new];
-    imagePickerVC.delegate = self;
-    imagePickerVC.allowsEditing = YES;
 
     // TODO: instead of only showing one or the other, show a pop up to let the user choose
 
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
     }
     else {
-        imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        self.imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
 
-    [self presentViewController:imagePickerVC animated:YES completion:nil];
+    [self presentViewController:self.imagePickerVC animated:YES completion:nil];
 }
 
 
