@@ -44,20 +44,45 @@
     self.compostLabel.text = self.trash.category.compostInfo;
     self.recyclingLabel.text = self.trash.category.recyclingInfo;
     
-    if ([self.trash.category.type isEqualToString:@"recycling"]) {
+    if (self.trash.category.landfill == YES && self.trash.category.recycling == YES && self.trash.category.compost == YES) {
+        self.landfillImageView.image = [UIImage imageNamed:@"green-thumb"];
         self.recyclingImageView.image = [UIImage imageNamed:@"green-thumb"];
-        self.landfillImageView.image = [UIImage imageNamed:@"stop-hand"];
+        self.compostImageView.image = [UIImage imageNamed:@"green-thumb"];
+    }
+    else if (self.trash.category.landfill == YES && self.trash.category.recycling == YES && self.trash.category.compost == NO) {
+        self.landfillImageView.image = [UIImage imageNamed:@"green-thumb"];
+        self.recyclingImageView.image = [UIImage imageNamed:@"green-thumb"];
         self.compostImageView.image = [UIImage imageNamed:@"stop-hand"];
     }
-    else if ([self.trash.category.type isEqualToString:@"landfill"]) {
-        self.recyclingImageView.image = [UIImage imageNamed:@"stop-hand"];
+    else if (self.trash.category.landfill == YES && self.trash.category.recycling == NO && self.trash.category.compost == YES) {
         self.landfillImageView.image = [UIImage imageNamed:@"green-thumb"];
+        self.recyclingImageView.image = [UIImage imageNamed:@"stop-hand"];
+        self.compostImageView.image = [UIImage imageNamed:@"green-thumb"];
+    }
+    else if (self.trash.category.landfill == NO && self.trash.category.recycling == YES && self.trash.category.compost == YES) {
+        self.landfillImageView.image = [UIImage imageNamed:@"stop-hand"];
+        self.recyclingImageView.image = [UIImage imageNamed:@"green-thumb"];
+        self.compostImageView.image = [UIImage imageNamed:@"green-thumb"];
+    }
+    else if (self.trash.category.landfill == YES && self.trash.category.recycling == NO && self.trash.category.compost == NO) {
+        self.landfillImageView.image = [UIImage imageNamed:@"green-thumb"];
+        self.recyclingImageView.image = [UIImage imageNamed:@"stop-hand"];
         self.compostImageView.image = [UIImage imageNamed:@"stop-hand"];
+    }
+    else if (self.trash.category.landfill == NO && self.trash.category.recycling == YES && self.trash.category.compost == NO) {
+        self.landfillImageView.image = [UIImage imageNamed:@"stop-hand"];
+        self.recyclingImageView.image = [UIImage imageNamed:@"green-thumb"];
+        self.compostImageView.image = [UIImage imageNamed:@"stop-hand"];
+    }
+    else if (self.trash.category.landfill == NO && self.trash.category.recycling == NO && self.trash.category.compost == YES) {
+        self.landfillImageView.image = [UIImage imageNamed:@"stop-hand"];
+        self.recyclingImageView.image = [UIImage imageNamed:@"stop-hand"];
+        self.compostImageView.image = [UIImage imageNamed:@"green-thumb"];
     }
     else {
-        self.recyclingImageView.image = [UIImage imageNamed:@"stop-hand"];
         self.landfillImageView.image = [UIImage imageNamed:@"stop-hand"];
-        self.compostImageView.image = [UIImage imageNamed:@"green-thumb"];
+        self.recyclingImageView.image = [UIImage imageNamed:@"stop-hand"];
+        self.compostImageView.image = [UIImage imageNamed:@"stop-hand"];
     }
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onOutsideTap:)];

@@ -230,8 +230,8 @@
 /**
  DetailsViewControllerDelegate method. Posts an alert to show trash was posted successfully.
  */
-- (void)postedTrash:(nonnull NSString *)message {
-    [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Good work!" message:message];
+- (void)postedTrashWithMessage:(NSString *)message withTitle:(NSString *)title {
+    [(TabBarController*)self.tabBarController showOKAlertWithTitle:title message:message];
 }
 
 @end

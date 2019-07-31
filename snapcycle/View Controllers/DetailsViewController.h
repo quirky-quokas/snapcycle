@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol DetailsViewControllerDelegate
-- (void) postedTrash:(NSString*) message;
+- (void) postedTrashWithMessage:(NSString*)message withTitle:(NSString*)title;
 @end
 
 @interface DetailsViewController : UIViewController
