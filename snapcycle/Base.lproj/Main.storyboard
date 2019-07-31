@@ -121,6 +121,33 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yxA-F1-uaX">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="clipped to camera" translatesAutoresizingMaskIntoConstraints="NO" id="QFf-F5-TO1">
+                                        <rect key="frame" x="94" y="122" width="186" height="99"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Camera is not enabled. Please go to Settings and enable camera." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tb6-6f-WYG">
+                                        <rect key="frame" x="37" y="251" width="300" height="52"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QL7-SW-Mn5">
+                                        <rect key="frame" x="135" y="323" width="104" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Enable Camera"/>
+                                        <connections>
+                                            <action selector="didEnableCamera:" destination="BzN-ce-QcD" eventType="touchUpInside" id="FUR-yu-GID"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <accessibility key="accessibilityConfiguration" label="Enable View"/>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zH4-Ea-L8P">
                                 <rect key="frame" x="155" y="545" width="74" height="65"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -142,6 +169,7 @@
                     <connections>
                         <outlet property="cameraButton" destination="zH4-Ea-L8P" id="4JS-Tp-U15"/>
                         <outlet property="cameraView" destination="BvN-uu-SIn" id="U9f-7t-qeG"/>
+                        <outlet property="enableCamView" destination="yxA-F1-uaX" id="V0j-qS-16m"/>
                         <segue destination="5lJ-x6-utv" kind="show" identifier="segueToDetailsVC" id="IG0-Za-uas"/>
                     </connections>
                 </viewController>
@@ -1110,6 +1138,7 @@
     <resources>
         <image name="behind-popup-view" width="320" height="460"/>
         <image name="camButIcon artboard white" width="269" height="236"/>
+        <image name="clipped to camera" width="483" height="344"/>
         <image name="logo pic" width="407" height="113"/>
     </resources>
     <inferredMetricsTieBreakers>

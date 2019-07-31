@@ -19,6 +19,7 @@
 @interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate, CameraViewDelegate>
 @property (strong, nonatomic) UIImage *capturedImage;
 @property (weak, nonatomic) IBOutlet CameraView *cameraView;
+@property (weak, nonatomic) IBOutlet UIView *enableCamView;
 @property (strong, nonatomic) AVCaptureSession *session;
 @property (strong, nonatomic) AVCapturePhotoOutput *stillImageOutput;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
@@ -35,15 +36,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // instantiate the camera
     if ([self initializeCamera]) {
+        // instantiate the camera
+        [self.enableCamView setHidden:true];
         self.cameraView.delegate = self;
         [self.cameraView instantiateGR];
+    } else {
+        // display enable camera view, user has not allowed camera access
+        [self.cameraButton setHidden:true];
+        [self.cameraView setHidden:true];
+        
+        // NOTE: not checking AVAuthorizationStatus, will do later if time
     }
-    // if camera can't be instantiated, show camera unavailable screen?
-    else {
-        NSLog(@"camera not available");
-    }
+
 
     // set the navigation bar font
     UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
@@ -190,6 +195,17 @@
         // segue to detailsVC
         [self performSegueWithIdentifier:@"segueToDetailsVC" sender:self];
     }
+}
+
+/**
+ The user tapped the "Enable Camera" button. Open Settings.
+ */
+- (IBAction)didEnableCamera:(UIButton *)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{}                             completionHandler:^(BOOL success) {
+        if (!success) {
+            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:@"Unable to open settings"];
+        }
+    }];
 }
 
 #pragma mark - Navigation
