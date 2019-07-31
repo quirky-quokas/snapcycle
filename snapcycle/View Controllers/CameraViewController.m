@@ -19,6 +19,7 @@
 @interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate, CameraViewDelegate>
 @property (strong, nonatomic) UIImage *capturedImage;
 @property (weak, nonatomic) IBOutlet CameraView *cameraView;
+@property (weak, nonatomic) IBOutlet UIView *enableCamView;
 @property (strong, nonatomic) AVCaptureSession *session;
 @property (strong, nonatomic) AVCapturePhotoOutput *stillImageOutput;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
@@ -37,12 +38,14 @@
     
     // instantiate the camera
     if ([self initializeCamera]) {
+        [self.enableCamView setHidden:true];
         self.cameraView.delegate = self;
         [self.cameraView instantiateGR];
     }
-    // if camera can't be instantiated, show camera unavailable screen?
     else {
-        NSLog(@"camera not available");
+        // display enable camera view
+        [self.cameraButton setHidden:true];
+        [self.cameraView setHidden:true];
     }
 
     // set the navigation bar font
