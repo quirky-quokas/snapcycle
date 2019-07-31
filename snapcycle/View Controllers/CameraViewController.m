@@ -42,7 +42,7 @@
     }
     // if camera can't be instantiated, show camera unavailable screen?
     else {
-    
+        NSLog(@"camera not available");
     }
 
     // set the navigation bar font
