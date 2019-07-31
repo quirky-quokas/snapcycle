@@ -39,20 +39,7 @@
     [self initializeCamera];
 
     self.cameraView.delegate = self;
-    
-    // instantiate the pinch gesture recognizer (zoom)
-    UIPinchGestureRecognizer *pinchGR = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchZoom:)];
-    [self.cameraView addGestureRecognizer:pinchGR];
-    self.cameraView.userInteractionEnabled = YES;
-    pinchGR.cancelsTouchesInView = NO;
-    pinchGR.delegate = self;
-
-    // instantiate the tap gesture recognizer (focus)
-    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFocus:)];
-    [self.cameraView addGestureRecognizer:tapGR];
-    tapGR.numberOfTapsRequired = 1;
-    tapGR.numberOfTouchesRequired = 1;
-    tapGR.delegate = self;
+    [self.cameraView instantiateGR];
 
     // set the navigation bar font
     UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
@@ -174,21 +161,6 @@
         [self.cameraView drawFocusFrame:tapPoint];
     }
 }
-
-///**
-// Draws a focus frame around the point of focus the user has tapped.
-// */
-//- (void)drawFocusFrame:(struct CGPoint)point{
-//    CGRect frameRect = CGRectMake(point.x-40, point.y-40, 60, 60);
-//    FocusFrame *focusFrame = [[FocusFrame alloc] initWithFrame:frameRect];
-//    [self.cameraView addSubview:focusFrame];
-//    [focusFrame setNeedsDisplay];
-//
-//    [UIView beginAnimations:nil context:NULL];
-//    [UIView setAnimationDuration:1.0];
-//    [focusFrame setAlpha:0.0];
-//    [UIView commitAnimations];
-//}
 
 /**
  The user tapped the "Snap photo" button.

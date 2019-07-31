@@ -13,11 +13,24 @@
 
 @implementation CameraView
 
-// TODO: instantiateGR method? GRDelegate only allowed as VC, not view
-//- (void)awakeFromNib {
-//    [super awakeFromNib];
-//    NSLog(@"SUCCESS");
-//}
+/**
+ Instantiate the gesture recognizers
+ */
+- (void)instantiateGR {
+    // instantiate the pinch gesture recognizer (zoom)
+    UIPinchGestureRecognizer *pinchGR = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchZoom:)];
+    [self addGestureRecognizer:pinchGR];
+    self.userInteractionEnabled = YES;
+    pinchGR.cancelsTouchesInView = NO;
+    pinchGR.delegate = self;
+    
+    // instantiate the tap gesture recognizer (focus)
+    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFocus:)];
+    [self addGestureRecognizer:tapGR];
+    tapGR.numberOfTapsRequired = 1;
+    tapGR.numberOfTouchesRequired = 1;
+    tapGR.delegate = self;
+}
 
 /**
  Draws a focus frame around the point of focus the user has tapped.

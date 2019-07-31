@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id <CameraViewDelegate> delegate;
 - (void)drawFocusFrame:(struct CGPoint)point;
+- (void)instantiateGR;
 
 @end
 
