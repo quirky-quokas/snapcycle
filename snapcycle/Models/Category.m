@@ -19,6 +19,9 @@
 @dynamic landfillInfo;
 @dynamic compostInfo;
 @dynamic recyclingInfo;
+@dynamic landfill;
+@dynamic recycling;
+@dynamic compost;
 
 + (nonnull NSString *)parseClassName {
     return @"Category";

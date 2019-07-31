@@ -80,8 +80,8 @@
     return self.filteredCategories.count;
 }
 
-- (void) postedTrash:(NSString*)message {
-    [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Good work"message:message];
+- (void) postedTrashWithMessage:(NSString*)message withTitle:(NSString*)title {
+    [(TabBarController*)self.tabBarController showOKAlertWithTitle:title message:message];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {

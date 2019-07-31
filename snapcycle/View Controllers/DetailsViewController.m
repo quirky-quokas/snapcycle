@@ -32,21 +32,30 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.nameLabel.text = self.category.name;
-    self.infoLabel.text = self.category.info;
     self.moreInfoLabel.text = self.category.moreInfo;
     [self.moreInfoLabel sizeToFit];
     
-    // update color of info label text
-    if ([self.infoLabel.text containsString:@"recycle bin"]) {
+    // set up info label
+    NSString *infoString = self.category.info;
+    NSMutableAttributedString *infoAttributedString = [[NSMutableAttributedString alloc] initWithString:infoString];
+    if ([self.category.info containsString:@"recycle bin"]) {
+        NSRange foundRange = [infoString rangeOfString:@"recycle bin"];
         UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
-        [self.infoLabel setTextColor:scBlue];
-    } else if ([self.infoLabel.text containsString:@"compost bin"]) {
-        UIColor *scGreen = [UIColor colorWithRed:148.0/255.0 green:200.0/255.0 blue:61.0/255.0 alpha:1.0];
-        [self.infoLabel setTextColor:scGreen];
-    } else if ([self.infoLabel.text containsString:@"garbage bin"]) {
-        UIColor *scBrown = [UIColor colorWithRed:150.0/255.0 green:75.0/255.0 blue:0.0/255.0 alpha:1.0];
-        [self.infoLabel setTextColor:scBrown];
+        [infoAttributedString addAttribute:NSForegroundColorAttributeName value:scBlue range:foundRange];
     }
+    if ([self.category.info containsString:@"compost bin"]) {
+        NSRange foundRange = [infoString rangeOfString:@"compost bin"];
+        UIColor *scGreen = [UIColor colorWithRed:148.0/255.0 green:200.0/255.0 blue:61.0/255.0 alpha:1.0];
+        [infoAttributedString addAttribute:NSForegroundColorAttributeName value:scGreen range:foundRange];
+    }
+    if ([self.category.info containsString:@"garbage bin"]) {
+        NSRange foundRange = [infoString rangeOfString:@"garbage bin"];
+        UIColor *scBrown = [UIColor colorWithRed:150.0/255.0 green:75.0/255.0 blue:0.0/255.0 alpha:1.0];
+        [infoAttributedString addAttribute:NSForegroundColorAttributeName value:scBrown range:foundRange];
+    }
+    
+    [self.infoLabel setAttributedText:infoAttributedString];
+    [self.infoLabel sizeToFit];
     
     if ([(NSObject*)self.delegate isKindOfClass:[CategoriesViewController class]]) {
         PFFileObject *image = self.category.image;
@@ -100,8 +109,28 @@
             [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             }];
             [self.navigationController popViewControllerAnimated:YES];
-            NSString* message = @"You've successfully recycled your trash";
-            [self.delegate postedTrash:message];
+            
+            NSString* message = [[NSString alloc] init];
+            NSString* title = [[NSString alloc] init];
+            if(newTrash.category.recycling == YES) {
+                title = @"Good work!";
+                message = @"You've successfully recycled your trash";
+            }
+            else {
+                title = @"Oops!";
+                
+                if (newTrash.category.landfill == YES && newTrash.category.compost == YES){
+                    message = @"You shouldn't have recycled that. Next time try throwing it in compost or landfill.";
+                }
+                else if (newTrash.category.landfill == NO && newTrash.category.compost == YES) {
+                    message = @"You shouldn't have recycled that. Next time try throwing it in compost.";
+                }
+                else if (newTrash.category.landfill == YES && newTrash.category.compost == NO){
+                    message = @"You shouldn't have recycled that. Next time try throwing it in landfill.";
+                }
+            }
+            [self.delegate postedTrashWithMessage:message withTitle:title];
+            
         }
         else {
             [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Could not recycle trash" message:error.localizedDescription];
@@ -135,8 +164,27 @@
             [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             }];
             [self.navigationController popViewControllerAnimated:YES];
-            NSString* message = @"You've successfully composted your trash";
-            [self.delegate postedTrash:message];
+            
+            NSString* message = [[NSString alloc] init];
+            NSString* title = [[NSString alloc] init];
+            if(newTrash.category.compost == YES) {
+                title = @"Good work!";
+                message = @"You've successfully composted your trash";
+            }
+            else {
+                title = @"Oops!";
+                
+                if (newTrash.category.landfill == YES && newTrash.category.recycling == YES){
+                    message = @"You shouldn't have composted that. Next time try throwing it in recycling or landfill.";
+                }
+                else if (newTrash.category.landfill == NO && newTrash.category.recycling == YES){
+                    message = @"You shouldn't have composted that. Next time try throwing it in recyling.";
+                }
+                else if (newTrash.category.landfill == YES && newTrash.category.recycling == NO){
+                    message = @"You shouldn't have composted that. Next time try throwing it in landfill.";
+                }
+            }
+            [self.delegate postedTrashWithMessage:message withTitle:title];
         }
         else {
             [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Could not compost trash" message:error.localizedDescription];
@@ -176,8 +224,27 @@
             [[CompetitionManager shared] incrementUserLandfillScore];
             
             [self.navigationController popViewControllerAnimated:YES];
-            NSString* message = @"You've successfully thrown away your trash";
-            [self.delegate postedTrash:message];
+            
+            NSString *message = [[NSString alloc] init];
+            NSString* title = [[NSString alloc] init];
+            if(newTrash.category.landfill == YES) {
+                title = @"Good work!";
+                message = @"You've successfully thrown away your trash";
+            }
+            else {
+                title = @"Oops!";
+                
+                if (newTrash.category.recycling == YES && newTrash.category.compost == YES){
+                    message = @"You shouldn't have thrown that away. Next time try throwing it in recycling or compost.";
+                }
+                else if (newTrash.category.recycling == YES && newTrash.category.compost == NO) {
+                    message = @"You shouldn't have thrown that away. Next time try throwing it in recyling.";
+                }
+                else if (newTrash.category.recycling == NO && newTrash.category.compost == YES){
+                    message = @"You shouldn't have thrown that away. Next time try throwing it in compost.";
+                }
+            }
+            [self.delegate postedTrashWithMessage:message withTitle:title];
         }
         else {
             [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Could not throw away trash" message:error.localizedDescription];

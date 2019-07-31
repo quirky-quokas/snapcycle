@@ -20,6 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *compostInfo;
 @property (nonatomic, strong) NSString *recyclingInfo;
 @property (nonatomic, strong) PFFileObject *image;
+@property (nonatomic) BOOL landfill;
+@property (nonatomic) BOOL recycling;
+@property (nonatomic) BOOL compost;
 
 @end
 
