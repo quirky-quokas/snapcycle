@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property BOOL userScoreChanged;
 
 // Passed an array of Competitors sorted in ascending order by score
-// If array is null, then the user is not in the competition and the join screen should be displayed instead
 - (void)showCurrentCompetitionView:(NSArray<Competitor*>* _Nullable)sorted;
 
 @end

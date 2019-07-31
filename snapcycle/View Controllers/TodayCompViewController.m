@@ -59,22 +59,14 @@
 // If array is null, then the user is not in the compeition and the join screen should be displayed instead
 - (void)showCurrentCompetitionView:(NSArray<Competitor*>* _Nullable)sorted {
     if (sorted) {
-        // User is in current competition
-        self.joinPromptLabel.hidden = YES;
-        self.joinButton.hidden = YES;
-        self.currentUserRankView.hidden = NO;
-    } else {
-        // User is not in current competition
-        self.joinPromptLabel.hidden = NO;
-        self.joinButton.hidden = NO;
-        self.currentUserRankView.hidden = YES;
+        [self showCompetitionStats:sorted];
     }
-    // Always show stats?
-    [self showCompetitionStats:sorted];
 }
 
 - (void)showCompetitionStats:(NSArray<Competitor*>*)sorted {
     // Get users and rank, get scores
+    BOOL userInComp = NO;
+    
     int rank = 0;
     NSNumber *prevUserItems = @(-1);
     for (Competitor* competitor in sorted) {
@@ -90,11 +82,24 @@
         
         // Show current callout
         if ([competitor.user.username isEqualToString:SnapUser.currentUser.username]) {
+            userInComp = YES;
+            self.joinPromptLabel.hidden = YES;
+            self.joinButton.hidden = YES;
+            self.currentUserRankView.hidden = NO;
             [self.currentUserRankView setUpRankingViewForCompetitor:competitor isCurrentUser:YES badgesAwarded:NO];
+            
+            
+            
         }
         
         // Update prevUserItems for next iteration of loop
         prevUserItems = userItems;
+    }
+    
+    if (!userInComp) {
+        self.joinPromptLabel.hidden = NO;
+        self.joinButton.hidden = NO;
+        self.currentUserRankView.hidden = YES;
     }
     
     self.currentStats = sorted;
