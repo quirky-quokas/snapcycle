@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
+@property (weak, nonatomic) IBOutlet UILabel *competitionDescriptionLabel;
 @property (weak, nonatomic) IBOutlet RankingCell *currentUserRankView;
 
 @end
@@ -101,14 +102,17 @@
 
 // User is in the competition, show callout
 - (void)showUserIsCompetitor:(Competitor*)user {
+    self.competitionDescriptionLabel.hidden = NO;
     self.joinPromptLabel.hidden = YES;
     self.joinButton.hidden = YES;
     self.currentUserRankView.hidden = NO;
-    [self.currentUserRankView setUpRankingViewForCompetitor:user isCurrentUser:YES badgesAwarded:NO];
+    [self.currentUserRankView setUpRankingViewForCompetitor:user isCurrentUser:YES badgesAwarded:YES];
 }
 
 // User is not in the competition, show join label instead
 - (void)showJoinPrompt {
+    // TODO: modify
+    self.competitionDescriptionLabel.hidden = YES;
     self.joinPromptLabel.hidden = NO;
     self.joinButton.hidden = NO;
     self.currentUserRankView.hidden = YES;
@@ -124,7 +128,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RankingCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"RankingCell" forIndexPath:indexPath];
-    [cell setUpRankingViewForCompetitor:self.currentStats[indexPath.row] isCurrentUser:NO badgesAwarded:NO];
+    [cell setUpRankingViewForCompetitor:self.currentStats[indexPath.row] isCurrentUser:NO badgesAwarded:YES];
     return cell;
 }
 

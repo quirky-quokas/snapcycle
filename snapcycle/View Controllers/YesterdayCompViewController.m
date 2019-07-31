@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) CompetitionManager *manager;
 
+@property (weak, nonatomic) IBOutlet UILabel *thanksForParticipatingLabel;
 @property (weak, nonatomic) IBOutlet RankingCell *previousUserRankView;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -70,11 +71,12 @@
         [self.previousUserRankView setUpRankingViewForCompetitor:userCompetitor isCurrentUser:YES badgesAwarded:YES];
         self.previousUserRankView.hidden = NO;
         self.didNotCompeteLabel.hidden = YES;
-        
+        self.thanksForParticipatingLabel.hidden = NO;
     } else {
         // User did not participate yesterday
         self.previousUserRankView.hidden = YES;
         self.didNotCompeteLabel.hidden = NO;
+        self.thanksForParticipatingLabel.hidden = YES;
     }
 }
 

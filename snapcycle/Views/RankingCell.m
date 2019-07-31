@@ -77,7 +77,7 @@
     // Set up user info
     if (isCurrentUser) {
         self.usernameLabel.text = [NSString stringWithFormat:@"%@ (You)", competitor.user.username];
-        self.contentView.backgroundColor = [UIColor greenColor];
+        self.contentView.backgroundColor = [UIColor colorWithRed:148.0/255.0 green:200.0/255.0 blue:61.0/255.0 alpha:1.0];
     } else {
         self.usernameLabel.text = competitor.user.username;
     }
