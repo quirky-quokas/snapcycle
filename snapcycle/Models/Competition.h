@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSDate *startDate;
 @property (nonatomic, strong) NSDate *endDate;
 @property (nonatomic, strong, readonly) NSMutableArray<Competitor*> *competitorArray;
+@property (nonatomic) BOOL rankingsFinal;
 
 @end
 

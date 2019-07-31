@@ -35,6 +35,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet MKDropdownMenu *photoDropdownMenu;
 
+@property (strong, nonatomic) UIImagePickerController *imagePickerVC;
+
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLGeocoder *geocoder;
 
@@ -45,6 +47,8 @@
 @property int recyclingItemCount;
 @property int landfillItemCount;
 
+@property (weak, nonatomic) IBOutlet UILabel *noStatsYetLabel;
+
 @property (strong, nonatomic) NSArray *trash;
 @property (strong, nonatomic) NSArray *dropdownData;
 
@@ -52,7 +56,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *landfillCanRecycleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *landfillCanCompostLabel;
 
-@property (weak, nonatomic) IBOutlet UILabel *badgesLabel;
+// Badges
+@property (weak, nonatomic) IBOutlet UILabel *numFirstLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numSecondLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numThirdLabel;
+
 
 @end
 
@@ -77,6 +85,11 @@
     [self setProfilePicture];
     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editProfilePicture:)];
     [self.profileImage addGestureRecognizer:tapGR];
+    
+    // set profile image picker
+    self.imagePickerVC = [UIImagePickerController new];
+    self.imagePickerVC.delegate = self;
+    self.imagePickerVC.allowsEditing = YES;
     
     // set the welcome text
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
@@ -118,7 +131,9 @@
     // set the badges label
     Badges *badges = SnapUser.currentUser.badges;
     [badges fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        self.badgesLabel.text = [NSString stringWithFormat:@"Your Badges  1st: %@  2nd: %@  3rd: %@", badges.numFirstPlace, badges.numSecondPlace, badges.numThirdPlace];
+        self.numFirstLabel.text = [NSString stringWithFormat:@"%@", badges.numFirstPlace];
+        self.numSecondLabel.text = [NSString stringWithFormat:@"%@", badges.numSecondPlace];
+        self.numThirdLabel.text = [NSString stringWithFormat:@"%@", badges.numThirdPlace];;
     }];
     
     [self updatePieChartData];
@@ -169,7 +184,7 @@
     int itemTotal = self.compostItemCount + self.landfillItemCount + self.recyclingItemCount;
     // TODO: show placeholder if user has no stats
     if (itemTotal != 0) {
-        // TODO: configure color
+        self.noStatsYetLabel.hidden = YES;
         HIPie *pie = [[HIPie alloc]init];
         pie.data = @[
                      @{
@@ -191,6 +206,8 @@
         self.options.series = [NSMutableArray arrayWithObjects:pie, nil];
         
         self.chartView.options = self.options;
+    } else {
+        self.noStatsYetLabel.hidden = NO;
     }
 }
 
@@ -297,24 +314,61 @@
     }];
 }
 
+- (IBAction)onEditProfileTap:(id)sender {
+    [self editProfilePicture:nil];
+}
+
 /**
  Edits the user's profile image.
  */
 - (void)editProfilePicture: (UITapGestureRecognizer *)tapGR {
-    UIImagePickerController *imagePickerVC = [UIImagePickerController new];
-    imagePickerVC.delegate = self;
-    imagePickerVC.allowsEditing = YES;
-
-    // TODO: instead of only showing one or the other, show a pop up to let the user choose
-
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+    // Let user choose source if both are available
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        // Both image source types are available
+        [self pickImageWithSourceSelection];
+    } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+        // Only camera is available
+        [self pickImageWithCamera];
+    } else {
+        // Only photo library is available
+        [self pickImageWithPhotoLibrary];
     }
-    else {
-        imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    }
+}
 
-    [self presentViewController:imagePickerVC animated:YES completion:nil];
+// Allow user to choose source
+- (void) pickImageWithSourceSelection {
+    // Create alert controller with actions
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: nil
+                                                                              message: nil
+                                                                       preferredStyle: UIAlertControllerStyleActionSheet];
+    // Take photo
+    [alertController addAction: [UIAlertAction actionWithTitle: @"Take Photo" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self pickImageWithCamera];
+    }]];
+    
+    // Choose existing photo
+    [alertController addAction: [UIAlertAction actionWithTitle: @"Choose Existing Photo" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self pickImageWithPhotoLibrary];
+    }]];
+    
+    // Cancel
+    [alertController addAction: [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    
+    // Present as modal popover
+    alertController.modalPresentationStyle = UIModalPresentationPopover;
+    [self presentViewController: alertController animated: YES completion: nil];
+}
+
+// Present camera
+- (void) pickImageWithCamera {
+    self.imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+    [self presentViewController:self.imagePickerVC animated:YES completion:nil];
+}
+
+// Present photo library
+- (void) pickImageWithPhotoLibrary {
+    self.imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [self presentViewController:self.imagePickerVC animated:YES completion:nil];
 }
 
 
@@ -324,10 +378,13 @@
     
     self.profileImage.image = editedImage;
     SnapUser *currentUser = [SnapUser currentUser];
-    CGFloat imageWidth = editedImage.size.width/2;
-    CGFloat imageHeight = editedImage.size.height/2;
+    
+    // Scale photo down
+    CGFloat imageWidth = editedImage.size.width / 3;
+    CGFloat imageHeight = editedImage.size.height / 3;
     CGSize size = CGSizeMake(imageWidth, imageHeight);
     UIImage *resizedImage = [DetailsViewController imageWithImage:editedImage scaledToFillSize:size];
+    
     currentUser.profImage = [RegisterViewController getPFFileFromImage:resizedImage];
     [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (error) {
