@@ -80,6 +80,8 @@
     }
 }
 
+#pragma mark - Results table view
+
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     RankingCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"RankingCell" forIndexPath:indexPath];
     [cell setUpRankingViewForCompetitor:self.results[indexPath.row] isCurrentUser:NO badgesAwarded:YES];

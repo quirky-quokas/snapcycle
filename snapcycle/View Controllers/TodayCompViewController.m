@@ -122,6 +122,8 @@
     [self.manager addUserToCurrentCompetition];
 }
 
+#pragma mark - Rankings table view
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.currentStats.count;
 }
