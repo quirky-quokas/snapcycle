@@ -897,10 +897,10 @@
                                 </connections>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d0g-3X-fSL">
-                                <rect key="frame" x="36" y="84" width="303" height="522"/>
+                                <rect key="frame" x="36" y="60" width="303" height="518"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HBh-cp-CNz">
-                                        <rect key="frame" x="0.0" y="0.0" width="303" height="522"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="303" height="518"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0h1-aR-mqz">
                                                 <rect key="frame" x="0.0" y="0.0" width="303" height="245"/>
@@ -1047,8 +1047,8 @@
                         <constraints>
                             <constraint firstItem="d0g-3X-fSL" firstAttribute="leading" secondItem="BFd-Cl-mYm" secondAttribute="leading" constant="36" id="1fu-kK-BAt"/>
                             <constraint firstItem="BFd-Cl-mYm" firstAttribute="trailing" secondItem="d0g-3X-fSL" secondAttribute="trailing" constant="36" id="7Vu-gj-AGk"/>
-                            <constraint firstItem="d0g-3X-fSL" firstAttribute="top" secondItem="BFd-Cl-mYm" secondAttribute="top" constant="64" id="dIe-Wo-pIk"/>
-                            <constraint firstItem="BFd-Cl-mYm" firstAttribute="bottom" secondItem="d0g-3X-fSL" secondAttribute="bottom" constant="12" id="vYl-hb-AOa"/>
+                            <constraint firstItem="d0g-3X-fSL" firstAttribute="top" secondItem="BFd-Cl-mYm" secondAttribute="top" constant="40" id="dIe-Wo-pIk"/>
+                            <constraint firstItem="BFd-Cl-mYm" firstAttribute="bottom" secondItem="d0g-3X-fSL" secondAttribute="bottom" constant="40" id="vYl-hb-AOa"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BFd-Cl-mYm"/>
                     </view>
@@ -1203,8 +1203,6 @@
         <image name="third-place" width="352" height="470"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="AcR-1A-lSl"/>
-        <segue reference="S6R-iF-SHQ"/>
         <segue reference="IG0-Za-uas"/>
         <segue reference="dEH-UT-eFW"/>
     </inferredMetricsTieBreakers>
