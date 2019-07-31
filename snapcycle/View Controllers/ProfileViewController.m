@@ -47,6 +47,8 @@
 @property int recyclingItemCount;
 @property int landfillItemCount;
 
+@property (weak, nonatomic) IBOutlet UILabel *noStatsYetLabel;
+
 @property (strong, nonatomic) NSArray *trash;
 @property (strong, nonatomic) NSArray *dropdownData;
 
@@ -182,7 +184,7 @@
     int itemTotal = self.compostItemCount + self.landfillItemCount + self.recyclingItemCount;
     // TODO: show placeholder if user has no stats
     if (itemTotal != 0) {
-        // TODO: configure color
+        self.noStatsYetLabel.hidden = YES;
         HIPie *pie = [[HIPie alloc]init];
         pie.data = @[
                      @{
@@ -204,6 +206,8 @@
         self.options.series = [NSMutableArray arrayWithObjects:pie, nil];
         
         self.chartView.options = self.options;
+    } else {
+        self.noStatsYetLabel.hidden = NO;
     }
 }
 
