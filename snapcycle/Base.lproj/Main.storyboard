@@ -664,6 +664,14 @@
                                                 <rect key="frame" x="8" y="263" width="34" height="34"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WQW-wk-MoI">
+                                                <rect key="frame" x="215" y="182" width="30" height="29"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Button" image="editProfileButton"/>
+                                                <connections>
+                                                    <action selector="onEditProfileTap:" destination="spz-gT-KP6" eventType="touchUpInside" id="zYV-Zb-55x"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
@@ -1139,6 +1147,7 @@
         <image name="behind-popup-view" width="320" height="460"/>
         <image name="camButIcon artboard white" width="269" height="236"/>
         <image name="clipped to camera" width="483" height="344"/>
+        <image name="editProfileButton" width="256" height="256"/>
         <image name="logo pic" width="407" height="113"/>
     </resources>
     <inferredMetricsTieBreakers>

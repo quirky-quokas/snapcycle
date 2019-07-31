@@ -297,6 +297,10 @@
     }];
 }
 
+- (IBAction)onEditProfileTap:(id)sender {
+    [self editProfilePicture:nil];
+}
+
 /**
  Edits the user's profile image.
  */
