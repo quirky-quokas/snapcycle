@@ -1198,19 +1198,16 @@
         <image name="editProfileButton" width="256" height="256"/>
         <image name="first-place" width="360" height="468"/>
         <image name="logo pic" width="407" height="113"/>
-<<<<<<< HEAD
         <image name="profile icon" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="AcR-1A-lSl"/>
         <segue reference="S6R-iF-SHQ"/>
-=======
         <image name="second-place" width="362" height="468"/>
         <image name="third-place" width="352" height="470"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="IG0-Za-uas"/>
         <segue reference="dEH-UT-eFW"/>
->>>>>>> cbd197f1eec09d1b8e36099a188a1b478e506dad
     </inferredMetricsTieBreakers>
 </document>
