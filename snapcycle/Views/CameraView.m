@@ -9,6 +9,7 @@
 #import "FocusFrame.h"
 
 @interface CameraView () <UIGestureRecognizerDelegate>
+
 @end
 
 @implementation CameraView
@@ -18,14 +19,14 @@
  */
 - (void)instantiateGR {
     // instantiate the pinch gesture recognizer (zoom)
-    UIPinchGestureRecognizer *pinchGR = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchZoom:)];
+    UIPinchGestureRecognizer *pinchGR = [[UIPinchGestureRecognizer alloc] initWithTarget:self.delegate action:@selector(handlePinchZoom:)];
     [self addGestureRecognizer:pinchGR];
     self.userInteractionEnabled = YES;
     pinchGR.cancelsTouchesInView = NO;
     pinchGR.delegate = self;
     
     // instantiate the tap gesture recognizer (focus)
-    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFocus:)];
+    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self.delegate action:@selector(handleTapFocus:)];
     [self addGestureRecognizer:tapGR];
     tapGR.numberOfTapsRequired = 1;
     tapGR.numberOfTouchesRequired = 1;

@@ -36,10 +36,14 @@
     [super viewDidLoad];
     
     // instantiate the camera
-    [self initializeCamera];
-
-    self.cameraView.delegate = self;
-    [self.cameraView instantiateGR];
+    if ([self initializeCamera]) {
+        self.cameraView.delegate = self;
+        [self.cameraView instantiateGR];
+    }
+    // if camera can't be instantiated, show camera unavailable screen?
+    else {
+    
+    }
 
     // set the navigation bar font
     UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
@@ -56,7 +60,7 @@
 /**
  Initializes a custom camera.
  */
-- (void)initializeCamera {
+- (BOOL)initializeCamera {
     // setup a new session
     self.session = [AVCaptureSession new];
     [self.session setSessionPreset:AVCaptureSessionPresetHigh];
@@ -66,6 +70,7 @@
     if (!self.backCamera) {
         [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:@"Unable to access back camera"];
         NSLog(@"Unable to access back camera");
+        return false;
     }
     
     // prepare the input and output
@@ -74,6 +79,7 @@
     if (error) {
         [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:error.localizedDescription];
         NSLog(@"Error: Unable to initialize back camera: %@", error.localizedDescription);
+        return false;
     } else {
         self.stillImageOutput = [AVCapturePhotoOutput new];
         
@@ -84,6 +90,7 @@
             [self setupLivePreview];
         }
     }
+    return true;
 }
 
 /**
