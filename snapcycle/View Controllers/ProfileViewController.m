@@ -312,16 +312,52 @@
  Edits the user's profile image.
  */
 - (void)editProfilePicture: (UITapGestureRecognizer *)tapGR {
-
-    // TODO: instead of only showing one or the other, show a pop up to let the user choose
-
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        self.imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+    // Let user choose source if both are available
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        // Both image source types are available
+        [self pickImageWithSourceSelection];
+    } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+        // Only camera is available
+        [self pickImageWithCamera];
+    } else {
+        // Only photo library is available
+        [self pickImageWithPhotoLibrary];
     }
-    else {
-        self.imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    }
+}
 
+// Allow user to choose source
+- (void) pickImageWithSourceSelection {
+    // Create alert controller with actions
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: nil
+                                                                              message: nil
+                                                                       preferredStyle: UIAlertControllerStyleActionSheet];
+    // Take photo
+    [alertController addAction: [UIAlertAction actionWithTitle: @"Take Photo" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self pickImageWithCamera];
+    }]];
+    
+    // Choose existing photo
+    [alertController addAction: [UIAlertAction actionWithTitle: @"Choose Existing Photo" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self pickImageWithPhotoLibrary];
+    }]];
+    
+    // Cancel
+    [alertController addAction: [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    
+    // Present as modal popover
+    alertController.modalPresentationStyle = UIModalPresentationPopover;
+    [self presentViewController: alertController animated: YES completion: nil];
+}
+
+// Present camera
+- (void) pickImageWithCamera {
+    self.imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+    [self presentViewController:self.imagePickerVC animated:YES completion:nil];
+}
+
+// Present photo library
+- (void) pickImageWithPhotoLibrary {
+    self.imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     [self presentViewController:self.imagePickerVC animated:YES completion:nil];
 }
 
