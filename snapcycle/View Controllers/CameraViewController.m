@@ -36,17 +36,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // instantiate the camera
     if ([self initializeCamera]) {
+        // instantiate the camera
         [self.enableCamView setHidden:true];
         self.cameraView.delegate = self;
         [self.cameraView instantiateGR];
-    }
-    else {
-        // display enable camera view
+    } else {
+        // display enable camera view, user has not allowed camera access
         [self.cameraButton setHidden:true];
         [self.cameraView setHidden:true];
+        
+        // NOTE: not checking AVAuthorizationStatus, will do later if time
     }
+
 
     // set the navigation bar font
     UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
@@ -196,13 +198,12 @@
 }
 
 /**
- The user tapped the "Enable Camera" button.
+ The user tapped the "Enable Camera" button. Open Settings.
  */
 - (IBAction)didEnableCamera:(UIButton *)sender {
-    [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-        if (granted) {
-            //                return true;
-            NSLog(@"**********granted permission*************");
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{}                             completionHandler:^(BOOL success) {
+        if (!success) {
+            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:@"Unable to open settings"];
         }
     }];
 }
