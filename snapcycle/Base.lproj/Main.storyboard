@@ -140,6 +140,9 @@
                                         <rect key="frame" x="135" y="292" width="104" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Enable Camera"/>
+                                        <connections>
+                                            <action selector="didEnableCamera:" destination="BzN-ce-QcD" eventType="touchUpInside" id="FUR-yu-GID"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

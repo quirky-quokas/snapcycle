@@ -195,6 +195,18 @@
     }
 }
 
+/**
+ The user tapped the "Enable Camera" button.
+ */
+- (IBAction)didEnableCamera:(UIButton *)sender {
+    [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+        if (granted) {
+            //                return true;
+            NSLog(@"**********granted permission*************");
+        }
+    }];
+}
+
 #pragma mark - Navigation
 
 /**
