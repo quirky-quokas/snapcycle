@@ -18,7 +18,6 @@
 		84FB4A3222EA2BF300F6FB95 /* PhotoPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FB4A3122EA2BF300F6FB95 /* PhotoPopUpViewController.m */; };
 		84FD569C22EF9C1900C5DBED /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FD569B22EF9C1900C5DBED /* CoreLocation.framework */; };
 		B11D301422E6248400CA1A36 /* Competition.m in Sources */ = {isa = PBXBuildFile; fileRef = B11D301322E6248400CA1A36 /* Competition.m */; };
-		B11D301722E627BD00CA1A36 /* CompetitionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B11D301622E627BD00CA1A36 /* CompetitionViewController.m */; };
 		B1320C4D22DE407E00A38B16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B1320C4C22DE407E00A38B16 /* AppDelegate.m */; };
 		B1320C5322DE407E00A38B16 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1320C5122DE407E00A38B16 /* Main.storyboard */; };
 		B1320C5522DE407E00A38B16 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1320C5422DE407E00A38B16 /* Assets.xcassets */; };
@@ -87,8 +86,6 @@
 		8EDE53E7A1B1342228638389 /* Pods-snapcycleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleTests.debug.xcconfig"; path = "Target Support Files/Pods-snapcycleTests/Pods-snapcycleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B11D301222E6248400CA1A36 /* Competition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Competition.h; sourceTree = "<group>"; };
 		B11D301322E6248400CA1A36 /* Competition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Competition.m; sourceTree = "<group>"; };
-		B11D301522E627BD00CA1A36 /* CompetitionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompetitionViewController.h; sourceTree = "<group>"; };
-		B11D301622E627BD00CA1A36 /* CompetitionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompetitionViewController.m; sourceTree = "<group>"; };
 		B1320C4822DE407E00A38B16 /* snapcycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = snapcycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1320C4B22DE407E00A38B16 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B1320C4C22DE407E00A38B16 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -315,8 +312,6 @@
 				B16C81F322DE70D800E72713 /* DetailsViewController.m */,
 				B69CB8A022E2438900F6C390 /* TabBarController.h */,
 				B69CB8A122E2438900F6C390 /* TabBarController.m */,
-				B11D301522E627BD00CA1A36 /* CompetitionViewController.h */,
-				B11D301622E627BD00CA1A36 /* CompetitionViewController.m */,
 				84FB4A3022EA2BF300F6FB95 /* PhotoPopUpViewController.h */,
 				84FB4A3122EA2BF300F6FB95 /* PhotoPopUpViewController.m */,
 				B1B9EDCE22F0B22200C0A6F4 /* CompTabViewController.h */,
@@ -568,7 +563,6 @@
 				8479E90C22DE5C6B009174E7 /* Trash.m in Sources */,
 				84FB4A3222EA2BF300F6FB95 /* PhotoPopUpViewController.m in Sources */,
 				B69CB8A222E2438900F6C390 /* TabBarController.m in Sources */,
-				B11D301722E627BD00CA1A36 /* CompetitionViewController.m in Sources */,
 				8479E90F22DE5F90009174E7 /* Category.m in Sources */,
 				B6CE94DE22EA50DD003B4732 /* CompetitionManager.m in Sources */,
 				B6E4F2D422F0EE1000C8B2AD /* RankingCell.m in Sources */,
