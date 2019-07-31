@@ -21,6 +21,7 @@
 
 @property (strong, nonatomic) NSArray<Competitor*> *currentStats;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @property (weak, nonatomic) IBOutlet RankingCell *currentUserRankView;
 
@@ -33,11 +34,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // Set up Table View
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
+    // Set up Competition Manager
     self.manager = [CompetitionManager shared];
     self.manager.currentCompetitionDisplayer = self;
+    
+    // Set up refresh control
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self.manager action:@selector(refreshCurrentCompetition) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
     
     // Will call back self to update view
     [self.manager refreshCurrentCompetition];
@@ -56,17 +64,11 @@
 #pragma mark - Current Competition
 
 // Passed an array of Competitors sorted in ascending order by score
-// If array is null, then the user is not in the compeition and the join screen should be displayed instead
 - (void)showCurrentCompetitionView:(NSArray<Competitor*>* _Nullable)sorted {
-    if (sorted) {
-        [self showCompetitionStats:sorted];
-    }
-}
-
-- (void)showCompetitionStats:(NSArray<Competitor*>*)sorted {
-    // Get users and rank, get scores
+    [self.refreshControl endRefreshing];
     BOOL userInComp = NO;
     
+    // Get users and rank, get scores
     int rank = 0;
     NSNumber *prevUserItems = @(-1);
     for (Competitor* competitor in sorted) {
@@ -77,19 +79,12 @@
         if (![prevUserItems isEqualToNumber:userItems]) {
             rank++;
         }
-        
         competitor.rank = @(rank);
         
-        // Show current callout
+        // Show current callout if this is the current user
         if ([competitor.user.username isEqualToString:SnapUser.currentUser.username]) {
             userInComp = YES;
-            self.joinPromptLabel.hidden = YES;
-            self.joinButton.hidden = YES;
-            self.currentUserRankView.hidden = NO;
-            [self.currentUserRankView setUpRankingViewForCompetitor:competitor isCurrentUser:YES badgesAwarded:NO];
-            
-            
-            
+            [self showUserIsCompetitor:competitor];
         }
         
         // Update prevUserItems for next iteration of loop
@@ -97,15 +92,27 @@
     }
     
     if (!userInComp) {
-        self.joinPromptLabel.hidden = NO;
-        self.joinButton.hidden = NO;
-        self.currentUserRankView.hidden = YES;
+        [self showJoinPrompt];
     }
     
     self.currentStats = sorted;
     [self.tableView reloadData];
 }
 
+// User is in the competition, show callout
+- (void)showUserIsCompetitor:(Competitor*)user {
+    self.joinPromptLabel.hidden = YES;
+    self.joinButton.hidden = YES;
+    self.currentUserRankView.hidden = NO;
+    [self.currentUserRankView setUpRankingViewForCompetitor:user isCurrentUser:YES badgesAwarded:NO];
+}
+
+// User is not in the competition, show join label instead
+- (void)showJoinPrompt {
+    self.joinPromptLabel.hidden = NO;
+    self.joinButton.hidden = NO;
+    self.currentUserRankView.hidden = YES;
+}
 
 - (IBAction)onJoinTap:(id)sender {
     [self.manager addUserToCurrentCompetition];
@@ -119,6 +126,10 @@
     RankingCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"RankingCell" forIndexPath:indexPath];
     [cell setUpRankingViewForCompetitor:self.currentStats[indexPath.row] isCurrentUser:NO badgesAwarded:NO];
     return cell;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return @"Live Rankings";
 }
 
 

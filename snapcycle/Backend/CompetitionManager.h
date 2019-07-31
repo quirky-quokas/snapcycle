@@ -37,15 +37,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)shared;
 
-// Current Competition
+#pragma mark - Current Competition
+
+// Checks for new day/ new competition
 - (void)refreshCurrentCompetition;
+
+// Refresh stats for an existing competition
+- (void)refreshCurrentStats;
+
+// Adds user to current competition competitors
 - (void)addUserToCurrentCompetition;
 
 // Increasees user's score by 1 in current competition
 // If user is not in current competition, then nothing happens
 - (void)incrementUserLandfillScore;
 
-// Previous Competition
+#pragma mark - Previous Competition
 - (void)refreshYesterdayCompetition;
 
 @end

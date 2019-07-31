@@ -79,7 +79,7 @@
             NSLog(@"there is a current competition");
             self.currentComp = (Competition*)competition;
             self.sortedCompetitors = [self sortCompetitors:self.currentComp.competitorArray];
-             [self.currentCompetitionDisplayer showCurrentCompetitionView:self.sortedCompetitors];
+            [self.currentCompetitionDisplayer showCurrentCompetitionView:self.sortedCompetitors];
         } else  {
             // No current competition, make one
             NSLog(@"no current competition, creating one");
