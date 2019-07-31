@@ -79,29 +79,13 @@
             NSLog(@"there is a current competition");
             self.currentComp = (Competition*)competition;
             self.sortedCompetitors = [self sortCompetitors:self.currentComp.competitorArray];
-            [self checkIfUserIsInCurrentComp];
+            [self.currentCompetitionDisplayer showCurrentCompetitionView:self.sortedCompetitors];
         } else  {
             // No current competition, make one
             NSLog(@"no current competition, creating one");
             [self makeCompetition];
         }
     }];
-}
-
-// Check if user is in current competition and refresh view
-- (void)checkIfUserIsInCurrentComp {
-    NSArray<Competitor *> *arrayToShow = NULL;
-    
-    PFUser *user = [SnapUser currentUser];
-    
-    for (Competitor *competitor in self.currentComp.competitorArray) {
-        if ([competitor.user.username isEqualToString:user.username]) {
-            NSLog(@"user in competition");
-            arrayToShow = self.sortedCompetitors;
-            break;
-        }
-    }
-    [self.currentCompetitionDisplayer showCurrentCompetitionView:arrayToShow];
 }
 
 /**
@@ -124,7 +108,7 @@
             self.currentComp = newCompetition;
             
             // User cannot already be in competition because it was just created
-            [self.currentCompetitionDisplayer showCurrentCompetitionView:NULL];
+            [self.currentCompetitionDisplayer showCurrentCompetitionView:self.currentComp.competitorArray];
         }
     }];
 }
@@ -153,7 +137,7 @@
             [self.currentComp addObject:competitor forKey:@"competitorArray"];
             [self.currentComp saveInBackground];
             
-            // TODO: doesn't refresh competitors
+            // TODO: doesn't refresh other competitors
             self.sortedCompetitors = [self sortCompetitors:self.currentComp.competitorArray];
             [self.currentCompetitionDisplayer showCurrentCompetitionView:self.sortedCompetitors];
         }];

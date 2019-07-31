@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property BOOL userScoreChanged;
 
 // Passed an array of Competitors sorted in ascending order by score
-// If array is null, then the user is not in the competition and the join screen should be displayed instead
 - (void)showCurrentCompetitionView:(NSArray<Competitor*>* _Nullable)sorted;
 
 @end
@@ -38,15 +37,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)shared;
 
-// Current Competition
+#pragma mark - Current Competition
+
+// Checks for new day/ new competition
 - (void)refreshCurrentCompetition;
+
+// Refresh stats for an existing competition
+- (void)refreshCurrentStats;
+
+// Adds user to current competition competitors
 - (void)addUserToCurrentCompetition;
 
 // Increasees user's score by 1 in current competition
 // If user is not in current competition, then nothing happens
 - (void)incrementUserLandfillScore;
 
-// Previous Competition
+#pragma mark - Previous Competition
 - (void)refreshYesterdayCompetition;
 
 @end

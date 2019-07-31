@@ -23,6 +23,7 @@
 #import "DateTools.h"
 #import "PhotoPopUpViewController.h"
 #import <CoreLocation/CoreLocation.h>
+#import "CompetitionManager.h"
 
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource, UIGestureRecognizerDelegate, CLLocationManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -57,6 +58,8 @@
 
 @implementation ProfileViewController
 
+#pragma mark - Loading and Configuration
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -85,7 +88,6 @@
     self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
     self.geocoder = [[CLGeocoder alloc] init];
     [self.locationManager startUpdatingLocation];
-    
     
     // set drop down menu data source and delegate
     self.photoDropdownMenu.dataSource = self;
@@ -124,92 +126,7 @@
     [self fetchTrash:@"All"];
 }
 
-
-- (void)refreshUserActionStats {
-    [self updateWaysToImprove];
-    
-    // Create dispatch group so that pie chart is only set up after all three queries
-    dispatch_group_t queryGroup = dispatch_group_create();
-    
-    // Query for trash stats for each user action
-    // Recycling
-    [self countObjectsQueryWithUserAction:@"recycling" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
-        self.recyclingItemCount = numberOfObjects;
-    }];
-    
-    // Compost
-    [self countObjectsQueryWithUserAction:@"compost" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
-        self.compostItemCount = numberOfObjects;
-    }];
-    
-    // Landfill
-    [self countObjectsQueryWithUserAction:@"landfill" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
-        self.landfillItemCount = numberOfObjects;
-    }];
-    
-    // Set up pie chart once all calls have returned. Pie chart displays total user actions
-    dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
-        NSLog(@"all completed");
-        [self updatePieChartData];
-    });
-}
-
-- (void)updateWaysToImprove {
-    [self updateLandfillCouldHaveRecycled];
-    [self updateLandfillCouldHaveComposted];
-}
-
--(void)updateLandfillCouldHaveRecycled {
-    // Update landfill could have been recycled
-    // Identify recyclable items
-    PFQuery *categoryQuery = [Category query];
-    [categoryQuery whereKey:@"type" equalTo:@"recycling"];
-    
-    // Get user's items that they put in the landfill
-    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
-    [trashQuery whereKey:@"userAction" equalTo:@"landfill"];
-    
-    // Only include items that are in the category of type recycling
-    [trashQuery includeKey:@"category"];
-    [trashQuery whereKey:@"category" matchesQuery:categoryQuery];
-    
-    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        self.landfillCanRecycleLabel.text = [NSString stringWithFormat:@"- %i items thrown in the landfill that could have been recycled", number];
-    }];
-}
-
--(void)updateLandfillCouldHaveComposted {
-    // Update compost could have been recycled
-    // Identify recyclable items
-    PFQuery *categoryQuery = [Category query];
-    [categoryQuery whereKey:@"type" equalTo:@"compost"];
-    
-    // Get user's items that they put in the landfill
-    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
-    [trashQuery whereKey:@"userAction" equalTo:@"landfill"];
-    
-    // Only include items that are in the category of type recycling
-    [trashQuery includeKey:@"category"];
-    [trashQuery whereKey:@"category" matchesQuery:categoryQuery];
-    
-    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        self.landfillCanCompostLabel.text = [NSString stringWithFormat:@"- %i items thrown in the landfill that could have been composted", number];
-    }];
-}
-
-// Count objects for the specified user action (how the user disposed of the trash regardless of what they wre supposed to do.
-- (void)countObjectsQueryWithUserAction:(NSString*)userAction dispatchGroup:(dispatch_group_t)group completion:(void (^)(int numberOfObjects))setActionCount {
-    // Query for trash objects in user's array that match action
-    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
-    [trashQuery whereKey:@"userAction" equalTo:userAction];
-    
-    dispatch_group_enter(group);
-    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        // TODO: if there is an error
-        setActionCount(number);
-        dispatch_group_leave(group);
-    }];
-}
+#pragma mark - Pie chart
 
 - (void)configurePieChart {
     // TODO: looks funky if there is 0 of one type
@@ -277,6 +194,96 @@
     }
 }
 
+- (void)refreshUserActionStats {
+    [self updateWaysToImprove];
+    
+    // Create dispatch group so that pie chart is only set up after all three queries
+    dispatch_group_t queryGroup = dispatch_group_create();
+    
+    // Query for trash stats for each user action
+    // Recycling
+    [self countObjectsQueryWithUserAction:@"recycling" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
+        self.recyclingItemCount = numberOfObjects;
+    }];
+    
+    // Compost
+    [self countObjectsQueryWithUserAction:@"compost" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
+        self.compostItemCount = numberOfObjects;
+    }];
+    
+    // Landfill
+    [self countObjectsQueryWithUserAction:@"landfill" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
+        self.landfillItemCount = numberOfObjects;
+    }];
+    
+    // Set up pie chart once all calls have returned. Pie chart displays total user actions
+    dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
+        NSLog(@"all completed");
+        [self updatePieChartData];
+    });
+}
+
+// Count objects for the specified user action (how the user disposed of the trash regardless of what they wre supposed to do.
+- (void)countObjectsQueryWithUserAction:(NSString*)userAction dispatchGroup:(dispatch_group_t)group completion:(void (^)(int numberOfObjects))setActionCount {
+    // Query for trash objects in user's array that match action
+    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
+    [trashQuery whereKey:@"userAction" equalTo:userAction];
+    
+    dispatch_group_enter(group);
+    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
+        // TODO: if there is an error
+        setActionCount(number);
+        dispatch_group_leave(group);
+    }];
+}
+
+#pragma mark - Ways to Improve
+
+- (void)updateWaysToImprove {
+    [self updateLandfillCouldHaveRecycled];
+    [self updateLandfillCouldHaveComposted];
+}
+
+-(void)updateLandfillCouldHaveRecycled {
+    // Update landfill could have been recycled
+    // Identify recyclable items
+    PFQuery *categoryQuery = [Category query];
+    [categoryQuery whereKey:@"type" equalTo:@"recycling"];
+    
+    // Get user's items that they put in the landfill
+    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
+    [trashQuery whereKey:@"userAction" equalTo:@"landfill"];
+    
+    // Only include items that are in the category of type recycling
+    [trashQuery includeKey:@"category"];
+    [trashQuery whereKey:@"category" matchesQuery:categoryQuery];
+    
+    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
+        self.landfillCanRecycleLabel.text = [NSString stringWithFormat:@"- %i items thrown in the landfill that could have been recycled", number];
+    }];
+}
+
+-(void)updateLandfillCouldHaveComposted {
+    // Update compost could have been recycled
+    // Identify recyclable items
+    PFQuery *categoryQuery = [Category query];
+    [categoryQuery whereKey:@"type" equalTo:@"compost"];
+    
+    // Get user's items that they put in the landfill
+    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
+    [trashQuery whereKey:@"userAction" equalTo:@"landfill"];
+    
+    // Only include items that are in the category of type recycling
+    [trashQuery includeKey:@"category"];
+    [trashQuery whereKey:@"category" matchesQuery:categoryQuery];
+    
+    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
+        self.landfillCanCompostLabel.text = [NSString stringWithFormat:@"- %i items thrown in the landfill that could have been composted", number];
+    }];
+}
+
+#pragma mark - Profile Picture
+
 /**
  Sets the user's profile image. If the user does not have a profile image, the default profile image icon is used.
  */
@@ -286,6 +293,7 @@
     [imageFile getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
         UIImage *image = [UIImage imageWithData:data];
         self.profileImage.image = image;
+    
     }];
 }
 
@@ -309,30 +317,6 @@
     [self presentViewController:imagePickerVC animated:YES completion:nil];
 }
 
-/**
- Logs out user
- */
-- (IBAction)onLogoutTap:(id)sender {
-    // Logout user
-    [SnapUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
-        if (error) {
-            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:error.localizedDescription];
-            NSLog(@"Error logging out (refactored alert): %@", error.localizedDescription);
-        } else {
-            // Return to login screen
-            // Get single instance of app delegate
-            AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            
-            // Create new instance of storyboard, starting from login screen
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            UINavigationController *loginNavigationController = [storyboard instantiateInitialViewController];
-            
-            // Set root view controller to switch views
-            appDelegate.window.rootViewController = loginNavigationController;
-            NSLog(@"Logout successful");
-        }
-    }];
-}
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     
@@ -351,10 +335,19 @@
             NSString *message = @"Please try again";
             [(TabBarController*) self.tabBarController showOKAlertWithTitle:title message:message];
         }
+        
+        // TODO: move this out? a litte hacky.
+        // Refresh competitions to fetch new profile pic
+        CompetitionManager *manager = [CompetitionManager shared];
+        manager.currentCompetitionDisplayer.userScoreChanged = YES;
+        [manager refreshYesterdayCompetition];
+        
+        
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
+#pragma mark - Photo log
 - (void)fetchTrash: (NSString*)time {
     PFQuery *photoQuery = [[SnapUser currentUser].trashArray query];
     [photoQuery orderByDescending:@"createdAt"];
@@ -395,7 +388,6 @@
             [self fetchTrash:time];
         }
     }];
-    
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -488,6 +480,33 @@
     photoPopUpViewController.convertedImage = image;
     
     
+}
+
+#pragma mark - Logout
+
+/**
+ Logs out user
+ */
+- (IBAction)onLogoutTap:(id)sender {
+    // Logout user
+    [SnapUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+        if (error) {
+            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:error.localizedDescription];
+            NSLog(@"Error logging out (refactored alert): %@", error.localizedDescription);
+        } else {
+            // Return to login screen
+            // Get single instance of app delegate
+            AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            
+            // Create new instance of storyboard, starting from login screen
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            UINavigationController *loginNavigationController = [storyboard instantiateInitialViewController];
+            
+            // Set root view controller to switch views
+            appDelegate.window.rootViewController = loginNavigationController;
+            NSLog(@"Logout successful");
+        }
+    }];
 }
 
 

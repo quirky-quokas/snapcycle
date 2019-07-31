@@ -36,23 +36,14 @@
     [super viewDidLoad];
     
     // instantiate the camera
-    [self initializeCamera];
-
-    self.cameraView.delegate = self;
-    
-    // instantiate the pinch gesture recognizer (zoom)
-    UIPinchGestureRecognizer *pinchGR = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchZoom:)];
-    [self.cameraView addGestureRecognizer:pinchGR];
-    self.cameraView.userInteractionEnabled = YES;
-    pinchGR.cancelsTouchesInView = NO;
-    pinchGR.delegate = self;
-
-    // instantiate the tap gesture recognizer (focus)
-    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFocus:)];
-    [self.cameraView addGestureRecognizer:tapGR];
-    tapGR.numberOfTapsRequired = 1;
-    tapGR.numberOfTouchesRequired = 1;
-    tapGR.delegate = self;
+    if ([self initializeCamera]) {
+        self.cameraView.delegate = self;
+        [self.cameraView instantiateGR];
+    }
+    // if camera can't be instantiated, show camera unavailable screen?
+    else {
+        NSLog(@"camera not available");
+    }
 
     // set the navigation bar font
     UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
@@ -69,7 +60,7 @@
 /**
  Initializes a custom camera.
  */
-- (void)initializeCamera {
+- (BOOL)initializeCamera {
     // setup a new session
     self.session = [AVCaptureSession new];
     [self.session setSessionPreset:AVCaptureSessionPresetHigh];
@@ -79,6 +70,7 @@
     if (!self.backCamera) {
         [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:@"Unable to access back camera"];
         NSLog(@"Unable to access back camera");
+        return false;
     }
     
     // prepare the input and output
@@ -87,6 +79,7 @@
     if (error) {
         [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:error.localizedDescription];
         NSLog(@"Error: Unable to initialize back camera: %@", error.localizedDescription);
+        return false;
     } else {
         self.stillImageOutput = [AVCapturePhotoOutput new];
         
@@ -97,6 +90,7 @@
             [self setupLivePreview];
         }
     }
+    return true;
 }
 
 /**
@@ -174,21 +168,6 @@
         [self.cameraView drawFocusFrame:tapPoint];
     }
 }
-
-///**
-// Draws a focus frame around the point of focus the user has tapped.
-// */
-//- (void)drawFocusFrame:(struct CGPoint)point{
-//    CGRect frameRect = CGRectMake(point.x-40, point.y-40, 60, 60);
-//    FocusFrame *focusFrame = [[FocusFrame alloc] initWithFrame:frameRect];
-//    [self.cameraView addSubview:focusFrame];
-//    [focusFrame setNeedsDisplay];
-//
-//    [UIView beginAnimations:nil context:NULL];
-//    [UIView setAnimationDuration:1.0];
-//    [focusFrame setAlpha:0.0];
-//    [UIView commitAnimations];
-//}
 
 /**
  The user tapped the "Snap photo" button.

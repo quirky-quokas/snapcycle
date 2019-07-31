@@ -56,14 +56,17 @@
         self.crownView.hidden = NO;
         self.rankingLabel.hidden = YES;
         self.badgeView.image = [UIImage imageNamed:@"first-place"];
+        self.badgeView.hidden = NO;
     } else if ([competitor.rank isEqualToNumber:@(2)] && badgesAwarded) {
         self.crownView.hidden = YES;
         self.rankingLabel.hidden = YES;
         self.badgeView.image = [UIImage imageNamed:@"second-place"];
+         self.badgeView.hidden = NO;
     } else if ([competitor.rank isEqualToNumber:@(3)] && badgesAwarded) {
         self.crownView.hidden = YES;
         self.rankingLabel.hidden = YES;
         self.badgeView.image = [UIImage imageNamed:@"third-place"];
+         self.badgeView.hidden = NO;
     } else {
         self.crownView.hidden = YES;
         self.rankingLabel.text = [NSString stringWithFormat:@"#%@", competitor.rank];
@@ -74,11 +77,15 @@
     // Set up user info
     if (isCurrentUser) {
         self.usernameLabel.text = [NSString stringWithFormat:@"%@ (You)", competitor.user.username];
-        self.contentView.backgroundColor = [UIColor greenColor];
+        self.contentView.backgroundColor = [UIColor colorWithRed:148.0/255.0 green:200.0/255.0 blue:61.0/255.0 alpha:1.0];
     } else {
         self.usernameLabel.text = competitor.user.username;
     }
-    self.numBadgesLabel.text = [NSString stringWithFormat:@"1st Place Badges: %@", competitor.user.badges.numFirstPlace];
+    
+    
+    [competitor.user.badges fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        self.numBadgesLabel.text = [NSString stringWithFormat:@"1st Place Badges: %@", competitor.user.badges.numFirstPlace];
+    }];
     
     // Profile pic view
     self.profilePicView.layer.cornerRadius = self.profilePicView.frame.size.width / 2;
