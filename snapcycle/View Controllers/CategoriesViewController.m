@@ -41,7 +41,8 @@
     layout.itemSize = CGSizeMake(itemWidth, itemHeight);
     
     // set the navigation bar font
-    [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
+    UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:scBlue, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Light" size:25]}];
 }
 
 - (void) fetchCategories {
@@ -120,10 +121,6 @@
         } completion:nil];
     }
     
-}
-
-- (IBAction)onLogoutTap:(id)sender {
-    [((TabBarController*)self.tabBarController) logoutUserWithAlertIfError];
 }
 
 

@@ -49,7 +49,10 @@
         // NOTE: not checking AVAuthorizationStatus, will do later if time
     }
 
-    [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
+
+    // set the navigation bar font
+    UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:scBlue, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Light" size:25]}];
 }
 
 /**
@@ -224,10 +227,6 @@
  */
 - (void)postedTrashWithMessage:(NSString *)message withTitle:(NSString *)title {
     [(TabBarController*)self.tabBarController showOKAlertWithTitle:title message:message];
-}
-
-- (IBAction)onLogoutTap:(id)sender {
-    [((TabBarController*)self.tabBarController) logoutUserWithAlertIfError];
 }
 
 @end
