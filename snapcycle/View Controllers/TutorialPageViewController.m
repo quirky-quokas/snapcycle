@@ -24,6 +24,7 @@
     [super viewDidLoad];
     
     // Do any additional setup after loading the view.
+    
     self.dataSource = self;
     self.titles = @[@"Welcome to Snapcycle!", @"Take a photo", @"Track your trash stats!"];
     self.backdrops = @[@"background-1",@"background-2",@"background-3"];
@@ -67,6 +68,13 @@
     childViewController.tutroialImageStr = self.gifs[index];
     childViewController.titleText = self.titles[index];
     childViewController.infoText = self.info[index];
+    if (index == self.backdrops.count-1){
+        childViewController.lastPage = YES;
+        NSLog(@"At last page");
+    }
+    else{
+        childViewController.lastPage = NO;
+    }
     
     return childViewController;
 }
