@@ -136,7 +136,6 @@
         self.numThirdLabel.text = [NSString stringWithFormat:@"%@", badges.numThirdPlace];;
     }];
     
-    [self updatePieChartData];
     [self refreshUserActionStats];
     [self fetchTrash:@"All"];
 }
