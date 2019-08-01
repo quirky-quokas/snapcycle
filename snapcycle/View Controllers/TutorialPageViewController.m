@@ -70,7 +70,6 @@
     childViewController.infoText = self.info[index];
     if (index == self.backdrops.count-1){
         childViewController.lastPage = YES;
-        NSLog(@"At last page");
     }
     else{
         childViewController.lastPage = NO;
