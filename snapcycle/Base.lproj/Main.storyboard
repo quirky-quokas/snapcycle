@@ -1203,8 +1203,6 @@
         <image name="third-place" width="352" height="470"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="AcR-1A-lSl"/>
-        <segue reference="S6R-iF-SHQ"/>
         <segue reference="IG0-Za-uas"/>
         <segue reference="dEH-UT-eFW"/>
     </inferredMetricsTieBreakers>
