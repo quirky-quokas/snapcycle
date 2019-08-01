@@ -14,7 +14,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *rankingLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *numBadgesLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numFirstLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numSecondLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numThirdLabel;
+
 
 @property (weak, nonatomic) IBOutlet UIImageView *crownView;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePicView;
@@ -84,7 +87,9 @@
     
     
     [competitor.user.badges fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        self.numBadgesLabel.text = [NSString stringWithFormat:@"1st Place Badges: %@", competitor.user.badges.numFirstPlace];
+        self.numFirstLabel.text = [NSString stringWithFormat:@"%@", competitor.user.badges.numFirstPlace];
+        self.numSecondLabel.text = [NSString stringWithFormat:@"%@", competitor.user.badges.numSecondPlace];
+        self.numThirdLabel.text = [NSString stringWithFormat:@"%@", competitor.user.badges.numThirdPlace];
     }];
     
     // Profile pic view

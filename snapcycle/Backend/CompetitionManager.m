@@ -94,6 +94,7 @@
  */
 - (void)makeCompetition {
     Competition *newCompetition = [Competition new];
+    newCompetition.rankingsFinal = NO;
     
     newCompetition.startDate = [self.cal startOfDayForDate:self.today];
     
@@ -191,7 +192,7 @@
         // Competition had participants, sort them by score
         self.sortedPrevious = [self sortCompetitors:self.previousComp.competitorArray];
         
-        if (self.previousComp.competitorArray[0].rank) {
+        if (self.previousComp.rankingsFinal) {
             // Competitors have already been ranked, pass results to delegate
             [self.previousResultsDisplayer showPreviousResults:self.sortedPrevious];
         } else {
@@ -205,6 +206,9 @@
 }
 
 - (void) calculateAndPostPreviousRanking {
+    self.previousComp.rankingsFinal = YES;
+    [self.previousComp saveInBackground];
+    
     int rank = 0;
     NSNumber *prevUserItems = @(-1);
     
@@ -220,6 +224,12 @@
         // If user is a winner, update number of badges
         if (rank == 1) {
             [competitor.user.badges incrementKey:@"numFirstPlace"];
+            [competitor.user.badges saveInBackground];
+        } else if (rank == 2) {
+            [competitor.user.badges incrementKey:@"numSecondPlace"];
+            [competitor.user.badges saveInBackground];
+        } else if (rank == 3) {
+            [competitor.user.badges incrementKey:@"numThirdPlace"];
             [competitor.user.badges saveInBackground];
         }
         

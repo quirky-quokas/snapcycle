@@ -28,6 +28,7 @@
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource, UIGestureRecognizerDelegate, CLLocationManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
+@property (weak, nonatomic) IBOutlet UIView *profileImageBorder;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *photoCollectionView;
 @property (weak, nonatomic) IBOutlet UIImageView *backdropImageView;
@@ -47,6 +48,8 @@
 @property int recyclingItemCount;
 @property int landfillItemCount;
 
+@property (weak, nonatomic) IBOutlet UILabel *noStatsYetLabel;
+
 @property (strong, nonatomic) NSArray *trash;
 @property (strong, nonatomic) NSArray *dropdownData;
 
@@ -54,7 +57,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *landfillCanRecycleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *landfillCanCompostLabel;
 
-@property (weak, nonatomic) IBOutlet UILabel *badgesLabel;
+// Badges
+@property (weak, nonatomic) IBOutlet UILabel *numFirstLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numSecondLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numThirdLabel;
+
 
 @end
 
@@ -66,14 +73,13 @@
     [super viewDidLoad];
     
     // set the navigation bar font
-    UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:scBlue, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Light" size:25]}];
+    [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
     
     // set the scrollView frame
     self.scrollView.contentSize = CGSizeMake(375, 1680);
     
     // set backdrop picture
-    self.backdropImageView.image = [UIImage imageNamed:@"nature-backdrop"];
+//    self.backdropImageView.image = [UIImage imageNamed:@"nature-backdrop"];
     
     // set the profile picture
     [self setProfilePicture];
@@ -125,10 +131,11 @@
     // set the badges label
     Badges *badges = SnapUser.currentUser.badges;
     [badges fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        self.badgesLabel.text = [NSString stringWithFormat:@"Your Badges  1st: %@  2nd: %@  3rd: %@", badges.numFirstPlace, badges.numSecondPlace, badges.numThirdPlace];
+        self.numFirstLabel.text = [NSString stringWithFormat:@"%@", badges.numFirstPlace];
+        self.numSecondLabel.text = [NSString stringWithFormat:@"%@", badges.numSecondPlace];
+        self.numThirdLabel.text = [NSString stringWithFormat:@"%@", badges.numThirdPlace];;
     }];
     
-    [self updatePieChartData];
     [self refreshUserActionStats];
     [self fetchTrash:@"All"];
 }
@@ -176,7 +183,7 @@
     int itemTotal = self.compostItemCount + self.landfillItemCount + self.recyclingItemCount;
     // TODO: show placeholder if user has no stats
     if (itemTotal != 0) {
-        // TODO: configure color
+        self.noStatsYetLabel.hidden = YES;
         HIPie *pie = [[HIPie alloc]init];
         pie.data = @[
                      @{
@@ -198,6 +205,8 @@
         self.options.series = [NSMutableArray arrayWithObjects:pie, nil];
         
         self.chartView.options = self.options;
+    } else {
+        self.noStatsYetLabel.hidden = NO;
     }
 }
 
@@ -295,6 +304,7 @@
  Sets the user's profile image. If the user does not have a profile image, the default profile image icon is used.
  */
 - (void)setProfilePicture {
+    self.profileImageBorder.layer.cornerRadius = self.profileImageBorder.frame.size.width / 2;
     self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
     PFFileObject *imageFile = [SnapUser currentUser].profImage;
     [imageFile getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
@@ -529,33 +539,35 @@
     
 }
 
-#pragma mark - Logout
+#pragma mark - User actions
 
 /**
  Logs out user
  */
 - (IBAction)onLogoutTap:(id)sender {
     // Logout user
-    [SnapUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
-        if (error) {
-            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:error.localizedDescription];
-            NSLog(@"Error logging out (refactored alert): %@", error.localizedDescription);
-        } else {
-            // Return to login screen
-            // Get single instance of app delegate
-            AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            
-            // Create new instance of storyboard, starting from login screen
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            UINavigationController *loginNavigationController = [storyboard instantiateInitialViewController];
-            
-            // Set root view controller to switch views
-            appDelegate.window.rootViewController = loginNavigationController;
-            NSLog(@"Logout successful");
-        }
-    }];
+    [((TabBarController*)self.tabBarController) logoutUserWithAlertIfError];
 }
 
+- (IBAction)onLocationTap:(id)sender {
+    // Create alert controller
+    UIAlertController *locationAlert = [UIAlertController alertControllerWithTitle:@"Location Services"
+                                                                   message:@"Waste disposal rules change depending on where you are in the world! We pull the most relevant data based on your location to help you make the right choices. Enable Location Services in Settings for the best app experience." preferredStyle:UIAlertControllerStyleAlert];
+    // Add cancel action
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    [locationAlert addAction:cancelAction];
+    
+    UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{}                             completionHandler:^(BOOL success) {
+            if (!success) {
+                [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:@"Unable to open settings"];
+            }
+        }];
+    }];
+    [locationAlert addAction:settingsAction];
+
+    [self presentViewController:locationAlert animated:YES completion:nil];
+}
 
 
 @end
