@@ -117,16 +117,21 @@
                 message = @"You've successfully recycled your trash";
             }
             else {
-                title = @"Oops!";
-                
                 if (newTrash.category.landfill == YES && newTrash.category.compost == YES){
+                    title = @"Oops!";
                     message = @"You shouldn't have recycled that. Next time try throwing it in compost or landfill.";
                 }
                 else if (newTrash.category.landfill == NO && newTrash.category.compost == YES) {
+                    title = @"Oops!";
                     message = @"You shouldn't have recycled that. Next time try throwing it in compost.";
                 }
                 else if (newTrash.category.landfill == YES && newTrash.category.compost == NO){
+                    title = @"Oops!";
                     message = @"You shouldn't have recycled that. Next time try throwing it in landfill.";
+                }
+                else {
+                    title = @"Sorry about that!";
+                    message = @"We don't have info on this item at the moment, but we're working on getting it soon :)";
                 }
             }
             [self.delegate postedTrashWithMessage:message withTitle:title];
@@ -182,6 +187,10 @@
                 }
                 else if (newTrash.category.landfill == YES && newTrash.category.recycling == NO){
                     message = @"You shouldn't have composted that. Next time try throwing it in landfill.";
+                }
+                else {
+                    title = @"Sorry about that!";
+                    message = @"We don't have info on this item at the moment, but we're working on getting it soon :)";
                 }
             }
             [self.delegate postedTrashWithMessage:message withTitle:title];
@@ -242,6 +251,10 @@
                 }
                 else if (newTrash.category.recycling == NO && newTrash.category.compost == YES){
                     message = @"You shouldn't have thrown that away. Next time try throwing it in compost.";
+                }
+                else {
+                    title = @"Sorry about that!";
+                    message = @"We don't have info on this item at the moment, but we're working on getting it soon :)";
                 }
             }
             [self.delegate postedTrashWithMessage:message withTitle:title];
