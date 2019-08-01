@@ -12,13 +12,11 @@
 #import "Badges.h"
 #import "TutorialViewController.h"
 
-@interface RegisterViewController () // <UITextFieldDelegate>
+@interface RegisterViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UITextField *confirmPasswordField;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-//@property (strong, nonatomic) UITextField *activeField;
 
 @end
 
@@ -26,9 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-        
-    [self registerForKeyboardNotifications];
-    
+    // Do any additional setup after loading the view.
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOffKeyboard:)];
     [self.view setUserInteractionEnabled:YES];
     [self.view addGestureRecognizer:tapGestureRecognizer];
@@ -45,22 +41,22 @@
     } else {
         // Initialize user
         SnapUser *newUser = [SnapUser user];
-
+        
         // Set properties
         newUser.email = self.emailField.text;
         newUser.username = self.usernameField.text;
         newUser.password = self.passwordField.text;
-
+        
         // Create badges object for user
         Badges *badges = [Badges new];
         badges.numFirstPlace = @(0);
         badges.numSecondPlace = @(0);
         badges.numThirdPlace = @(0);
         newUser.badges = badges;
-
+        
         // Set up default profile pic
         newUser.profImage = [RegisterViewController getPFFileFromImage:[UIImage imageNamed:@"profile-pic-icon"]];
-
+        
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if (error) {
                 UIAlertController *alert = [LoginViewController createErrorAlertWithOKAndMessage:error.localizedDescription];
@@ -76,32 +72,8 @@
         }];
     }
 }
-
 - (IBAction)tapOffKeyboard:(id)sender {
     [self.view endEditing:YES];
-}
-
-/**
- Adding scroll with keyboard
- */
-- (void)registerForKeyboardNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:self.view.window];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:self.view.window];
-}
-
-/**
- Called when UIKeyboardDidShowNotification is sent
- */
-- (void)keyboardWasShown:(NSNotification *)notif {
-    self.scrollView.contentSize = self.view.frame.size;
-}
-
-/**
- Called when UIKeyboardWillHideNotification is sent
- */
-- (void)keyboardWillBeHidden:(NSNotification *)notif {
-    self.scrollView = nil;
 }
 
 // Get file from image
