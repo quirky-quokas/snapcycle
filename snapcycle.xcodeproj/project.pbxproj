@@ -14,6 +14,9 @@
 		8479E90C22DE5C6B009174E7 /* Trash.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E90B22DE5C6B009174E7 /* Trash.m */; };
 		8479E90F22DE5F90009174E7 /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E90E22DE5F90009174E7 /* Category.m */; };
 		8479E91522DE638E009174E7 /* SnapUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E91422DE638E009174E7 /* SnapUser.m */; };
+		8497C0C222F247F400A738EC /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8497C0C122F247F400A738EC /* TutorialViewController.m */; };
+		8497C0CB22F2502E00A738EC /* TutChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8497C0CA22F2502E00A738EC /* TutChildViewController.m */; };
+		8497C0CE22F255EF00A738EC /* TutorialPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8497C0CD22F255EF00A738EC /* TutorialPageViewController.m */; };
 		84EC731922E62A2F00F37CA5 /* PhotoLogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */; };
 		84FB4A3222EA2BF300F6FB95 /* PhotoPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FB4A3122EA2BF300F6FB95 /* PhotoPopUpViewController.m */; };
 		84FD569C22EF9C1900C5DBED /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FD569B22EF9C1900C5DBED /* CoreLocation.framework */; };
@@ -78,6 +81,12 @@
 		8479E90E22DE5F90009174E7 /* Category.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
 		8479E91322DE638E009174E7 /* SnapUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SnapUser.h; sourceTree = "<group>"; };
 		8479E91422DE638E009174E7 /* SnapUser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SnapUser.m; sourceTree = "<group>"; };
+		8497C0C022F247F400A738EC /* TutorialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
+		8497C0C122F247F400A738EC /* TutorialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
+		8497C0C922F2502E00A738EC /* TutChildViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutChildViewController.h; sourceTree = "<group>"; };
+		8497C0CA22F2502E00A738EC /* TutChildViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TutChildViewController.m; sourceTree = "<group>"; };
+		8497C0CC22F255EF00A738EC /* TutorialPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialPageViewController.h; sourceTree = "<group>"; };
+		8497C0CD22F255EF00A738EC /* TutorialPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TutorialPageViewController.m; sourceTree = "<group>"; };
 		84EC731722E62A2F00F37CA5 /* PhotoLogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoLogCell.h; sourceTree = "<group>"; };
 		84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoLogCell.m; sourceTree = "<group>"; };
 		84FB4A3022EA2BF300F6FB95 /* PhotoPopUpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPopUpViewController.h; sourceTree = "<group>"; };
@@ -320,6 +329,12 @@
 				B1B9EDD822F0B6C100C0A6F4 /* TodayCompViewController.m */,
 				B1B9EDDA22F0B6D100C0A6F4 /* YesterdayCompViewController.h */,
 				B1B9EDDB22F0B6D100C0A6F4 /* YesterdayCompViewController.m */,
+				8497C0C022F247F400A738EC /* TutorialViewController.h */,
+				8497C0C122F247F400A738EC /* TutorialViewController.m */,
+				8497C0C922F2502E00A738EC /* TutChildViewController.h */,
+				8497C0CA22F2502E00A738EC /* TutChildViewController.m */,
+				8497C0CC22F255EF00A738EC /* TutorialPageViewController.h */,
+				8497C0CD22F255EF00A738EC /* TutorialPageViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -559,6 +574,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8497C0CB22F2502E00A738EC /* TutChildViewController.m in Sources */,
+				8497C0CE22F255EF00A738EC /* TutorialPageViewController.m in Sources */,
 				B16C81EB22DE63C700E72713 /* CameraViewController.m in Sources */,
 				8479E90C22DE5C6B009174E7 /* Trash.m in Sources */,
 				84FB4A3222EA2BF300F6FB95 /* PhotoPopUpViewController.m in Sources */,
@@ -573,6 +590,7 @@
 				B6CED37122E8D9160091B788 /* Competitor.m in Sources */,
 				B1B9EDD022F0B22200C0A6F4 /* CompTabViewController.m in Sources */,
 				B1B9EDD922F0B6C100C0A6F4 /* TodayCompViewController.m in Sources */,
+				8497C0C222F247F400A738EC /* TutorialViewController.m in Sources */,
 				B6CED37122E8D9160091B788 /* Competitor.m in Sources */,
 				B1320C4D22DE407E00A38B16 /* AppDelegate.m in Sources */,
 				B1E88DA422E7C48B004DB1F1 /* FocusFrame.m in Sources */,

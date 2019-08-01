@@ -10,14 +10,15 @@
 #import "SnapUser.h"
 #import "LoginViewController.h"
 #import "Badges.h"
+#import "TutorialViewController.h"
 
-@interface RegisterViewController () <UITextFieldDelegate>
+@interface RegisterViewController () // <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UITextField *confirmPasswordField;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) UITextField *activeField;
+//@property (strong, nonatomic) UITextField *activeField;
 
 @end
 
@@ -25,14 +26,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-//    self.emailField.delegate = self;
-//    self.usernameField.delegate = self;
-//    self.passwordField.delegate = self;
-//    self.confirmPasswordField.delegate = self;
-    self.activeField.delegate = self;
-    
-//    [self registerForKeyboardNotifications];
+        
+    [self registerForKeyboardNotifications];
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOffKeyboard:)];
     [self.view setUserInteractionEnabled:YES];
@@ -72,8 +67,11 @@
                 [self presentViewController:alert animated:YES completion:nil];
                 NSLog(@"Cannot create account: %@", error.localizedDescription);
             } else {
-                [self performSegueWithIdentifier:@"registeredSegue" sender:self];
                 NSLog(@"user sucessfully registered");
+                //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                //TutorialViewController *tutorialViewController = [storyboard instantiateViewControllerWithIdentifier:@"TutorialViewController"];
+                //[self presentViewController:tutorialViewController animated:YES completion:nil];
+                [self performSegueWithIdentifier:@"registeredSegue" sender:self];
             }
         }];
     }
@@ -88,53 +86,22 @@
  */
 - (void)registerForKeyboardNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:self.view.window];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:self.view.window];
 }
 
 /**
  Called when UIKeyboardDidShowNotification is sent
  */
-//- (void)keyboardWasShown:(NSNotification *)notif {
-//    NSDictionary *info = [notif userInfo];
-////    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-//    CGRect keyboardRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-//    keyboardRect = self.view
-//
-//    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
-//    self.scrollView.contentInset = contentInsets;
-//    self.scrollView.scrollIndicatorInsets = contentInsets;
-//
-//    // if active text field is hidden by keyboard, scroll it so it's visible
-//    CGRect rect = self.view.frame;
-//    rect.size.height -= kbSize.height;
-//    if (!CGRectContainsPoint(rect, self.activeField.frame.origin)) {
-//        [self.scrollView scrollRectToVisible:self.activeField.frame animated:YES];
-//    }
-
-//    NSDictionary *info = [notif userInfo];
-//    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-//    CGRect bkgndRect = self.activeField.superview.frame;
-//    bkgndRect.size.height += kbSize.height;
-//    [self.activeField.superview setFrame:bkgndRect];
-//    [self.scrollView setContentOffset:CGPointMake(0.0, self.activeField.frame.origin.y-kbSize.height) animated:YES];
-//}
+- (void)keyboardWasShown:(NSNotification *)notif {
+    self.scrollView.contentSize = self.view.frame.size;
+}
 
 /**
  Called when UIKeyboardWillHideNotification is sent
  */
 - (void)keyboardWillBeHidden:(NSNotification *)notif {
-    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    self.scrollView.contentInset = contentInsets;
-    self.scrollView.scrollIndicatorInsets = contentInsets;
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    self.activeField = textField;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    self.activeField = nil;
+    self.scrollView = nil;
 }
 
 // Get file from image
