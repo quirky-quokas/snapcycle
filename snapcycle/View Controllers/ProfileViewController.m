@@ -28,6 +28,7 @@
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource, UIGestureRecognizerDelegate, CLLocationManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
+@property (weak, nonatomic) IBOutlet UIView *profileImageBorder;
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *photoCollectionView;
 @property (weak, nonatomic) IBOutlet UIImageView *backdropImageView;
@@ -78,7 +79,7 @@
     self.scrollView.contentSize = CGSizeMake(375, 1680);
     
     // set backdrop picture
-    self.backdropImageView.image = [UIImage imageNamed:@"nature-backdrop"];
+//    self.backdropImageView.image = [UIImage imageNamed:@"nature-backdrop"];
     
     // set the profile picture
     [self setProfilePicture];
@@ -303,6 +304,7 @@
  Sets the user's profile image. If the user does not have a profile image, the default profile image icon is used.
  */
 - (void)setProfilePicture {
+    self.profileImageBorder.layer.cornerRadius = self.profileImageBorder.frame.size.width / 2;
     self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
     PFFileObject *imageFile = [SnapUser currentUser].profImage;
     [imageFile getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
