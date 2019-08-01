@@ -72,8 +72,7 @@
     [super viewDidLoad];
     
     // set the navigation bar font
-    UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:scBlue, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Light" size:25]}];
+    [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
     
     // set the scrollView frame
     self.scrollView.contentSize = CGSizeMake(375, 1680);
@@ -545,24 +544,7 @@
  */
 - (IBAction)onLogoutTap:(id)sender {
     // Logout user
-    [SnapUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
-        if (error) {
-            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:error.localizedDescription];
-            NSLog(@"Error logging out (refactored alert): %@", error.localizedDescription);
-        } else {
-            // Return to login screen
-            // Get single instance of app delegate
-            AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            
-            // Create new instance of storyboard, starting from login screen
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            UINavigationController *loginNavigationController = [storyboard instantiateInitialViewController];
-            
-            // Set root view controller to switch views
-            appDelegate.window.rootViewController = loginNavigationController;
-            NSLog(@"Logout successful");
-        }
-    }];
+    [((TabBarController*)self.tabBarController) logoutUserWithAlertIfError];
 }
 
 

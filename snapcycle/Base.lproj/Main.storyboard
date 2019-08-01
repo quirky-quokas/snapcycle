@@ -165,6 +165,11 @@
                     <tabBarItem key="tabBarItem" title="Camera" largeContentSizeImage="Artboard 1" id="8Iq-ed-Spt"/>
                     <navigationItem key="navigationItem" title="snapcycle" id="uKL-JT-wW2">
                         <barButtonItem key="backBarButtonItem" title="Camera" id="hqk-b1-9O1"/>
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="1To-EE-KqL">
+                            <connections>
+                                <action selector="onLogoutTap:" destination="BzN-ce-QcD" id="NT1-Yi-6YS"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="cameraButton" destination="zH4-Ea-L8P" id="4JS-Tp-U15"/>
@@ -378,6 +383,11 @@
                     <tabBarItem key="tabBarItem" title="Search" id="ph0-td-ah2"/>
                     <navigationItem key="navigationItem" title="snapcycle" id="gdx-2f-Pzq">
                         <barButtonItem key="backBarButtonItem" title="Categories" id="2Y9-Cg-qfJ"/>
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="lZj-L0-eBl">
+                            <connections>
+                                <action selector="onLogoutTap:" destination="9sc-fL-QzH" id="o5D-rs-yuc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="categoriesCollectionView" destination="nIN-80-Ixw" id="pUH-ET-cnK"/>
@@ -429,7 +439,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="dW7-Xe-ue3"/>
                     </view>
-                    <navigationItem key="navigationItem" title="snapcycle" id="NIJ-yb-uAp"/>
+                    <navigationItem key="navigationItem" title="snapcycle" id="NIJ-yb-uAp">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="EU7-8p-3DH">
+                            <connections>
+                                <action selector="onLogoutTap:" destination="XVi-Q2-BTM" id="oFg-dX-gIc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="compTab" destination="Uvv-Qo-KCl" id="3FX-2i-EXg"/>
                         <outlet property="tabView" destination="6SA-bs-1fn" id="WkR-Ww-k04"/>
@@ -1203,7 +1219,7 @@
         <image name="third-place" width="352" height="470"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="IG0-Za-uas"/>
+        <segue reference="AcR-1A-lSl"/>
         <segue reference="dEH-UT-eFW"/>
     </inferredMetricsTieBreakers>
 </document>
