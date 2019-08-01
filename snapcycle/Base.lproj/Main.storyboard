@@ -671,10 +671,15 @@
                                         <rect key="frame" x="0.0" y="-2" width="375" height="309"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PNu-H1-grO">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="crop to scene 1" translatesAutoresizingMaskIntoConstraints="NO" id="PNu-H1-grO">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="189"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="169-FY-uU7">
+                                                <rect key="frame" x="124" y="92" width="126" height="124"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </view>
                                             <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XiW-Ii-sVt">
                                                 <rect key="frame" x="129" y="97" width="116" height="114"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -872,6 +877,7 @@
                         <outlet property="photoDropdownMenu" destination="dNu-bY-TOR" id="ahZ-TC-Iwb"/>
                         <outlet property="pinImageView" destination="cPo-i9-mLA" id="wzp-WL-759"/>
                         <outlet property="profileImage" destination="XiW-Ii-sVt" id="amY-Af-no2"/>
+                        <outlet property="profileImageBorder" destination="169-FY-uU7" id="6aU-eO-3Dk"/>
                         <outlet property="scrollView" destination="bze-sv-Rwe" id="0CS-jW-gNa"/>
                         <outlet property="welcomeLabel" destination="1Io-49-qxH" id="K13-OX-7jk"/>
                     </connections>
@@ -1195,6 +1201,7 @@
         <image name="camButIcon artboard white" width="269" height="235.5"/>
         <image name="camera icon" width="36" height="36"/>
         <image name="clipped to camera" width="483" height="344"/>
+        <image name="crop to scene 1" width="750" height="489"/>
         <image name="editProfileButton" width="256" height="256"/>
         <image name="first-place" width="360" height="468"/>
         <image name="logo pic" width="407" height="113"/>
