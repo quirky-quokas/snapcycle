@@ -312,6 +312,30 @@
             </objects>
             <point key="canvasLocation" x="3716" y="496.10194902548727"/>
         </scene>
+        <!--Tutorial View Controller-->
+        <scene sceneID="TbE-YO-2Ln">
+            <objects>
+                <viewController id="MLY-63-xxI" customClass="TutorialViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Aiq-IC-WEo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sD7-w8-1C8">
+                                <rect key="frame" x="0.0" y="34" width="375" height="613"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="aOX-aF-iIv" kind="embed" id="Ggt-LU-Lrq"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="uNo-Pe-QXF"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wtS-gJ-e7S" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3852" y="1364.1679160419792"/>
+        </scene>
         <!--snapcycle-->
         <scene sceneID="CsM-Fw-HSw">
             <objects>
@@ -1141,6 +1165,59 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jmg-bg-phS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-674.39999999999998" y="121.88905547226388"/>
+        </scene>
+        <!--Tutorial Page View Controller-->
+        <scene sceneID="LEN-Fe-HlQ">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="aOX-aF-iIv" customClass="TutorialPageViewController" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tRe-Ni-FDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4972" y="1364"/>
+        </scene>
+        <!--Tut Child View Controller-->
+        <scene sceneID="Uh3-YX-4PC">
+            <objects>
+                <viewController storyboardIdentifier="TutorialPage" id="dAM-qh-kw5" customClass="TutChildViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wBI-15-iWk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QAx-4m-J7G">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Track your trash!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ylI-Rn-6e9">
+                                <rect key="frame" x="16" y="96" width="343" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oai-ao-7jD">
+                                <rect key="frame" x="67" y="174" width="236" height="232"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gqC-fv-uCW">
+                                <rect key="frame" x="16" y="414" width="343" height="176"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="fuT-2g-kRV"/>
+                    </view>
+                    <connections>
+                        <outlet property="backdropImageView" destination="QAx-4m-J7G" id="Z9b-DQ-PHC"/>
+                        <outlet property="infoLabel" destination="gqC-fv-uCW" id="R1P-gH-wfI"/>
+                        <outlet property="titleLabel" destination="ylI-Rn-6e9" id="kL9-wX-lQt"/>
+                        <outlet property="tutorialImageView" destination="Oai-ao-7jD" id="VYZ-4d-Edu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y4h-s1-3CA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4972" y="2100"/>
         </scene>
     </scenes>
     <resources>
