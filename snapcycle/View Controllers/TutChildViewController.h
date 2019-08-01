@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *tutroialImageStr;
 @property (strong, nonatomic) NSString *titleText;
 @property (strong, nonatomic) NSString *infoText;
+@property (nonatomic) BOOL lastPage;
 
 @end
 

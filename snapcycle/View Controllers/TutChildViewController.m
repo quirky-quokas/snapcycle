@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *tutorialImageView;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;
+@property (weak, nonatomic) IBOutlet UIButton *endTutorialButton;
 
 @end
 
@@ -22,13 +23,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
--(void)viewDidAppear:(BOOL)animated {
     self.backdropImageView.image = [UIImage imageNamed:self.backdropImageStr];
     self.tutorialImageView.image = [UIImage imageNamed:self.tutroialImageStr];
     self.titleLabel.text = self.titleText;
     self.infoLabel.text = self.infoText;
+    if (self.lastPage == NO){
+        self.endTutorialButton.enabled = NO;
+        self.endTutorialButton.hidden = YES;
+    }
+    else {
+        self.endTutorialButton.enabled = YES;
+        self.endTutorialButton.hidden = NO;
+    }
+}
+
+- (IBAction)tapEndTutorial:(id)sender {
+    NSLog(@"Ending tutorial");
+    //[self dismissViewControllerAnimated:YES completion:nil];
+    [self performSegueWithIdentifier:@"endedTutorialSegue" sender:self];
 }
 /*
 #pragma mark - Navigation
