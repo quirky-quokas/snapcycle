@@ -6,15 +6,15 @@
 //  Copyright © 2019 Quirky Quokkas. All rights reserved.
 //
 
-#import "CompetitionInfoViewController.h"
+#import "CompetitionInfoPopUpViewController.h"
 
-@interface CompetitionInfoViewController ()
+@interface CompetitionInfoPopUpViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 
 @end
 
-@implementation CompetitionInfoViewController
+@implementation CompetitionInfoPopUpViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

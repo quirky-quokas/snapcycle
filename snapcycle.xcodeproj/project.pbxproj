@@ -46,7 +46,7 @@
 		B6CED37122E8D9160091B788 /* Competitor.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CED37022E8D9160091B788 /* Competitor.m */; };
 		B6E4F2D422F0EE1000C8B2AD /* RankingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E4F2D322F0EE1000C8B2AD /* RankingCell.m */; };
 		B6E4F2D722F0EE1B00C8B2AD /* RankingXIB.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6E4F2D622F0EE1B00C8B2AD /* RankingXIB.xib */; };
-		B6E4F2DA22F36A5100C8B2AD /* CompetitionInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E4F2D922F36A5100C8B2AD /* CompetitionInfoViewController.m */; };
+		B6E4F2DA22F36A5100C8B2AD /* CompetitionInfoPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E4F2D922F36A5100C8B2AD /* CompetitionInfoPopUpViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,8 +140,8 @@
 		B6E4F2D322F0EE1000C8B2AD /* RankingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RankingCell.m; sourceTree = "<group>"; };
 		B6E4F2D522F0EE1700C8B2AD /* RankingCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RankingCell.h; sourceTree = "<group>"; };
 		B6E4F2D622F0EE1B00C8B2AD /* RankingXIB.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RankingXIB.xib; sourceTree = "<group>"; };
-		B6E4F2D822F36A5100C8B2AD /* CompetitionInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompetitionInfoViewController.h; sourceTree = "<group>"; };
-		B6E4F2D922F36A5100C8B2AD /* CompetitionInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompetitionInfoViewController.m; sourceTree = "<group>"; };
+		B6E4F2D822F36A5100C8B2AD /* CompetitionInfoPopUpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompetitionInfoPopUpViewController.h; sourceTree = "<group>"; };
+		B6E4F2D922F36A5100C8B2AD /* CompetitionInfoPopUpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompetitionInfoPopUpViewController.m; sourceTree = "<group>"; };
 		C8136804A7D7CF45BE79F467 /* Pods-snapcycleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleUITests.debug.xcconfig"; path = "Target Support Files/Pods-snapcycleUITests/Pods-snapcycleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E041F324D7031C737648A917 /* Pods-snapcycleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycleUITests.release.xcconfig"; path = "Target Support Files/Pods-snapcycleUITests/Pods-snapcycleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		E392621CD0CD837554F3211B /* Pods_snapcycleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_snapcycleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -323,8 +323,8 @@
 				B1B9EDD822F0B6C100C0A6F4 /* TodayCompViewController.m */,
 				B1B9EDDA22F0B6D100C0A6F4 /* YesterdayCompViewController.h */,
 				B1B9EDDB22F0B6D100C0A6F4 /* YesterdayCompViewController.m */,
-				B6E4F2D822F36A5100C8B2AD /* CompetitionInfoViewController.h */,
-				B6E4F2D922F36A5100C8B2AD /* CompetitionInfoViewController.m */,
+				B6E4F2D822F36A5100C8B2AD /* CompetitionInfoPopUpViewController.h */,
+				B6E4F2D922F36A5100C8B2AD /* CompetitionInfoPopUpViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -568,7 +568,7 @@
 				8479E90C22DE5C6B009174E7 /* Trash.m in Sources */,
 				84FB4A3222EA2BF300F6FB95 /* PhotoPopUpViewController.m in Sources */,
 				B69CB8A222E2438900F6C390 /* TabBarController.m in Sources */,
-				B6E4F2DA22F36A5100C8B2AD /* CompetitionInfoViewController.m in Sources */,
+				B6E4F2DA22F36A5100C8B2AD /* CompetitionInfoPopUpViewController.m in Sources */,
 				8479E90F22DE5F90009174E7 /* Category.m in Sources */,
 				B6CE94DE22EA50DD003B4732 /* CompetitionManager.m in Sources */,
 				B6E4F2D422F0EE1000C8B2AD /* RankingCell.m in Sources */,
