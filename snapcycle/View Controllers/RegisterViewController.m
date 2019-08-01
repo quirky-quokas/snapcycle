@@ -11,11 +11,13 @@
 #import "LoginViewController.h"
 #import "Badges.h"
 
-@interface RegisterViewController ()
+@interface RegisterViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UITextField *confirmPasswordField;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) UITextField *activeField;
 
 @end
 
@@ -23,7 +25,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.emailField.delegate = self;
+    self.usernameField.delegate = self;
+    self.passwordField.delegate = self;
+    self.confirmPasswordField.delegate = self;
+    self.activeField.delegate = self;
+    
+//    [self registerForKeyboardNotifications];
+    
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOffKeyboard:)];
     [self.view setUserInteractionEnabled:YES];
     [self.view addGestureRecognizer:tapGestureRecognizer];
@@ -40,22 +50,22 @@
     } else {
         // Initialize user
         SnapUser *newUser = [SnapUser user];
-        
+
         // Set properties
         newUser.email = self.emailField.text;
         newUser.username = self.usernameField.text;
         newUser.password = self.passwordField.text;
-        
+
         // Create badges object for user
         Badges *badges = [Badges new];
         badges.numFirstPlace = @(0);
         badges.numSecondPlace = @(0);
         badges.numThirdPlace = @(0);
         newUser.badges = badges;
-        
+
         // Set up default profile pic
         newUser.profImage = [RegisterViewController getPFFileFromImage:[UIImage imageNamed:@"profile-pic-icon"]];
-        
+
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if (error) {
                 UIAlertController *alert = [LoginViewController createErrorAlertWithOKAndMessage:error.localizedDescription];
@@ -68,8 +78,61 @@
         }];
     }
 }
+
 - (IBAction)tapOffKeyboard:(id)sender {
     [self.view endEditing:YES];
+}
+
+/**
+ Adding scroll with keyboard
+ */
+- (void)registerForKeyboardNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+/**
+ Called when UIKeyboardDidShowNotification is sent
+ */
+- (void)keyboardWasShown:(NSNotification *)notif {
+    NSDictionary *info = [notif userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+
+    // if active text field is hidden by keyboard, scroll it so it's visible
+    CGRect rect = self.view.frame;
+    rect.size.height -= kbSize.height;
+    if (!CGRectContainsPoint(rect, self.activeField.frame.origin)) {
+        [self.scrollView scrollRectToVisible:self.activeField.frame animated:YES];
+    }
+    
+//    NSDictionary *info = [notif userInfo];
+//    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+//    CGRect bkgndRect = self.activeField.superview.frame;
+//    bkgndRect.size.height += kbSize.height;
+//    [self.activeField.superview setFrame:bkgndRect];
+//    [self.scrollView setContentOffset:CGPointMake(0.0, self.activeField.frame.origin.y-kbSize.height) animated:YES];
+}
+
+/**
+ Called when UIKeyboardWillHideNotification is sent
+ */
+- (void)keyboardWillBeHidden:(NSNotification *)notif {
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.activeField = textField;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    self.activeField = nil;
 }
 
 // Get file from image
