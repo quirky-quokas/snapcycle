@@ -539,7 +539,7 @@
     
 }
 
-#pragma mark - Logout
+#pragma mark - User actions
 
 /**
  Logs out user
@@ -549,6 +549,25 @@
     [((TabBarController*)self.tabBarController) logoutUserWithAlertIfError];
 }
 
+- (IBAction)onLocationTap:(id)sender {
+    // Create alert controller
+    UIAlertController *locationAlert = [UIAlertController alertControllerWithTitle:@"Location Services"
+                                                                   message:@"Waste disposal rules change depending on where you are in the world! We pull the most relevant data based on your location to help you make the right choices. Enable Location Services in Settings for the best app experience." preferredStyle:UIAlertControllerStyleAlert];
+    // Add cancel action
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    [locationAlert addAction:cancelAction];
+    
+    UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{}                             completionHandler:^(BOOL success) {
+            if (!success) {
+                [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:@"Unable to open settings"];
+            }
+        }];
+    }];
+    [locationAlert addAction:settingsAction];
+
+    [self presentViewController:locationAlert animated:YES completion:nil];
+}
 
 
 @end

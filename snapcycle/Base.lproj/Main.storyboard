@@ -707,6 +707,15 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z78-24-Lhf">
+                                                <rect key="frame" x="0.0" y="257" width="375" height="44"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <gestureRecognizers/>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="k3V-cY-lhC" appends="YES" id="fGj-Qo-92n"/>
+                                                </connections>
+                                            </view>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cPo-i9-mLA">
                                                 <rect key="frame" x="8" y="263" width="34" height="34"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -899,6 +908,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7vd-wa-xrJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="k3V-cY-lhC">
+                    <connections>
+                        <action selector="onLocationTap:" destination="spz-gT-KP6" id="GkC-Ex-kVY"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1908" y="-884.25787106446785"/>
         </scene>
@@ -1226,7 +1240,7 @@
         <image name="third-place" width="352" height="470"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="AcR-1A-lSl"/>
+        <segue reference="IG0-Za-uas"/>
         <segue reference="dEH-UT-eFW"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.0" green="0.43921568630000002" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
