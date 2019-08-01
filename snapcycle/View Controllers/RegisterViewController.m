@@ -26,10 +26,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.emailField.delegate = self;
-    self.usernameField.delegate = self;
-    self.passwordField.delegate = self;
-    self.confirmPasswordField.delegate = self;
+//    self.emailField.delegate = self;
+//    self.usernameField.delegate = self;
+//    self.passwordField.delegate = self;
+//    self.confirmPasswordField.delegate = self;
     self.activeField.delegate = self;
     
 //    [self registerForKeyboardNotifications];
@@ -87,36 +87,38 @@
  Adding scroll with keyboard
  */
 - (void)registerForKeyboardNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:self.view.window];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:self.view.window];
 }
 
 /**
  Called when UIKeyboardDidShowNotification is sent
  */
-- (void)keyboardWasShown:(NSNotification *)notif {
-    NSDictionary *info = [notif userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+//- (void)keyboardWasShown:(NSNotification *)notif {
+//    NSDictionary *info = [notif userInfo];
+////    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+//    CGRect keyboardRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+//    keyboardRect = self.view
+//
+//    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+//    self.scrollView.contentInset = contentInsets;
+//    self.scrollView.scrollIndicatorInsets = contentInsets;
+//
+//    // if active text field is hidden by keyboard, scroll it so it's visible
+//    CGRect rect = self.view.frame;
+//    rect.size.height -= kbSize.height;
+//    if (!CGRectContainsPoint(rect, self.activeField.frame.origin)) {
+//        [self.scrollView scrollRectToVisible:self.activeField.frame animated:YES];
+//    }
 
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
-    self.scrollView.contentInset = contentInsets;
-    self.scrollView.scrollIndicatorInsets = contentInsets;
-
-    // if active text field is hidden by keyboard, scroll it so it's visible
-    CGRect rect = self.view.frame;
-    rect.size.height -= kbSize.height;
-    if (!CGRectContainsPoint(rect, self.activeField.frame.origin)) {
-        [self.scrollView scrollRectToVisible:self.activeField.frame animated:YES];
-    }
-    
 //    NSDictionary *info = [notif userInfo];
 //    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
 //    CGRect bkgndRect = self.activeField.superview.frame;
 //    bkgndRect.size.height += kbSize.height;
 //    [self.activeField.superview setFrame:bkgndRect];
 //    [self.scrollView setContentOffset:CGPointMake(0.0, self.activeField.frame.origin.y-kbSize.height) animated:YES];
-}
+//}
 
 /**
  Called when UIKeyboardWillHideNotification is sent
