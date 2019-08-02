@@ -35,13 +35,9 @@
     self.moreInfoLabel.text = self.category.moreInfo;
     [self.moreInfoLabel sizeToFit];
     
-    // set up info label - spaces
-    NSMutableString *infoString = self.category.info;
-    for (char c in infoString) {
-        
-    }
-    
-    // set up info label - colors
+    // set up info label
+    NSString *infoString = self.category.info;
+    infoString = [infoString stringByReplacingOccurrencesOfString:@", " withString:@",\n"];
     NSMutableAttributedString *infoAttributedString = [[NSMutableAttributedString alloc] initWithString:infoString];
     if ([self.category.info containsString:@"recycle bin"]) {
         NSRange foundRange = [infoString rangeOfString:@"recycle bin"];
@@ -119,7 +115,7 @@
             NSString* title = [[NSString alloc] init];
             if(newTrash.category.recycling == YES) {
                 title = @"Good work!";
-                message = @"You've successfully recycled your trash";
+                message = @"You've successfully recycled your trash.";
             }
             else {
                 if (newTrash.category.landfill == YES && newTrash.category.compost == YES){
@@ -143,7 +139,7 @@
             
         }
         else {
-            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Could not recycle trash" message:error.localizedDescription];
+            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Could not recycle trash." message:error.localizedDescription];
         }
         self.landfillButton.enabled = YES;
     }];
@@ -179,7 +175,7 @@
             NSString* title = [[NSString alloc] init];
             if(newTrash.category.compost == YES) {
                 title = @"Good work!";
-                message = @"You've successfully composted your trash";
+                message = @"You've successfully composted your trash.";
             }
             else {
                 title = @"Oops!";
@@ -243,19 +239,19 @@
             NSString* title = [[NSString alloc] init];
             if(newTrash.category.landfill == YES) {
                 title = @"Good work!";
-                message = @"You've successfully thrown away your trash";
+                message = @"You've successfully thrown away your trash.";
             }
             else {
                 title = @"Oops!";
                 
                 if (newTrash.category.recycling == YES && newTrash.category.compost == YES){
-                    message = @"You shouldn't have thrown that away. Next time try throwing it in recycling or compost.";
+                    message = @"You shouldn't have thrown that in landfill. Next time try throwing it in recycling or compost.";
                 }
                 else if (newTrash.category.recycling == YES && newTrash.category.compost == NO) {
-                    message = @"You shouldn't have thrown that away. Next time try throwing it in recyling.";
+                    message = @"You shouldn't have thrown that in landfill. Next time try throwing it in recyling.";
                 }
                 else if (newTrash.category.recycling == NO && newTrash.category.compost == YES){
-                    message = @"You shouldn't have thrown that away. Next time try throwing it in compost.";
+                    message = @"You shouldn't have thrown that in landfill. Next time try throwing it in compost.";
                 }
                 else {
                     title = @"Sorry about that!";
@@ -265,7 +261,7 @@
             [self.delegate postedTrashWithMessage:message withTitle:title];
         }
         else {
-            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Could not throw away trash" message:error.localizedDescription];
+            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Could not throw away trash." message:error.localizedDescription];
         }
         self.landfillButton.enabled = YES;
     }];
