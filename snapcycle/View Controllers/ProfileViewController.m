@@ -26,33 +26,35 @@
 #import "CompetitionManager.h"
 
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource, UIGestureRecognizerDelegate, CLLocationManagerDelegate>
+
+// Overall
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
+// User info
+@property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *backdropImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UIView *profileImageBorder;
-@property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
-@property (weak, nonatomic) IBOutlet UICollectionView *photoCollectionView;
-@property (weak, nonatomic) IBOutlet UIImageView *backdropImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *pinImageView;
-@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
-@property (weak, nonatomic) IBOutlet MKDropdownMenu *photoDropdownMenu;
-
 @property (strong, nonatomic) UIImagePickerController *imagePickerVC;
 
+// Badges
+@property (weak, nonatomic) IBOutlet UILabel *numFirstLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numSecondLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numThirdLabel;
+
+// Location
+@property (weak, nonatomic) IBOutlet UIImageView *pinImageView;
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLGeocoder *geocoder;
 
-// Graph
-@property (weak, nonatomic) IBOutlet HIChartView *chartView;
-@property (strong, nonatomic) HIOptions *options;
+// Pie Chart
+@property (weak, nonatomic) IBOutlet HIChartView *pieChartView;
+@property (strong, nonatomic) HIOptions *pieChartOptions;
 @property int compostItemCount;
 @property int recyclingItemCount;
 @property int landfillItemCount;
-
 @property (weak, nonatomic) IBOutlet UILabel *noStatsYetLabel;
-
-@property (strong, nonatomic) NSArray *trash;
-@property (strong, nonatomic) NSArray *dropdownData;
-
 
 // Accuracy chart bar graph
 @property (strong, nonatomic) NSCalendar *cal;
@@ -62,15 +64,13 @@
 @property (strong, nonatomic) NSMutableDictionary<NSNumber*, NSString*> *labelForDay;
 @property (strong, nonatomic) NSMutableDictionary<NSNumber*, NSNumber*> *percentageForDay;
 
-// Improve
-@property (weak, nonatomic) IBOutlet UILabel *landfillCanRecycleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *landfillCanCompostLabel;
+// Photo Log
+@property (weak, nonatomic) IBOutlet UICollectionView *photoCollectionView;
 
-// Badges
-@property (weak, nonatomic) IBOutlet UILabel *numFirstLabel;
-@property (weak, nonatomic) IBOutlet UILabel *numSecondLabel;
-@property (weak, nonatomic) IBOutlet UILabel *numThirdLabel;
-
+// Dropdown menu
+@property (weak, nonatomic) IBOutlet MKDropdownMenu *photoDropdownMenu;
+@property (strong, nonatomic) NSArray *trash;
+@property (strong, nonatomic) NSArray *dropdownData;
 
 @end
 
@@ -143,10 +143,232 @@
         self.numThirdLabel.text = [NSString stringWithFormat:@"%@", badges.numThirdPlace];;
     }];
     
+    // Fetch stats for graphs
     [self refreshUserActionStats];
     [self refreshUserAccuracyStats];
+    
+    // Fetch all trash for photo log
     [self fetchTrash:@"All"];
 }
+
+#pragma mark - Profile Picture
+
+/**
+ Sets the user's profile image. If the user does not have a profile image, the default profile image icon is used.
+ */
+- (void)setProfilePicture {
+    self.profileImageBorder.layer.cornerRadius = self.profileImageBorder.frame.size.width / 2;
+    self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
+    PFFileObject *imageFile = [SnapUser currentUser].profImage;
+    [imageFile getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
+        UIImage *image = [UIImage imageWithData:data];
+        self.profileImage.image = image;
+        
+    }];
+}
+
+- (IBAction)onEditProfileTap:(id)sender {
+    [self editProfilePicture:nil];
+}
+
+/**
+ Edits the user's profile image.
+ */
+- (void)editProfilePicture: (UITapGestureRecognizer *)tapGR {
+    // Let user choose source if both are available
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        // Both image source types are available
+        [self pickImageWithSourceSelection];
+    } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+        // Only camera is available
+        [self pickImageWithCamera];
+    } else {
+        // Only photo library is available
+        [self pickImageWithPhotoLibrary];
+    }
+}
+
+// Allow user to choose source
+- (void) pickImageWithSourceSelection {
+    // Create alert controller with actions
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: nil
+                                                                              message: nil
+                                                                       preferredStyle: UIAlertControllerStyleActionSheet];
+    // Take photo
+    [alertController addAction: [UIAlertAction actionWithTitle: @"Take Photo" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self pickImageWithCamera];
+    }]];
+    
+    // Choose existing photo
+    [alertController addAction: [UIAlertAction actionWithTitle: @"Choose Existing Photo" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self pickImageWithPhotoLibrary];
+    }]];
+    
+    // Cancel
+    [alertController addAction: [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    
+    // Present as modal popover
+    alertController.modalPresentationStyle = UIModalPresentationPopover;
+    [self presentViewController: alertController animated: YES completion: nil];
+}
+
+// Present camera
+- (void) pickImageWithCamera {
+    self.imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+    [self presentViewController:self.imagePickerVC animated:YES completion:nil];
+}
+
+// Present photo library
+- (void) pickImageWithPhotoLibrary {
+    self.imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [self presentViewController:self.imagePickerVC animated:YES completion:nil];
+}
+
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    
+    UIImage *editedImage = info[UIImagePickerControllerEditedImage];
+    
+    self.profileImage.image = editedImage;
+    SnapUser *currentUser = [SnapUser currentUser];
+    
+    // Scale photo down
+    CGFloat imageWidth = editedImage.size.width / 3;
+    CGFloat imageHeight = editedImage.size.height / 3;
+    CGSize size = CGSizeMake(imageWidth, imageHeight);
+    UIImage *resizedImage = [DetailsViewController imageWithImage:editedImage scaledToFillSize:size];
+    
+    currentUser.profImage = [RegisterViewController getPFFileFromImage:resizedImage];
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (error) {
+            NSString *title = @"Could not upload photo";
+            NSString *message = @"Please try again";
+            [(TabBarController*) self.tabBarController showOKAlertWithTitle:title message:message];
+        }
+        
+        // TODO: move this out? a litte hacky.
+        // Refresh competitions to fetch new profile pic
+        CompetitionManager *manager = [CompetitionManager shared];
+        manager.currentCompetitionDisplayer.userScoreChanged = YES;
+        [manager refreshYesterdayCompetition];
+        
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+}
+
+#pragma mark - Pie chart
+
+- (void)configurePieChart {
+    // TODO: looks funky if there is 0 of one type
+    NSLog(@"configuring pie chart");
+    self.pieChartOptions = [[HIOptions alloc]init];
+    HIChart *chart = [[HIChart alloc]init];
+    chart.type = @"pie";
+    self.pieChartOptions.chart = chart;
+    
+    // Title
+    HITitle *title = [[HITitle alloc]init];
+    title.text = @"Total snapcycles";
+    self.pieChartOptions.title = title;
+    
+    // Tooltip
+    HITooltip *tooltip = [[HITooltip alloc]init];
+    tooltip.pointFormat = @"<b>{point.percentage:.1f}%</b> ({point.y} items)";
+    self.pieChartOptions.tooltip = tooltip;
+    
+    // Plot options
+    HIPlotOptions *plotoptions = [[HIPlotOptions alloc]init];
+    plotoptions.pie = [[HIPie alloc]init];
+    plotoptions.pie.allowPointSelect = [[NSNumber alloc] initWithBool:true];
+    plotoptions.pie.cursor = @"pointer";
+    self.pieChartOptions.plotOptions = plotoptions;
+    
+    // Diable credits
+    HICredits *credits = [[HICredits alloc] init];
+    credits.enabled = [[NSNumber alloc] initWithBool:false];
+    self.pieChartOptions.credits = credits;
+    
+    // Remove exporting hamburger button
+    HIExporting *exporting = [[HIExporting alloc] init];
+    exporting.enabled = [[NSNumber alloc] initWithBool:false];
+    self.pieChartOptions.exporting = exporting;
+}
+
+- (void)updatePieChartData {
+    NSLog(@"updating pie chart data");
+    int itemTotal = self.compostItemCount + self.landfillItemCount + self.recyclingItemCount;
+    // TODO: show placeholder if user has no stats
+    if (itemTotal != 0) {
+        self.noStatsYetLabel.hidden = YES;
+        HIPie *pie = [[HIPie alloc]init];
+        pie.data = @[
+                     @{
+                         @"name": @"Recycling",
+                         @"y": @(self.recyclingItemCount),
+                         @"color": @"#0070c2"
+                         },
+                     @{
+                         @"name": @"Compost",
+                         @"y": @(self.compostItemCount),
+                         @"color": @"#94c83d"
+                         },
+                     @{
+                         @"name": @"Landfill",
+                         @"y": @(self.landfillItemCount),
+                         @"color": @"#964b00"
+                         }
+                     ];
+        self.pieChartOptions.series = [NSMutableArray arrayWithObjects:pie, nil];
+        
+        self.pieChartView.options = self.pieChartOptions;
+    } else {
+        self.noStatsYetLabel.hidden = NO;
+    }
+}
+
+- (void)refreshUserActionStats {
+    
+    // Create dispatch group so that pie chart is only set up after all three queries
+    dispatch_group_t queryGroup = dispatch_group_create();
+    
+    // Query for trash stats for each user action
+    // Recycling
+    [self countObjectsQueryWithUserAction:@"recycling" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
+        self.recyclingItemCount = numberOfObjects;
+    }];
+    
+    // Compost
+    [self countObjectsQueryWithUserAction:@"compost" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
+        self.compostItemCount = numberOfObjects;
+    }];
+    
+    // Landfill
+    [self countObjectsQueryWithUserAction:@"landfill" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
+        self.landfillItemCount = numberOfObjects;
+    }];
+    
+    // Set up pie chart once all calls have returned. Pie chart displays total user actions
+    dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
+        NSLog(@"all completed");
+        [self updatePieChartData];
+    });
+}
+
+// Count objects for the specified user action (how the user disposed of the trash regardless of what they wre supposed to do.
+- (void)countObjectsQueryWithUserAction:(NSString*)userAction dispatchGroup:(dispatch_group_t)group completion:(void (^)(int numberOfObjects))setActionCount {
+    // Query for trash objects in user's array that match action
+    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
+    [trashQuery whereKey:@"userAction" equalTo:userAction];
+    
+    dispatch_group_enter(group);
+    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
+        // TODO: if there is an error
+        setActionCount(number);
+        dispatch_group_leave(group);
+    }];
+}
+
 
 #pragma mark - Accuracy chart
 - (void)configureAccuracyChart {
@@ -298,269 +520,6 @@
     self.accuracyChartView.options = self.accuracyOptions;
 }
 
-#pragma mark - Pie chart
-
-- (void)configurePieChart {
-    // TODO: looks funky if there is 0 of one type
-    NSLog(@"configuring pie chart");
-    self.options = [[HIOptions alloc]init];
-    HIChart *chart = [[HIChart alloc]init];
-    chart.type = @"pie";
-    self.options.chart = chart;
-    
-    // Title
-    HITitle *title = [[HITitle alloc]init];
-    title.text = @"Total snapcycles";
-    self.options.title = title;
-    
-    // Tooltip
-    HITooltip *tooltip = [[HITooltip alloc]init];
-    tooltip.pointFormat = @"<b>{point.percentage:.1f}%</b> ({point.y} items)";
-    self.options.tooltip = tooltip;
-    
-    // Plot options
-    HIPlotOptions *plotoptions = [[HIPlotOptions alloc]init];
-    plotoptions.pie = [[HIPie alloc]init];
-    plotoptions.pie.allowPointSelect = [[NSNumber alloc] initWithBool:true];
-    plotoptions.pie.cursor = @"pointer";
-    self.options.plotOptions = plotoptions;
-    
-    // Diable credits
-    HICredits *credits = [[HICredits alloc] init];
-    credits.enabled = [[NSNumber alloc] initWithBool:false];
-    self.options.credits = credits;
-    
-    // Remove exporting hamburger button
-    HIExporting *exporting = [[HIExporting alloc] init];
-    exporting.enabled = [[NSNumber alloc] initWithBool:false];
-    self.options.exporting = exporting;
-}
-
-- (void)updatePieChartData {
-    NSLog(@"updating pie chart data");
-    int itemTotal = self.compostItemCount + self.landfillItemCount + self.recyclingItemCount;
-    // TODO: show placeholder if user has no stats
-    if (itemTotal != 0) {
-        self.noStatsYetLabel.hidden = YES;
-        HIPie *pie = [[HIPie alloc]init];
-        pie.data = @[
-                     @{
-                         @"name": @"Recycling",
-                         @"y": @(self.recyclingItemCount),
-                         @"color": @"#0070c2"
-                         },
-                     @{
-                         @"name": @"Compost",
-                         @"y": @(self.compostItemCount),
-                         @"color": @"#94c83d"
-                         },
-                     @{
-                         @"name": @"Landfill",
-                         @"y": @(self.landfillItemCount),
-                         @"color": @"#964b00"
-                         }
-                     ];
-        self.options.series = [NSMutableArray arrayWithObjects:pie, nil];
-        
-        self.chartView.options = self.options;
-    } else {
-        self.noStatsYetLabel.hidden = NO;
-    }
-}
-
-- (void)refreshUserActionStats {
-    [self updateWaysToImprove];
-    
-    // Create dispatch group so that pie chart is only set up after all three queries
-    dispatch_group_t queryGroup = dispatch_group_create();
-    
-    // Query for trash stats for each user action
-    // Recycling
-    [self countObjectsQueryWithUserAction:@"recycling" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
-        self.recyclingItemCount = numberOfObjects;
-    }];
-    
-    // Compost
-    [self countObjectsQueryWithUserAction:@"compost" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
-        self.compostItemCount = numberOfObjects;
-    }];
-    
-    // Landfill
-    [self countObjectsQueryWithUserAction:@"landfill" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
-        self.landfillItemCount = numberOfObjects;
-    }];
-    
-    // Set up pie chart once all calls have returned. Pie chart displays total user actions
-    dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
-        NSLog(@"all completed");
-        [self updatePieChartData];
-    });
-}
-
-// Count objects for the specified user action (how the user disposed of the trash regardless of what they wre supposed to do.
-- (void)countObjectsQueryWithUserAction:(NSString*)userAction dispatchGroup:(dispatch_group_t)group completion:(void (^)(int numberOfObjects))setActionCount {
-    // Query for trash objects in user's array that match action
-    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
-    [trashQuery whereKey:@"userAction" equalTo:userAction];
-    
-    dispatch_group_enter(group);
-    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        // TODO: if there is an error
-        setActionCount(number);
-        dispatch_group_leave(group);
-    }];
-}
-
-#pragma mark - Ways to Improve
-
-- (void)updateWaysToImprove {
-    [self updateLandfillCouldHaveRecycled];
-    [self updateLandfillCouldHaveComposted];
-}
-
--(void)updateLandfillCouldHaveRecycled {
-    // Update landfill could have been recycled
-    // Identify recyclable items
-    PFQuery *categoryQuery = [Category query];
-    [categoryQuery whereKey:@"type" equalTo:@"recycling"];
-    
-    // Get user's items that they put in the landfill
-    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
-    [trashQuery whereKey:@"userAction" equalTo:@"landfill"];
-    
-    // Only include items that are in the category of type recycling
-    [trashQuery includeKey:@"category"];
-    [trashQuery whereKey:@"category" matchesQuery:categoryQuery];
-    
-    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        self.landfillCanRecycleLabel.text = [NSString stringWithFormat:@"- %i items thrown in the landfill that could have been recycled", number];
-    }];
-}
-
--(void)updateLandfillCouldHaveComposted {
-    // Update compost could have been recycled
-    // Identify recyclable items
-    PFQuery *categoryQuery = [Category query];
-    [categoryQuery whereKey:@"type" equalTo:@"compost"];
-    
-    // Get user's items that they put in the landfill
-    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
-    [trashQuery whereKey:@"userAction" equalTo:@"landfill"];
-    
-    // Only include items that are in the category of type recycling
-    [trashQuery includeKey:@"category"];
-    [trashQuery whereKey:@"category" matchesQuery:categoryQuery];
-    
-    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        self.landfillCanCompostLabel.text = [NSString stringWithFormat:@"- %i items thrown in the landfill that could have been composted", number];
-    }];
-}
-
-#pragma mark - Profile Picture
-
-/**
- Sets the user's profile image. If the user does not have a profile image, the default profile image icon is used.
- */
-- (void)setProfilePicture {
-    self.profileImageBorder.layer.cornerRadius = self.profileImageBorder.frame.size.width / 2;
-    self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
-    PFFileObject *imageFile = [SnapUser currentUser].profImage;
-    [imageFile getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
-        UIImage *image = [UIImage imageWithData:data];
-        self.profileImage.image = image;
-    
-    }];
-}
-
-- (IBAction)onEditProfileTap:(id)sender {
-    [self editProfilePicture:nil];
-}
-
-/**
- Edits the user's profile image.
- */
-- (void)editProfilePicture: (UITapGestureRecognizer *)tapGR {
-    // Let user choose source if both are available
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        // Both image source types are available
-        [self pickImageWithSourceSelection];
-    } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
-        // Only camera is available
-        [self pickImageWithCamera];
-    } else {
-        // Only photo library is available
-        [self pickImageWithPhotoLibrary];
-    }
-}
-
-// Allow user to choose source
-- (void) pickImageWithSourceSelection {
-    // Create alert controller with actions
-    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: nil
-                                                                              message: nil
-                                                                       preferredStyle: UIAlertControllerStyleActionSheet];
-    // Take photo
-    [alertController addAction: [UIAlertAction actionWithTitle: @"Take Photo" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self pickImageWithCamera];
-    }]];
-    
-    // Choose existing photo
-    [alertController addAction: [UIAlertAction actionWithTitle: @"Choose Existing Photo" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self pickImageWithPhotoLibrary];
-    }]];
-    
-    // Cancel
-    [alertController addAction: [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
-    
-    // Present as modal popover
-    alertController.modalPresentationStyle = UIModalPresentationPopover;
-    [self presentViewController: alertController animated: YES completion: nil];
-}
-
-// Present camera
-- (void) pickImageWithCamera {
-    self.imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
-    [self presentViewController:self.imagePickerVC animated:YES completion:nil];
-}
-
-// Present photo library
-- (void) pickImageWithPhotoLibrary {
-    self.imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    [self presentViewController:self.imagePickerVC animated:YES completion:nil];
-}
-
-
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    
-    UIImage *editedImage = info[UIImagePickerControllerEditedImage];
-    
-    self.profileImage.image = editedImage;
-    SnapUser *currentUser = [SnapUser currentUser];
-    
-    // Scale photo down
-    CGFloat imageWidth = editedImage.size.width / 3;
-    CGFloat imageHeight = editedImage.size.height / 3;
-    CGSize size = CGSizeMake(imageWidth, imageHeight);
-    UIImage *resizedImage = [DetailsViewController imageWithImage:editedImage scaledToFillSize:size];
-    
-    currentUser.profImage = [RegisterViewController getPFFileFromImage:resizedImage];
-    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (error) {
-            NSString *title = @"Could not upload photo";
-            NSString *message = @"Please try again";
-            [(TabBarController*) self.tabBarController showOKAlertWithTitle:title message:message];
-        }
-        
-        // TODO: move this out? a litte hacky.
-        // Refresh competitions to fetch new profile pic
-        CompetitionManager *manager = [CompetitionManager shared];
-        manager.currentCompetitionDisplayer.userScoreChanged = YES;
-        [manager refreshYesterdayCompetition];
-        
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
-}
 
 #pragma mark - Photo log
 - (void)fetchTrash: (NSString*)time {
