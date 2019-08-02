@@ -24,6 +24,7 @@
 #import "PhotoPopUpViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "CompetitionManager.h"
+#import "TutorialViewController.h"
 
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource, UIGestureRecognizerDelegate, CLLocationManagerDelegate>
 
@@ -653,6 +654,9 @@
         
         photoPopUpViewController.trash = trash;
         photoPopUpViewController.convertedImage = image;
+    } else if ([segue.identifier isEqualToString:@"helpSegue"]) {
+        TutorialViewController *tutVC = [segue destinationViewController];
+        tutVC.dismissToExit = YES; // tutorial should be dismissed modally
     }
 }
 

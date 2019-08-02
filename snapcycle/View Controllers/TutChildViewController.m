@@ -8,6 +8,7 @@
 
 #import "TutChildViewController.h"
 #import <SDWebImage/SDWebImage.h>
+#import "TutorialPageViewController.h"
 
 @interface TutChildViewController ()
 
@@ -40,8 +41,14 @@
 }
 
 - (IBAction)tapEndTutorial:(id)sender {
-    [self performSegueWithIdentifier:@"endedTutorialSegue" sender:self];
+    if (((TutorialPageViewController*)self.parentViewController).dismissToExit) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        // Segue to exit
+        [self performSegueWithIdentifier:@"endedTutorialSegue" sender:self];
+    }
 }
+
 /*
  #pragma mark - Navigation
  // In a storyboard-based application, you will often want to do a little preparation before navigation

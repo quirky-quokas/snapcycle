@@ -89,15 +89,20 @@
     if (searchText.length != 0) {
         
         NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(Category *evaluatedObject, NSDictionary *bindings) {
-            return [evaluatedObject.name containsString:searchText];
+            return [evaluatedObject.name localizedCaseInsensitiveContainsString:searchText];
+            //return [evaluatedObject.name containsString:searchText];
         }];
+        
         self.filteredCategories = [self.categories filteredArrayUsingPredicate:predicate];
-        [self.categoriesCollectionView reloadData];
+        [self.categoriesCollectionView performBatchUpdates:^{
+            [self.categoriesCollectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+        } completion:nil];
+        
     }
     else {
         self.filteredCategories = self.categories;
         [self.categoriesCollectionView performBatchUpdates:^{
-            [self.categoriesCollectionView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.categoriesCollectionView.numberOfSections)]];
+            [self.categoriesCollectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
         } completion:nil];
     }
 }
