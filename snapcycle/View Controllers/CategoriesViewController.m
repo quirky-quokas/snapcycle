@@ -123,6 +123,14 @@
     
 }
 
+/**
+ Logs out user
+ */
+- (IBAction)onLogoutTap:(id)sender {
+    // Logout user
+    [((TabBarController*)self.tabBarController) logoutUserWithAlertIfError];
+}
+
 
 #pragma mark - Navigation
 

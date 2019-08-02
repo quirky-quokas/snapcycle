@@ -229,4 +229,14 @@
     [(TabBarController*)self.tabBarController showOKAlertWithTitle:title message:message];
 }
 
+#pragma mark - User actions
+
+/**
+ Logs out user
+ */
+- (IBAction)onLogoutTap:(id)sender {
+    // Logout user
+    [((TabBarController*)self.tabBarController) logoutUserWithAlertIfError];
+}
+
 @end

@@ -11,6 +11,7 @@
 #import "YesterdayCompViewController.h"
 #import "ViewController.h"
 #import "CompTabSegControl.h"
+#import "TabBarController.h"
 
 @interface CompTabViewController ()
 @property (weak, nonatomic) IBOutlet CompTabSegControl *compTab;
@@ -91,6 +92,15 @@
 -(void)setupTabsDesign {
     [self.compTab setColorAndFont];
 }
+
+/**
+ Logs out user
+ */
+- (IBAction)onLogoutTap:(id)sender {
+    // Logout user
+    [((TabBarController*)self.tabBarController) logoutUserWithAlertIfError];
+}
+
 /*
 #pragma mark - Navigation
 
