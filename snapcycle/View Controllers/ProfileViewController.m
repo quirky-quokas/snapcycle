@@ -53,6 +53,15 @@
 @property (strong, nonatomic) NSArray *trash;
 @property (strong, nonatomic) NSArray *dropdownData;
 
+
+// Accuracy chart bar graph
+@property (strong, nonatomic) NSCalendar *cal;
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
+@property (weak, nonatomic) IBOutlet HIChartView *accuracyChartView;
+@property (strong, nonatomic) HIOptions *accuracyOptions;
+@property (strong, nonatomic) NSMutableDictionary<NSNumber*, NSString*> *labelForDay;
+@property (strong, nonatomic) NSMutableDictionary<NSNumber*, NSNumber*> *percentageForDay;
+
 // Improve
 @property (weak, nonatomic) IBOutlet UILabel *landfillCanRecycleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *landfillCanCompostLabel;
@@ -76,7 +85,7 @@
     [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
     
     // set the scrollView frame
-    self.scrollView.contentSize = CGSizeMake(375, 2000);
+    self.scrollView.contentSize = CGSizeMake(375, 1975);
     
     // set the profile picture
     [self setProfilePicture];
@@ -121,6 +130,7 @@
     layout.itemSize = CGSizeMake(itemWidth, itemHeight);
     
     [self configurePieChart];
+    [self configureAccuracyChart];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -134,7 +144,157 @@
     }];
     
     [self refreshUserActionStats];
+    [self refreshUserAccuracyStats];
     [self fetchTrash:@"All"];
+}
+
+#pragma mark - Accuracy chart
+- (void)configureAccuracyChart {
+    self.cal = [NSCalendar currentCalendar];
+    [self.cal setFirstWeekday:1]; // Sunday
+    
+    self.dateFormatter = [[NSDateFormatter alloc] init];
+    [self.dateFormatter setDateFormat:@"EEE M/d"];
+    
+    HIChart *chart = [[HIChart alloc]init];
+    chart.type = @"column";
+    
+    HITitle *title = [[HITitle alloc]init];
+    title.text = @"Your accuracy this week";
+    
+    HISubtitle *subtitle = [[HISubtitle alloc]init];
+    subtitle.text = @"% of items disposed correctly";
+    
+    HIYAxis *yaxis = [[HIYAxis alloc]init];
+    yaxis.min = @0;
+    yaxis.max = @100;
+    yaxis.tickInterval = @20;
+    yaxis.title = [[HITitle alloc]init];
+    yaxis.title.text = @"% accuracy";
+    
+    HITooltip *tooltip = [[HITooltip alloc]init];
+    tooltip.pointFormat = @"{point.y:.1f}% accurate";
+    
+    HIPlotOptions *plotOptions = [[HIPlotOptions alloc]init];
+    plotOptions.column = [[HIColumn alloc]init];
+    //plotOptions.column.pointPadding = @0.2;
+    plotOptions.column.borderWidth = @0;
+    
+    HICredits *credits = [[HICredits alloc]init];
+    credits.enabled = [[NSNumber alloc] initWithBool:false];
+    
+    HIExporting *exporting = [[HIExporting alloc] init];
+    exporting.enabled = [[NSNumber alloc] initWithBool:false];
+    
+    self.accuracyOptions = [[HIOptions alloc] init];
+    self.accuracyOptions.chart = chart;
+    self.accuracyOptions.title = title;
+    self.accuracyOptions.subtitle = subtitle;
+    self.accuracyOptions.yAxis = [NSMutableArray arrayWithObject:yaxis];
+    self.accuracyOptions.tooltip = tooltip;
+    self.accuracyOptions.plotOptions = plotOptions;
+    self.accuracyOptions.credits = credits;
+    self.accuracyOptions.exporting = exporting;
+    
+    self.accuracyChartView.options = self.accuracyOptions;
+}
+
+- (void)refreshUserAccuracyStats {
+    // Reset data
+    self.percentageForDay = [[NSMutableDictionary alloc] init];
+    self.labelForDay = [[NSMutableDictionary alloc] init];
+    
+    // Get sunday of week
+    NSDate *now = [NSDate date];
+    NSDate *startOfDay;
+    [self.cal rangeOfUnit:NSCalendarUnitWeekOfMonth  // find start of week
+           startDate:&startOfDay
+            interval:NULL                // ignore seconds
+             forDate:now];
+    
+    int NUM_SECONDS_IN_24_HOURS = 86399;
+    NSDate *endOfDay = [NSDate dateWithTimeInterval:NUM_SECONDS_IN_24_HOURS sinceDate:startOfDay];
+    
+    dispatch_group_t queryGroup = dispatch_group_create();
+    
+    for (int dayIndex = 1; dayIndex <= 7; dayIndex ++) {
+        PFQuery *allItemsInDayQuery = [SnapUser.currentUser.trashArray query];
+        [allItemsInDayQuery whereKey:@"createdAt" greaterThanOrEqualTo:startOfDay];
+        [allItemsInDayQuery whereKey:@"createdAt" lessThanOrEqualTo:endOfDay];
+        [allItemsInDayQuery includeKey:@"category"];
+        
+        dispatch_group_enter(queryGroup);
+        [allItemsInDayQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"%@", error.localizedDescription);
+            } else {
+                [self formatAxisLabelForDay:startOfDay index:dayIndex];
+                [self calculateAndStoreAccuracyOfTrash:objects forDayIndex:dayIndex];
+            }
+            dispatch_group_leave(queryGroup);
+        }];
+        
+        // Advance to next day
+        startOfDay = [startOfDay dateByAddingDays:1];
+        endOfDay = [endOfDay dateByAddingDays:1];
+    }
+    
+    dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
+        [self updateAccuracyChartData];
+    });
+}
+
+- (void) formatAxisLabelForDay:(NSDate*)day index:(int)dayIndex {
+    NSString *dateLabel = [self.dateFormatter stringFromDate:day];
+    if ([self.cal isDateInToday:day]) {
+        dateLabel = [dateLabel stringByAppendingString:@"<br/>(today)"];
+    }
+    [self.labelForDay setObject:dateLabel forKey:@(dayIndex)];
+}
+
+- (void) calculateAndStoreAccuracyOfTrash:(NSArray<Trash*>*)trashArray forDayIndex:(int)dayIndex{
+    if (!trashArray || trashArray.count == 0) {
+        // No items were disposed that day
+        [self.percentageForDay setObject:@(0) forKey:@(dayIndex)];
+    } else {
+        int correct = 0;
+        for (Trash *trash in trashArray) {
+            // Check if user trash disposal method, see if it is allowed in Category
+            // Booleans are stored as numbers in Parse, so covert back to
+            BOOL disposedCorrectly = [[trash.category objectForKey:trash.userAction] boolValue];
+            if (disposedCorrectly) {
+                correct++;
+            }
+        }
+        // Store percentages and associate with day
+        [self.percentageForDay setObject:@((double)correct/trashArray.count * 100) forKey:@(dayIndex)];
+    }
+}
+
+
+- (void)updateAccuracyChartData {
+    NSMutableArray<NSNumber*> *orderedPercentages = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString*> *orderedLabels = [[NSMutableArray alloc] init];
+    
+    // Add items to percentages array in correct order
+    for (int i = 1; i <= 7; i++) {
+        [orderedPercentages addObject:[self.percentageForDay objectForKey:@(i)]];
+        [orderedLabels addObject:[self.labelForDay objectForKey:@(i)]];
+    }
+    
+    HIColumn *column1 = [[HIColumn alloc]init];
+    column1.data = orderedPercentages;
+    column1.showInLegend = [[NSNumber alloc] initWithBool:false];
+    // TODO: change color
+    column1.color = [[HIColor alloc] initWithHexValue:@"ADDEE5"];
+    
+    HIXAxis *xaxis = [[HIXAxis alloc]init];
+    xaxis.categories = orderedLabels;
+    xaxis.crosshair = [[HICrosshair alloc]init];
+    
+    self.accuracyOptions.xAxis = [NSMutableArray arrayWithObject:xaxis];
+    self.accuracyOptions.series = [NSMutableArray arrayWithObjects:column1, nil];
+    self.accuracyChartView.options = self.accuracyOptions;
 }
 
 #pragma mark - Pie chart
@@ -173,6 +333,8 @@
     HIExporting *exporting = [[HIExporting alloc] init];
     exporting.enabled = [[NSNumber alloc] initWithBool:false];
     self.options.exporting = exporting;
+    
+    self.chartView.options = self.options;
 }
 
 - (void)updatePieChartData {

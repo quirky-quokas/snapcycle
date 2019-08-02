@@ -7,6 +7,7 @@
 //
 
 #import "TutChildViewController.h"
+#import <SDWebImage/SDWebImage.h>
 
 @interface TutChildViewController ()
 
@@ -23,8 +24,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.backdropImageView.image = [UIImage imageNamed:self.backdropImageStr];
-    self.tutorialImageView.image = [UIImage imageNamed:self.tutroialImageStr];
+    //self.backdropImageView.image = [UIImage imageNamed:self.backdropImageStr];
+    NSURL *gifURL = [NSURL URLWithString:self.tutroialImageStr];
+    [self.tutorialImageView sd_setImageWithURL:gifURL];
     self.titleLabel.text = self.titleText;
     self.infoLabel.text = self.infoText;
     if (self.lastPage == NO){
