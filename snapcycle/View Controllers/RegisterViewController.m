@@ -10,7 +10,6 @@
 #import "SnapUser.h"
 #import "LoginViewController.h"
 #import "Badges.h"
-#import "TutorialViewController.h"
 
 @interface RegisterViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
@@ -24,7 +23,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOffKeyboard:)];
     [self.view setUserInteractionEnabled:YES];
     [self.view addGestureRecognizer:tapGestureRecognizer];
@@ -63,11 +61,8 @@
                 [self presentViewController:alert animated:YES completion:nil];
                 NSLog(@"Cannot create account: %@", error.localizedDescription);
             } else {
-                NSLog(@"user sucessfully registered");
-                //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                //TutorialViewController *tutorialViewController = [storyboard instantiateViewControllerWithIdentifier:@"TutorialViewController"];
-                //[self presentViewController:tutorialViewController animated:YES completion:nil];
                 [self performSegueWithIdentifier:@"registeredSegue" sender:self];
+                NSLog(@"user sucessfully registered");
             }
         }];
     }

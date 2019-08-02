@@ -14,10 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)showOKAlertWithTitle:(NSString*) title message:(NSString*)message;
 
-+ (void)setSnapcycleLogoTitleForNavigationController:(UINavigationController*)navController;
-
-- (void) logoutUserWithAlertIfError;
-
 @end
 
 NS_ASSUME_NONNULL_END

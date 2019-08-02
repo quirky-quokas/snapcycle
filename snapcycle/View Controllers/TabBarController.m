@@ -7,8 +7,6 @@
 //
 
 #import "TabBarController.h"
-#import "SnapUser.h"
-#import "AppDelegate.h"
 
 @interface TabBarController ()
 
@@ -32,39 +30,6 @@
     [alert addAction:okAction];
     
     [self presentViewController:alert animated:YES completion:nil];
-}
-
-+ (void)setSnapcycleLogoTitleForNavigationController:(UINavigationController*)navController {
-    // set the navigation bar font
-    UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
-    [navController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:scBlue, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Light" size:25]}];
-}
-
-#pragma mark - Logout
-
-/**
- Logs out user. Instance method of Tab Bar Controller so that alert can properly be shown
- */
-- (void) logoutUserWithAlertIfError {
-    // Logout user
-    [SnapUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
-        if (error) {
-            [self showOKAlertWithTitle:@"Error" message:error.localizedDescription];
-            NSLog(@"Error logging out: %@", error.localizedDescription);
-        } else {
-            // Return to login screen
-            // Get single instance of app delegate
-            AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            
-            // Create new instance of storyboard, starting from login screen
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            UINavigationController *loginNavigationController = [storyboard instantiateInitialViewController];
-            
-            // Set root view controller to switch views
-            appDelegate.window.rootViewController = loginNavigationController;
-            NSLog(@"Logout successful");
-        }
-    }];
 }
 
 /*

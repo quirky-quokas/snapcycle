@@ -17,7 +17,16 @@
     NSString *dateString = [formatter stringFromDate:trash.createdAt];
     self.dateLabel.text = dateString;
     
-    self.typeLabel.text = trash.category.type;
+    if ([trash.category.type isEqualToString:@"recycling"]){
+        self.typeLabel.text = @"recycled";
+    }
+    else if ([trash.category.type isEqualToString:@"compost"]){
+        self.typeLabel.text = @"composted";
+    }
+    else{
+        self.typeLabel.text = @"landfilled";
+    }
+    
     
     PFFileObject *image = trash.image;
     [image getDataInBackgroundWithBlock:^(NSData * data, NSError * error) {

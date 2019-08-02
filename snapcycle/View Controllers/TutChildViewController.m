@@ -38,8 +38,6 @@
 }
 
 - (IBAction)tapEndTutorial:(id)sender {
-    NSLog(@"Ending tutorial");
-    //[self dismissViewControllerAnimated:YES completion:nil];
     [self performSegueWithIdentifier:@"endedTutorialSegue" sender:self];
 }
 /*
