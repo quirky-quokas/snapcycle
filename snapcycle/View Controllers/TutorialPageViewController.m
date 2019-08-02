@@ -70,6 +70,7 @@
     childViewController.infoText = self.info[index];
     if (index == self.backdrops.count-1){
         childViewController.lastPage = YES;
+        NSLog(@"At last page");
     }
     else{
         childViewController.lastPage = NO;
@@ -78,13 +79,14 @@
     return childViewController;
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
+
