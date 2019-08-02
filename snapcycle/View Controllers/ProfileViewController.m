@@ -641,17 +641,17 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    PhotoPopUpViewController *photoPopUpViewController = [segue destinationViewController];
-    
-    PhotoLogCell *tappedCell = sender;
-    NSIndexPath *indexPath = [self.photoCollectionView indexPathForCell:tappedCell];
-    Trash *trash = self.trash[indexPath.item];
-    UIImage *image = tappedCell.trashImageView.image;
-    
-    photoPopUpViewController.trash = trash;
-    photoPopUpViewController.convertedImage = image;
+    if ([segue.identifier isEqualToString:@"trashPopUpSegue"]) {
+        PhotoPopUpViewController *photoPopUpViewController = [segue destinationViewController];
+        
+        PhotoLogCell *tappedCell = sender;
+        NSIndexPath *indexPath = [self.photoCollectionView indexPathForCell:tappedCell];
+        Trash *trash = self.trash[indexPath.item];
+        UIImage *image = tappedCell.trashImageView.image;
+        
+        photoPopUpViewController.trash = trash;
+        photoPopUpViewController.convertedImage = image;
+    }
 }
 
 #pragma mark - User actions
@@ -662,9 +662,6 @@
 - (IBAction)onLogoutTap:(id)sender {
     // Logout user
     [((TabBarController*)self.tabBarController) logoutUserWithAlertIfError];
-}
-
-- (IBAction)onHelpTap:(id)sender {
 }
 
 - (IBAction)onLocationTap:(id)sender {

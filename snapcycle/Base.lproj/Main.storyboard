@@ -863,7 +863,7 @@
                                                 <rect key="frame" x="345" y="8" width="22" height="22"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <connections>
-                                                    <action selector="onHelpTap:" destination="spz-gT-KP6" eventType="touchUpInside" id="Nkz-Jk-wdI"/>
+                                                    <segue destination="MLY-63-xxI" kind="presentation" identifier="helpSegue" id="t3u-T6-S5B"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -984,7 +984,7 @@
                                                             <outlet property="markerImageView" destination="nDo-EM-FKO" id="ljI-z3-rch"/>
                                                             <outlet property="trashImageView" destination="76P-Xe-zAK" id="1UL-ew-ogv"/>
                                                             <outlet property="typeLabel" destination="2Hm-P2-ABg" id="hNy-YM-zxx"/>
-                                                            <segue destination="8Sq-UZ-MH6" kind="presentation" animates="NO" modalPresentationStyle="overCurrentContext" id="LjK-gh-TSE"/>
+                                                            <segue destination="8Sq-UZ-MH6" kind="presentation" identifier="trashPopUpSegue" animates="NO" modalPresentationStyle="overCurrentContext" id="LjK-gh-TSE"/>
                                                         </connections>
                                                     </collectionViewCell>
                                                 </cells>
@@ -1439,6 +1439,7 @@
         <image name="third-place" width="352" height="470"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="t3u-T6-S5B"/>
         <segue reference="Y1C-Ld-qPl"/>
         <segue reference="IG0-Za-uas"/>
         <segue reference="dEH-UT-eFW"/>
