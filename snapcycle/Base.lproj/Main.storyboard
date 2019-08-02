@@ -486,7 +486,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Search" id="ph0-td-ah2"/>
                     <navigationItem key="navigationItem" title="snapcycle" id="gdx-2f-Pzq">
-                        <barButtonItem key="backBarButtonItem" title="Categories" id="2Y9-Cg-qfJ"/>
+                        <barButtonItem key="backBarButtonItem" title="Search" id="2Y9-Cg-qfJ"/>
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="lZj-L0-eBl">
                             <connections>
                                 <action selector="onLogoutTap:" destination="9sc-fL-QzH" id="o5D-rs-yuc"/>
