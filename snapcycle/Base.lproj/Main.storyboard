@@ -1415,7 +1415,7 @@
                         <outlet property="infoLabel" destination="gqC-fv-uCW" id="R1P-gH-wfI"/>
                         <outlet property="titleLabel" destination="ylI-Rn-6e9" id="kL9-wX-lQt"/>
                         <outlet property="tutorialImageView" destination="Oai-ao-7jD" id="VYZ-4d-Edu"/>
-                        <segue destination="cUg-oz-gFf" kind="presentation" identifier="endedTutorialSegue" id="f1y-rL-myc"/>
+                        <segue destination="cUg-oz-gFf" kind="presentation" identifier="endedTutorialSegue" modalTransitionStyle="flipHorizontal" id="f1y-rL-myc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y4h-s1-3CA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1442,7 +1442,7 @@
         <segue reference="t3u-T6-S5B"/>
         <segue reference="Y1C-Ld-qPl"/>
         <segue reference="IG0-Za-uas"/>
-        <segue reference="dEH-UT-eFW"/>
+        <segue reference="f1y-rL-myc"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.0" green="0.43921568630000002" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
 </document>
