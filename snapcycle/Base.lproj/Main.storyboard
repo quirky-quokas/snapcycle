@@ -889,7 +889,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Env-jV-0h2" customClass="HIChartView">
-                                                <rect key="frame" x="8" y="358" width="359" height="272"/>
+                                                <rect key="frame" x="0.0" y="358" width="375" height="272"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No stats yet- log your trash to track your progress!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cqO-bG-4wB">
@@ -1031,7 +1031,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1908" y="-953"/>
+            <point key="canvasLocation" x="1908" y="-953.52323838080963"/>
         </scene>
         <!--Photo Pop Up View Controller-->
         <scene sceneID="0Qr-Fe-fB3">

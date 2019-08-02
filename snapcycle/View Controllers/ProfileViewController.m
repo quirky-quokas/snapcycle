@@ -59,7 +59,7 @@
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (weak, nonatomic) IBOutlet HIChartView *accuracyChartView;
 @property (strong, nonatomic) HIOptions *accuracyOptions;
-@property (strong, nonatomic) NSMutableArray *daysOfWeek;
+@property (strong, nonatomic) NSMutableDictionary<NSNumber*, NSString*> *labelForDay;
 @property (strong, nonatomic) NSMutableDictionary<NSNumber*, NSNumber*> *percentageForDay;
 
 // Improve
@@ -195,12 +195,14 @@
     self.accuracyOptions.plotOptions = plotOptions;
     self.accuracyOptions.credits = credits;
     self.accuracyOptions.exporting = exporting;
+    
+    self.accuracyChartView.options = self.accuracyOptions;
 }
 
 - (void)refreshUserAccuracyStats {
     // Reset data
     self.percentageForDay = [[NSMutableDictionary alloc] init];
-    self.daysOfWeek = [[NSMutableArray alloc] init];
+    self.labelForDay = [[NSMutableDictionary alloc] init];
     
     // Get sunday of week
     NSDate *now = [NSDate date];
@@ -226,8 +228,7 @@
             if (error) {
                 NSLog(@"%@", error.localizedDescription);
             } else {
-                // Add date
-                [self.daysOfWeek addObject:[self.dateFormatter stringFromDate:startOfDay]];
+                [self formatAxisLabelForDay:startOfDay index:dayIndex];
                 [self calculateAndStoreAccuracyOfTrash:objects forDayIndex:dayIndex];
             }
             dispatch_group_leave(queryGroup);
@@ -241,6 +242,14 @@
     dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
         [self updateAccuracyChartData];
     });
+}
+
+- (void) formatAxisLabelForDay:(NSDate*)day index:(int)dayIndex {
+    NSString *dateLabel = [self.dateFormatter stringFromDate:day];
+    if ([self.cal isDateInToday:day]) {
+        dateLabel = [dateLabel stringByAppendingString:@"<br/>(today)"];
+    }
+    [self.labelForDay setObject:dateLabel forKey:@(dayIndex)];
 }
 
 - (void) calculateAndStoreAccuracyOfTrash:(NSArray<Trash*>*)trashArray forDayIndex:(int)dayIndex{
@@ -265,10 +274,12 @@
 
 - (void)updateAccuracyChartData {
     NSMutableArray<NSNumber*> *orderedPercentages = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString*> *orderedLabels = [[NSMutableArray alloc] init];
     
     // Add items to percentages array in correct order
     for (int i = 1; i <= 7; i++) {
         [orderedPercentages addObject:[self.percentageForDay objectForKey:@(i)]];
+        [orderedLabels addObject:[self.labelForDay objectForKey:@(i)]];
     }
     
     HIColumn *column1 = [[HIColumn alloc]init];
@@ -276,7 +287,7 @@
     column1.showInLegend = [[NSNumber alloc] initWithBool:false];
     
     HIXAxis *xaxis = [[HIXAxis alloc]init];
-    xaxis.categories = self.daysOfWeek;
+    xaxis.categories = orderedLabels;
     xaxis.crosshair = [[HICrosshair alloc]init];
     
     self.accuracyOptions.xAxis = [NSMutableArray arrayWithObject:xaxis];
@@ -320,6 +331,8 @@
     HIExporting *exporting = [[HIExporting alloc] init];
     exporting.enabled = [[NSNumber alloc] initWithBool:false];
     self.options.exporting = exporting;
+    
+    self.chartView.options = self.options;
 }
 
 - (void)updatePieChartData {
