@@ -35,8 +35,13 @@
     self.moreInfoLabel.text = self.category.moreInfo;
     [self.moreInfoLabel sizeToFit];
     
-    // set up info label
-    NSString *infoString = self.category.info;
+    // set up info label - spaces
+    NSMutableString *infoString = self.category.info;
+    for (char c in infoString) {
+        
+    }
+    
+    // set up info label - colors
     NSMutableAttributedString *infoAttributedString = [[NSMutableAttributedString alloc] initWithString:infoString];
     if ([self.category.info containsString:@"recycle bin"]) {
         NSRange foundRange = [infoString rangeOfString:@"recycle bin"];
@@ -48,8 +53,8 @@
         UIColor *scGreen = [UIColor colorWithRed:148.0/255.0 green:200.0/255.0 blue:61.0/255.0 alpha:1.0];
         [infoAttributedString addAttribute:NSForegroundColorAttributeName value:scGreen range:foundRange];
     }
-    if ([self.category.info containsString:@"garbage bin"]) {
-        NSRange foundRange = [infoString rangeOfString:@"garbage bin"];
+    if ([self.category.info containsString:@"landfill"]) {
+        NSRange foundRange = [infoString rangeOfString:@"landfill"];
         UIColor *scBrown = [UIColor colorWithRed:150.0/255.0 green:75.0/255.0 blue:0.0/255.0 alpha:1.0];
         [infoAttributedString addAttribute:NSForegroundColorAttributeName value:scBrown range:foundRange];
     }
