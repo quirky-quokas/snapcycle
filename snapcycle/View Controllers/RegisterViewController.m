@@ -58,7 +58,7 @@
         newUser.badges = badges;
         
         // Set up default profile pic
-        newUser.profImage = [RegisterViewController getPFFileFromImage:[UIImage imageNamed:@"profile-pic-icon"]];
+        newUser.profImage = [RegisterViewController getPFFileFromImage:[UIImage imageNamed:@"profile_imagePlaceholder"]];
         
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if (error) {
