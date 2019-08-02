@@ -247,7 +247,8 @@
 - (void) formatAxisLabelForDay:(NSDate*)day index:(int)dayIndex {
     NSString *dateLabel = [self.dateFormatter stringFromDate:day];
     if ([self.cal isDateInToday:day]) {
-        dateLabel = [dateLabel stringByAppendingString:@"<br/>(today)"];
+        // TODO: set color
+        dateLabel = [NSString stringWithFormat:@"<span style=\"color: #0070C2\">%@<\span>", dateLabel];
     }
     [self.labelForDay setObject:dateLabel forKey:@(dayIndex)];
 }
@@ -333,8 +334,6 @@
     HIExporting *exporting = [[HIExporting alloc] init];
     exporting.enabled = [[NSNumber alloc] initWithBool:false];
     self.options.exporting = exporting;
-    
-    self.chartView.options = self.options;
 }
 
 - (void)updatePieChartData {
