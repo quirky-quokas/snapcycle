@@ -811,7 +811,7 @@
                                         <rect key="frame" x="0.0" y="-2" width="375" height="309"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="crop to scene 1" translatesAutoresizingMaskIntoConstraints="NO" id="PNu-H1-grO">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="profile_backdrop" translatesAutoresizingMaskIntoConstraints="NO" id="PNu-H1-grO">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="189"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
@@ -820,7 +820,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
-                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XiW-Ii-sVt">
+                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="profile_imagePlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="XiW-Ii-sVt">
                                                 <rect key="frame" x="129" y="97" width="116" height="114"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
@@ -1428,7 +1428,6 @@
         <image name="behind-popup-view" width="320" height="460"/>
         <image name="camera_button" width="265" height="233"/>
         <image name="camera_placeholder" width="482" height="371"/>
-        <image name="crop to scene 1" width="750" height="489"/>
         <image name="editProfileButton" width="256" height="256"/>
         <image name="first-place" width="360" height="468"/>
         <image name="icon_badge" width="30" height="30"/>
@@ -1436,6 +1435,8 @@
         <image name="icon_profile" width="30" height="30"/>
         <image name="podium" width="1314" height="1098"/>
         <image name="profile icon" width="30" height="30"/>
+        <image name="profile_backdrop" width="750" height="489"/>
+        <image name="profile_imagePlaceholder" width="960" height="718"/>
         <image name="second-place" width="362" height="468"/>
         <image name="third-place" width="352" height="470"/>
     </resources>
