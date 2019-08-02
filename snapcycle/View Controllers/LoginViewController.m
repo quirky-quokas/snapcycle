@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "SnapUser.h"
+#import "TabBarController.h"
 
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
@@ -45,6 +46,19 @@
         }
     }];
 }
+
+- (IBAction)didTapForgotPassword:(UIButton *)sender {
+    // Create alert controller
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Forgot password?" message:@"Look for an email with a link to reset your password." preferredStyle:UIAlertControllerStyleAlert];
+    // Add ok action
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alert addAction:okAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    NSLog(@"action received");
+}
+
 - (IBAction)tapOffKeyboard:(id)sender {
     [self.view endEditing:YES];
 }

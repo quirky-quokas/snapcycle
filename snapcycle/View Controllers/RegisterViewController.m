@@ -11,7 +11,7 @@
 #import "LoginViewController.h"
 #import "Badges.h"
 
-@interface RegisterViewController ()
+@interface RegisterViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
@@ -23,15 +23,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.confirmPasswordField.delegate = self;
+    
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOffKeyboard:)];
     [self.view setUserInteractionEnabled:YES];
     [self.view addGestureRecognizer:tapGestureRecognizer];
+    
+    [self.emailField setKeyboardType:UIKeyboardTypeEmailAddress];
 }
 
 /**
  User tapped the Sign up button. Add the new user to the database. Segues to logged in view
  */
-- (IBAction)didTapSignup:(UIButton *)sender {
+- (IBAction)didTapSignup:(id)sender {
     // Confirm passwords match
     if (![self.passwordField.text isEqualToString:self.confirmPasswordField.text]) {
         UIAlertController *alert = [LoginViewController createErrorAlertWithOKAndMessage:@"passwords must match"];
@@ -67,8 +71,19 @@
         }];
     }
 }
+
 - (IBAction)tapOffKeyboard:(id)sender {
     [self.view endEditing:YES];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (textField == self.confirmPasswordField) {
+        [textField resignFirstResponder];
+        [self didTapSignup:self.confirmPasswordField];
+        return NO;
+    }
+    
+    return YES;
 }
 
 // Get file from image
