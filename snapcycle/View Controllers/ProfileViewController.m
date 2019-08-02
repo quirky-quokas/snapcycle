@@ -55,8 +55,11 @@
 
 
 // Accuracy chart bar graph
+@property (strong, nonatomic) NSCalendar *cal;
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (weak, nonatomic) IBOutlet HIChartView *accuracyChartView;
 @property (strong, nonatomic) HIOptions *accuracyOptions;
+@property (strong, nonatomic) NSMutableArray *daysOfWeek;
 @property (strong, nonatomic) NSMutableDictionary<NSNumber*, NSNumber*> *percentageForDay;
 
 // Improve
@@ -147,6 +150,12 @@
 
 #pragma mark - Accuracy chart
 - (void)configureAccuracyChart {
+    self.cal = [NSCalendar currentCalendar];
+    [self.cal setFirstWeekday:1]; // Sunday
+    
+    self.dateFormatter = [[NSDateFormatter alloc] init];
+    [self.dateFormatter setDateFormat:@"EEE M/d"];
+    
     HIChart *chart = [[HIChart alloc]init];
     chart.type = @"column";
     
@@ -155,16 +164,6 @@
     
     HISubtitle *subtitle = [[HISubtitle alloc]init];
     subtitle.text = @"% of items disposed correctly";
-    
-    HIXAxis *xaxis = [[HIXAxis alloc]init];
-    xaxis.categories = [NSMutableArray arrayWithObjects:@"Sun",
-                        @"Mon",
-                        @"Tues",
-                        @"Wed",
-                        @"Thur",
-                        @"Fri",
-                        @"Sat", nil];
-    xaxis.crosshair = [[HICrosshair alloc]init];
     
     HIYAxis *yaxis = [[HIYAxis alloc]init];
     yaxis.min = @0;
@@ -191,27 +190,25 @@
     self.accuracyOptions.chart = chart;
     self.accuracyOptions.title = title;
     self.accuracyOptions.subtitle = subtitle;
-    self.accuracyOptions.xAxis = [NSMutableArray arrayWithObject:xaxis];
     self.accuracyOptions.yAxis = [NSMutableArray arrayWithObject:yaxis];
     self.accuracyOptions.tooltip = tooltip;
     self.accuracyOptions.plotOptions = plotOptions;
     self.accuracyOptions.credits = credits;
     self.accuracyOptions.exporting = exporting;
-    
-    self.percentageForDay = [[NSMutableDictionary alloc] init];
 }
 
 - (void)refreshUserAccuracyStats {
+    // Reset data
+    self.percentageForDay = [[NSMutableDictionary alloc] init];
+    self.daysOfWeek = [[NSMutableArray alloc] init];
+    
     // Get sunday of week
-    NSCalendar *cal = [NSCalendar currentCalendar];
-    [cal setFirstWeekday:1]; // Sunday
     NSDate *now = [NSDate date];
     NSDate *startOfDay;
-    
-    [cal rangeOfUnit:NSCalendarUnitWeekOfMonth  // find start of week
+    [self.cal rangeOfUnit:NSCalendarUnitWeekOfMonth  // find start of week
            startDate:&startOfDay
             interval:NULL                // ignore seconds
-             forDate:now];\
+             forDate:now];
     
     int NUM_SECONDS_IN_24_HOURS = 86399;
     NSDate *endOfDay = [NSDate dateWithTimeInterval:NUM_SECONDS_IN_24_HOURS sinceDate:startOfDay];
@@ -229,6 +226,8 @@
             if (error) {
                 NSLog(@"%@", error.localizedDescription);
             } else {
+                // Add date
+                [self.daysOfWeek addObject:[self.dateFormatter stringFromDate:startOfDay]];
                 [self calculateAndStoreAccuracyOfTrash:objects forDayIndex:dayIndex];
             }
             dispatch_group_leave(queryGroup);
@@ -276,6 +275,11 @@
     column1.data = orderedPercentages;
     column1.showInLegend = [[NSNumber alloc] initWithBool:false];
     
+    HIXAxis *xaxis = [[HIXAxis alloc]init];
+    xaxis.categories = self.daysOfWeek;
+    xaxis.crosshair = [[HICrosshair alloc]init];
+    
+    self.accuracyOptions.xAxis = [NSMutableArray arrayWithObject:xaxis];
     self.accuracyOptions.series = [NSMutableArray arrayWithObjects:column1, nil];
     self.accuracyChartView.options = self.accuracyOptions;
 }
