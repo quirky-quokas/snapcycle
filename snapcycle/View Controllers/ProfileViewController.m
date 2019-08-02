@@ -26,42 +26,51 @@
 #import "CompetitionManager.h"
 
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource, UIGestureRecognizerDelegate, CLLocationManagerDelegate>
+
+// Overall
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
+// User info
+@property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *backdropImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UIView *profileImageBorder;
-@property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
-@property (weak, nonatomic) IBOutlet UICollectionView *photoCollectionView;
-@property (weak, nonatomic) IBOutlet UIImageView *backdropImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *pinImageView;
-@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
-@property (weak, nonatomic) IBOutlet MKDropdownMenu *photoDropdownMenu;
-
 @property (strong, nonatomic) UIImagePickerController *imagePickerVC;
-
-@property (strong, nonatomic) CLLocationManager *locationManager;
-@property (strong, nonatomic) CLGeocoder *geocoder;
-
-// Graph
-@property (weak, nonatomic) IBOutlet HIChartView *chartView;
-@property (strong, nonatomic) HIOptions *options;
-@property int compostItemCount;
-@property int recyclingItemCount;
-@property int landfillItemCount;
-
-@property (weak, nonatomic) IBOutlet UILabel *noStatsYetLabel;
-
-@property (strong, nonatomic) NSArray *trash;
-@property (strong, nonatomic) NSArray *dropdownData;
-
-// Improve
-@property (weak, nonatomic) IBOutlet UILabel *landfillCanRecycleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *landfillCanCompostLabel;
 
 // Badges
 @property (weak, nonatomic) IBOutlet UILabel *numFirstLabel;
 @property (weak, nonatomic) IBOutlet UILabel *numSecondLabel;
 @property (weak, nonatomic) IBOutlet UILabel *numThirdLabel;
 
+// Location
+@property (weak, nonatomic) IBOutlet UIImageView *pinImageView;
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
+@property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) CLGeocoder *geocoder;
+
+// Pie Chart
+@property (weak, nonatomic) IBOutlet HIChartView *pieChartView;
+@property (strong, nonatomic) HIOptions *pieChartOptions;
+@property int compostItemCount;
+@property int recyclingItemCount;
+@property int landfillItemCount;
+@property (weak, nonatomic) IBOutlet UILabel *noStatsYetLabel;
+
+// Accuracy chart bar graph
+@property (strong, nonatomic) NSCalendar *cal;
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
+@property (weak, nonatomic) IBOutlet HIChartView *accuracyChartView;
+@property (strong, nonatomic) HIOptions *accuracyOptions;
+@property (strong, nonatomic) NSMutableDictionary<NSNumber*, NSString*> *labelForDay;
+@property (strong, nonatomic) NSMutableDictionary<NSNumber*, NSNumber*> *percentageForDay;
+
+// Photo Log
+@property (weak, nonatomic) IBOutlet UICollectionView *photoCollectionView;
+
+// Dropdown menu
+@property (weak, nonatomic) IBOutlet MKDropdownMenu *photoDropdownMenu;
+@property (strong, nonatomic) NSArray *trash;
+@property (strong, nonatomic) NSArray *dropdownData;
 
 @end
 
@@ -76,7 +85,7 @@
     [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
     
     // set the scrollView frame
-    self.scrollView.contentSize = CGSizeMake(375, 2000);
+    self.scrollView.contentSize = CGSizeMake(375, 1975);
     
     // set the profile picture
     [self setProfilePicture];
@@ -121,6 +130,7 @@
     layout.itemSize = CGSizeMake(itemWidth, itemHeight);
     
     [self configurePieChart];
+    [self configureAccuracyChart];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -133,166 +143,12 @@
         self.numThirdLabel.text = [NSString stringWithFormat:@"%@", badges.numThirdPlace];;
     }];
     
+    // Fetch stats for graphs
     [self refreshUserActionStats];
+    [self refreshUserAccuracyStats];
+    
+    // Fetch all trash for photo log
     [self fetchTrash:@"All"];
-}
-
-#pragma mark - Pie chart
-
-- (void)configurePieChart {
-    // TODO: looks funky if there is 0 of one type
-    NSLog(@"configuring pie chart");
-    self.options = [[HIOptions alloc]init];
-    HIChart *chart = [[HIChart alloc]init];
-    chart.type = @"pie";
-    self.options.chart = chart;
-    
-    // Title
-    HITitle *title = [[HITitle alloc]init];
-    title.text = @"Total snapcycles";
-    self.options.title = title;
-    
-    // Tooltip
-    HITooltip *tooltip = [[HITooltip alloc]init];
-    tooltip.pointFormat = @"<b>{point.percentage:.1f}%</b> ({point.y} items)";
-    self.options.tooltip = tooltip;
-    
-    // Plot options
-    HIPlotOptions *plotoptions = [[HIPlotOptions alloc]init];
-    plotoptions.pie = [[HIPie alloc]init];
-    plotoptions.pie.allowPointSelect = [[NSNumber alloc] initWithBool:true];
-    plotoptions.pie.cursor = @"pointer";
-    self.options.plotOptions = plotoptions;
-    
-    // Diable credits
-    HICredits *credits = [[HICredits alloc] init];
-    credits.enabled = [[NSNumber alloc] initWithBool:false];
-    self.options.credits = credits;
-    
-    // Remove exporting hamburger button
-    HIExporting *exporting = [[HIExporting alloc] init];
-    exporting.enabled = [[NSNumber alloc] initWithBool:false];
-    self.options.exporting = exporting;
-}
-
-- (void)updatePieChartData {
-    NSLog(@"updating pie chart data");
-    int itemTotal = self.compostItemCount + self.landfillItemCount + self.recyclingItemCount;
-    // TODO: show placeholder if user has no stats
-    if (itemTotal != 0) {
-        self.noStatsYetLabel.hidden = YES;
-        HIPie *pie = [[HIPie alloc]init];
-        pie.data = @[
-                     @{
-                         @"name": @"Recycling",
-                         @"y": @(self.recyclingItemCount),
-                         @"color": @"#0070c2"
-                         },
-                     @{
-                         @"name": @"Compost",
-                         @"y": @(self.compostItemCount),
-                         @"color": @"#94c83d"
-                         },
-                     @{
-                         @"name": @"Landfill",
-                         @"y": @(self.landfillItemCount),
-                         @"color": @"#964b00"
-                         }
-                     ];
-        self.options.series = [NSMutableArray arrayWithObjects:pie, nil];
-        
-        self.chartView.options = self.options;
-    } else {
-        self.noStatsYetLabel.hidden = NO;
-    }
-}
-
-- (void)refreshUserActionStats {
-    [self updateWaysToImprove];
-    
-    // Create dispatch group so that pie chart is only set up after all three queries
-    dispatch_group_t queryGroup = dispatch_group_create();
-    
-    // Query for trash stats for each user action
-    // Recycling
-    [self countObjectsQueryWithUserAction:@"recycling" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
-        self.recyclingItemCount = numberOfObjects;
-    }];
-    
-    // Compost
-    [self countObjectsQueryWithUserAction:@"compost" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
-        self.compostItemCount = numberOfObjects;
-    }];
-    
-    // Landfill
-    [self countObjectsQueryWithUserAction:@"landfill" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
-        self.landfillItemCount = numberOfObjects;
-    }];
-    
-    // Set up pie chart once all calls have returned. Pie chart displays total user actions
-    dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
-        NSLog(@"all completed");
-        [self updatePieChartData];
-    });
-}
-
-// Count objects for the specified user action (how the user disposed of the trash regardless of what they wre supposed to do.
-- (void)countObjectsQueryWithUserAction:(NSString*)userAction dispatchGroup:(dispatch_group_t)group completion:(void (^)(int numberOfObjects))setActionCount {
-    // Query for trash objects in user's array that match action
-    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
-    [trashQuery whereKey:@"userAction" equalTo:userAction];
-    
-    dispatch_group_enter(group);
-    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        // TODO: if there is an error
-        setActionCount(number);
-        dispatch_group_leave(group);
-    }];
-}
-
-#pragma mark - Ways to Improve
-
-- (void)updateWaysToImprove {
-    [self updateLandfillCouldHaveRecycled];
-    [self updateLandfillCouldHaveComposted];
-}
-
--(void)updateLandfillCouldHaveRecycled {
-    // Update landfill could have been recycled
-    // Identify recyclable items
-    PFQuery *categoryQuery = [Category query];
-    [categoryQuery whereKey:@"type" equalTo:@"recycling"];
-    
-    // Get user's items that they put in the landfill
-    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
-    [trashQuery whereKey:@"userAction" equalTo:@"landfill"];
-    
-    // Only include items that are in the category of type recycling
-    [trashQuery includeKey:@"category"];
-    [trashQuery whereKey:@"category" matchesQuery:categoryQuery];
-    
-    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        self.landfillCanRecycleLabel.text = [NSString stringWithFormat:@"- %i items thrown in the landfill that could have been recycled", number];
-    }];
-}
-
--(void)updateLandfillCouldHaveComposted {
-    // Update compost could have been recycled
-    // Identify recyclable items
-    PFQuery *categoryQuery = [Category query];
-    [categoryQuery whereKey:@"type" equalTo:@"compost"];
-    
-    // Get user's items that they put in the landfill
-    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
-    [trashQuery whereKey:@"userAction" equalTo:@"landfill"];
-    
-    // Only include items that are in the category of type recycling
-    [trashQuery includeKey:@"category"];
-    [trashQuery whereKey:@"category" matchesQuery:categoryQuery];
-    
-    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        self.landfillCanCompostLabel.text = [NSString stringWithFormat:@"- %i items thrown in the landfill that could have been composted", number];
-    }];
 }
 
 #pragma mark - Profile Picture
@@ -307,7 +163,7 @@
     [imageFile getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
         UIImage *image = [UIImage imageWithData:data];
         self.profileImage.image = image;
-    
+        
     }];
 }
 
@@ -400,6 +256,270 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
+
+#pragma mark - Pie chart
+
+- (void)configurePieChart {
+    // TODO: looks funky if there is 0 of one type
+    NSLog(@"configuring pie chart");
+    self.pieChartOptions = [[HIOptions alloc]init];
+    HIChart *chart = [[HIChart alloc]init];
+    chart.type = @"pie";
+    self.pieChartOptions.chart = chart;
+    
+    // Title
+    HITitle *title = [[HITitle alloc]init];
+    title.text = @"Total snapcycles";
+    self.pieChartOptions.title = title;
+    
+    // Tooltip
+    HITooltip *tooltip = [[HITooltip alloc]init];
+    tooltip.pointFormat = @"<b>{point.percentage:.1f}%</b> ({point.y} items)";
+    self.pieChartOptions.tooltip = tooltip;
+    
+    // Plot options
+    HIPlotOptions *plotoptions = [[HIPlotOptions alloc]init];
+    plotoptions.pie = [[HIPie alloc]init];
+    plotoptions.pie.allowPointSelect = [[NSNumber alloc] initWithBool:true];
+    plotoptions.pie.cursor = @"pointer";
+    self.pieChartOptions.plotOptions = plotoptions;
+    
+    // Diable credits
+    HICredits *credits = [[HICredits alloc] init];
+    credits.enabled = [[NSNumber alloc] initWithBool:false];
+    self.pieChartOptions.credits = credits;
+    
+    // Remove exporting hamburger button
+    HIExporting *exporting = [[HIExporting alloc] init];
+    exporting.enabled = [[NSNumber alloc] initWithBool:false];
+    self.pieChartOptions.exporting = exporting;
+}
+
+- (void)updatePieChartData {
+    NSLog(@"updating pie chart data");
+    int itemTotal = self.compostItemCount + self.landfillItemCount + self.recyclingItemCount;
+    // TODO: show placeholder if user has no stats
+    if (itemTotal != 0) {
+        self.noStatsYetLabel.hidden = YES;
+        HIPie *pie = [[HIPie alloc]init];
+        pie.data = @[
+                     @{
+                         @"name": @"Recycling",
+                         @"y": @(self.recyclingItemCount),
+                         @"color": @"#0070c2"
+                         },
+                     @{
+                         @"name": @"Compost",
+                         @"y": @(self.compostItemCount),
+                         @"color": @"#94c83d"
+                         },
+                     @{
+                         @"name": @"Landfill",
+                         @"y": @(self.landfillItemCount),
+                         @"color": @"#964b00"
+                         }
+                     ];
+        self.pieChartOptions.series = [NSMutableArray arrayWithObjects:pie, nil];
+        
+        self.pieChartView.options = self.pieChartOptions;
+    } else {
+        self.noStatsYetLabel.hidden = NO;
+    }
+}
+
+- (void)refreshUserActionStats {
+    
+    // Create dispatch group so that pie chart is only set up after all three queries
+    dispatch_group_t queryGroup = dispatch_group_create();
+    
+    // Query for trash stats for each user action
+    // Recycling
+    [self countObjectsQueryWithUserAction:@"recycling" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
+        self.recyclingItemCount = numberOfObjects;
+    }];
+    
+    // Compost
+    [self countObjectsQueryWithUserAction:@"compost" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
+        self.compostItemCount = numberOfObjects;
+    }];
+    
+    // Landfill
+    [self countObjectsQueryWithUserAction:@"landfill" dispatchGroup:queryGroup completion:^(int numberOfObjects) {
+        self.landfillItemCount = numberOfObjects;
+    }];
+    
+    // Set up pie chart once all calls have returned. Pie chart displays total user actions
+    dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
+        NSLog(@"all completed");
+        [self updatePieChartData];
+    });
+}
+
+// Count objects for the specified user action (how the user disposed of the trash regardless of what they wre supposed to do.
+- (void)countObjectsQueryWithUserAction:(NSString*)userAction dispatchGroup:(dispatch_group_t)group completion:(void (^)(int numberOfObjects))setActionCount {
+    // Query for trash objects in user's array that match action
+    PFQuery *trashQuery = [[SnapUser currentUser].trashArray query];
+    [trashQuery whereKey:@"userAction" equalTo:userAction];
+    
+    dispatch_group_enter(group);
+    [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
+        // TODO: if there is an error
+        setActionCount(number);
+        dispatch_group_leave(group);
+    }];
+}
+
+
+#pragma mark - Accuracy chart
+- (void)configureAccuracyChart {
+    self.cal = [NSCalendar currentCalendar];
+    [self.cal setFirstWeekday:1]; // Sunday
+    
+    self.dateFormatter = [[NSDateFormatter alloc] init];
+    [self.dateFormatter setDateFormat:@"EEE M/d"];
+    
+    HIChart *chart = [[HIChart alloc]init];
+    chart.type = @"column";
+    
+    HITitle *title = [[HITitle alloc]init];
+    title.text = @"Your accuracy this week";
+    
+    HISubtitle *subtitle = [[HISubtitle alloc]init];
+    subtitle.text = @"% of items disposed correctly";
+    
+    HIYAxis *yaxis = [[HIYAxis alloc]init];
+    yaxis.min = @0;
+    yaxis.max = @100;
+    yaxis.tickInterval = @20;
+    yaxis.title = [[HITitle alloc]init];
+    yaxis.title.text = @"% accuracy";
+    
+    HITooltip *tooltip = [[HITooltip alloc]init];
+    tooltip.pointFormat = @"{point.y:.1f}% accurate";
+    
+    HIPlotOptions *plotOptions = [[HIPlotOptions alloc]init];
+    plotOptions.column = [[HIColumn alloc]init];
+    //plotOptions.column.pointPadding = @0.2;
+    plotOptions.column.borderWidth = @0;
+    
+    HICredits *credits = [[HICredits alloc]init];
+    credits.enabled = [[NSNumber alloc] initWithBool:false];
+    
+    HIExporting *exporting = [[HIExporting alloc] init];
+    exporting.enabled = [[NSNumber alloc] initWithBool:false];
+    
+    self.accuracyOptions = [[HIOptions alloc] init];
+    self.accuracyOptions.chart = chart;
+    self.accuracyOptions.title = title;
+    self.accuracyOptions.subtitle = subtitle;
+    self.accuracyOptions.yAxis = [NSMutableArray arrayWithObject:yaxis];
+    self.accuracyOptions.tooltip = tooltip;
+    self.accuracyOptions.plotOptions = plotOptions;
+    self.accuracyOptions.credits = credits;
+    self.accuracyOptions.exporting = exporting;
+    
+    self.accuracyChartView.options = self.accuracyOptions;
+}
+
+- (void)refreshUserAccuracyStats {
+    // Reset data
+    self.percentageForDay = [[NSMutableDictionary alloc] init];
+    self.labelForDay = [[NSMutableDictionary alloc] init];
+    
+    // Get sunday of week
+    NSDate *now = [NSDate date];
+    NSDate *startOfDay;
+    [self.cal rangeOfUnit:NSCalendarUnitWeekOfMonth  // find start of week
+           startDate:&startOfDay
+            interval:NULL                // ignore seconds
+             forDate:now];
+    
+    int NUM_SECONDS_IN_24_HOURS = 86399;
+    NSDate *endOfDay = [NSDate dateWithTimeInterval:NUM_SECONDS_IN_24_HOURS sinceDate:startOfDay];
+    
+    dispatch_group_t queryGroup = dispatch_group_create();
+    
+    for (int dayIndex = 1; dayIndex <= 7; dayIndex ++) {
+        PFQuery *allItemsInDayQuery = [SnapUser.currentUser.trashArray query];
+        [allItemsInDayQuery whereKey:@"createdAt" greaterThanOrEqualTo:startOfDay];
+        [allItemsInDayQuery whereKey:@"createdAt" lessThanOrEqualTo:endOfDay];
+        [allItemsInDayQuery includeKey:@"category"];
+        
+        dispatch_group_enter(queryGroup);
+        [allItemsInDayQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"%@", error.localizedDescription);
+            } else {
+                [self formatAxisLabelForDay:startOfDay index:dayIndex];
+                [self calculateAndStoreAccuracyOfTrash:objects forDayIndex:dayIndex];
+            }
+            dispatch_group_leave(queryGroup);
+        }];
+        
+        // Advance to next day
+        startOfDay = [startOfDay dateByAddingDays:1];
+        endOfDay = [endOfDay dateByAddingDays:1];
+    }
+    
+    dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
+        [self updateAccuracyChartData];
+    });
+}
+
+- (void) formatAxisLabelForDay:(NSDate*)day index:(int)dayIndex {
+    NSString *dateLabel = [self.dateFormatter stringFromDate:day];
+    if ([self.cal isDateInToday:day]) {
+        // TODO: set color
+        dateLabel = [NSString stringWithFormat:@"<span style=\"color: #0070C2\">%@<\span>", dateLabel];
+    }
+    [self.labelForDay setObject:dateLabel forKey:@(dayIndex)];
+}
+
+- (void) calculateAndStoreAccuracyOfTrash:(NSArray<Trash*>*)trashArray forDayIndex:(int)dayIndex{
+    if (!trashArray || trashArray.count == 0) {
+        // No items were disposed that day
+        [self.percentageForDay setObject:@(0) forKey:@(dayIndex)];
+    } else {
+        int correct = 0;
+        for (Trash *trash in trashArray) {
+            // Check if user trash disposal method, see if it is allowed in Category
+            // Booleans are stored as numbers in Parse, so covert back to
+            BOOL disposedCorrectly = [[trash.category objectForKey:trash.userAction] boolValue];
+            if (disposedCorrectly) {
+                correct++;
+            }
+        }
+        // Store percentages and associate with day
+        [self.percentageForDay setObject:@((double)correct/trashArray.count * 100) forKey:@(dayIndex)];
+    }
+}
+
+
+- (void)updateAccuracyChartData {
+    NSMutableArray<NSNumber*> *orderedPercentages = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString*> *orderedLabels = [[NSMutableArray alloc] init];
+    
+    // Add items to percentages array in correct order
+    for (int i = 1; i <= 7; i++) {
+        [orderedPercentages addObject:[self.percentageForDay objectForKey:@(i)]];
+        [orderedLabels addObject:[self.labelForDay objectForKey:@(i)]];
+    }
+    
+    HIColumn *column1 = [[HIColumn alloc]init];
+    column1.data = orderedPercentages;
+    column1.showInLegend = [[NSNumber alloc] initWithBool:false];
+    // TODO: change color
+    column1.color = [[HIColor alloc] initWithHexValue:@"ADDEE5"];
+    
+    HIXAxis *xaxis = [[HIXAxis alloc]init];
+    xaxis.categories = orderedLabels;
+    xaxis.crosshair = [[HICrosshair alloc]init];
+    
+    self.accuracyOptions.xAxis = [NSMutableArray arrayWithObject:xaxis];
+    self.accuracyOptions.series = [NSMutableArray arrayWithObjects:column1, nil];
+    self.accuracyChartView.options = self.accuracyOptions;
+}
+
 
 #pragma mark - Photo log
 - (void)fetchTrash: (NSString*)time {

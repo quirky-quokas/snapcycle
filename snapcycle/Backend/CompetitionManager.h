@@ -42,9 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 // Checks for new day/ new competition
 - (void)refreshCurrentCompetition;
 
-// Refresh stats for an existing competition
-- (void)refreshCurrentStats;
-
 // Adds user to current competition competitors
 - (void)addUserToCurrentCompetition;
 
