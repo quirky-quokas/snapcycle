@@ -664,6 +664,9 @@
     [((TabBarController*)self.tabBarController) logoutUserWithAlertIfError];
 }
 
+- (IBAction)onHelpTap:(id)sender {
+}
+
 - (IBAction)onLocationTap:(id)sender {
     // Create alert controller
     UIAlertController *locationAlert = [UIAlertController alertControllerWithTitle:@"Location Services"
