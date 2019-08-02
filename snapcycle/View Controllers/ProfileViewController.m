@@ -73,14 +73,10 @@
     [super viewDidLoad];
     
     // set the navigation bar font
-    UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:scBlue, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Light" size:25]}];
+    [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
     
     // set the scrollView frame
-    self.scrollView.contentSize = CGSizeMake(375, 1680);
-    
-    // set backdrop picture
-//    self.backdropImageView.image = [UIImage imageNamed:@"nature-backdrop"];
+    self.scrollView.contentSize = CGSizeMake(375, 2000);
     
     // set the profile picture
     [self setProfilePicture];
