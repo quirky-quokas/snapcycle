@@ -177,7 +177,7 @@
     
     HIPlotOptions *plotOptions = [[HIPlotOptions alloc]init];
     plotOptions.column = [[HIColumn alloc]init];
-    plotOptions.column.pointPadding = @0.2;
+    //plotOptions.column.pointPadding = @0.2;
     plotOptions.column.borderWidth = @0;
     
     HICredits *credits = [[HICredits alloc]init];
@@ -285,6 +285,8 @@
     HIColumn *column1 = [[HIColumn alloc]init];
     column1.data = orderedPercentages;
     column1.showInLegend = [[NSNumber alloc] initWithBool:false];
+    // TODO: change color
+    column1.color = [[HIColor alloc] initWithHexValue:@"ADDEE5"];
     
     HIXAxis *xaxis = [[HIXAxis alloc]init];
     xaxis.categories = orderedLabels;
