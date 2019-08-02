@@ -8,8 +8,9 @@
 
 #import "LoginViewController.h"
 #import "SnapUser.h"
+#import "TabBarController.h"
 
-@interface LoginViewController ()
+@interface LoginViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 
@@ -19,7 +20,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.passwordField.delegate = self;
+    
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOffKeyboard:)];
     [self.view setUserInteractionEnabled:YES];
     [self.view addGestureRecognizer:tapGestureRecognizer];
@@ -28,7 +31,7 @@
 /**
  User tapped the login button. Log in the user and segue to CameraVC.
  */
-- (IBAction)didTapLogin:(UIButton *)sender {
+- (IBAction)didTapLogin:(id)sender {
     // Get info user entered
     NSString *username = self.usernameField.text;
     NSString *password = self.passwordField.text;
@@ -45,6 +48,29 @@
         }
     }];
 }
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (textField == self.passwordField) {
+        [textField resignFirstResponder];
+        [self didTapLogin:self.passwordField];
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (IBAction)didTapForgotPassword:(UIButton *)sender {
+    // Create alert controller
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Forgot password?" message:@"Look for an email with a link to reset your password." preferredStyle:UIAlertControllerStyleAlert];
+    // Add ok action
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alert addAction:okAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    NSLog(@"action received");
+}
+
 - (IBAction)tapOffKeyboard:(id)sender {
     [self.view endEditing:YES];
 }
