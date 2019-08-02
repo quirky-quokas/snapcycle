@@ -24,8 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.backdropImageView.image = [UIImage imageNamed:self.backdropImageStr];
-    NSURL *gifURL = [NSURL URLWithString:@"https://gph.is/29MO7XD"];
+    //self.backdropImageView.image = [UIImage imageNamed:self.backdropImageStr];
+    NSURL *gifURL = [NSURL URLWithString:self.tutroialImageStr];
     [self.tutorialImageView sd_setImageWithURL:gifURL];
     self.titleLabel.text = self.titleText;
     self.infoLabel.text = self.infoText;

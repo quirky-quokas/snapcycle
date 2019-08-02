@@ -10,6 +10,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="SourceSansPro-Light.otf">
+            <string>SourceSansPro-Light</string>
+        </array>
         <array key="SourceSansPro-Regular.otf">
             <string>SourceSansPro-Regular</string>
         </array>
@@ -1298,7 +1301,6 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="d:" destination="gah-JD-YhB" eventType="touchUpInside" id="F6Z-Ox-dCQ"/>
                                     <action selector="didTapSignup:" destination="gah-JD-YhB" eventType="touchUpInside" id="RUr-Ng-cHS"/>
                                 </connections>
                             </button>
@@ -1376,32 +1378,35 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Track your trash!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ylI-Rn-6e9">
-                                <rect key="frame" x="16" y="96" width="343" height="70"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Track your trash!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ylI-Rn-6e9">
+                                <rect key="frame" x="16" y="20" width="343" height="103"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="SourceSansPro-Semibold" family="Source Sans Pro" pointSize="32"/>
+                                <color key="textColor" red="0.70741911490016063" green="1" blue="0.53212728515584939" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oai-ao-7jD">
-                                <rect key="frame" x="67" y="174" width="236" height="232"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gqC-fv-uCW">
+                                <rect key="frame" x="16" y="395" width="343" height="195"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gqC-fv-uCW">
-                                <rect key="frame" x="16" y="414" width="343" height="176"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="SourceSansPro-Light" family="Source Sans Pro" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xcp-Ea-epr">
                                 <rect key="frame" x="16" y="598" width="343" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Now let's Snapcycle!"/>
+                                <color key="backgroundColor" red="0.5215032696723938" green="0.79311096668243408" blue="0.0014693302800878882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Now let's Snapcycle!">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="tapEndTutorial:" destination="dAM-qh-kw5" eventType="touchUpInside" id="pNB-8L-Nx3"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oai-ao-7jD">
+                                <rect key="frame" x="16" y="131" width="343" height="256"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="fuT-2g-kRV"/>
@@ -1417,7 +1422,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y4h-s1-3CA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="150" y="2400"/>
+            <point key="canvasLocation" x="149.59999999999999" y="2399.5502248875564"/>
         </scene>
     </scenes>
     <resources>
@@ -1439,7 +1444,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="Y1C-Ld-qPl"/>
         <segue reference="AcR-1A-lSl"/>
-        <segue reference="dEH-UT-eFW"/>
+        <segue reference="f1y-rL-myc"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.0" green="0.43921568630000002" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
 </document>
