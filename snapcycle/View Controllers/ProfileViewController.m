@@ -24,6 +24,7 @@
 #import "PhotoPopUpViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "CompetitionManager.h"
+#import "TutorialViewController.h"
 
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource, UIGestureRecognizerDelegate, CLLocationManagerDelegate>
 
@@ -254,6 +255,30 @@
         
         
         [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+}
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    self.locationLabel.text = @"North Pole";
+    NSLog(@"didFailWithError: %@", error);
+}
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+    [self.geocoder reverseGeocodeLocation:[locations lastObject] completionHandler:^(NSArray *placemarks, NSError *error) {
+        CLPlacemark *placemark = [placemarks lastObject];
+        
+        NSString *city = placemark.locality;
+        NSString *state = placemark.administrativeArea;
+        NSString *country = placemark.ISOcountryCode;
+        
+        self.locationLabel.text = [NSString stringWithFormat:@"%@, %@, %@",city,state,country];
+        
+        [self.locationManager stopUpdatingLocation];
+        
+        // TODO: in theory, change what categories we pull based on the user's location
     }];
 }
 
@@ -615,43 +640,24 @@
     }
 }
 
-#pragma mark - CLLocationManagerDelegate
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-    self.locationLabel.text = @"North Pole";
-    NSLog(@"didFailWithError: %@", error);
-}
-
--(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
-    [self.geocoder reverseGeocodeLocation:[locations lastObject] completionHandler:^(NSArray *placemarks, NSError *error) {
-        CLPlacemark *placemark = [placemarks lastObject];
-        
-        NSString *city = placemark.locality;
-        NSString *state = placemark.administrativeArea;
-        NSString *country = placemark.ISOcountryCode;
-        
-        self.locationLabel.text = [NSString stringWithFormat:@"%@, %@, %@",city,state,country];
-        
-        [self.locationManager stopUpdatingLocation];
-    }];
-}
-
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    PhotoPopUpViewController *photoPopUpViewController = [segue destinationViewController];
-    
-    PhotoLogCell *tappedCell = sender;
-    NSIndexPath *indexPath = [self.photoCollectionView indexPathForCell:tappedCell];
-    Trash *trash = self.trash[indexPath.item];
-    UIImage *image = tappedCell.trashImageView.image;
-    
-    photoPopUpViewController.trash = trash;
-    photoPopUpViewController.convertedImage = image;
+    if ([segue.identifier isEqualToString:@"trashPopUpSegue"]) {
+        PhotoPopUpViewController *photoPopUpViewController = [segue destinationViewController];
+        
+        PhotoLogCell *tappedCell = sender;
+        NSIndexPath *indexPath = [self.photoCollectionView indexPathForCell:tappedCell];
+        Trash *trash = self.trash[indexPath.item];
+        UIImage *image = tappedCell.trashImageView.image;
+        
+        photoPopUpViewController.trash = trash;
+        photoPopUpViewController.convertedImage = image;
+    } else if ([segue.identifier isEqualToString:@"helpSegue"]) {
+        TutorialViewController *tutVC = [segue destinationViewController];
+        tutVC.dismissToExit = YES; // tutorial should be dismissed modally
+    }
 }
 
 #pragma mark - User actions

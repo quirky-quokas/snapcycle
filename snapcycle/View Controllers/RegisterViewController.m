@@ -10,6 +10,7 @@
 #import "SnapUser.h"
 #import "LoginViewController.h"
 #import "Badges.h"
+#import "TutorialViewController.h"
 
 @interface RegisterViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
@@ -103,14 +104,14 @@
     return [PFFileObject fileObjectWithName:@"image.png" data:imageData];
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    TutorialViewController *tutVC = [segue destinationViewController];
+    tutVC.dismissToExit = NO; // tutorial should be dismissed by segue
 }
-*/
+
 
 @end
