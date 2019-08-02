@@ -257,6 +257,30 @@
     }];
 }
 
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    self.locationLabel.text = @"North Pole";
+    NSLog(@"didFailWithError: %@", error);
+}
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+    [self.geocoder reverseGeocodeLocation:[locations lastObject] completionHandler:^(NSArray *placemarks, NSError *error) {
+        CLPlacemark *placemark = [placemarks lastObject];
+        
+        NSString *city = placemark.locality;
+        NSString *state = placemark.administrativeArea;
+        NSString *country = placemark.ISOcountryCode;
+        
+        self.locationLabel.text = [NSString stringWithFormat:@"%@, %@, %@",city,state,country];
+        
+        [self.locationManager stopUpdatingLocation];
+        
+        // TODO: in theory, change what categories we pull based on the user's location
+    }];
+}
+
 #pragma mark - Pie chart
 
 - (void)configurePieChart {
@@ -613,28 +637,6 @@
     else {
         return UIColor.whiteColor;
     }
-}
-
-#pragma mark - CLLocationManagerDelegate
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-    self.locationLabel.text = @"North Pole";
-    NSLog(@"didFailWithError: %@", error);
-}
-
--(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
-    [self.geocoder reverseGeocodeLocation:[locations lastObject] completionHandler:^(NSArray *placemarks, NSError *error) {
-        CLPlacemark *placemark = [placemarks lastObject];
-        
-        NSString *city = placemark.locality;
-        NSString *state = placemark.administrativeArea;
-        NSString *country = placemark.ISOcountryCode;
-        
-        self.locationLabel.text = [NSString stringWithFormat:@"%@, %@, %@",city,state,country];
-        
-        [self.locationManager stopUpdatingLocation];
-    }];
 }
 
 #pragma mark - Navigation
