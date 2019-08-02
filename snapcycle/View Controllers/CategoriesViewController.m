@@ -90,7 +90,6 @@
         
         NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(Category *evaluatedObject, NSDictionary *bindings) {
             return [evaluatedObject.name localizedCaseInsensitiveContainsString:searchText];
-            //return [evaluatedObject.name containsString:searchText];
         }];
         
         self.filteredCategories = [self.categories filteredArrayUsingPredicate:predicate];
