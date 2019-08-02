@@ -46,6 +46,7 @@
 
 - (void) fetchCategories {
     PFQuery *postQuery = [PFQuery queryWithClassName:@"Category"];
+    [postQuery orderByAscending:@"order"];
     [postQuery includeKey:@"name"];
     [postQuery includeKey:@"description"];
     [postQuery includeKey:@"type"];
