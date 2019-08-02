@@ -11,6 +11,7 @@
 @interface CompetitionInfoPopUpViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
+@property (weak, nonatomic) IBOutlet UIView *enclosingView;
 
 @end
 
@@ -19,6 +20,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.enclosingView.layer.cornerRadius = 5;
+    self.enclosingView.layer.masksToBounds = YES;
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onOutsideTap)];
     [self.backgroundImageView setUserInteractionEnabled:YES];

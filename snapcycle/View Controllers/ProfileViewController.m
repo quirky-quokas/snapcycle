@@ -535,8 +535,6 @@
     
     photoPopUpViewController.trash = trash;
     photoPopUpViewController.convertedImage = image;
-    
-    
 }
 
 #pragma mark - User actions
