@@ -738,7 +738,7 @@
             <objects>
                 <viewController id="spz-gT-KP6" customClass="ProfileViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sfC-F3-N5B">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="1250"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bze-sv-Rwe">
@@ -984,6 +984,20 @@
                                     </view>
                                 </subviews>
                             </scrollView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Env-jV-0h2" customClass="HIChartView">
+                                <rect key="frame" x="8" y="1179" width="359" height="272"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No stats yet- log your trash to track your progress!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cqO-bG-4wB">
+                                        <rect key="frame" x="67" y="70" width="224" height="133"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <viewLayoutGuide key="safeArea" id="AtI-bQ-93I"/>
@@ -996,7 +1010,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <size key="freeformSize" width="375" height="1250"/>
+                    <size key="freeformSize" width="375" height="1500"/>
                     <connections>
                         <outlet property="backdropImageView" destination="PNu-H1-grO" id="JeW-RN-8Kr"/>
                         <outlet property="chartView" destination="PUB-2D-9IQ" id="SeE-I2-Cs4"/>
@@ -1023,7 +1037,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1908" y="-884.25787106446785"/>
+            <point key="canvasLocation" x="1908" y="-970"/>
         </scene>
         <!--Photo Pop Up View Controller-->
         <scene sceneID="0Qr-Fe-fB3">
@@ -1080,17 +1094,17 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lt8-4L-H0G">
-                                                <rect key="frame" x="0.0" y="253" width="303" height="30"/>
+                                                <rect key="frame" x="0.0" y="253" width="303" height="31.5"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jxH-OC-CYo">
-                                                        <rect key="frame" x="8" y="-0.5" width="28" height="31"/>
+                                                        <rect key="frame" x="8" y="0.5" width="28" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="31" id="8DL-vC-aBO"/>
                                                             <constraint firstAttribute="width" constant="28" id="yGF-8Q-cra"/>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This should be thrown away." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84p-fZ-aUp">
-                                                        <rect key="frame" x="44" y="8" width="251" height="14"/>
+                                                        <rect key="frame" x="44" y="8" width="251" height="15.5"/>
                                                         <fontDescription key="fontDescription" name="SourceSansPro-Semibold" family="Source Sans Pro" pointSize="12"/>
                                                         <color key="textColor" red="0.63216876983642578" green="0.27416595816612244" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -1107,16 +1121,16 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XxS-oI-Ykb">
-                                                <rect key="frame" x="0.0" y="291" width="303" height="30"/>
+                                                <rect key="frame" x="0.0" y="292.5" width="303" height="31.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This should be recycled" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y4f-bs-A5l">
-                                                        <rect key="frame" x="44" y="8" width="251" height="14"/>
+                                                        <rect key="frame" x="44" y="8" width="251" height="15.5"/>
                                                         <fontDescription key="fontDescription" name="SourceSansPro-Semibold" family="Source Sans Pro" pointSize="12"/>
                                                         <color key="textColor" red="0.0098039284348487854" green="0.44682729244232178" blue="0.78525847196578979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YPd-cf-KZK">
-                                                        <rect key="frame" x="8" y="-0.5" width="28" height="31"/>
+                                                        <rect key="frame" x="8" y="0.5" width="28" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="31" id="5fs-Ad-PCD"/>
                                                             <constraint firstAttribute="width" constant="28" id="XaD-zW-35o"/>
@@ -1134,16 +1148,16 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KPz-xq-9cZ">
-                                                <rect key="frame" x="0.0" y="329" width="303" height="30"/>
+                                                <rect key="frame" x="0.0" y="332" width="303" height="31.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This should be composted." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r5U-mZ-lMd">
-                                                        <rect key="frame" x="44" y="8" width="251" height="14"/>
+                                                        <rect key="frame" x="44" y="8" width="251" height="15.5"/>
                                                         <fontDescription key="fontDescription" name="SourceSansPro-Semibold" family="Source Sans Pro" pointSize="12"/>
                                                         <color key="textColor" red="0.5215032696723938" green="0.79311096668243408" blue="0.0014693302800878882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ykm-MK-yW1">
-                                                        <rect key="frame" x="8" y="-0.5" width="28" height="31"/>
+                                                        <rect key="frame" x="8" y="0.5" width="28" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="31" id="OVj-Nj-vsq"/>
                                                             <constraint firstAttribute="width" constant="28" id="cwq-su-GI4"/>

@@ -76,10 +76,7 @@
     [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
     
     // set the scrollView frame
-    self.scrollView.contentSize = CGSizeMake(375, 1680);
-    
-    // set backdrop picture
-//    self.backdropImageView.image = [UIImage imageNamed:@"nature-backdrop"];
+    self.scrollView.contentSize = CGSizeMake(375, 2000);
     
     // set the profile picture
     [self setProfilePicture];
