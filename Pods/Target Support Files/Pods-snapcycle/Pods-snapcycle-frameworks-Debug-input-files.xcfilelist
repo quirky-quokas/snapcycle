@@ -4,4 +4,5 @@ ${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework
 ${PODS_ROOT}/Highcharts/development/Highcharts.framework
 ${BUILT_PRODUCTS_DIR}/MKDropdownMenu/MKDropdownMenu.framework
 ${BUILT_PRODUCTS_DIR}/Parse/Parse.framework
+${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
 ${BUILT_PRODUCTS_DIR}/XLPagerTabStrip/XLPagerTabStrip.framework

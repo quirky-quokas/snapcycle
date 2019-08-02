@@ -26,10 +26,10 @@
     // Do any additional setup after loading the view.
     
     self.dataSource = self;
-    self.titles = @[@"Welcome to Snapcycle!", @"Take a photo", @"Track your trash stats!"];
-    self.backdrops = @[@"background-1",@"background-2",@"background-3"];
-    self.gifs = @[@"first-place",@"second-place",@"third-place"];
-    self.info = @[@"Get ready to begin your journey to become a more sustainable and environmentally-conscious", @"Hello this is a test", @"Yoooo this is another test"];
+    self.titles = @[@"Welcome to Snapcycle!", @"Snap a photo to know where your trash goes", @"Check your progress!", @"Take your learnings to the stage!", @"Go and save the world!"];
+    self.backdrops = @[@"nature-backdrop",@"nature-backdrop",@"nature-backdrop", @"nature-backdrop", @"nature-backdrop"];
+    self.gifs = @[@"recycling-gif",@"taking-photo",@"graph-animated",@"winner", @"recycling-gif"];
+    self.info = @[@"Thank you for choosing to save the world one piece of trash at a time. Our goal is to help you on your journey to becoming a more sustainable and environmentally-conscious citizen of the Earth. We hope you'll find it rewarding :) So let's start!", @"Tip: You can look up your piece of trash w/o a camera using our Search tab", @"Use to: Track your trash, Learn more about your trash and where it goes, Learn better habits", @"Participate in daily and global Snapcycle competitions! Winners can earn badges!", @"Now you're ready to go! Click the button below to begin! Good luck and happy snapcycling!"];
     TutChildViewController *initialViewController = (TutChildViewController*)[self viewControllerAtIndex:0];
     
     NSArray *viewControllers = [NSArray arrayWithObject:initialViewController];

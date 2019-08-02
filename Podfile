@@ -11,6 +11,7 @@ target 'snapcycle' do
   pod 'MKDropdownMenu'
   pod 'DateTools'
   pod 'XLPagerTabStrip', '~> 2.0'
+  pod 'SDWebImage', '~> 5.0'  
 
   target 'snapcycleTests' do
     inherit! :search_paths
