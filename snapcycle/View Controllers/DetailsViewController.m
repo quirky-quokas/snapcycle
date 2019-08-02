@@ -184,7 +184,7 @@
                     message = @"You shouldn't have composted that. Next time try throwing it in recycling or landfill.";
                 }
                 else if (newTrash.category.landfill == NO && newTrash.category.recycling == YES){
-                    message = @"You shouldn't have composted that. Next time try throwing it in recyling.";
+                    message = @"You shouldn't have composted that. Next time try throwing it in recycling.";
                 }
                 else if (newTrash.category.landfill == YES && newTrash.category.recycling == NO){
                     message = @"You shouldn't have composted that. Next time try throwing it in landfill.";
