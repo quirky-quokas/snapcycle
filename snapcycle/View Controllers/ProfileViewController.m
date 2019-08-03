@@ -86,7 +86,7 @@
     [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
     
     // set the scrollView frame
-    self.scrollView.contentSize = CGSizeMake(375, 1975);
+    self.scrollView.contentSize = CGSizeMake(375, 1963);
     
     // set the profile picture
     [self setProfilePicture];
