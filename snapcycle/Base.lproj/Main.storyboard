@@ -630,9 +630,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WAF-He-GZi">
-                                <rect key="frame" x="280" y="6" width="22" height="22"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WAF-He-GZi">
+                                <rect key="frame" x="289" y="6" width="17" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="info_icon"/>
                                 <connections>
                                     <segue destination="uhY-ho-odm" kind="presentation" animates="NO" modalPresentationStyle="overCurrentContext" id="4vv-Jg-S1X"/>
                                 </connections>
@@ -709,9 +710,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eCW-Ii-J2J">
-                                <rect key="frame" x="289" y="6" width="22" height="22"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eCW-Ii-J2J">
+                                <rect key="frame" x="289" y="6" width="17" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="info_icon"/>
                                 <connections>
                                     <segue destination="uhY-ho-odm" kind="presentation" animates="NO" modalPresentationStyle="overCurrentContext" id="Y1C-Ld-qPl"/>
                                 </connections>
@@ -859,9 +861,10 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Jm-Sk-dQu">
-                                                <rect key="frame" x="345" y="8" width="22" height="22"/>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Jm-Sk-dQu">
+                                                <rect key="frame" x="350" y="8" width="17" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" image="info_icon"/>
                                                 <connections>
                                                     <segue destination="MLY-63-xxI" kind="presentation" identifier="helpSegue" id="t3u-T6-S5B"/>
                                                 </connections>
@@ -1433,6 +1436,7 @@
         <image name="icon_badge" width="30" height="30"/>
         <image name="icon_camera" width="29" height="21"/>
         <image name="icon_profile" width="30" height="30"/>
+        <image name="info_icon" width="192" height="192"/>
         <image name="podium" width="1314" height="1098"/>
         <image name="profile icon" width="30" height="30"/>
         <image name="profile_backdrop" width="750" height="489"/>
@@ -1442,7 +1446,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="t3u-T6-S5B"/>
-        <segue reference="Y1C-Ld-qPl"/>
+        <segue reference="4vv-Jg-S1X"/>
         <segue reference="IG0-Za-uas"/>
         <segue reference="dEH-UT-eFW"/>
     </inferredMetricsTieBreakers>
