@@ -12,11 +12,20 @@
 @implementation SoundManager
 
 + (void)playSuccessSound {
-    [self playSoundFromPath:[[NSBundle mainBundle] pathForResource:@"success-sound" ofType:@"mp3"]];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL soundOff = [defaults boolForKey:@"soundOff"];
+    
+    if (!soundOff) {
+        [self playSoundFromPath:[[NSBundle mainBundle] pathForResource:@"success-sound" ofType:@"mp3"]];
+    }
 }
 
 + (void)playFailureSound {
-    [self playSoundFromPath:[[NSBundle mainBundle] pathForResource:@"fail-sound" ofType:@"mp3"]];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL soundOff = [defaults boolForKey:@"soundOff"];
+    if (!soundOff) {
+        [self playSoundFromPath:[[NSBundle mainBundle] pathForResource:@"fail-sound" ofType:@"mp3"]];
+    }
 }
 
 + (void)playSoundFromPath:(NSString*)soundPath {
