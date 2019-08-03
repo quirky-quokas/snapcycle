@@ -43,6 +43,9 @@
 		B61848B522F3C04100D2BD8A /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B61848B422F3C04100D2BD8A /* TutorialViewController.m */; };
 		B61848B822F3C06700D2BD8A /* TutorialPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B61848B722F3C06700D2BD8A /* TutorialPageViewController.m */; };
 		B61848BB22F3C09E00D2BD8A /* TutChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B61848BA22F3C09E00D2BD8A /* TutChildViewController.m */; };
+		B61848BE22F5111E00D2BD8A /* success-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B61848BD22F5111D00D2BD8A /* success-sound.mp3 */; };
+		B61848C022F512BF00D2BD8A /* fail-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B61848BF22F512BF00D2BD8A /* fail-sound.mp3 */; };
+		B61848C322F514D200D2BD8A /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B61848C222F514D200D2BD8A /* SoundManager.m */; };
 		B69CB8A222E2438900F6C390 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B69CB8A122E2438900F6C390 /* TabBarController.m */; };
 		B6CE94DE22EA50DD003B4732 /* CompetitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CE94DD22EA50DD003B4732 /* CompetitionManager.m */; };
 		B6CE94E122EB9A53003B4732 /* Badges.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CE94E022EB9A53003B4732 /* Badges.m */; };
@@ -138,6 +141,10 @@
 		B61848B722F3C06700D2BD8A /* TutorialPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TutorialPageViewController.m; sourceTree = "<group>"; };
 		B61848B922F3C09E00D2BD8A /* TutChildViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutChildViewController.h; sourceTree = "<group>"; };
 		B61848BA22F3C09E00D2BD8A /* TutChildViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TutChildViewController.m; sourceTree = "<group>"; };
+		B61848BD22F5111D00D2BD8A /* success-sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "success-sound.mp3"; sourceTree = "<group>"; };
+		B61848BF22F512BF00D2BD8A /* fail-sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "fail-sound.mp3"; sourceTree = "<group>"; };
+		B61848C122F514D200D2BD8A /* SoundManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundManager.h; sourceTree = "<group>"; };
+		B61848C222F514D200D2BD8A /* SoundManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SoundManager.m; sourceTree = "<group>"; };
 		B69CB8A022E2438900F6C390 /* TabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
 		B69CB8A122E2438900F6C390 /* TabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
 		B6CE94DC22EA50DD003B4732 /* CompetitionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompetitionManager.h; sourceTree = "<group>"; };
@@ -282,6 +289,7 @@
 				B67AA2DD22DEA3900066464A /* Backend */,
 				B1320C5122DE407E00A38B16 /* Main.storyboard */,
 				B1320C5422DE407E00A38B16 /* Assets.xcassets */,
+				B61848BC22F5110000D2BD8A /* Sounds */,
 				B1320C5622DE407E00A38B16 /* LaunchScreen.storyboard */,
 				B1320C5922DE407E00A38B16 /* Info.plist */,
 				B1320C5A22DE407E00A38B16 /* main.m */,
@@ -344,6 +352,15 @@
 			path = "View Controllers";
 			sourceTree = "<group>";
 		};
+		B61848BC22F5110000D2BD8A /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				B61848BD22F5111D00D2BD8A /* success-sound.mp3 */,
+				B61848BF22F512BF00D2BD8A /* fail-sound.mp3 */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		B67AA2DD22DEA3900066464A /* Backend */ = {
 			isa = PBXGroup;
 			children = (
@@ -351,6 +368,8 @@
 				B1320C4C22DE407E00A38B16 /* AppDelegate.m */,
 				B6CE94DC22EA50DD003B4732 /* CompetitionManager.h */,
 				B6CE94DD22EA50DD003B4732 /* CompetitionManager.m */,
+				B61848C122F514D200D2BD8A /* SoundManager.h */,
+				B61848C222F514D200D2BD8A /* SoundManager.m */,
 			);
 			path = Backend;
 			sourceTree = "<group>";
@@ -464,10 +483,12 @@
 			files = (
 				B19CD90622E923CE008F9782 /* SourceSansPro-Regular.otf in Resources */,
 				B1320C5822DE407E00A38B16 /* LaunchScreen.storyboard in Resources */,
+				B61848C022F512BF00D2BD8A /* fail-sound.mp3 in Resources */,
 				B1320C5522DE407E00A38B16 /* Assets.xcassets in Resources */,
 				B19CD90822E923EF008F9782 /* SourceSansPro-Light.otf in Resources */,
 				B6E4F2D722F0EE1B00C8B2AD /* RankingXIB.xib in Resources */,
 				B19CD90A22E923FA008F9782 /* SourceSansPro-Semibold.otf in Resources */,
+				B61848BE22F5111E00D2BD8A /* success-sound.mp3 in Resources */,
 				B1320C5322DE407E00A38B16 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -592,6 +613,7 @@
 				B1320C5B22DE407E00A38B16 /* main.m in Sources */,
 				B155009C22EA28A400FAFF8F /* CameraView.m in Sources */,
 				8479E91522DE638E009174E7 /* SnapUser.m in Sources */,
+				B61848C322F514D200D2BD8A /* SoundManager.m in Sources */,
 				844856F022DFBF7100CC5600 /* CategoriesCell.m in Sources */,
 				B6CED37122E8D9160091B788 /* Competitor.m in Sources */,
 				B1B9EDD022F0B22200C0A6F4 /* CompTabViewController.m in Sources */,

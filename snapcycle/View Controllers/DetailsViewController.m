@@ -14,6 +14,7 @@
 #import "Trash.h"
 #import "TabBarController.h"
 #import "CompetitionManager.h"
+#import "SoundManager.h"
 
 @interface DetailsViewController () <UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -116,6 +117,7 @@
             if(newTrash.category.recycling == YES) {
                 title = @"Good work!";
                 message = @"You've successfully recycled your trash.";
+                [SoundManager playSuccessSound];
             }
             else {
                 if (newTrash.category.landfill == YES && newTrash.category.compost == YES){
@@ -134,6 +136,7 @@
                     title = @"Sorry about that!";
                     message = @"We don't have info on this item at the moment, but we're working on getting it soon :)";
                 }
+                [SoundManager playFailureSound];
             }
             [self.delegate postedTrashWithMessage:message withTitle:title];
             
@@ -144,6 +147,7 @@
         self.landfillButton.enabled = YES;
     }];
 }
+
 
 - (IBAction)compostTrash:(id)sender {
     self.landfillButton.enabled = NO;
@@ -170,12 +174,13 @@
             [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             }];
             [self.navigationController popViewControllerAnimated:YES];
-            
+
             NSString* message = [[NSString alloc] init];
             NSString* title = [[NSString alloc] init];
             if(newTrash.category.compost == YES) {
                 title = @"Good work!";
                 message = @"You've successfully composted your trash.";
+                [SoundManager playSuccessSound];
             }
             else {
                 title = @"Oops!";
@@ -193,6 +198,7 @@
                     title = @"Sorry about that!";
                     message = @"We don't have info on this item at the moment, but we're working on getting it soon :)";
                 }
+                [SoundManager playFailureSound];
             }
             [self.delegate postedTrashWithMessage:message withTitle:title];
         }
@@ -240,6 +246,7 @@
             if(newTrash.category.landfill == YES) {
                 title = @"Good work!";
                 message = @"You've successfully thrown away your trash.";
+                [SoundManager playSuccessSound];
             }
             else {
                 title = @"Oops!";
@@ -257,6 +264,7 @@
                     title = @"Sorry about that!";
                     message = @"We don't have info on this item at the moment, but we're working on getting it soon :)";
                 }
+                [SoundManager playFailureSound];
             }
             [self.delegate postedTrashWithMessage:message withTitle:title];
         }
@@ -267,23 +275,7 @@
     }];
 }
 
-+ (UIImage *)imageWithImage:(UIImage *)image scaledToFillSize:(CGSize)size
-{
-    CGFloat scale = MAX(size.width/image.size.width, size.height/image.size.height);
-    CGFloat width = image.size.width * scale;
-    CGFloat height = image.size.height * scale;
-    CGRect imageRect = CGRectMake((size.width - width)/2.0f,
-                                  (size.height - height)/2.0f,
-                                  width,
-                                  height);
-    
-    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
-    [image drawInRect:imageRect];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
-
+#pragma mark - Tap to enlarge
 /**
  Allows user to tap their trash photo for an enlarged full screen view.
  */
