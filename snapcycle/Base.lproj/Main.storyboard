@@ -1362,7 +1362,7 @@
         <!--Tutorial Page View Controller-->
         <scene sceneID="LEN-Fe-HlQ">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="aOX-aF-iIv" customClass="TutorialPageViewController" sceneMemberID="viewController"/>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="aOX-aF-iIv" customClass="TutorialPageViewController" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tRe-Ni-FDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-718" y="2391"/>
@@ -1386,8 +1386,8 @@
                                 <color key="textColor" red="0.58087080717086792" green="0.78439432382583618" blue="0.24092495441436768" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gqC-fv-uCW">
-                                <rect key="frame" x="16" y="395" width="343" height="195"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gqC-fv-uCW">
+                                <rect key="frame" x="16" y="395" width="343" height="157"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="SourceSansPro-Light" family="Source Sans Pro" pointSize="20"/>
                                 <nil key="textColor"/>
@@ -1398,7 +1398,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xcp-Ea-epr">
-                                <rect key="frame" x="16" y="584" width="343" height="30"/>
+                                <rect key="frame" x="16" y="560" width="343" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.5215032696723938" green="0.79311096668243408" blue="0.0014693302800878882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Now let's Snapcycle!">
@@ -1448,7 +1448,7 @@
         <segue reference="t3u-T6-S5B"/>
         <segue reference="4vv-Jg-S1X"/>
         <segue reference="IG0-Za-uas"/>
-        <segue reference="dEH-UT-eFW"/>
+        <segue reference="f1y-rL-myc"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.0" green="0.43921568630000002" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
 </document>
