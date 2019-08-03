@@ -161,6 +161,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     BOOL soundOff = [defaults boolForKey:@"soundOff"];
     
+    // TODO: change images?
     if (soundOff) {
         // turn sound on
         [defaults setBool:NO forKey:@"soundOff"];
@@ -176,6 +177,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     BOOL soundOff = [defaults boolForKey:@"soundOff"];
     
+    // TODO: change images?
     if (soundOff) {
         [self.soundButton setImage:[UIImage imageNamed:@"sound-off"] forState:UIControlStateNormal];
     } else {
