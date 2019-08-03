@@ -93,7 +93,7 @@
     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editProfilePicture:)];
     [self.profileImage addGestureRecognizer:tapGR];
     
-    // set profile image picker
+    // set profile image pickers
     self.imagePickerVC = [UIImagePickerController new];
     self.imagePickerVC.delegate = self;
     self.imagePickerVC.allowsEditing = YES;
