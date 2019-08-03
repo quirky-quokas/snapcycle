@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *categoriesSearchBar;
 @property (strong, nonatomic) NSArray *categories;
 @property (strong, nonatomic) NSArray *filteredCategories;
+@property (strong, nonatomic) NSArray *onlyOther;
 
 @end
 
@@ -58,6 +59,9 @@
             self.categories = categories;
             self.filteredCategories = self.categories;
             
+            // TODO: WARNING!! relies on the fact that other will be last!!
+            self.onlyOther = [NSArray arrayWithObjects:self.categories[self.categories.count - 1], nil];
+            
             // Reload collection view to display categories
             [self.categoriesCollectionView reloadData];
         }
@@ -93,6 +97,9 @@
         }];
         
         self.filteredCategories = [self.categories filteredArrayUsingPredicate:predicate];
+        if (self.filteredCategories.count == 0) {
+            self.filteredCategories = self.onlyOther;
+        }
         [self.categoriesCollectionView performBatchUpdates:^{
             [self.categoriesCollectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
         } completion:nil];
