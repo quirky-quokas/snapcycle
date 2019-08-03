@@ -397,6 +397,7 @@
 #pragma mark - Accuracy chart
 - (void)configureAccuracyChart {
     self.cal = [NSCalendar currentCalendar];
+    [self.cal setTimeZone:[NSTimeZone systemTimeZone]];
     [self.cal setFirstWeekday:1]; // Sunday
     
     self.dateFormatter = [[NSDateFormatter alloc] init];
