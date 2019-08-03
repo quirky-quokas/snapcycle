@@ -23,7 +23,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Do any additional setup after loading the view.
+    [[UIPageControl appearance] setPageIndicatorTintColor: [UIColor lightGrayColor]];
+    [[UIPageControl appearance] setCurrentPageIndicatorTintColor: [UIColor blackColor]];
+    [[UIPageControl appearance] setTintColor: [UIColor blackColor]];
     
     self.dataSource = self;
     self.titles = @[@"Welcome to Snapcycle!", @"Snap a photo to know where your trash goes", @"Check your progress!", @"Take your learnings to the stage!", @"Go and save the world!"];
@@ -77,6 +79,16 @@
     
     return childViewController;
 }
+
+- (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
+    return 0;
+}
+
+- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
+    return self.backdrops.count;
+}
+
+
 /*
  #pragma mark - Navigation
  
