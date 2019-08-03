@@ -102,7 +102,6 @@
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
     
     // set up Location Manager
-    self.pinImageView.image = [UIImage imageNamed:@"location-pin"];
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
