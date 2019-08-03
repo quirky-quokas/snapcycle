@@ -101,6 +101,8 @@
     self.imagePickerVC.delegate = self;
     self.imagePickerVC.allowsEditing = YES;
     
+    [self setUpSoundButton];
+    
     // set the welcome text
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
     
@@ -156,6 +158,29 @@
 
 #pragma mark - Sound toggle
 - (IBAction)onSoundTap:(id)sender {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL soundOff = [defaults boolForKey:@"soundOff"];
+    
+    if (soundOff) {
+        // turn sound on
+        [defaults setBool:NO forKey:@"soundOff"];
+        [self.soundButton setImage:[UIImage imageNamed:@"sound-on"] forState:UIControlStateNormal];
+    } else {
+        // turn sound off
+        [defaults setBool:YES forKey:@"soundOff"];
+        [self.soundButton setImage:[UIImage imageNamed:@"sound-off"] forState:UIControlStateNormal];
+    }
+}
+
+- (void)setUpSoundButton {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL soundOff = [defaults boolForKey:@"soundOff"];
+    
+    if (soundOff) {
+        [self.soundButton setImage:[UIImage imageNamed:@"sound-off"] forState:UIControlStateNormal];
+    } else {
+        [self.soundButton setImage:[UIImage imageNamed:@"sound-on"] forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - Profile Picture
