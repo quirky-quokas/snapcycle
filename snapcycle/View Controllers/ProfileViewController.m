@@ -19,14 +19,13 @@
 #import "RegisterViewController.h"
 #import "Trash.h"
 #import "PhotoLogCell.h"
-#import "MKDropdownMenu.h"
 #import "DateTools.h"
 #import "PhotoPopUpViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "CompetitionManager.h"
 #import "TutorialViewController.h"
 
-@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, MKDropdownMenuDelegate, MKDropdownMenuDataSource, UIGestureRecognizerDelegate, CLLocationManagerDelegate>
+@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, CLLocationManagerDelegate>
 
 // Overall
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -68,10 +67,14 @@
 // Photo Log
 @property (weak, nonatomic) IBOutlet UICollectionView *photoCollectionView;
 
-// Dropdown menu
-@property (weak, nonatomic) IBOutlet MKDropdownMenu *photoDropdownMenu;
+// Date pickers
+@property (weak, nonatomic) IBOutlet UITextField *startDateTextField;
+@property (weak, nonatomic) IBOutlet UITextField *endDateTextField;
+@property (strong, nonatomic) UIDatePicker *startDatePicker;
+@property (strong, nonatomic) UIDatePicker *endDatePicker;
+
+// Was for dropdown I think
 @property (strong, nonatomic) NSArray *trash;
-@property (strong, nonatomic) NSArray *dropdownData;
 
 @end
 
@@ -109,16 +112,29 @@
     self.geocoder = [[CLGeocoder alloc] init];
     [self.locationManager startUpdatingLocation];
     
-    // set drop down menu data source and delegate
-    self.photoDropdownMenu.dataSource = self;
-    self.photoDropdownMenu.delegate = self;
-    self.dropdownData = @[@"Past day", @"Past week", @"Past month", @"Past 6 months", @"Past year", @"All"];
-    self.photoDropdownMenu.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.photoDropdownMenu.layer.borderWidth = 1.0f;
-    
     // set collection view data source and delegate
     self.photoCollectionView.delegate = self;
     self.photoCollectionView.dataSource = self;
+    
+    // set up DatePickers
+    self.startDatePicker = [[UIDatePicker alloc] init];
+    self.startDatePicker.datePickerMode = UIDatePickerModeDate;
+    [self.startDatePicker addTarget:self action:@selector(showSelectedStartDate) forControlEvents:UIControlEventValueChanged];
+    [self.startDateTextField setInputView:self.startDatePicker];
+    
+    self.endDatePicker = [[UIDatePicker alloc] init];
+    self.endDatePicker.datePickerMode = UIDatePickerModeDate;
+    [self.endDatePicker addTarget:self action:@selector(showSelectedEndDate) forControlEvents:UIControlEventValueChanged];
+    [self.endDateTextField setInputView:self.endDatePicker];
+    
+    UIToolbar *toolbar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,44)];
+    toolbar.barStyle = UIBarStyleDefault;
+    UIBarButtonItem *flexibleSpaceLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(dismissKeyboard)];
+    
+    [toolbar setItems:[NSArray arrayWithObjects:flexibleSpaceLeft, doneButton, nil]];
+    self.startDateTextField.inputAccessoryView = toolbar;
+    self.endDateTextField.inputAccessoryView = toolbar;
     
     // set up layout for trash photo log
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *) self.photoCollectionView.collectionViewLayout;
@@ -149,7 +165,7 @@
     [self refreshUserAccuracyStats];
     
     // Fetch all trash for photo log
-    [self fetchTrash:@"All"];
+    [self fetchTrash];
 }
 
 #pragma mark - Profile Picture
@@ -547,32 +563,19 @@
 
 
 #pragma mark - Photo log
-- (void)fetchTrash: (NSString*)time {
+- (void)fetchTrash {
     PFQuery *photoQuery = [[SnapUser currentUser].trashArray query];
     [photoQuery orderByDescending:@"createdAt"];
     [photoQuery includeKey:@"category"];
-    NSDate *now = [NSDate date];
-    NSDate *since = [NSDate date];
-    if ([time isEqualToString:@"All"]){
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+    if(![self.startDateTextField.text isEqualToString:@""]) {
+        NSDate *date = [dateFormatter dateFromString:self.startDateTextField.text];
+        [photoQuery whereKey:@"createdAt" greaterThanOrEqualTo:date];
     }
-    else if ([time isEqualToString:@"Past year"]){
-        since = [now dateBySubtractingYears:1];
-    }
-    else if ([time isEqualToString:@"Past 6 months"]){
-        since = [now dateBySubtractingMonths:6];
-    }
-    else if ([time isEqualToString:@"Past month"]){
-        since = [now dateBySubtractingMonths:1];
-    }
-    else if ([time isEqualToString:@"Past week"]){
-        since = [now dateBySubtractingWeeks:1];
-    }
-    else {
-        since = [now dateBySubtractingDays:1];
-    }
-    
-    if (![time isEqualToString:@"All"]){
-        [photoQuery whereKey:@"createdAt" greaterThan:since];
+    if(![self.endDateTextField.text isEqualToString:@""]){
+        NSDate *date = [dateFormatter dateFromString:self.endDateTextField.text];
+        [photoQuery whereKey:@"createdAt" lessThanOrEqualTo:date];
     }
     
     [photoQuery findObjectsInBackgroundWithBlock:^(NSArray<Trash *> * _Nullable trash, NSError * _Nullable error) {
@@ -584,7 +587,7 @@
         }
         else {
             NSLog(@"%@", error.localizedDescription);
-            [self fetchTrash:time];
+            [self fetchTrash];
         }
     }];
 }
@@ -600,44 +603,24 @@
     return cell;
 }
 
-#pragma mark - MKDropDownMenuDelegate
+#pragma mark - Date Pickers
 
-- (NSInteger)dropdownMenu:(nonnull MKDropdownMenu *)dropdownMenu numberOfRowsInComponent:(NSInteger)component {
-    return 6;
+-(void) showSelectedStartDate{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MM/dd/yyyy"];
+    self.startDateTextField.text = [NSString stringWithFormat:@"%@",[formatter stringFromDate:self.startDatePicker.date]];
 }
 
-- (NSInteger)numberOfComponentsInDropdownMenu:(nonnull MKDropdownMenu *)dropdownMenu {
-    return 1;
+-(void) showSelectedEndDate{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MM/dd/yyyy"];
+    self.endDateTextField.text = [NSString stringWithFormat:@"%@",[formatter stringFromDate:self.endDatePicker.date]];
 }
 
-- (NSAttributedString *)dropdownMenu:(MKDropdownMenu *)dropdownMenu attributedTitleForComponent:(NSInteger)component {
-    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:@"Choose time"];
-    [title addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16.0 weight:UIFontWeightLight] range:NSMakeRange(0, title.length)];
-    return (NSAttributedString*) title;
-}
-
-- (NSAttributedString *)dropdownMenu:(MKDropdownMenu *)dropdownMenu attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:self.dropdownData[row]];
-    [title addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0 weight:UIFontWeightThin] range:NSMakeRange(0, title.length)];
-    return (NSAttributedString*) title;
-}
-
--(void)dropdownMenu:(MKDropdownMenu *)dropdownMenu didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    NSString *time = self.dropdownData[row];
-    [self fetchTrash:time];
-    [self.photoDropdownMenu selectRow:row inComponent:component];
-    [self.photoDropdownMenu closeAllComponentsAnimated:YES];
-}
-
-- (UIColor *)dropdownMenu:(MKDropdownMenu *)dropdownMenu backgroundColorForRow:(NSInteger)row forComponent:(NSInteger)component {
-    NSIndexSet *selectedRows = [self.photoDropdownMenu selectedRowsInComponent:component];
-    NSInteger selectedRow = (NSInteger)selectedRows.firstIndex;
-    if (row == selectedRow) {
-        return UIColor.greenColor;
-    }
-    else {
-        return UIColor.whiteColor;
-    }
+-(void) dismissKeyboard {
+    [self.startDateTextField resignFirstResponder];
+    [self.endDateTextField resignFirstResponder];
+    [self fetchTrash];
 }
 
 #pragma mark - Navigation

@@ -989,11 +989,6 @@
                                                     </collectionViewCell>
                                                 </cells>
                                             </collectionView>
-                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dNu-bY-TOR" customClass="MKDropdownMenu">
-                                                <rect key="frame" x="231" y="8" width="136" height="27"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Photo Log" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9vl-3e-65p">
                                                 <rect key="frame" x="9" y="8" width="192" height="29"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1001,6 +996,20 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Start Date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rmw-PJ-959">
+                                                <rect key="frame" x="172" y="8" width="97" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="End Date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fe6-6o-M3v">
+                                                <rect key="frame" x="270" y="8" width="97" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
@@ -1022,18 +1031,19 @@
                     <connections>
                         <outlet property="accuracyChartView" destination="Env-jV-0h2" id="eCW-aQ-Lh1"/>
                         <outlet property="backdropImageView" destination="PNu-H1-grO" id="JeW-RN-8Kr"/>
+                        <outlet property="endDateTextField" destination="fe6-6o-M3v" id="6z3-9q-x57"/>
                         <outlet property="locationLabel" destination="qxR-nB-RMj" id="b7y-wy-KZm"/>
                         <outlet property="noStatsYetLabel" destination="67W-tH-sx9" id="3Pc-2h-5QR"/>
                         <outlet property="numFirstLabel" destination="sgJ-bY-m8p" id="E9O-Pe-Ic3"/>
                         <outlet property="numSecondLabel" destination="1M5-Bx-5JX" id="sfP-xk-8JI"/>
                         <outlet property="numThirdLabel" destination="HQR-7R-D0N" id="dU9-oi-9oQ"/>
                         <outlet property="photoCollectionView" destination="8Rl-jP-3am" id="LUw-65-CHv"/>
-                        <outlet property="photoDropdownMenu" destination="dNu-bY-TOR" id="ahZ-TC-Iwb"/>
                         <outlet property="pieChartView" destination="PUB-2D-9IQ" id="SeE-I2-Cs4"/>
                         <outlet property="pinImageView" destination="cPo-i9-mLA" id="wzp-WL-759"/>
                         <outlet property="profileImage" destination="XiW-Ii-sVt" id="amY-Af-no2"/>
                         <outlet property="profileImageBorder" destination="169-FY-uU7" id="6aU-eO-3Dk"/>
                         <outlet property="scrollView" destination="bze-sv-Rwe" id="0CS-jW-gNa"/>
+                        <outlet property="startDateTextField" destination="rmw-PJ-959" id="oeh-cc-Ta7"/>
                         <outlet property="welcomeLabel" destination="1Io-49-qxH" id="K13-OX-7jk"/>
                     </connections>
                 </viewController>
