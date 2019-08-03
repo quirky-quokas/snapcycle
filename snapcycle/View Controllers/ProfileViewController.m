@@ -38,6 +38,9 @@
 @property (weak, nonatomic) IBOutlet UIView *profileImageBorder;
 @property (strong, nonatomic) UIImagePickerController *imagePickerVC;
 
+// Sound
+@property (weak, nonatomic) IBOutlet UIButton *soundButton;
+
 // Badges
 @property (weak, nonatomic) IBOutlet UILabel *numFirstLabel;
 @property (weak, nonatomic) IBOutlet UILabel *numSecondLabel;
@@ -149,6 +152,10 @@
     
     // Fetch all trash for photo log
     [self fetchTrash:@"All"];
+}
+
+#pragma mark - Sound toggle
+- (IBAction)onSoundTap:(id)sender {
 }
 
 #pragma mark - Profile Picture

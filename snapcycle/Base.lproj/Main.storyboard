@@ -817,11 +817,19 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Jm-Sk-dQu">
-                                                <rect key="frame" x="350" y="8" width="17" height="17"/>
+                                                <rect key="frame" x="340" y="8" width="27" height="27"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" image="info_icon"/>
                                                 <connections>
                                                     <segue destination="MLY-63-xxI" kind="presentation" identifier="helpSegue" id="t3u-T6-S5B"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NAg-Vj-4Sc">
+                                                <rect key="frame" x="8" y="8" width="27" height="27"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" image="sound-on"/>
+                                                <connections>
+                                                    <action selector="onSoundTap:" destination="spz-gT-KP6" eventType="touchUpInside" id="g6x-TN-mnw"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1046,6 +1054,7 @@
                         <outlet property="profileImage" destination="XiW-Ii-sVt" id="amY-Af-no2"/>
                         <outlet property="profileImageBorder" destination="169-FY-uU7" id="6aU-eO-3Dk"/>
                         <outlet property="scrollView" destination="bze-sv-Rwe" id="0CS-jW-gNa"/>
+                        <outlet property="soundButton" destination="NAg-Vj-4Sc" id="fjO-2M-1vD"/>
                         <outlet property="welcomeLabel" destination="1Io-49-qxH" id="K13-OX-7jk"/>
                     </connections>
                 </viewController>
@@ -1452,6 +1461,7 @@
         <image name="profile_backdrop" width="750" height="489"/>
         <image name="profile_imagePlaceholder" width="960" height="718"/>
         <image name="second-place" width="362" height="468"/>
+        <image name="sound-on" width="100" height="100"/>
         <image name="third-place" width="352" height="470"/>
     </resources>
     <inferredMetricsTieBreakers>
