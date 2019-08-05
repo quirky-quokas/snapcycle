@@ -177,6 +177,7 @@
  The user tapped the "Snap photo" button.
  */
 - (IBAction)didTakePhoto:(UIButton *)sender {
+    self.cameraButton.enabled = NO;
     AVCapturePhotoSettings *settings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey: AVVideoCodecTypeJPEG}];
     
     [self.stillImageOutput capturePhotoWithSettings:settings delegate:self];
@@ -194,6 +195,7 @@
         // segue to detailsVC
         [self performSegueWithIdentifier:@"segueToDetailsVC" sender:self];
     }
+    self.cameraButton.enabled = YES;
 }
 
 /**
