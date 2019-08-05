@@ -606,12 +606,19 @@
 #pragma mark - Date Pickers
 
 -(void) showSelectedStartDate{
+    if ([self.endDateTextField.text isEqualToString:@""]){
+        [self.startDatePicker setMaximumDate:[NSDate date]];
+    }
+    [self.endDatePicker setMinimumDate:self.startDatePicker.date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"MM/dd/yyyy"];
     self.startDateTextField.text = [NSString stringWithFormat:@"%@",[formatter stringFromDate:self.startDatePicker.date]];
+    
 }
 
 -(void) showSelectedEndDate{
+    [self.endDatePicker setMaximumDate:[NSDate date]];
+    [self.startDatePicker setMaximumDate:self.endDatePicker.date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"MM/dd/yyyy"];
     self.endDateTextField.text = [NSString stringWithFormat:@"%@",[formatter stringFromDate:self.endDatePicker.date]];
