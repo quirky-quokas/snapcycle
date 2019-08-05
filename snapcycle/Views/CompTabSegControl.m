@@ -12,14 +12,14 @@
 
 - (void)setColorAndFont {
     // color
-    UIColor *scGreen = [UIColor colorWithRed:148.0/255.0 green:200.0/255.0 blue:61.0/255.0 alpha:1.0];
+    UIColor *scBlue = [UIColor colorWithRed:0.0/255.0 green:112.0/255.0 blue:194.0/255.0 alpha:1.0];
     self.tintColor = UIColor.whiteColor;
     self.backgroundColor = UIColor.whiteColor;
     
     // font TODO: set font for all UIControlStates?
     [self setTitleTextAttributes:@{NSForegroundColorAttributeName:UIColor.darkGrayColor, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Regular" size:20]} forState: UIControlStateNormal];
-    [self setTitleTextAttributes:@{NSForegroundColorAttributeName:scGreen, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Semibold" size:20]} forState: UIControlStateSelected];
-    [self setTitleTextAttributes:@{NSForegroundColorAttributeName:scGreen, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Semibold" size:20]} forState: UIControlStateHighlighted];
+    [self setTitleTextAttributes:@{NSForegroundColorAttributeName:scBlue, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Semibold" size:20]} forState: UIControlStateSelected];
+    [self setTitleTextAttributes:@{NSForegroundColorAttributeName:scBlue, NSFontAttributeName:[UIFont fontWithName:@"SourceSansPro-Semibold" size:20]} forState: UIControlStateHighlighted];
 }
 
 - (void)setUnderline {    

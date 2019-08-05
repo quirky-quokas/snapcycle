@@ -14,11 +14,12 @@
             <connections>
                 <outlet property="badgeView" destination="SJs-eR-naO" id="B6g-Gz-poD"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="xUe-xR-FdM"/>
-                <outlet property="crownView" destination="xP3-dc-mFK" id="n5c-he-NNA"/>
+                <outlet property="crownView" destination="SS0-UB-6cU" id="Vre-xK-2Bh"/>
                 <outlet property="numFirstLabel" destination="8hN-mw-NDa" id="oag-1k-1Re"/>
                 <outlet property="numSecondLabel" destination="44s-sa-bxL" id="SBO-aa-Eh1"/>
                 <outlet property="numThirdLabel" destination="oYY-3U-mmU" id="PHc-SI-Reh"/>
-                <outlet property="profilePicView" destination="n2o-WC-qoc" id="Y2x-L7-alJ"/>
+                <outlet property="profilePicBorder" destination="2oJ-QP-8JV" id="4gq-mt-2jx"/>
+                <outlet property="profilePicView" destination="ibc-ZJ-DnV" id="xjD-1J-HZZ"/>
                 <outlet property="rankingLabel" destination="f1k-7S-n06" id="oGe-au-eCJ"/>
                 <outlet property="scoreLabel" destination="sTO-Wq-EA1" id="u3Q-Bi-GgR"/>
                 <outlet property="usernameLabel" destination="HKe-Zv-hhj" id="6b5-ox-FSR"/>
@@ -29,14 +30,6 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n2o-WC-qoc">
-                    <rect key="frame" x="258" y="21" width="45" height="45"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
-                <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="crown" translatesAutoresizingMaskIntoConstraints="NO" id="xP3-dc-mFK">
-                    <rect key="frame" x="252" y="0.0" width="57" height="36"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="#" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f1k-7S-n06">
                     <rect key="frame" x="16" y="28" width="45" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -95,6 +88,19 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2oJ-QP-8JV">
+                    <rect key="frame" x="255" y="18" width="51" height="51"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ibc-ZJ-DnV">
+                    <rect key="frame" x="258" y="21" width="45" height="45"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="crown" translatesAutoresizingMaskIntoConstraints="NO" id="SS0-UB-6cU">
+                    <rect key="frame" x="252" y="0.0" width="57" height="36"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="simulatedTopBarMetrics"/>

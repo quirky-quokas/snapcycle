@@ -75,10 +75,6 @@
     [self.tabView addSubview:childVC.view];
     
     childVC.view.frame = self.tabView.bounds;
-//    childVC.view.autoresizingMask = ((void)(UIViewAutoresizingFlexibleWidth), UIViewAutoresizingFlexibleHeight); // TODO: potentially this autoresizing code is incorrect
-//    childVC.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-//    childVC.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleWidth;
-    // TODO: do we want autoresizing? Or would we rather have the VC scroll? probably the scroll...
     [childVC didMoveToParentViewController:self];
 }
 

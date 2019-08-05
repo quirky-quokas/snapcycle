@@ -25,6 +25,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *competitionDescriptionLabel;
 @property (weak, nonatomic) IBOutlet RankingCell *currentUserRankView;
+@property (weak, nonatomic) IBOutlet UIView *joinCompView;
 
 @end
 
@@ -103,8 +104,7 @@
 // User is in the competition, show callout
 - (void)showUserIsCompetitor:(Competitor*)user {
     self.competitionDescriptionLabel.hidden = NO;
-    self.joinPromptLabel.hidden = YES;
-    self.joinButton.hidden = YES;
+    self.joinCompView.hidden = YES;
     self.currentUserRankView.hidden = NO;
     [self.currentUserRankView setUpRankingViewForCompetitor:user isCurrentUser:YES badgesAwarded:YES];
 }

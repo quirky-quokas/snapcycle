@@ -21,6 +21,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *crownView;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePicView;
+@property (weak, nonatomic) IBOutlet UIView *profilePicBorder;
 
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
@@ -80,7 +81,7 @@
     // Set up user info
     if (isCurrentUser) {
         self.usernameLabel.text = [NSString stringWithFormat:@"%@ (You)", competitor.user.username];
-        self.contentView.backgroundColor = [UIColor colorWithRed:148.0/255.0 green:200.0/255.0 blue:61.0/255.0 alpha:1.0];
+        self.contentView.backgroundColor = [UIColor colorWithRed:173.0/255.0 green:222.0/255.0 blue:229.0/255.0 alpha:1.0];
     } else {
         self.usernameLabel.text = competitor.user.username;
     }
@@ -94,6 +95,7 @@
     
     // Profile pic view
     self.profilePicView.layer.cornerRadius = self.profilePicView.frame.size.width / 2;
+    self.profilePicBorder.layer.cornerRadius = self.profilePicBorder.frame.size.width / 2;
     PFFileObject *image = competitor.user.profImage;
     [image getDataInBackgroundWithBlock:^(NSData * data, NSError * error) {
         if (!error) {
