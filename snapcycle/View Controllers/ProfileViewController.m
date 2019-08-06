@@ -77,6 +77,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *endDateTextField;
 @property (strong, nonatomic) UIDatePicker *startDatePicker;
 @property (strong, nonatomic) UIDatePicker *endDatePicker;
+@property (strong, nonatomic) NSDateFormatter *formatter;
 
 @end
 
@@ -125,6 +126,12 @@
     self.endDatePicker.datePickerMode = UIDatePickerModeDate;
     [self.endDatePicker addTarget:self action:@selector(showSelectedEndDate) forControlEvents:UIControlEventValueChanged];
     [self.endDateTextField setInputView:self.endDatePicker];
+    
+    self.formatter = [[NSDateFormatter alloc] init];
+    [self.formatter setDateFormat:@"MM/dd/yyyy"];
+    NSString *now = [self.formatter stringFromDate:[NSDate date]];
+    [self.startDatePicker setMaximumDate:[self.formatter dateFromString:now]];
+    [self.endDatePicker setMaximumDate:[self.formatter dateFromString:now]];
     
     UIToolbar *toolbar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,44)];
     toolbar.barStyle = UIBarStyleDefault;
@@ -600,14 +607,12 @@
     PFQuery *photoQuery = [[SnapUser currentUser].trashArray query];
     [photoQuery orderByDescending:@"createdAt"];
     [photoQuery includeKey:@"category"];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MM/dd/yyyy"];
     if(![self.startDateTextField.text isEqualToString:@""]) {
-        NSDate *date = [dateFormatter dateFromString:self.startDateTextField.text];
+        NSDate *date = [self.formatter dateFromString:self.startDateTextField.text];
         [photoQuery whereKey:@"createdAt" greaterThanOrEqualTo:date];
     }
     if(![self.endDateTextField.text isEqualToString:@""]){
-        NSDate *date = [dateFormatter dateFromString:self.endDateTextField.text];
+        NSDate *date = [self.formatter dateFromString:self.endDateTextField.text];
         [photoQuery whereKey:@"createdAt" lessThanOrEqualTo:date];
     }
     
@@ -639,22 +644,13 @@
 #pragma mark - Date Pickers
 
 -(void) showSelectedStartDate{
-    if ([self.endDateTextField.text isEqualToString:@""]){
-        [self.startDatePicker setMaximumDate:[NSDate date]];
-    }
     [self.endDatePicker setMinimumDate:self.startDatePicker.date];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"MM/dd/yyyy"];
-    self.startDateTextField.text = [NSString stringWithFormat:@"%@",[formatter stringFromDate:self.startDatePicker.date]];
-    
+    self.startDateTextField.text = [NSString stringWithFormat:@"%@",[self.formatter stringFromDate:self.startDatePicker.date]];
 }
 
 -(void) showSelectedEndDate{
-    [self.endDatePicker setMaximumDate:[NSDate date]];
     [self.startDatePicker setMaximumDate:self.endDatePicker.date];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"MM/dd/yyyy"];
-    self.endDateTextField.text = [NSString stringWithFormat:@"%@",[formatter stringFromDate:self.endDatePicker.date]];
+    self.endDateTextField.text = [NSString stringWithFormat:@"%@",[self.formatter stringFromDate:self.endDatePicker.date]];
 }
 
 -(void) dismissKeyboard {
