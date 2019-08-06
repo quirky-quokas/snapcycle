@@ -91,9 +91,9 @@
         self.numFirstLabel.text = [NSString stringWithFormat:@"%@", competitor.user.badges.numFirstPlace];
         [self.numFirstLabel sizeToFit];
         self.numSecondLabel.text = [NSString stringWithFormat:@"%@", competitor.user.badges.numSecondPlace];
-        [self.numFirstLabel sizeToFit];
+        [self.numSecondLabel sizeToFit];
         self.numThirdLabel.text = [NSString stringWithFormat:@"%@", competitor.user.badges.numThirdPlace];
-        [self.numFirstLabel sizeToFit];
+        [self.numThirdLabel sizeToFit];
     }];
     
     // Profile pic view
