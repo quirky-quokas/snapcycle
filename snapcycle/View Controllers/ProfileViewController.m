@@ -175,8 +175,11 @@
     Badges *badges = SnapUser.currentUser.badges;
     [badges fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
         self.numFirstLabel.text = [NSString stringWithFormat:@"%@", badges.numFirstPlace];
+        [self.numFirstLabel sizeToFit];
         self.numSecondLabel.text = [NSString stringWithFormat:@"%@", badges.numSecondPlace];
+        [self.numSecondLabel sizeToFit];
         self.numThirdLabel.text = [NSString stringWithFormat:@"%@", badges.numThirdPlace];;
+        [self.numThirdLabel sizeToFit];
     }];
     
     // Fetch stats for graphs
