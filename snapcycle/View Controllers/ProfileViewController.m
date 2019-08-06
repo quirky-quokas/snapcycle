@@ -133,14 +133,22 @@
     [self.startDatePicker setMaximumDate:[self.formatter dateFromString:now]];
     [self.endDatePicker setMaximumDate:[self.formatter dateFromString:now]];
     
-    UIToolbar *toolbar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,44)];
-    toolbar.barStyle = UIBarStyleDefault;
-    UIBarButtonItem *flexibleSpaceLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(dismissKeyboard)];
+    UIToolbar *startToolbar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,44)];
+    startToolbar.barStyle = UIBarStyleDefault;
+    UIBarButtonItem *startSpaceLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem* startDoneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(dismissStartDP)];
     
-    [toolbar setItems:[NSArray arrayWithObjects:flexibleSpaceLeft, doneButton, nil]];
-    self.startDateTextField.inputAccessoryView = toolbar;
-    self.endDateTextField.inputAccessoryView = toolbar;
+    [startToolbar setItems:[NSArray arrayWithObjects:startSpaceLeft, startDoneButton, nil]];
+    
+    UIToolbar *endToolbar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,44)];
+    endToolbar.barStyle = UIBarStyleDefault;
+    UIBarButtonItem *endSpaceLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem* endDoneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(dismissEndDP)];
+    
+    [endToolbar setItems:[NSArray arrayWithObjects:endSpaceLeft, endDoneButton, nil]];
+    
+    self.startDateTextField.inputAccessoryView = startToolbar;
+    self.endDateTextField.inputAccessoryView = endToolbar;
 
     // set collection view data source and delegate
     self.photoCollectionView.delegate = self;
@@ -613,6 +621,7 @@
     }
     if(![self.endDateTextField.text isEqualToString:@""]){
         NSDate *date = [self.formatter dateFromString:self.endDateTextField.text];
+        date = [date dateByAddingDays:1];
         [photoQuery whereKey:@"createdAt" lessThanOrEqualTo:date];
     }
     
@@ -653,8 +662,14 @@
     self.endDateTextField.text = [NSString stringWithFormat:@"%@",[self.formatter stringFromDate:self.endDatePicker.date]];
 }
 
--(void) dismissKeyboard {
+-(void)dismissStartDP{
+    self.startDateTextField.text = [NSString stringWithFormat:@"%@",[self.formatter stringFromDate:self.startDatePicker.date]];
     [self.startDateTextField resignFirstResponder];
+    [self fetchTrash];
+}
+
+-(void)dismissEndDP{
+    self.endDateTextField.text = [NSString stringWithFormat:@"%@",[self.formatter stringFromDate:self.endDatePicker.date]];
     [self.endDateTextField resignFirstResponder];
     [self fetchTrash];
 }
