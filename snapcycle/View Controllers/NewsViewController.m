@@ -41,9 +41,15 @@
 }
 
 - (void)getJSONData {
-    // TODO: update url daily with new date
     // TODO: allow user to search for a topic they're interested in?
-    NSURL *url = [NSURL URLWithString:@"https://newsapi.org/v2/everything?q=landfill-waste&from=2019-07-07&sortBy=publishedAt&apiKey=f1ea246abb09430faa9a42590f9fe5ae"];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *today = [dateFormatter stringFromDate:[NSDate date]];
+    NSString *urlStrBegin = [@"https://newsapi.org/v2/everything?q=landfill-waste&from=" stringByAppendingString:today];
+    NSString *urlStrTotal = [urlStrBegin stringByAppendingString:@"&sortBy=publishedAt&apiKey=f1ea246abb09430faa9a42590f9fe5ae"];
+    
+    NSURL *url = [NSURL URLWithString:urlStrTotal];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
