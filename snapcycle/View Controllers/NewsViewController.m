@@ -10,6 +10,7 @@
 #import "NewsArticleCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "TabBarController.h"
+#import "NewsArticleViewController.h"
 
 @interface NewsViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -107,6 +108,13 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    NewsArticleCell *tappedCell = sender;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
+    NSDictionary *article = self.articles[indexPath.row];
+    
+    NewsArticleViewController *articleVC = [segue destinationViewController];
+    articleVC.urlStr = article[@"url"];
 }
 
 @end

@@ -464,20 +464,36 @@
             </objects>
             <point key="canvasLocation" x="3620" y="1360.569715142429"/>
         </scene>
-        <!--View Controller-->
+        <!--News Article View Controller-->
         <scene sceneID="7SL-jg-bkp">
             <objects>
-                <viewController id="rls-b6-nfl" sceneMemberID="viewController">
+                <viewController id="rls-b6-nfl" customClass="NewsArticleViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" restorationIdentifier="News" id="5N2-pi-8kr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rnu-KE-3j1">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="JA0-nZ-vgb">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="iev-mD-gbN"/>
                     </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="JA0-nZ-vgb" id="URS-fb-b0D"/>
+                        <outlet property="viewHolder" destination="Rnu-KE-3j1" id="8t3-6M-R81"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5gV-Ts-tEs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4329" y="1361"/>
+            <point key="canvasLocation" x="4328.8000000000002" y="1360.569715142429"/>
         </scene>
         <!--Competition Info Pop Up View Controller-->
         <scene sceneID="jvs-5S-bMw">
