@@ -13,10 +13,10 @@
 #import "DetailsViewController.h"
 #import "RegisterViewController.h"
 #import "TabBarController.h"
-#import "MobileNetV2.h"
+//#import "MobileNetV2.h"
 #import <Vision/Vision.h>
 #import "Category.h"
-
+#import "TrashClassifier.h"
 
 @interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) UIImage *capturedImage;
@@ -64,7 +64,7 @@
 }
 
 - (void) setUpImageRecognition {
-    self.model = [[[MobileNetV2 alloc] init] model];
+    self.model = [[[TrashClassifier alloc] init] model];
     self.coreModel = [VNCoreMLModel modelForMLModel:self.model error:nil];
     
     // Request to process image. completion handler will be called when a request handler is called with this request
@@ -79,24 +79,25 @@
             int i = 0;
             const int NUM_GUESSES_TO_CONSIDER = 10;
             
+            NSLog(@"%@", request.results[0]);
             // While we have yet to pick a guess and have not met threshold
-            while (!categoryIdentified && i < NUM_GUESSES_TO_CONSIDER) {
-                // Consider each guess in order (starting from highest confidence)
-                VNClassificationObservation *result = request.results[i];
-                NSString *guess = result.identifier;
-                NSLog(@"%@", guess);
-                
-                // Check to see if guess matches one of the categories
-                int j = 0;
-                while (!categoryIdentified && j < self.categories.count) {
-                    Category *category = self.categories[j];
-                    if ([guess localizedCaseInsensitiveContainsString:category.name]) {
-                        NSLog(@"Match found! Guess: %@, Category: %@", guess, category.name);
-                        self.identifiedCategory = category;
-                        categoryIdentified = YES;
-                    }
-                }
-            }
+//            while (!categoryIdentified && i < NUM_GUESSES_TO_CONSIDER) {
+//                // Consider each guess in order (starting from highest confidence)
+//                VNClassificationObservation *result = request.results[i];
+//                NSString *guess = result.identifier;
+//                NSLog(@"%@", guess);
+//
+//                // Check to see if guess matches one of the categories
+//                int j = 0;
+//                while (!categoryIdentified && j < self.categories.count) {
+//                    Category *category = self.categories[j];
+//                    if ([guess localizedCaseInsensitiveContainsString:category.name]) {
+//                        NSLog(@"Match found! Guess: %@, Category: %@", guess, category.name);
+//                        self.identifiedCategory = category;
+//                        categoryIdentified = YES;
+//                    }
+//                }
+//            }
             
             // Segue to details view
             [self performSegueWithIdentifier:@"segueToDetailsVC" sender:self];
@@ -236,7 +237,7 @@
  Prepare for segue to DetailsVC with data to send.
  */
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSLog("SEgueing");
+    NSLog(@"SEgueing");
     DetailsViewController *detailsViewController = [segue destinationViewController];
     
     /*
