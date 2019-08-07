@@ -9,6 +9,7 @@
 #import "NewsViewController.h"
 #import "NewsArticleCell.h"
 #import "UIImageView+AFNetworking.h"
+#import "TabBarController.h"
 
 @interface NewsViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -26,9 +27,10 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
+    [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
+    
     [self.activityIndicator startAnimating];
     [self getJSONData];
-    [self.activityIndicator stopAnimating];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(getJSONData) forControlEvents:UIControlEventValueChanged];
@@ -58,20 +60,17 @@
             [self.tableView reloadData];
         }
         [self.refreshControl endRefreshing];
+        
+        [self.activityIndicator stopAnimating];
     }];
     
     [task resume];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)didTapLogout:(UIBarButtonItem *)sender {
+    TabBarController *tabVC = [[TabBarController alloc] init];
+    [tabVC logoutUserWithAlertIfError];
 }
-*/
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     NewsArticleCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NewsArticleCell"];
@@ -101,6 +100,13 @@
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.articles.count;
+}
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
 }
 
 @end
