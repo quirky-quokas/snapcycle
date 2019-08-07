@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *articles;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -25,16 +26,18 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
+    [self getJSONData];
+
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(getJSONData) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
     
-    [self getJSONData];
-
     self.tableView.rowHeight = UITableViewAutomaticDimension;
 }
 
 - (void)getJSONData {
+    [self.activityIndicator startAnimating];
+    
     // TODO: update url daily with new date
     // TODO: allow user to search for a topic they're interested in?
     NSURL *url = [NSURL URLWithString:@"https://newsapi.org/v2/everything?q=landfill-waste&from=2019-07-07&sortBy=publishedAt&apiKey=f1ea246abb09430faa9a42590f9fe5ae"];
@@ -56,6 +59,8 @@
         }
         
         [self.refreshControl endRefreshing];
+        
+        [self.activityIndicator stopAnimating];
     }];
     
     [task resume];
