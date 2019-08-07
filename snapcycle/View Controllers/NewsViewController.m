@@ -12,12 +12,13 @@
 #import "TabBarController.h"
 #import "NewsArticleViewController.h"
 
-@interface NewsViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface NewsViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *articles;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) NSString *topic;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
@@ -28,6 +29,7 @@
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.searchBar.delegate = self;
     
     [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
     
@@ -43,8 +45,6 @@
 }
 
 - (void)getJSONData {
-    // TODO: allow user to search for a topic they're interested in?
-    
     NSString *urlStr = [self getURLStr];
     NSURL *url = [NSURL URLWithString:urlStr];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
@@ -82,6 +82,16 @@
     NSString *urlStrTotal = [urlStrPart3 stringByAppendingString:@"&sortBy=publishedAt&apiKey=f1ea246abb09430faa9a42590f9fe5ae"];
     
     return urlStrTotal;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    self.topic = [searchText stringByReplacingOccurrencesOfString:@" " withString:@"-"];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [self.activityIndicator startAnimating];
+    [self getJSONData];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 }
 
 - (IBAction)didTapLogout:(UIBarButtonItem *)sender {

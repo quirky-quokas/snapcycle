@@ -462,6 +462,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="EWb-sR-y5S" id="kxf-Lu-xr2"/>
+                        <outlet property="searchBar" destination="e14-uo-059" id="OaN-8v-BOC"/>
                         <outlet property="tableView" destination="Hy5-uY-sYK" id="CF3-br-dOd"/>
                     </connections>
                 </viewController>
