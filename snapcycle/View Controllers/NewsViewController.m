@@ -67,7 +67,6 @@
                 [self.tableViewPlaceholder setHidden:NO];
             }
             
-            // Reload table view
             [self.tableView reloadData];
         }
         [self.refreshControl endRefreshing];
@@ -125,7 +124,6 @@
     }
     
     if (!((article[@"urlToImage"] == (id)[NSNull null]) || ([article[@"urlToImage"] length] == 0))) {
-//        @try {
             NSURL *url = [NSURL URLWithString:article[@"urlToImage"]];
             cell.articleImage.image = nil;
             [cell.articleImage setImageWithURL:url placeholderImage:[UIImage imageNamed:@"news_articleImagePlaceholder"]];
@@ -142,9 +140,6 @@
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    
     NewsArticleCell *tappedCell = sender;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
     NSDictionary *article = self.articles[indexPath.row];
