@@ -17,6 +17,7 @@
 @property (strong, nonatomic) NSArray *articles;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) NSString *topic;
 
 @end
 
@@ -31,6 +32,7 @@
     [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
     
     [self.activityIndicator startAnimating];
+    self.topic = @"landfill";
     [self getJSONData];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -43,13 +45,8 @@
 - (void)getJSONData {
     // TODO: allow user to search for a topic they're interested in?
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *today = [dateFormatter stringFromDate:[NSDate date]];
-    NSString *urlStrBegin = [@"https://newsapi.org/v2/everything?q=landfill-waste&from=" stringByAppendingString:today];
-    NSString *urlStrTotal = [urlStrBegin stringByAppendingString:@"&sortBy=publishedAt&apiKey=f1ea246abb09430faa9a42590f9fe5ae"];
-    
-    NSURL *url = [NSURL URLWithString:urlStrTotal];
+    NSString *urlStr = [self getURLStr];
+    NSURL *url = [NSURL URLWithString:urlStr];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -72,6 +69,19 @@
     }];
     
     [task resume];
+}
+
+- (NSString *)getURLStr {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *today = [dateFormatter stringFromDate:[NSDate date]];
+    
+    NSString *urlStrPart1 = [@"https://newsapi.org/v2/everything?q=" stringByAppendingString:self.topic];
+    NSString *urlStrPart2 = [urlStrPart1 stringByAppendingString:@"-waste&from="];
+    NSString *urlStrPart3 = [urlStrPart2 stringByAppendingString:today];
+    NSString *urlStrTotal = [urlStrPart3 stringByAppendingString:@"&sortBy=publishedAt&apiKey=f1ea246abb09430faa9a42590f9fe5ae"];
+    
+    return urlStrTotal;
 }
 
 - (IBAction)didTapLogout:(UIBarButtonItem *)sender {
