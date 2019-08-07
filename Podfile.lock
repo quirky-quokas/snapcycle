@@ -1,4 +1,19 @@
 PODS:
+  - AFNetworking (3.2.1):
+    - AFNetworking/NSURLSession (= 3.2.1)
+    - AFNetworking/Reachability (= 3.2.1)
+    - AFNetworking/Security (= 3.2.1)
+    - AFNetworking/Serialization (= 3.2.1)
+    - AFNetworking/UIKit (= 3.2.1)
+  - AFNetworking/NSURLSession (3.2.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.2.1)
+  - AFNetworking/Security (3.2.1)
+  - AFNetworking/Serialization (3.2.1)
+  - AFNetworking/UIKit (3.2.1):
+    - AFNetworking/NSURLSession
   - Bolts/Tasks (1.9.0)
   - DateTools (2.0.0)
   - Highcharts (7.1.3)
@@ -13,6 +28,7 @@ PODS:
   - XLPagerTabStrip (2.0.0)
 
 DEPENDENCIES:
+  - AFNetworking
   - DateTools
   - Highcharts (~> 7.1.3)
   - MKDropdownMenu
@@ -22,6 +38,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - AFNetworking
     - Bolts
     - DateTools
     - Highcharts
@@ -31,6 +48,7 @@ SPEC REPOS:
     - XLPagerTabStrip
 
 SPEC CHECKSUMS:
+  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   Highcharts: b40663d1fea27270cefdc15f066f7234b3ec8195
@@ -39,6 +57,6 @@ SPEC CHECKSUMS:
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
   XLPagerTabStrip: 2c69b8e3208432a94e713c198ce597faad5a87bb
 
-PODFILE CHECKSUM: 399bd4645b54da5640efea448fb0cc15639556a8
+PODFILE CHECKSUM: 537cb75a07385116f7363a47a6951e90267963e0
 
-COCOAPODS: 1.7.2
+COCOAPODS: 1.7.3

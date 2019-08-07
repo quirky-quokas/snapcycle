@@ -7,10 +7,12 @@
 //
 
 #import "NewsViewController.h"
+#import "NewsArticleCell.h"
+#import "UIImageView+AFNetworking.h"
 
-@interface NewsViewController ()
-// <UITableViewDelegate, UITableViewDataSource>
+@interface NewsViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSArray *articles;
 
 @end
 
@@ -19,20 +21,37 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
     [self getJSONData];
+
+//    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.rowHeight = 300;
 }
 
 - (void)getJSONData {
-    NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithURL:[NSURL URLWithString:@"https://newsapi.org/v2/everything?q=landfill&from=2019-07-06&sortBy=publishedAt&apiKey=f1ea246abb09430faa9a42590f9fe5ae"] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        // handle response, including error
-        if (data) {
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-            NSLog(@"%@", jsonDict);
+    // TODO: update url daily with new date
+    NSURL *url = [NSURL URLWithString:@"https://newsapi.org/v2/everything?q=landfill&from=2019-07-07&sortBy=publishedAt&apiKey=f1ea246abb09430faa9a42590f9fe5ae"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
         } else {
-            NSLog(@"Error getting data from newsAPI: %@", error);
+            // Fill movies array with data from dictionary
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            self.articles = jsonDict[@"articles"];
+            
+            //TODO: check if no articles today!
+            
+            // Reload table view
+            [self.tableView reloadData];
         }
-    }] resume];
+    }];
+    
+    [task resume];
 }
 
 /*
@@ -45,12 +64,27 @@
 }
 */
 
-//- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-//    <#code#>
-//}
-//
-//- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    <#code#>
-//}
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    NewsArticleCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NewsArticleCell"];
+    
+    NSDictionary *article = self.articles[indexPath.row];
+    cell.articleTitle.text = article[@"title"];
+    cell.articleDescrip.text = article[@"description"];
+    
+    // TODO: include this check for all cell outlets
+    if (!((article[@"author"] == (id)[NSNull null]) || ([article[@"author"] length] == 0))) {
+        cell.articleAuthor.text = article[@"author"];
+    }
+    
+    NSURL *url = [NSURL URLWithString:article[@"urlToImage"]];
+    cell.articleImage.image = nil;
+    [cell.articleImage setImageWithURL:url];
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.articles.count;
+}
 
 @end
