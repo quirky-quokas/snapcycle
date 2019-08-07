@@ -26,13 +26,14 @@
     
     [self getJSONData];
 
-//    self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.rowHeight = 300;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+//    self.tableView.rowHeight = 300;
 }
 
 - (void)getJSONData {
     // TODO: update url daily with new date
-    NSURL *url = [NSURL URLWithString:@"https://newsapi.org/v2/everything?q=landfill&from=2019-07-07&sortBy=publishedAt&apiKey=f1ea246abb09430faa9a42590f9fe5ae"];
+    // TODO: allow user to search for a topic they're interested in?
+    NSURL *url = [NSURL URLWithString:@"https://newsapi.org/v2/everything?q=landfill-waste&from=2019-07-07&sortBy=publishedAt&apiKey=f1ea246abb09430faa9a42590f9fe5ae"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -68,17 +69,24 @@
     NewsArticleCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NewsArticleCell"];
     
     NSDictionary *article = self.articles[indexPath.row];
-    cell.articleTitle.text = article[@"title"];
-    cell.articleDescrip.text = article[@"description"];
     
-    // TODO: include this check for all cell outlets
+    if (!((article[@"title"] == (id)[NSNull null]) || ([article[@"title"] length] == 0))) {
+        cell.articleTitle.text = article[@"title"];
+    }
+    
+    if (!((article[@"description"] == (id)[NSNull null]) || ([article[@"description"] length] == 0))) {
+        cell.articleDescrip.text = article[@"description"];
+    }
+    
     if (!((article[@"author"] == (id)[NSNull null]) || ([article[@"author"] length] == 0))) {
         cell.articleAuthor.text = article[@"author"];
     }
     
-    NSURL *url = [NSURL URLWithString:article[@"urlToImage"]];
-    cell.articleImage.image = nil;
-    [cell.articleImage setImageWithURL:url];
+    if (!((article[@"urlToImage"] == (id)[NSNull null]) || ([article[@"urlToImage"] length] == 0))) {
+        NSURL *url = [NSURL URLWithString:article[@"urlToImage"]];
+        cell.articleImage.image = nil;
+        [cell.articleImage setImageWithURL:url];
+    }
     
     return cell;
 }
