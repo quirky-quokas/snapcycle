@@ -14,7 +14,7 @@
 
 @interface NewsViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSArray *articles;
+@property (strong, nonatomic) NSMutableArray *articles;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) NSString *topic;
@@ -76,22 +76,23 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSString *today = [dateFormatter stringFromDate:[NSDate date]];
     
-    NSString *urlStrPart1 = [@"https://newsapi.org/v2/everything?q=" stringByAppendingString:self.topic];
-    NSString *urlStrPart2 = [urlStrPart1 stringByAppendingString:@"-waste&from="];
-    NSString *urlStrPart3 = [urlStrPart2 stringByAppendingString:today];
-    NSString *urlStrTotal = [urlStrPart3 stringByAppendingString:@"&sortBy=publishedAt&apiKey=f1ea246abb09430faa9a42590f9fe5ae"];
+    NSString *urlStr = [NSString stringWithFormat:@"https://newsapi.org/v2/everything?q=%@-waste&from=%@&sortBy=publishedAt&apiKey=f1ea246abb09430faa9a42590f9fe5ae", self.topic, today];
     
-    return urlStrTotal;
+    return urlStr;
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    // NOTE: does not account for invalid user input
     self.topic = [searchText stringByReplacingOccurrencesOfString:@" " withString:@"-"];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [self.activityIndicator startAnimating];
     [self getJSONData];
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    
+    if (self.articles.count != 0) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    }
 }
 
 - (IBAction)didTapLogout:(UIBarButtonItem *)sender {
