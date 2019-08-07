@@ -13,6 +13,7 @@
 @interface NewsViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *articles;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @end
 
@@ -24,10 +25,13 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(getJSONData) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+    
     [self getJSONData];
 
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-//    self.tableView.rowHeight = 300;
 }
 
 - (void)getJSONData {
@@ -50,6 +54,8 @@
             // Reload table view
             [self.tableView reloadData];
         }
+        
+        [self.refreshControl endRefreshing];
     }];
     
     [task resume];
