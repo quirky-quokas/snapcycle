@@ -15,6 +15,8 @@
 #import "TabBarController.h"
 #import "FocusFrame.h"
 #import "CameraView.h"
+#import <Vision/Vision.h>
+#import "TrashClassifier.h"
 
 @interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate, CameraViewDelegate>
 @property (strong, nonatomic) UIImage *capturedImage;
@@ -25,6 +27,13 @@
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 @property (strong, nonatomic) AVCaptureDevice *backCamera;
 @property (weak, nonatomic) IBOutlet UIButton *cameraButton;
+
+// Image recognition
+@property (strong, nonatomic) MLModel *model;
+@property (strong, nonatomic) VNCoreMLModel *coreModel;
+@property (strong, nonatomic) VNCoreMLRequest *request;
+@property (strong, nonatomic) Category *identifiedCategory;
+@property (strong, nonatomic) NSMutableDictionary <NSString*, Category*> *nameDictionary;
 
 @end
 
@@ -48,7 +57,9 @@
         
         // NOTE: not checking AVAuthorizationStatus, will do later if time
     }
-
+    
+    [self fetchCategories];
+    [self setUpImageRecognition];
 
     // set the navigation bar font
     [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
@@ -59,6 +70,26 @@
  */
 - (void)viewDidAppear:(BOOL)animated {
     [self.session startRunning];
+}
+
+/**
+ Fetches categories to compare for image recognition
+ */
+- (void) fetchCategories {
+    PFQuery *postQuery = [PFQuery queryWithClassName:@"Category"];
+    [postQuery orderByAscending:@"order"];
+    
+    [postQuery findObjectsInBackgroundWithBlock:^(NSArray<Category *> * _Nullable categories, NSError * _Nullable error) {
+        if (categories) {
+            self.nameDictionary = [[NSMutableDictionary alloc] init];
+            for (Category *category in categories){
+                [self.nameDictionary setObject:category forKey:category.name];
+            }
+        }
+        else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
 }
 
 /**
@@ -191,9 +222,7 @@
     if (imageData) {
         UIImage *image = [UIImage imageWithData:imageData];
         self.capturedImage = image;
-        
-        // segue to detailsVC
-        [self performSegueWithIdentifier:@"segueToDetailsVC" sender:self];
+        [self recognizeImage];
     }
     self.cameraButton.enabled = YES;
 }
@@ -217,8 +246,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     DetailsViewController *detailsViewController = [segue destinationViewController];
     
-    PFQuery *categoryQuery = [PFQuery queryWithClassName:@"Category"];
-    detailsViewController.category = [categoryQuery getObjectWithId:@"u42Xiik8ok"];
+    detailsViewController.category = self.identifiedCategory;
     detailsViewController.image = self.capturedImage;
     detailsViewController.delegate = self;
 }
@@ -238,6 +266,45 @@
 - (IBAction)onLogoutTap:(id)sender {
     // Logout user
     [((TabBarController*)self.tabBarController) logoutUserWithAlertIfError];
+}
+
+#pragma mark - Image Recognition
+
+/**
+ Process image for image recognition
+ */
+- (void)recognizeImage {
+    // Convert to CI image so that image recognition can analyze it
+    CIImage *ciImage = [[CIImage alloc] initWithCGImage:self.capturedImage.CGImage];
+    
+    NSDictionary *options = [[NSDictionary alloc] init];
+    NSArray *requestArray = @[self.request];
+    
+    // Create image recognition request for iamge
+    VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCIImage:ciImage options:options];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [handler performRequests:requestArray error:nil];
+    });
+}
+
+/**
+ Retrieve results for image recognition
+ */
+- (void) setUpImageRecognition {
+    self.model = [[[TrashClassifier alloc] init] model];
+    self.coreModel = [VNCoreMLModel modelForMLModel:self.model error:nil];
+    
+    // Request to process image. completion handler will be called when a request handler is called with this request
+    self.request = [[VNCoreMLRequest alloc] initWithModel: self.coreModel completionHandler: (VNRequestCompletionHandler) ^(VNRequest *request, NSError *error){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            VNClassificationObservation *result = request.results[0];
+            NSString *name = result.identifier;
+            self.identifiedCategory = self.nameDictionary[name];
+            NSLog(@"%@", name);
+            [self performSegueWithIdentifier:@"segueToDetailsVC" sender:self];
+        });
+    }];
 }
 
 @end

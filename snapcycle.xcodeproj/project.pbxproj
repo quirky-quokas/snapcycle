@@ -14,6 +14,8 @@
 		8479E90C22DE5C6B009174E7 /* Trash.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E90B22DE5C6B009174E7 /* Trash.m */; };
 		8479E90F22DE5F90009174E7 /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E90E22DE5F90009174E7 /* Category.m */; };
 		8479E91522DE638E009174E7 /* SnapUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E91422DE638E009174E7 /* SnapUser.m */; };
+		84AAA18C22FB726800A490AE /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84AAA18B22FB726800A490AE /* CoreML.framework */; };
+		84AAA18E22FB84E300A490AE /* TrashClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 84AAA18D22FB84E300A490AE /* TrashClassifier.mlmodel */; };
 		84EC731922E62A2F00F37CA5 /* PhotoLogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */; };
 		84FB4A3222EA2BF300F6FB95 /* PhotoPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FB4A3122EA2BF300F6FB95 /* PhotoPopUpViewController.m */; };
 		84FD569C22EF9C1900C5DBED /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FD569B22EF9C1900C5DBED /* CoreLocation.framework */; };
@@ -85,6 +87,8 @@
 		8479E90E22DE5F90009174E7 /* Category.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
 		8479E91322DE638E009174E7 /* SnapUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SnapUser.h; sourceTree = "<group>"; };
 		8479E91422DE638E009174E7 /* SnapUser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SnapUser.m; sourceTree = "<group>"; };
+		84AAA18B22FB726800A490AE /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
+		84AAA18D22FB84E300A490AE /* TrashClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = TrashClassifier.mlmodel; path = ../../TrashClassifier.mlmodel; sourceTree = "<group>"; };
 		84EC731722E62A2F00F37CA5 /* PhotoLogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoLogCell.h; sourceTree = "<group>"; };
 		84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoLogCell.m; sourceTree = "<group>"; };
 		84FB4A3022EA2BF300F6FB95 /* PhotoPopUpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPopUpViewController.h; sourceTree = "<group>"; };
@@ -168,6 +172,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84AAA18C22FB726800A490AE /* CoreML.framework in Frameworks */,
 				84FD569C22EF9C1900C5DBED /* CoreLocation.framework in Frameworks */,
 				32B1E4290ADE7E9489A9DC27 /* Pods_snapcycle.framework in Frameworks */,
 			);
@@ -195,6 +200,7 @@
 		35C2CCA3A3F0B8D3A1DEA813 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84AAA18B22FB726800A490AE /* CoreML.framework */,
 				84FD569B22EF9C1900C5DBED /* CoreLocation.framework */,
 				59B548157ECDEB7F16DEA4FF /* Pods_snapcycle.framework */,
 				40228DBD9FA8C985853BE112 /* Pods_snapcycleTests.framework */,
@@ -280,6 +286,7 @@
 		B1320C4A22DE407E00A38B16 /* snapcycle */ = {
 			isa = PBXGroup;
 			children = (
+				84AAA18D22FB84E300A490AE /* TrashClassifier.mlmodel */,
 				B19CD90922E923FA008F9782 /* SourceSansPro-Semibold.otf */,
 				B19CD90722E923EF008F9782 /* SourceSansPro-Light.otf */,
 				B19CD90522E923CE008F9782 /* SourceSansPro-Regular.otf */,
@@ -614,6 +621,7 @@
 				B155009C22EA28A400FAFF8F /* CameraView.m in Sources */,
 				8479E91522DE638E009174E7 /* SnapUser.m in Sources */,
 				B61848C322F514D200D2BD8A /* SoundManager.m in Sources */,
+				84AAA18E22FB84E300A490AE /* TrashClassifier.mlmodel in Sources */,
 				844856F022DFBF7100CC5600 /* CategoriesCell.m in Sources */,
 				B6CED37122E8D9160091B788 /* Competitor.m in Sources */,
 				B1B9EDD022F0B22200C0A6F4 /* CompTabViewController.m in Sources */,
@@ -804,13 +812,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = B9A2QRD9WC;
+				DEVELOPMENT_TEAM = J4DN384M7G;
 				INFOPLIST_FILE = snapcycle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.emilyabest.snapcycle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kyle.snapcycle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -822,13 +830,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = B9A2QRD9WC;
+				DEVELOPMENT_TEAM = J4DN384M7G;
 				INFOPLIST_FILE = snapcycle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.emilyabest.snapcycle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kyle.snapcycle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
