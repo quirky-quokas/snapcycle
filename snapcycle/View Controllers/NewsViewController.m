@@ -26,7 +26,9 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
+    [self.activityIndicator startAnimating];
     [self getJSONData];
+    [self.activityIndicator stopAnimating];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(getJSONData) forControlEvents:UIControlEventValueChanged];
@@ -36,8 +38,6 @@
 }
 
 - (void)getJSONData {
-    [self.activityIndicator startAnimating];
-    
     // TODO: update url daily with new date
     // TODO: allow user to search for a topic they're interested in?
     NSURL *url = [NSURL URLWithString:@"https://newsapi.org/v2/everything?q=landfill-waste&from=2019-07-07&sortBy=publishedAt&apiKey=f1ea246abb09430faa9a42590f9fe5ae"];
@@ -57,10 +57,7 @@
             // Reload table view
             [self.tableView reloadData];
         }
-        
         [self.refreshControl endRefreshing];
-        
-        [self.activityIndicator stopAnimating];
     }];
     
     [task resume];
