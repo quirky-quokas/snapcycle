@@ -358,6 +358,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q9e-pK-zLU">
+                                <rect key="frame" x="0.0" y="220" width="375" height="398"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No articles on that topic today! Try a different search." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a6c-Gh-XGp">
+                                        <rect key="frame" x="47" y="164" width="281" height="70"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="20"/>
+                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Hy5-uY-sYK">
                                 <rect key="frame" x="0.0" y="220" width="375" height="398"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -369,7 +383,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="295.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OEZ-CZ-1Ty">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="news_articleImagePlaceholder2" translatesAutoresizingMaskIntoConstraints="NO" id="OEZ-CZ-1Ty">
                                                     <rect key="frame" x="15" y="8" width="345" height="215"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="345" id="fOn-Ag-WI3"/>
@@ -464,6 +478,7 @@
                         <outlet property="activityIndicator" destination="EWb-sR-y5S" id="kxf-Lu-xr2"/>
                         <outlet property="searchBar" destination="e14-uo-059" id="OaN-8v-BOC"/>
                         <outlet property="tableView" destination="Hy5-uY-sYK" id="CF3-br-dOd"/>
+                        <outlet property="tableViewPlaceholder" destination="Q9e-pK-zLU" id="gJD-zu-DdH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eCk-Cb-fFe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1658,6 +1673,7 @@
         <image name="icon_profile" width="30" height="30"/>
         <image name="info_icon" width="192" height="192"/>
         <image name="location-pin-1" width="512" height="512"/>
+        <image name="news_articleImagePlaceholder2" width="346" height="216"/>
         <image name="podium" width="1314" height="1098"/>
         <image name="profile icon" width="30" height="30"/>
         <image name="profile_backdrop" width="750" height="489"/>

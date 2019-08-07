@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) NSString *topic;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UIView *tableViewPlaceholder;
 
 @end
 
@@ -30,6 +31,8 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.searchBar.delegate = self;
+    
+    [self.tableViewPlaceholder setHidden:YES];
     
     [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
     
@@ -54,11 +57,15 @@
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
         } else {
-            // Fill movies array with data from dictionary
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             self.articles = jsonDict[@"articles"];
             
-            //TODO: check if no articles today!
+            // check if no articles today
+            if (self.articles.count != 0) {
+                [self.tableViewPlaceholder setHidden:YES];
+            } else {
+                [self.tableViewPlaceholder setHidden:NO];
+            }
             
             // Reload table view
             [self.tableView reloadData];
@@ -118,9 +125,11 @@
     }
     
     if (!((article[@"urlToImage"] == (id)[NSNull null]) || ([article[@"urlToImage"] length] == 0))) {
-        NSURL *url = [NSURL URLWithString:article[@"urlToImage"]];
-        cell.articleImage.image = nil;
-        [cell.articleImage setImageWithURL:url];
+//        @try {
+            NSURL *url = [NSURL URLWithString:article[@"urlToImage"]];
+            cell.articleImage.image = nil;
+            [cell.articleImage setImageWithURL:url placeholderImage:[UIImage imageNamed:@"news_articleImagePlaceholder"]];
+            NSLog(@"%@", article[@"title"]);
     }
     
     return cell;
