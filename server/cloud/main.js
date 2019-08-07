@@ -3,6 +3,11 @@ Parse.Cloud.define('hello', function(req, res) {
   return 'Hi';
 });
 
+// Cloud function used for testing
+Parse.Cloud.define('test', function(req, res) {
+  return 'Hi :))';
+});
+
 // parameters:
 //   day- start of week
 // return:
