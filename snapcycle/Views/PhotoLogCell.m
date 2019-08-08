@@ -17,10 +17,10 @@
     NSString *dateString = [formatter stringFromDate:trash.createdAt];
     self.dateLabel.text = dateString;
     
-    if ([trash.category.type isEqualToString:@"recycling"]){
+    if ([trash.userAction isEqualToString:@"recycling"]){
         self.typeLabel.text = @"recycled";
     }
-    else if ([trash.category.type isEqualToString:@"compost"]){
+    else if ([trash.userAction isEqualToString:@"compost"]){
         self.typeLabel.text = @"composted";
     }
     else{
