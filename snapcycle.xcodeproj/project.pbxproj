@@ -34,6 +34,7 @@
 		B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81ED22DE641B00E72713 /* ProfileViewController.m */; };
 		B16C81F122DE643B00E72713 /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81F022DE643B00E72713 /* CategoriesViewController.m */; };
 		B16C81F422DE70D800E72713 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16C81F322DE70D800E72713 /* DetailsViewController.m */; };
+		B1835FB822FB4E1F00EEFD78 /* NewsArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1835FB722FB4E1F00EEFD78 /* NewsArticleViewController.m */; };
 		B19CD90622E923CE008F9782 /* SourceSansPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD90522E923CE008F9782 /* SourceSansPro-Regular.otf */; };
 		B19CD90822E923EF008F9782 /* SourceSansPro-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD90722E923EF008F9782 /* SourceSansPro-Light.otf */; };
 		B19CD90A22E923FA008F9782 /* SourceSansPro-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B19CD90922E923FA008F9782 /* SourceSansPro-Semibold.otf */; };
@@ -41,6 +42,9 @@
 		B1B9EDD922F0B6C100C0A6F4 /* TodayCompViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B9EDD822F0B6C100C0A6F4 /* TodayCompViewController.m */; };
 		B1B9EDDC22F0B6D100C0A6F4 /* YesterdayCompViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B9EDDB22F0B6D100C0A6F4 /* YesterdayCompViewController.m */; };
 		B1B9EDE222F0F11D00C0A6F4 /* CompTabSegControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B9EDE122F0F11D00C0A6F4 /* CompTabSegControl.m */; };
+		B1C2FCE622FA3F3000198901 /* NewsArticleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C2FCE522FA3F3000198901 /* NewsArticleCell.m */; };
+		B1C2FCE922FA3FEB00198901 /* NewsArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C2FCE822FA3FEB00198901 /* NewsArticle.m */; };
+		B1C2FCEC22FA40A500198901 /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C2FCEB22FA40A500198901 /* NewsViewController.m */; };
 		B1E88DA422E7C48B004DB1F1 /* FocusFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E88DA322E7C48B004DB1F1 /* FocusFrame.m */; };
 		B61848B522F3C04100D2BD8A /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B61848B422F3C04100D2BD8A /* TutorialViewController.m */; };
 		B61848B822F3C06700D2BD8A /* TutorialPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B61848B722F3C06700D2BD8A /* TutorialPageViewController.m */; };
@@ -125,6 +129,8 @@
 		B16C81F022DE643B00E72713 /* CategoriesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CategoriesViewController.m; sourceTree = "<group>"; };
 		B16C81F222DE70D800E72713 /* DetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
 		B16C81F322DE70D800E72713 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
+		B1835FB622FB4E1F00EEFD78 /* NewsArticleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsArticleViewController.h; sourceTree = "<group>"; };
+		B1835FB722FB4E1F00EEFD78 /* NewsArticleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsArticleViewController.m; sourceTree = "<group>"; };
 		B19CD90522E923CE008F9782 /* SourceSansPro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Regular.otf"; sourceTree = "<group>"; };
 		B19CD90722E923EF008F9782 /* SourceSansPro-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Light.otf"; sourceTree = "<group>"; };
 		B19CD90922E923FA008F9782 /* SourceSansPro-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Semibold.otf"; sourceTree = "<group>"; };
@@ -136,6 +142,12 @@
 		B1B9EDDB22F0B6D100C0A6F4 /* YesterdayCompViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YesterdayCompViewController.m; sourceTree = "<group>"; };
 		B1B9EDE022F0F11D00C0A6F4 /* CompTabSegControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompTabSegControl.h; sourceTree = "<group>"; };
 		B1B9EDE122F0F11D00C0A6F4 /* CompTabSegControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompTabSegControl.m; sourceTree = "<group>"; };
+		B1C2FCE422FA3F3000198901 /* NewsArticleCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsArticleCell.h; sourceTree = "<group>"; };
+		B1C2FCE522FA3F3000198901 /* NewsArticleCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsArticleCell.m; sourceTree = "<group>"; };
+		B1C2FCE722FA3FEB00198901 /* NewsArticle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsArticle.h; sourceTree = "<group>"; };
+		B1C2FCE822FA3FEB00198901 /* NewsArticle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsArticle.m; sourceTree = "<group>"; };
+		B1C2FCEA22FA40A500198901 /* NewsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
+		B1C2FCEB22FA40A500198901 /* NewsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
 		B1E88DA222E7C48B004DB1F1 /* FocusFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FocusFrame.h; sourceTree = "<group>"; };
 		B1E88DA322E7C48B004DB1F1 /* FocusFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FocusFrame.m; sourceTree = "<group>"; };
 		B3A07F9C47C7041ECE916776 /* Pods-snapcycle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-snapcycle.release.xcconfig"; path = "Target Support Files/Pods-snapcycle/Pods-snapcycle.release.xcconfig"; sourceTree = "<group>"; };
@@ -238,6 +250,8 @@
 				B6E4F2D622F0EE1B00C8B2AD /* RankingXIB.xib */,
 				B6E4F2D522F0EE1700C8B2AD /* RankingCell.h */,
 				B6E4F2D322F0EE1000C8B2AD /* RankingCell.m */,
+				B1C2FCE422FA3F3000198901 /* NewsArticleCell.h */,
+				B1C2FCE522FA3F3000198901 /* NewsArticleCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -300,6 +314,8 @@
 				B1320C5622DE407E00A38B16 /* LaunchScreen.storyboard */,
 				B1320C5922DE407E00A38B16 /* Info.plist */,
 				B1320C5A22DE407E00A38B16 /* main.m */,
+				B1C2FCE722FA3FEB00198901 /* NewsArticle.h */,
+				B1C2FCE822FA3FEB00198901 /* NewsArticle.m */,
 			);
 			path = snapcycle;
 			sourceTree = "<group>";
@@ -355,6 +371,10 @@
 				B61848B722F3C06700D2BD8A /* TutorialPageViewController.m */,
 				B61848B922F3C09E00D2BD8A /* TutChildViewController.h */,
 				B61848BA22F3C09E00D2BD8A /* TutChildViewController.m */,
+				B1C2FCEA22FA40A500198901 /* NewsViewController.h */,
+				B1C2FCEB22FA40A500198901 /* NewsViewController.m */,
+				B1835FB622FB4E1F00EEFD78 /* NewsArticleViewController.h */,
+				B1835FB722FB4E1F00EEFD78 /* NewsArticleViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -614,6 +634,7 @@
 				84FB4A3222EA2BF300F6FB95 /* PhotoPopUpViewController.m in Sources */,
 				B69CB8A222E2438900F6C390 /* TabBarController.m in Sources */,
 				B6E4F2DA22F36A5100C8B2AD /* CompetitionInfoPopUpViewController.m in Sources */,
+				B1835FB822FB4E1F00EEFD78 /* NewsArticleViewController.m in Sources */,
 				8479E90F22DE5F90009174E7 /* Category.m in Sources */,
 				B61848BB22F3C09E00D2BD8A /* TutChildViewController.m in Sources */,
 				B6CE94DE22EA50DD003B4732 /* CompetitionManager.m in Sources */,
@@ -624,6 +645,7 @@
 				B61848C322F514D200D2BD8A /* SoundManager.m in Sources */,
 				844856F022DFBF7100CC5600 /* CategoriesCell.m in Sources */,
 				B6CED37122E8D9160091B788 /* Competitor.m in Sources */,
+				B1C2FCE622FA3F3000198901 /* NewsArticleCell.m in Sources */,
 				B1B9EDD022F0B22200C0A6F4 /* CompTabViewController.m in Sources */,
 				B1B9EDD922F0B6C100C0A6F4 /* TodayCompViewController.m in Sources */,
 				B61848B522F3C04100D2BD8A /* TutorialViewController.m in Sources */,
@@ -634,8 +656,10 @@
 				B6CE94E122EB9A53003B4732 /* Badges.m in Sources */,
 				84EC731922E62A2F00F37CA5 /* PhotoLogCell.m in Sources */,
 				B1B9EDE222F0F11D00C0A6F4 /* CompTabSegControl.m in Sources */,
+				B1C2FCEC22FA40A500198901 /* NewsViewController.m in Sources */,
 				B1B9EDDC22F0B6D100C0A6F4 /* YesterdayCompViewController.m in Sources */,
 				B1320C8022DE5BA200A38B16 /* LoginViewController.m in Sources */,
+				B1C2FCE922FA3FEB00198901 /* NewsArticle.m in Sources */,
 				B16C81EE22DE641B00E72713 /* ProfileViewController.m in Sources */,
 				B11D301422E6248400CA1A36 /* Competition.m in Sources */,
 				B1320C8322DE5BF700A38B16 /* RegisterViewController.m in Sources */,
