@@ -15,7 +15,7 @@
 		8479E90F22DE5F90009174E7 /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E90E22DE5F90009174E7 /* Category.m */; };
 		8479E91522DE638E009174E7 /* SnapUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8479E91422DE638E009174E7 /* SnapUser.m */; };
 		84AAA18C22FB726800A490AE /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84AAA18B22FB726800A490AE /* CoreML.framework */; };
-		84AAA18E22FB84E300A490AE /* TrashClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 84AAA18D22FB84E300A490AE /* TrashClassifier.mlmodel */; };
+		84AAA19022FBA02200A490AE /* TrashObjectClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 84AAA18F22FBA02200A490AE /* TrashObjectClassifier.mlmodel */; };
 		84EC731922E62A2F00F37CA5 /* PhotoLogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */; };
 		84FB4A3222EA2BF300F6FB95 /* PhotoPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FB4A3122EA2BF300F6FB95 /* PhotoPopUpViewController.m */; };
 		84FD569C22EF9C1900C5DBED /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FD569B22EF9C1900C5DBED /* CoreLocation.framework */; };
@@ -88,7 +88,7 @@
 		8479E91322DE638E009174E7 /* SnapUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SnapUser.h; sourceTree = "<group>"; };
 		8479E91422DE638E009174E7 /* SnapUser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SnapUser.m; sourceTree = "<group>"; };
 		84AAA18B22FB726800A490AE /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
-		84AAA18D22FB84E300A490AE /* TrashClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = TrashClassifier.mlmodel; path = ../../TrashClassifier.mlmodel; sourceTree = "<group>"; };
+		84AAA18F22FBA02200A490AE /* TrashObjectClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = TrashObjectClassifier.mlmodel; sourceTree = "<group>"; };
 		84EC731722E62A2F00F37CA5 /* PhotoLogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoLogCell.h; sourceTree = "<group>"; };
 		84EC731822E62A2F00F37CA5 /* PhotoLogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoLogCell.m; sourceTree = "<group>"; };
 		84FB4A3022EA2BF300F6FB95 /* PhotoPopUpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPopUpViewController.h; sourceTree = "<group>"; };
@@ -286,7 +286,7 @@
 		B1320C4A22DE407E00A38B16 /* snapcycle */ = {
 			isa = PBXGroup;
 			children = (
-				84AAA18D22FB84E300A490AE /* TrashClassifier.mlmodel */,
+				84AAA18F22FBA02200A490AE /* TrashObjectClassifier.mlmodel */,
 				B19CD90922E923FA008F9782 /* SourceSansPro-Semibold.otf */,
 				B19CD90722E923EF008F9782 /* SourceSansPro-Light.otf */,
 				B19CD90522E923CE008F9782 /* SourceSansPro-Regular.otf */,
@@ -607,6 +607,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84AAA19022FBA02200A490AE /* TrashObjectClassifier.mlmodel in Sources */,
 				B16C81EB22DE63C700E72713 /* CameraViewController.m in Sources */,
 				B61848B822F3C06700D2BD8A /* TutorialPageViewController.m in Sources */,
 				8479E90C22DE5C6B009174E7 /* Trash.m in Sources */,
@@ -621,7 +622,6 @@
 				B155009C22EA28A400FAFF8F /* CameraView.m in Sources */,
 				8479E91522DE638E009174E7 /* SnapUser.m in Sources */,
 				B61848C322F514D200D2BD8A /* SoundManager.m in Sources */,
-				84AAA18E22FB84E300A490AE /* TrashClassifier.mlmodel in Sources */,
 				844856F022DFBF7100CC5600 /* CategoriesCell.m in Sources */,
 				B6CED37122E8D9160091B788 /* Competitor.m in Sources */,
 				B1B9EDD022F0B22200C0A6F4 /* CompTabViewController.m in Sources */,

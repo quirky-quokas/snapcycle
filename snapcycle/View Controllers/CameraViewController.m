@@ -16,7 +16,7 @@
 #import "FocusFrame.h"
 #import "CameraView.h"
 #import <Vision/Vision.h>
-#import "TrashClassifier.h"
+#import "TrashObjectClassifier.h"
 
 @interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate, CameraViewDelegate>
 @property (strong, nonatomic) UIImage *capturedImage;
@@ -292,16 +292,16 @@
  Retrieve results for image recognition
  */
 - (void) setUpImageRecognition {
-    self.model = [[[TrashClassifier alloc] init] model];
+    self.model = [[[TrashObjectClassifier alloc] init] model];
     self.coreModel = [VNCoreMLModel modelForMLModel:self.model error:nil];
     
     // Request to process image. completion handler will be called when a request handler is called with this request
     self.request = [[VNCoreMLRequest alloc] initWithModel: self.coreModel completionHandler: (VNRequestCompletionHandler) ^(VNRequest *request, NSError *error){
         dispatch_async(dispatch_get_main_queue(), ^{
             VNClassificationObservation *result = request.results[0];
+            NSLog(@"%@",result);
             NSString *name = result.identifier;
             self.identifiedCategory = self.nameDictionary[name];
-            NSLog(@"%@", name);
             [self performSegueWithIdentifier:@"segueToDetailsVC" sender:self];
         });
     }];
