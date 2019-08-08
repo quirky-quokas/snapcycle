@@ -89,16 +89,13 @@
     return urlStr;
 }
 
-/**
- Search bar delegate method.
- */
+#pragma mark - SearchBarDelegate methods
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     // NOTE: does not account for invalid user input
     self.topic = [searchText stringByReplacingOccurrencesOfString:@" " withString:@"-"];
 }
 
-/**
- */
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [self.activityIndicator startAnimating];
     [self getJSONData];
@@ -106,6 +103,16 @@
     if (self.articles.count != 0) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.searchBar.showsCancelButton = YES;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    self.searchBar.text = @"";
+    self.searchBar.showsCancelButton = NO;
+    [self.searchBar resignFirstResponder];
 }
 
 - (IBAction)didTapLogout:(UIBarButtonItem *)sender {

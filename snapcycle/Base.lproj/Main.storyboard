@@ -455,7 +455,7 @@
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <searchBar contentMode="redraw" fixedFrame="YES" text="" placeholder="recycling tips, pollution ..." translatesAutoresizingMaskIntoConstraints="NO" id="e14-uo-059">
+                            <searchBar contentMode="redraw" fixedFrame="YES" text="" placeholder="pollution, recycling tips ..." translatesAutoresizingMaskIntoConstraints="NO" id="e14-uo-059">
                                 <rect key="frame" x="0.0" y="176" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <textInputTraits key="textInputTraits"/>
