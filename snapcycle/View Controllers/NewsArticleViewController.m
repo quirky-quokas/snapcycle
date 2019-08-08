@@ -31,7 +31,7 @@
     [webView loadRequest:request]; // TODO: why must this be on the main thread?
     [self.viewHolder addSubview:webView];
 
-    // TODO: find a better solution!!!
+    // TODO: find a better solution!!! -> load webview in NewsVC
     double delayInSeconds = 1.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^{

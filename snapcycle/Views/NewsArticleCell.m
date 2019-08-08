@@ -7,6 +7,7 @@
 //
 
 #import "NewsArticleCell.h"
+#import "UIImageView+AFNetworking.h"
 
 @implementation NewsArticleCell
 

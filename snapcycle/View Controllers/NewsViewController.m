@@ -32,28 +32,31 @@
     self.tableView.dataSource = self;
     self.searchBar.delegate = self;
     
-    [self.tableViewPlaceholder setHidden:YES];
-    
+    // ui design
     [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
+    [self.tableViewPlaceholder setHidden:YES];
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
     
+    // get articles
     [self.activityIndicator startAnimating];
     self.topic = @"landfill";
     [self getJSONData];
 
+    // pull to refresh
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(getJSONData) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
-    
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
 }
 
+/**
+ Get the articles data from JSON url.
+ */
 - (void)getJSONData {
     NSString *urlStr = [self getURLStr];
     NSURL *url = [NSURL URLWithString:urlStr];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLRequest *const request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+    NSURLSession *const session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
             [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:@"Unable to get articles. Try again later."];
@@ -62,22 +65,20 @@
             self.articles = jsonDict[@"articles"];
             
             // check if no articles today
-            if (self.articles.count != 0) {
-                [self.tableViewPlaceholder setHidden:YES];
-            } else {
-                [self.tableViewPlaceholder setHidden:NO];
-            }
+            [self.tableViewPlaceholder setHidden:self.articles.count != 0];
             
             [self.tableView reloadData];
         }
         [self.refreshControl endRefreshing];
-        
         [self.activityIndicator stopAnimating];
     }];
     
     [task resume];
 }
 
+/**
+ Returns String of url for today's articles with current search topic.
+ */
 - (NSString *)getURLStr {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
@@ -88,11 +89,16 @@
     return urlStr;
 }
 
+/**
+ Search bar delegate method.
+ */
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     // NOTE: does not account for invalid user input
     self.topic = [searchText stringByReplacingOccurrencesOfString:@" " withString:@"-"];
 }
 
+/**
+ */
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [self.activityIndicator startAnimating];
     [self getJSONData];
@@ -109,7 +115,6 @@
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     NewsArticleCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NewsArticleCell"];
-    
     NSDictionary *article = self.articles[indexPath.row];
     
     if (!((article[@"title"] == (id)[NSNull null]) || ([article[@"title"] length] == 0))) {
