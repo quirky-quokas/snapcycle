@@ -56,6 +56,7 @@
         
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
+            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:@"Unable to get articles. Try again later."];
         } else {
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             self.articles = jsonDict[@"articles"];
@@ -119,15 +120,10 @@
         cell.articleDescrip.text = article[@"description"];
     }
     
-    if (!((article[@"author"] == (id)[NSNull null]) || ([article[@"author"] length] == 0))) {
-        cell.articleAuthor.text = article[@"author"];
-    }
-    
     if (!((article[@"urlToImage"] == (id)[NSNull null]) || ([article[@"urlToImage"] length] == 0))) {
             NSURL *url = [NSURL URLWithString:article[@"urlToImage"]];
             cell.articleImage.image = nil;
             [cell.articleImage setImageWithURL:url placeholderImage:[UIImage imageNamed:@"news_articleImagePlaceholder"]];
-            NSLog(@"%@", article[@"title"]);
     }
     
     return cell;

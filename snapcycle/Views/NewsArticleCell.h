@@ -14,8 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *articleImage;
 @property (weak, nonatomic) IBOutlet UILabel *articleTitle;
 @property (weak, nonatomic) IBOutlet UILabel *articleDescrip;
-@property (weak, nonatomic) IBOutlet UILabel *articleAuthor;
-// TODO: add date!
 
 @end
 

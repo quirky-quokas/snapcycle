@@ -26,7 +26,7 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-    WKWebView *webView = [[WKWebView alloc] initWithFrame:self.viewHolder.frame configuration:config];
+    WKWebView *webView = [[WKWebView alloc] initWithFrame:self.viewHolder.bounds configuration:config];
     webView.navigationDelegate = self;
     [webView loadRequest:request]; // TODO: why must this be on the main thread?
     [self.viewHolder addSubview:webView];
