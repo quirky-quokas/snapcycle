@@ -19,7 +19,6 @@
 #import "RegisterViewController.h"
 #import "Trash.h"
 #import "PhotoLogCell.h"
-#import "MKDropdownMenu.h"
 #import "DateTools.h"
 #import "PhotoPopUpViewController.h"
 #import <CoreLocation/CoreLocation.h>
