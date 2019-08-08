@@ -19,7 +19,6 @@
 #import "RegisterViewController.h"
 #import "Trash.h"
 #import "PhotoLogCell.h"
-#import "MKDropdownMenu.h"
 #import "DateTools.h"
 #import "PhotoPopUpViewController.h"
 #import <CoreLocation/CoreLocation.h>
@@ -65,8 +64,8 @@
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (weak, nonatomic) IBOutlet HIChartView *accuracyChartView;
 @property (strong, nonatomic) HIOptions *accuracyOptions;
-@property (strong, nonatomic) NSMutableDictionary<NSNumber*, NSString*> *labelForDay;
-@property (strong, nonatomic) NSMutableDictionary<NSNumber*, NSNumber*> *percentageForDay;
+@property (strong, nonatomic) NSArray<NSNumber*> *orderedPercentages;
+@property (strong, nonatomic) NSArray<NSString*> *orderedLabels;
 
 // Photo Log
 @property (weak, nonatomic) IBOutlet UICollectionView *photoCollectionView;
@@ -133,14 +132,22 @@
     [self.startDatePicker setMaximumDate:[self.formatter dateFromString:now]];
     [self.endDatePicker setMaximumDate:[self.formatter dateFromString:now]];
     
-    UIToolbar *toolbar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,44)];
-    toolbar.barStyle = UIBarStyleDefault;
-    UIBarButtonItem *flexibleSpaceLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(dismissKeyboard)];
+    UIToolbar *startToolbar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,44)];
+    startToolbar.barStyle = UIBarStyleDefault;
+    UIBarButtonItem *startSpaceLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem* startDoneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(dismissStartDP)];
     
-    [toolbar setItems:[NSArray arrayWithObjects:flexibleSpaceLeft, doneButton, nil]];
-    self.startDateTextField.inputAccessoryView = toolbar;
-    self.endDateTextField.inputAccessoryView = toolbar;
+    [startToolbar setItems:[NSArray arrayWithObjects:startSpaceLeft, startDoneButton, nil]];
+    
+    UIToolbar *endToolbar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,44)];
+    endToolbar.barStyle = UIBarStyleDefault;
+    UIBarButtonItem *endSpaceLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem* endDoneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(dismissEndDP)];
+    
+    [endToolbar setItems:[NSArray arrayWithObjects:endSpaceLeft, endDoneButton, nil]];
+    
+    self.startDateTextField.inputAccessoryView = startToolbar;
+    self.endDateTextField.inputAccessoryView = endToolbar;
 
     // set collection view data source and delegate
     self.photoCollectionView.delegate = self;
@@ -163,11 +170,15 @@
 - (void)viewDidAppear:(BOOL)animated {
     // TODO: make prettier. Do want to always refresh?
     // set the badges label
+    
     Badges *badges = SnapUser.currentUser.badges;
     [badges fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
         self.numFirstLabel.text = [NSString stringWithFormat:@"%@", badges.numFirstPlace];
+        [self.numFirstLabel sizeToFit];
         self.numSecondLabel.text = [NSString stringWithFormat:@"%@", badges.numSecondPlace];
+        [self.numSecondLabel sizeToFit];
         self.numThirdLabel.text = [NSString stringWithFormat:@"%@", badges.numThirdPlace];;
+        [self.numThirdLabel sizeToFit];
     }];
     
     // Fetch stats for graphs
@@ -408,7 +419,6 @@
 }
 
 - (void)refreshUserActionStats {
-    
     // Create dispatch group so that pie chart is only set up after all three queries
     dispatch_group_t queryGroup = dispatch_group_create();
     
@@ -480,8 +490,6 @@
     
     HIPlotOptions *plotOptions = [[HIPlotOptions alloc]init];
     plotOptions.column = [[HIColumn alloc]init];
-    //plotOptions.column.pointPadding = @0.2;
-    plotOptions.column.borderWidth = @0;
     
     HICredits *credits = [[HICredits alloc]init];
     credits.enabled = [[NSNumber alloc] initWithBool:false];
@@ -503,10 +511,6 @@
 }
 
 - (void)refreshUserAccuracyStats {
-    // Reset data
-    self.percentageForDay = [[NSMutableDictionary alloc] init];
-    self.labelForDay = [[NSMutableDictionary alloc] init];
-    
     // Get sunday of week
     NSDate *now = [NSDate date];
     NSDate *startOfDay;
@@ -515,86 +519,53 @@
             interval:NULL                // ignore seconds
              forDate:now];
     
-    int NUM_SECONDS_IN_24_HOURS = 86399;
-    NSDate *endOfDay = [NSDate dateWithTimeInterval:NUM_SECONDS_IN_24_HOURS sinceDate:startOfDay];
-    
     dispatch_group_t queryGroup = dispatch_group_create();
     
-    for (int dayIndex = 1; dayIndex <= 7; dayIndex ++) {
-        PFQuery *allItemsInDayQuery = [SnapUser.currentUser.trashArray query];
-        [allItemsInDayQuery whereKey:@"createdAt" greaterThanOrEqualTo:startOfDay];
-        [allItemsInDayQuery whereKey:@"createdAt" lessThanOrEqualTo:endOfDay];
-        [allItemsInDayQuery includeKey:@"category"];
-        
-        dispatch_group_enter(queryGroup);
-        [allItemsInDayQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-            if (error) {
-                NSLog(@"%@", error.localizedDescription);
-            } else {
-                [self formatAxisLabelForDay:startOfDay index:dayIndex];
-                [self calculateAndStoreAccuracyOfTrash:objects forDayIndex:dayIndex];
-            }
-            dispatch_group_leave(queryGroup);
-        }];
-        
-        // Advance to next day
-        startOfDay = [startOfDay dateByAddingDays:1];
-        endOfDay = [endOfDay dateByAddingDays:1];
-    }
+    // Query for accuracy percentages
+    dispatch_group_enter(queryGroup);
+    [PFCloud callFunctionInBackground:@"accuracyPercentagesForWeekStartingAtDay" withParameters:@{@"day": startOfDay} block:^(id  _Nullable object, NSError * _Nullable error) {
+        self.orderedPercentages = object;
+        dispatch_group_leave(queryGroup);
+    }];
+    
+    // Create day labels
+    dispatch_group_enter(queryGroup);
+    self.orderedLabels = [self createDateLabelsForWeekStartingFromDay:startOfDay];
+    dispatch_group_leave(queryGroup);
     
     dispatch_group_notify(queryGroup, dispatch_get_main_queue(), ^{
         [self updateAccuracyChartData];
     });
 }
 
-- (void) formatAxisLabelForDay:(NSDate*)day index:(int)dayIndex {
-    NSString *dateLabel = [self.dateFormatter stringFromDate:day];
-    if ([self.cal isDateInToday:day]) {
-        // TODO: set color
-        dateLabel = [NSString stringWithFormat:@"<span style=\"color: #0070C2\">%@<\span>", dateLabel];
-    }
-    [self.labelForDay setObject:dateLabel forKey:@(dayIndex)];
-}
-
-- (void) calculateAndStoreAccuracyOfTrash:(NSArray<Trash*>*)trashArray forDayIndex:(int)dayIndex{
-    if (!trashArray || trashArray.count == 0) {
-        // No items were disposed that day
-        [self.percentageForDay setObject:@(0) forKey:@(dayIndex)];
-    } else {
-        int correct = 0;
-        for (Trash *trash in trashArray) {
-            // Check if user trash disposal method, see if it is allowed in Category
-            // Booleans are stored as numbers in Parse, so covert back to
-            BOOL disposedCorrectly = [[trash.category objectForKey:trash.userAction] boolValue];
-            if (disposedCorrectly) {
-                correct++;
-            }
-        }
-        // Store percentages and associate with day
-        [self.percentageForDay setObject:@((double)correct/trashArray.count * 100) forKey:@(dayIndex)];
-    }
-}
-
-
-- (void)updateAccuracyChartData {
-    NSMutableArray<NSNumber*> *orderedPercentages = [[NSMutableArray alloc] init];
+// Format labels for week, including color for current day
+- (NSArray<NSString*>*)createDateLabelsForWeekStartingFromDay:(NSDate*)day {
     NSMutableArray<NSString*> *orderedLabels = [[NSMutableArray alloc] init];
-    
-    // Add items to percentages array in correct order
-    for (int i = 1; i <= 7; i++) {
-        [orderedPercentages addObject:[self.percentageForDay objectForKey:@(i)]];
-        [orderedLabels addObject:[self.labelForDay objectForKey:@(i)]];
+    for (int i = 0; i < 7; i++) {
+        NSString *dateLabel = [self.dateFormatter stringFromDate:day];
+        
+        if ([self.cal isDateInToday:day]) {
+            // TODO: set color
+            dateLabel = [NSString stringWithFormat:@"<span style=\"color: #0070C2\">%@<\span>", dateLabel];
+        }
+        [orderedLabels addObject:dateLabel];
+        
+        // Advance to next day
+        day = [day dateByAddingDays:1];
     }
-    
+    return orderedLabels;
+}
+
+// Update bar graph with new data
+- (void)updateAccuracyChartData {
     HIColumn *column1 = [[HIColumn alloc]init];
-    column1.data = orderedPercentages;
+    column1.data = self.orderedPercentages;
     column1.showInLegend = [[NSNumber alloc] initWithBool:false];
     // TODO: change color
     column1.color = [[HIColor alloc] initWithHexValue:@"ADDEE5"];
     
     HIXAxis *xaxis = [[HIXAxis alloc]init];
-    xaxis.categories = orderedLabels;
-    xaxis.crosshair = [[HICrosshair alloc]init];
+    xaxis.categories = self.orderedLabels;
     
     self.accuracyOptions.xAxis = [NSMutableArray arrayWithObject:xaxis];
     self.accuracyOptions.series = [NSMutableArray arrayWithObjects:column1, nil];
@@ -613,6 +584,7 @@
     }
     if(![self.endDateTextField.text isEqualToString:@""]){
         NSDate *date = [self.formatter dateFromString:self.endDateTextField.text];
+        date = [date dateByAddingDays:1];
         [photoQuery whereKey:@"createdAt" lessThanOrEqualTo:date];
     }
     
@@ -653,8 +625,14 @@
     self.endDateTextField.text = [NSString stringWithFormat:@"%@",[self.formatter stringFromDate:self.endDatePicker.date]];
 }
 
--(void) dismissKeyboard {
+-(void)dismissStartDP{
+    self.startDateTextField.text = [NSString stringWithFormat:@"%@",[self.formatter stringFromDate:self.startDatePicker.date]];
     [self.startDateTextField resignFirstResponder];
+    [self fetchTrash];
+}
+
+-(void)dismissEndDP{
+    self.endDateTextField.text = [NSString stringWithFormat:@"%@",[self.formatter stringFromDate:self.endDatePicker.date]];
     [self.endDateTextField resignFirstResponder];
     [self fetchTrash];
 }

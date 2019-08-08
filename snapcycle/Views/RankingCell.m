@@ -89,8 +89,11 @@
     
     [competitor.user.badges fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
         self.numFirstLabel.text = [NSString stringWithFormat:@"%@", competitor.user.badges.numFirstPlace];
+        [self.numFirstLabel sizeToFit];
         self.numSecondLabel.text = [NSString stringWithFormat:@"%@", competitor.user.badges.numSecondPlace];
+        [self.numSecondLabel sizeToFit];
         self.numThirdLabel.text = [NSString stringWithFormat:@"%@", competitor.user.badges.numThirdPlace];
+        [self.numThirdLabel sizeToFit];
     }];
     
     // Profile pic view

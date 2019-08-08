@@ -8,11 +8,9 @@ target 'snapcycle' do
   # Pods for snapcycle
   pod 'Parse'
   pod 'Highcharts', '~> 7.1.3'
-  pod 'MKDropdownMenu'
   pod 'DateTools'
   pod 'XLPagerTabStrip', '~> 2.0'
   pod 'SDWebImage', '~> 5.0'  
-  pod 'AFNetworking'
 
   target 'snapcycleTests' do
     inherit! :search_paths

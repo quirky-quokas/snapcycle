@@ -17,7 +17,6 @@ PODS:
   - Bolts/Tasks (1.9.0)
   - DateTools (2.0.0)
   - Highcharts (7.1.3)
-  - MKDropdownMenu (1.4)
   - Parse (1.17.2):
     - Parse/Core (= 1.17.2)
   - Parse/Core (1.17.2):
@@ -31,7 +30,6 @@ DEPENDENCIES:
   - AFNetworking
   - DateTools
   - Highcharts (~> 7.1.3)
-  - MKDropdownMenu
   - Parse
   - SDWebImage (~> 5.0)
   - XLPagerTabStrip (~> 2.0)
@@ -42,7 +40,6 @@ SPEC REPOS:
     - Bolts
     - DateTools
     - Highcharts
-    - MKDropdownMenu
     - Parse
     - SDWebImage
     - XLPagerTabStrip
@@ -52,11 +49,14 @@ SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   Highcharts: b40663d1fea27270cefdc15f066f7234b3ec8195
-  MKDropdownMenu: 269df4a41d21a1db684ce8bc709befe419fc5bae
   Parse: 3b31a3dd1777b07ee7f0caee32fafbff544483a5
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
   XLPagerTabStrip: 2c69b8e3208432a94e713c198ce597faad5a87bb
 
+<<<<<<< HEAD
 PODFILE CHECKSUM: 537cb75a07385116f7363a47a6951e90267963e0
+=======
+PODFILE CHECKSUM: 92002c25ce2a7bf4c0252e03ae3e11d40c2cb71a
+>>>>>>> master
 
 COCOAPODS: 1.7.3
