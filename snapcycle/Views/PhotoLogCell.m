@@ -39,8 +39,8 @@
         }
         
     }];
-    
-    if (trash.category.type != trash.userAction) {
+    BOOL disposedCorrectly = [trash.category[trash.userAction] boolValue];
+    if (disposedCorrectly == NO) {
         UIImage *image = [UIImage imageNamed:@"red-x"];
         self.markerImageView.image = image;
     }
