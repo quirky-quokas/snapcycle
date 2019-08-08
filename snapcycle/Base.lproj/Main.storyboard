@@ -645,8 +645,8 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="139" height="187"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8pj-Yl-LU8">
-                                                            <rect key="frame" x="8" y="147" width="112" height="22"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8pj-Yl-LU8">
+                                                            <rect key="frame" x="8" y="131" width="112" height="51"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="17"/>
                                                             <nil key="textColor"/>
@@ -1690,7 +1690,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="t3u-T6-S5B"/>
         <segue reference="4vv-Jg-S1X"/>
-        <segue reference="IG0-Za-uas"/>
+        <segue reference="AcR-1A-lSl"/>
         <segue reference="f1y-rL-myc"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.0" green="0.43921568630000002" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
