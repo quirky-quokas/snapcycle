@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) NSInteger index;
 @property (strong, nonatomic) NSString *backdropImageStr;
-@property (strong, nonatomic) NSString *tutroialImageStr;
+@property (strong, nonatomic) NSString *tutorialImageStr;
 @property (strong, nonatomic) NSString *titleText;
 @property (strong, nonatomic) NSString *infoText;
 @property (nonatomic) BOOL lastPage;

@@ -1618,28 +1618,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QAx-4m-J7G">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Oai-ao-7jD">
+                                <rect key="frame" x="16" y="131" width="343" height="369"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="LFd-Zj-04g"/>
+                                    <constraint firstAttribute="height" constant="369" id="uJ3-fp-fen"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Track your trash!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ylI-Rn-6e9">
-                                <rect key="frame" x="16" y="20" width="343" height="103"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track your trash!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ylI-Rn-6e9">
+                                <rect key="frame" x="16" y="29" width="343" height="94"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="PiE-Ro-4tV"/>
+                                    <constraint firstAttribute="height" constant="94" id="kBI-4j-ksE"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="SourceSansPro-Semibold" family="Source Sans Pro" pointSize="32"/>
                                 <color key="textColor" red="0.58087080717086792" green="0.78439432382583618" blue="0.24092495441436768" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gqC-fv-uCW">
-                                <rect key="frame" x="16" y="506" width="343" height="46"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gqC-fv-uCW">
+                                <rect key="frame" x="16" y="508" width="343" height="147"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="Cth-VL-YG3"/>
+                                    <constraint firstAttribute="height" constant="147" id="lYt-vv-uYQ"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="SourceSansPro-Light" family="Source Sans Pro" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xcp-Ea-epr">
-                                <rect key="frame" x="16" y="560" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xcp-Ea-epr">
+                                <rect key="frame" x="16" y="559" width="343" height="30"/>
                                 <color key="backgroundColor" red="0.5215032696723938" green="0.79311096668243408" blue="0.0014693302800878882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="2gi-hV-PDF"/>
+                                    <constraint firstAttribute="width" constant="343" id="yE3-YO-5c7"/>
+                                </constraints>
                                 <state key="normal" title="Now let's Snapcycle!">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -1647,16 +1659,29 @@
                                     <action selector="tapEndTutorial:" destination="dAM-qh-kw5" eventType="touchUpInside" id="pNB-8L-Nx3"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oai-ao-7jD">
-                                <rect key="frame" x="16" y="111" width="343" height="387"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="xcp-Ea-epr" firstAttribute="top" secondItem="Oai-ao-7jD" secondAttribute="bottom" constant="59" id="0wc-wC-tbc"/>
+                            <constraint firstItem="Oai-ao-7jD" firstAttribute="top" secondItem="ylI-Rn-6e9" secondAttribute="bottom" constant="8" id="9Ov-XV-UZg"/>
+                            <constraint firstItem="fuT-2g-kRV" firstAttribute="bottom" secondItem="gqC-fv-uCW" secondAttribute="bottom" constant="12" id="A1d-S2-L1D"/>
+                            <constraint firstItem="ylI-Rn-6e9" firstAttribute="top" secondItem="fuT-2g-kRV" secondAttribute="top" constant="9" id="BZV-mm-s7n"/>
+                            <constraint firstItem="gqC-fv-uCW" firstAttribute="top" secondItem="Oai-ao-7jD" secondAttribute="bottom" constant="8" id="DaD-v9-Wny"/>
+                            <constraint firstItem="fuT-2g-kRV" firstAttribute="bottom" secondItem="xcp-Ea-epr" secondAttribute="bottom" constant="78" id="QM9-Jd-5t6"/>
+                            <constraint firstItem="Oai-ao-7jD" firstAttribute="leading" secondItem="fuT-2g-kRV" secondAttribute="leading" constant="16" id="S1h-qx-yVv"/>
+                            <constraint firstItem="fuT-2g-kRV" firstAttribute="bottom" secondItem="Oai-ao-7jD" secondAttribute="bottom" constant="167" id="SyK-FQ-s7k"/>
+                            <constraint firstItem="fuT-2g-kRV" firstAttribute="trailing" secondItem="Oai-ao-7jD" secondAttribute="trailing" constant="16" id="VEt-2t-ZQD"/>
+                            <constraint firstItem="xcp-Ea-epr" firstAttribute="leading" secondItem="fuT-2g-kRV" secondAttribute="leading" constant="16" id="XSS-Ee-azj"/>
+                            <constraint firstItem="fuT-2g-kRV" firstAttribute="trailing" secondItem="xcp-Ea-epr" secondAttribute="trailing" constant="16" id="dBh-JY-fIq"/>
+                            <constraint firstItem="fuT-2g-kRV" firstAttribute="trailing" secondItem="ylI-Rn-6e9" secondAttribute="trailing" constant="16" id="fmu-8f-dLD"/>
+                            <constraint firstItem="gqC-fv-uCW" firstAttribute="leading" secondItem="fuT-2g-kRV" secondAttribute="leading" constant="16" id="hxr-Nz-c9d"/>
+                            <constraint firstItem="ylI-Rn-6e9" firstAttribute="leading" secondItem="fuT-2g-kRV" secondAttribute="leading" constant="16" id="klW-ht-lF4"/>
+                            <constraint firstItem="fuT-2g-kRV" firstAttribute="trailing" secondItem="gqC-fv-uCW" secondAttribute="trailing" constant="16" id="q7V-hk-60f"/>
+                            <constraint firstItem="Oai-ao-7jD" firstAttribute="top" secondItem="ylI-Rn-6e9" secondAttribute="bottom" constant="8" id="vq0-Bw-u3X"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="fuT-2g-kRV"/>
                     </view>
                     <connections>
-                        <outlet property="backdropImageView" destination="QAx-4m-J7G" id="Z9b-DQ-PHC"/>
                         <outlet property="endTutorialButton" destination="xcp-Ea-epr" id="uMF-9E-Ond"/>
                         <outlet property="infoLabel" destination="gqC-fv-uCW" id="R1P-gH-wfI"/>
                         <outlet property="titleLabel" destination="ylI-Rn-6e9" id="kL9-wX-lQt"/>
