@@ -30,7 +30,10 @@
     self.dataSource = self;
     self.titles = @[@"Welcome to Snapcycle!", @"Snap a photo to know where your trash goes", @"Check your progress!", @"Take your learnings to the stage!", @"Go and save the world!"];
     self.backdrops = @[@"nature-backdrop",@"nature-backdrop",@"nature-backdrop",@"nature-backdrop",@"nature-backdrop"];
-    self.gifs = @[@"https://media.giphy.com/media/3o7TKJr0rcnn2TswAU/giphy.gif",@"https://media.giphy.com/media/NVmUrHjkO1Af5mPVBq/giphy.gif",@"https://media.giphy.com/media/l378c04F2fjeZ7vH2/giphy.gif",@"https://i.gifer.com/OZm.gif", @"https://media.giphy.com/media/J2JZ5XTY0JtKpAWx2t/giphy.gif"];
+    self.gifs = @[@"https://media.giphy.com/media/l1KVcrdl7rJpFnY2s/giphy.gif",@"https://gifsstore.com/public/upload/gifs/15653843891565384386.gif",@"https://gifsstore.com/public/upload/gifs/15653871041565387101.gif",@"https://i.gifer.com/OZm.gif", @"https://media.giphy.com/media/J2JZ5XTY0JtKpAWx2t/giphy.gif"];
+    // https://media.giphy.com/media/3o7TKJr0rcnn2TswAU/giphy.gif
+    // https://media.giphy.com/media/NVmUrHjkO1Af5mPVBq/giphy.gif
+    // https://media.giphy.com/media/l378c04F2fjeZ7vH2/giphy.gif
     self.info = @[@"Thank you for choosing to save the world one piece of trash at a time. Our goal is to help you on your journey to becoming a more sustainable and environmentally-conscious citizen of the Earth. We hope you'll find it rewarding :) So let's start!", @"Tip: You can look up your piece of trash without a camera using our Search tab", @"Use to: \n \u2022 \t Learn better habits \n \u2022 \t Track your trash \n \u2022 \t Learn where your trash goes", @"Participate in daily and global Snapcycle competitions! Winners can earn badges!", @"Now you're ready to go! Click the button below to begin! Good luck and happy snapcycling!"];
     TutChildViewController *initialViewController = (TutChildViewController*)[self viewControllerAtIndex:0];
     
