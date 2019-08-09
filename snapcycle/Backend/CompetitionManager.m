@@ -71,7 +71,7 @@
     // Update today
     // TODO: figure out when to update today
     self.today = [NSDate date];
-    
+
     // Check if there is currently a competition (current date is between start and end date)
     [self competitionQueryForDay:self.today completion:^(PFObject * _Nullable competition, NSError * _Nullable error) {
         if (competition) {

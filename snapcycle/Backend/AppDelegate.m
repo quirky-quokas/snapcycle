@@ -26,7 +26,7 @@
     // Initialize Parse and point to snapcycle server
     ParseClientConfiguration *config = [ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         configuration.applicationId = @"snapcycle";
-        configuration.server = @"http://snapcycle.herokuapp.com/parse";
+        configuration.server = @"http://snapcycle2.herokuapp.com/parse";
     }];
     [Parse initializeWithConfiguration:config];
     
