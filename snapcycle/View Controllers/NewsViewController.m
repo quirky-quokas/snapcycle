@@ -20,6 +20,8 @@
 @property (strong, nonatomic) NSString *topic;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *tableViewPlaceholder;
+@property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (strong, nonatomic) UIGestureRecognizer *tapToDismissKeyboard;
 
 @end
 
@@ -36,6 +38,7 @@
     [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
     [self.tableViewPlaceholder setHidden:YES];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.tableHeaderView = self.headerView;
     
     // get articles
     [self.activityIndicator startAnimating];
@@ -46,11 +49,6 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(getJSONData) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
-    
-    // tap to dismiss keyboard
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOffKeyboard:)];
-    [self.view setUserInteractionEnabled:YES];
-    [self.view addGestureRecognizer:tapGestureRecognizer];
 }
 
 #pragma mark - methods to access api data
@@ -92,6 +90,14 @@
 
 #pragma mark - SearchBarDelegate methods
 
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.searchBar.showsCancelButton = YES;
+    
+    // tap to dismiss keyboard
+    self.tapToDismissKeyboard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOffKeyboard:)];
+    [self.view addGestureRecognizer:self.tapToDismissKeyboard];
+}
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     // NOTE: does not account for invalid user input
     self.topic = [searchText stringByReplacingOccurrencesOfString:@" " withString:@"-"];
@@ -100,24 +106,20 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [self.activityIndicator startAnimating];
     [self getJSONData];
-    
-    if (self.articles.count != 0) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    }
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    self.searchBar.showsCancelButton = YES;
+    [self.view endEditing:YES];
+    [self.view removeGestureRecognizer:self.tapToDismissKeyboard];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     self.searchBar.text = @"";
     self.searchBar.showsCancelButton = NO;
     [self.searchBar resignFirstResponder];
+    [self.view removeGestureRecognizer:self.tapToDismissKeyboard];
 }
 
 - (IBAction)tapOffKeyboard:(id)sender {
     [self.view endEditing:YES];
+    [self.view removeGestureRecognizer:self.tapToDismissKeyboard];
 }
 
 #pragma mark - TableViewDelegate methods
