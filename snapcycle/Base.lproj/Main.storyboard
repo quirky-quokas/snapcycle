@@ -29,7 +29,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LwG-Fm-xVs">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LwG-Fm-xVs">
                                 <rect key="frame" x="61" y="341" width="246" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.58039215690000001" green="0.7843137255" blue="0.23921568630000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -89,6 +89,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="5bb-Ma-8OC"/>
                     <connections>
+                        <outlet property="loginButton" destination="LwG-Fm-xVs" id="cmG-gA-8Uc"/>
                         <outlet property="passwordField" destination="Usw-Fz-9ap" id="mWR-qI-loy"/>
                         <outlet property="usernameField" destination="h9q-vQ-hse" id="zCL-uS-Jts"/>
                         <segue destination="cUg-oz-gFf" kind="presentation" identifier="loggedInSegue" id="dEH-UT-eFW"/>
@@ -1571,6 +1572,7 @@
                         <outlet property="confirmPasswordField" destination="NAk-ya-hrP" id="7oV-cK-3eN"/>
                         <outlet property="emailField" destination="J3M-85-Q5e" id="at9-X3-S4V"/>
                         <outlet property="passwordField" destination="xvO-MX-cu3" id="VKA-cx-Kct"/>
+                        <outlet property="signUpButton" destination="p1T-z8-1yy" id="jfY-n9-QpF"/>
                         <outlet property="usernameField" destination="jmP-GT-UAN" id="HI8-5h-9bk"/>
                         <segue destination="MLY-63-xxI" kind="presentation" identifier="registeredSegue" id="jZv-me-Hhb"/>
                     </connections>
@@ -1692,7 +1694,7 @@
         <image name="third-place" width="352" height="470"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="t3u-T6-S5B"/>
+        <segue reference="jZv-me-Hhb"/>
         <segue reference="4vv-Jg-S1X"/>
         <segue reference="AcR-1A-lSl"/>
         <segue reference="dEH-UT-eFW"/>
