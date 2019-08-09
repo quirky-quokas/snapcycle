@@ -46,11 +46,15 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(getJSONData) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
+    
+    // tap to dismiss keyboard
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOffKeyboard:)];
+    [self.view setUserInteractionEnabled:YES];
+    [self.view addGestureRecognizer:tapGestureRecognizer];
 }
 
-/**
- Get the articles data from JSON url.
- */
+#pragma mark - methods to access api data
+
 - (void)getJSONData {
     NSString *urlStr = [self getURLStr];
     NSURL *url = [NSURL URLWithString:urlStr];
@@ -76,9 +80,6 @@
     [task resume];
 }
 
-/**
- Returns String of url for today's articles with current search topic.
- */
 - (NSString *)getURLStr {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
@@ -115,10 +116,11 @@
     [self.searchBar resignFirstResponder];
 }
 
-- (IBAction)didTapLogout:(UIBarButtonItem *)sender {
-    TabBarController *tabVC = [[TabBarController alloc] init];
-    [tabVC logoutUserWithAlertIfError];
+- (IBAction)tapOffKeyboard:(id)sender {
+    [self.view endEditing:YES];
 }
+
+#pragma mark - TableViewDelegate methods
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     NewsArticleCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NewsArticleCell"];
@@ -154,6 +156,11 @@
     
     NewsArticleViewController *articleVC = [segue destinationViewController];
     articleVC.urlStr = article[@"url"];
+}
+
+- (IBAction)didTapLogout:(UIBarButtonItem *)sender {
+    TabBarController *tabVC = [[TabBarController alloc] init];
+    [tabVC logoutUserWithAlertIfError];
 }
 
 @end
