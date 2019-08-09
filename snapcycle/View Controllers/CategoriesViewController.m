@@ -66,6 +66,7 @@
             [self.categoriesCollectionView reloadData];
         }
         else {
+            [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error" message:error.localizedDescription];
             NSLog(@"%@", error.localizedDescription);
         }
     }];

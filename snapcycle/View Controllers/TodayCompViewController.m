@@ -11,6 +11,7 @@
 #import "SnapUser.h"
 #import "Competitor.h"
 #import "RankingCell.h"
+#import "TabBarController.h"
 
 @interface TodayCompViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -27,6 +28,9 @@
 @property (weak, nonatomic) IBOutlet RankingCell *currentUserRankView;
 @property (weak, nonatomic) IBOutlet UIView *joinCompView;
 
+// Error handling
+@property BOOL errorPresentedOnThisAppear;
+
 @end
 
 @implementation TodayCompViewController
@@ -35,6 +39,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.errorPresentedOnThisAppear = NO;
     
     // Set up Table View
     self.tableView.delegate = self;
@@ -55,6 +61,8 @@
 
 // TODO: pull to refresh instead
 - (void)viewDidAppear:(BOOL)animated {
+    self.errorPresentedOnThisAppear = NO;
+    
     if (userScoreChanged) {
         // TODO: only regrab stats array?
         // Will call back self to update view
@@ -138,6 +146,13 @@
     return @"Live Rankings";
 }
 
+#pragma mark - Errors
+- (void) showError:(NSError*)error {
+    if (!self.errorPresentedOnThisAppear) {
+        self.errorPresentedOnThisAppear = YES;
+        [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error loading competitions" message:error.localizedDescription];
+    }
+}
 
 
 /*

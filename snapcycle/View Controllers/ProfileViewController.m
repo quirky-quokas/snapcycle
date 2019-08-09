@@ -78,6 +78,9 @@
 @property (strong, nonatomic) UIDatePicker *endDatePicker;
 @property (strong, nonatomic) NSDateFormatter *formatter;
 
+// Error handling
+@property BOOL errorPresentedOnThisAppear;
+
 @end
 
 @implementation ProfileViewController
@@ -107,6 +110,8 @@
     
     // set the welcome text
     self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome %@!", PFUser.currentUser.username];
+    
+    [self configureAccuracyChart];
     
     // set up Location Manager
     self.locationManager = [[CLLocationManager alloc] init];
@@ -163,22 +168,29 @@
     CGFloat itemHeight = 200;
     layout.itemSize = CGSizeMake(itemWidth, itemHeight);
     
+    self.errorPresentedOnThisAppear = NO;
+    
     [self configurePieChart];
-    [self configureAccuracyChart];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    self.errorPresentedOnThisAppear = NO;
+    
     // TODO: make prettier. Do want to always refresh?
     // set the badges label
     
     Badges *badges = SnapUser.currentUser.badges;
     [badges fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-        self.numFirstLabel.text = [NSString stringWithFormat:@"%@", badges.numFirstPlace];
-        [self.numFirstLabel sizeToFit];
-        self.numSecondLabel.text = [NSString stringWithFormat:@"%@", badges.numSecondPlace];
-        [self.numSecondLabel sizeToFit];
-        self.numThirdLabel.text = [NSString stringWithFormat:@"%@", badges.numThirdPlace];;
-        [self.numThirdLabel sizeToFit];
+        if (error) {
+            [self presentProfileAlertOnceForError:error];
+        } else {
+            self.numFirstLabel.text = [NSString stringWithFormat:@"%@", badges.numFirstPlace];
+            [self.numFirstLabel sizeToFit];
+            self.numSecondLabel.text = [NSString stringWithFormat:@"%@", badges.numSecondPlace];
+            [self.numSecondLabel sizeToFit];
+            self.numThirdLabel.text = [NSString stringWithFormat:@"%@", badges.numThirdPlace];;
+            [self.numThirdLabel sizeToFit];
+        }
     }];
     
     // Fetch stats for graphs
@@ -227,9 +239,13 @@
     self.profileImageBorder.layer.cornerRadius = self.profileImageBorder.frame.size.width / 2;
     self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
     PFFileObject *imageFile = [SnapUser currentUser].profImage;
-    [imageFile getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
-        UIImage *image = [UIImage imageWithData:data];
-        self.profileImage.image = image;
+    [imageFile getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {\
+        if (error) {
+            [self presentProfileAlertOnceForError:error];
+        } else {
+            UIImage *image = [UIImage imageWithData:data];
+            self.profileImage.image = image;
+        }
         
     }];
 }
@@ -330,6 +346,7 @@
 {
     self.locationLabel.text = @"North Pole";
     NSLog(@"didFailWithError: %@", error);
+    [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error fetching location" message:error.localizedDescription];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
@@ -453,8 +470,11 @@
     
     dispatch_group_enter(group);
     [trashQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        // TODO: if there is an error
-        setActionCount(number);
+        if (error) {
+            [self presentProfileAlertOnceForError:error];
+        } else {
+            setActionCount(number);
+        }
         dispatch_group_leave(group);
     }];
 }
@@ -524,7 +544,11 @@
     // Query for accuracy percentages
     dispatch_group_enter(queryGroup);
     [PFCloud callFunctionInBackground:@"accuracyPercentagesForWeekStartingAtDay" withParameters:@{@"day": startOfDay} block:^(id  _Nullable object, NSError * _Nullable error) {
-        self.orderedPercentages = object;
+        if (error) {
+            [self presentProfileAlertOnceForError:error];
+        } else {
+            self.orderedPercentages = object;
+        }
         dispatch_group_leave(queryGroup);
     }];
     
@@ -597,6 +621,7 @@
         }
         else {
             NSLog(@"%@", error.localizedDescription);
+            [self presentProfileAlertOnceForError:error];
             [self fetchTrash];
         }
     }];
@@ -687,6 +712,13 @@
     [self presentViewController:locationAlert animated:YES completion:nil];
 }
 
-
+#pragma mark - Errors
+- (void) presentProfileAlertOnceForError:(NSError *) error {
+    if (!self.errorPresentedOnThisAppear) {
+        // Show error since we haven't shown one yet
+        [(TabBarController*)self.tabBarController showOKAlertWithTitle:@"Error loading profile" message:error.localizedDescription];
+        self.errorPresentedOnThisAppear = YES;
+    }
+}
 
 @end

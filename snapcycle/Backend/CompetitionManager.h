@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 // Passed an array of Competitors sorted in ascending order by score
 - (void)showCurrentCompetitionView:(NSArray<Competitor*>* _Nullable)sorted;
 
+- (void)showError:(NSError*)error;
+
 @end
 
 @protocol PreviousResultsDisplayer
