@@ -2,10 +2,12 @@
 
 Snapcycle motivates you to develop more sustainable trash disposal habits. Snap a photo of your trash, track your progress over time, and become more environmentally conscious. Together we can make the world a greener place!
 
+This project was created from the ground up in the span of 4 weeks! 
+
 ## Features
 
 - User can create a new account and login
-- User can take a photo of their trash, recognized using image recognition
+- User can take a photo of their trash, identified using image recognition
 - User can search for items by category
 - User can track how much trash they throw away overtime
 - User can view their past trash history
@@ -15,19 +17,15 @@ Snapcycle motivates you to develop more sustainable trash disposal habits. Snap 
 
 ## Video Walkthrough
 
-Here's a walkthrough of implemented user stories:
-
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
+Coming soon!
 
 ## Credits
 
 List an 3rd party libraries, icons, graphics, or other assets you used in your app.
 
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking) - networking task library
-- [Highcharts] (https://github.com/highcharts/highcharts-ios) - charting library
-- [Parse] (https://github.com/parse-community/parse-server-example) - Parse backend server
+- [Highcharts](https://github.com/highcharts/highcharts-ios) - charting library
+- [Parse](https://github.com/parse-community/parse-server-example) - Parse backend server
 - Images are not our own.
 
 
