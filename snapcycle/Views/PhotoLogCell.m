@@ -27,7 +27,7 @@
         self.typeLabel.text = @"landfilled";
     }
     
-    
+    self.trashImageView.image = nil;
     PFFileObject *image = trash.image;
     [image getDataInBackgroundWithBlock:^(NSData * data, NSError * error) {
         if (!error) {
