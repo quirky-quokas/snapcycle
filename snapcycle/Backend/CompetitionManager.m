@@ -10,6 +10,7 @@
 #import "Competition.h"
 #import "Competitor.h"
 #import "SnapUser.h"
+#import "TabBarController.h"
 
 // TODO: remove
 #import "Badges.h"
@@ -74,7 +75,10 @@
 
     // Check if there is currently a competition (current date is between start and end date)
     [self competitionQueryForDay:self.today completion:^(PFObject * _Nullable competition, NSError * _Nullable error) {
-        if (competition) {
+        if (error) {
+            [self.currentCompetitionDisplayer showError:error];
+            NSLog(@"Error: %@", error.localizedDescription);
+        } else if (competition) {
             // There is an ongoing competition
             NSLog(@"there is a current competition");
             self.currentComp = (Competition*)competition;
@@ -104,6 +108,7 @@
     
     [newCompetition saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (error) {
+            [self.currentCompetitionDisplayer showError:error];
             NSLog(@"Error creating competition: %@", error.localizedDescription);
         } else  {
             self.currentComp = newCompetition;
@@ -131,17 +136,25 @@
     [landfillItemsQuery whereKey:@"createdAt" lessThanOrEqualTo:self.currentComp.endDate];
     
     [landfillItemsQuery countObjectsInBackgroundWithBlock:^(int number, NSError * _Nullable error) {
-        competitor.score = @(number);
-        [competitor saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-            // After successfully saved
-            // TODO: error catching
-            [self.currentComp addObject:competitor forKey:@"competitorArray"];
-            [self.currentComp saveInBackground];
-            
-            // TODO: doesn't refresh other competitors
-            self.sortedCompetitors = [self sortCompetitors:self.currentComp.competitorArray];
-            [self.currentCompetitionDisplayer showCurrentCompetitionView:self.sortedCompetitors];
-        }];
+        if (error) {
+            [self.currentCompetitionDisplayer showError:error];
+        } else {
+            competitor.score = @(number);
+            [competitor saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                if (error) {
+                    [self.currentCompetitionDisplayer showError:error];
+                } else {
+                    // After successfully saved
+                    // TODO: error catching
+                    [self.currentComp addObject:competitor forKey:@"competitorArray"];
+                    [self.currentComp saveInBackground];
+                    
+                    // TODO: doesn't refresh other competitors
+                    self.sortedCompetitors = [self sortCompetitors:self.currentComp.competitorArray];
+                    [self.currentCompetitionDisplayer showCurrentCompetitionView:self.sortedCompetitors];
+                }
+            }];
+        }
     }];
 }
 
@@ -160,7 +173,11 @@
         } else {
             [object incrementKey:@"score"];
             [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                self.currentCompetitionDisplayer.userScoreChanged = YES;
+                if (error) {
+                    [self.currentCompetitionDisplayer showError:error];
+                } else {
+                    self.currentCompetitionDisplayer.userScoreChanged = YES;
+                }
             }];
             
         }

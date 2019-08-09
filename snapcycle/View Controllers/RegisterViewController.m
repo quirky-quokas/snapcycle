@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UITextField *confirmPasswordField;
+@property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 
 @end
 
@@ -24,6 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.signUpButton.layer.cornerRadius = 5;
     self.confirmPasswordField.delegate = self;
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOffKeyboard:)];

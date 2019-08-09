@@ -13,6 +13,7 @@
 @interface LoginViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
 
 @end
 
@@ -21,6 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.loginButton.layer.cornerRadius = 5;
     self.passwordField.delegate = self;
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOffKeyboard:)];
