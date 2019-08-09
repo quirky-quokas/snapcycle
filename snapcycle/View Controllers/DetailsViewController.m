@@ -36,6 +36,11 @@
     self.moreInfoLabel.text = self.category.moreInfo;
     [self.moreInfoLabel sizeToFit];
     
+    // Set up buttons
+    self.recycleButton.layer.cornerRadius = 5;
+    self.compostButton.layer.cornerRadius = 5;
+    self.landfillButton.layer.cornerRadius = 5;
+    
     // set up info label
     NSString *infoString = self.category.info;
     infoString = [infoString stringByReplacingOccurrencesOfString:@", " withString:@",\n"];
