@@ -20,6 +20,7 @@
 @property (strong, nonatomic) NSString *topic;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *tableViewPlaceholder;
+@property (weak, nonatomic) IBOutlet UIView *headerView;
 
 @end
 
@@ -36,6 +37,7 @@
     [TabBarController setSnapcycleLogoTitleForNavigationController:self.navigationController];
     [self.tableViewPlaceholder setHidden:YES];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.tableHeaderView = self.headerView;
     
     // get articles
     [self.activityIndicator startAnimating];
@@ -101,9 +103,10 @@
     [self.activityIndicator startAnimating];
     [self getJSONData];
     
-    if (self.articles.count != 0) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    }
+//    if (self.articles.count != 0) {
+//        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+//    }
+    [self.view endEditing:YES];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
