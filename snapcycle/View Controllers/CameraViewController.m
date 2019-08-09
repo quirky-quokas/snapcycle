@@ -16,7 +16,7 @@
 #import "FocusFrame.h"
 #import "CameraView.h"
 #import <Vision/Vision.h>
-#import "TrashObjectClassifier.h"
+#import "CardboardBottleFoil.h"
 
 @interface CameraViewController () <UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate, DetailsViewControllerDelegate, UIGestureRecognizerDelegate, CameraViewDelegate>
 @property (strong, nonatomic) UIImage *capturedImage;
@@ -292,7 +292,7 @@
  Retrieve results for image recognition
  */
 - (void) setUpImageRecognition {
-    self.model = [[[TrashObjectClassifier alloc] init] model];
+    self.model = [[[CardboardBottleFoil alloc] init] model];
     self.coreModel = [VNCoreMLModel modelForMLModel:self.model error:nil];
     
     // Request to process image. completion handler will be called when a request handler is called with this request
