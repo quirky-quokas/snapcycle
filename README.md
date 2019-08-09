@@ -2,7 +2,7 @@
 
 Snapcycle motivates you to develop more sustainable trash disposal habits. Snap a photo of your trash, track your progress over time, and become more environmentally conscious. Together we can make the world a greener place!
 
-This project was created from the ground up in the span of 4 weeks! 
+This project was created from the ground up in the span of 4 weeks during Facebook University.
 
 ## Features
 
