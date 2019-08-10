@@ -12,7 +12,7 @@
 
 @interface TutChildViewController ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *backdropImageView;
+//@property (weak, nonatomic) IBOutlet UIImageView *backdropImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *tutorialImageView;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;
@@ -25,11 +25,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.backdropImageView.image = nil;
-    NSURL *gifURL = [NSURL URLWithString:self.tutroialImageStr];
+//    self.backdropImageView.image = nil;
+    NSURL *gifURL = [NSURL URLWithString:self.tutorialImageStr];
     [self.tutorialImageView sd_setImageWithURL:gifURL];
     self.titleLabel.text = self.titleText;
+    self.titleLabel.textAlignment = UIControlContentVerticalAlignmentFill;
+    self.titleLabel.textAlignment = NSTextAlignmentCenter;
     self.infoLabel.text = self.infoText;
+//    [self.infoLabel sizeToFit];
+    self.infoLabel.textAlignment = UIControlContentVerticalAlignmentCenter;
+    self.infoLabel.textAlignment = NSTextAlignmentLeft;
     if (self.lastPage == NO){
         self.endTutorialButton.enabled = NO;
         self.endTutorialButton.hidden = YES;
@@ -37,6 +42,7 @@
     else {
         self.endTutorialButton.enabled = YES;
         self.endTutorialButton.hidden = NO;
+        self.infoLabel.hidden = YES;
     }
 }
 
