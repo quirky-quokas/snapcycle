@@ -21,7 +21,7 @@ Coming soon!
 Image recognition
 <img src='https://gifsstore.com/public/upload/gifs/15653843891565384386.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-![](https://gifsstore.com/public/upload/gifs/15653843891565384386.gif)
+![](img src='https://gifsstore.com/public/upload/gifs/15653843891565384386.gif')
 
 ## Credits
 
