@@ -23,6 +23,8 @@ Image recognition
 
 ![](img src='https://gifsstore.com/public/upload/gifs/15653843891565384386.gif')
 
+[![Demo CountPages alpha](https://gifsstore.com/public/upload/gifs/15653843891565384386.gif]
+
 ## Credits
 
 List an 3rd party libraries, icons, graphics, or other assets you used in your app.
