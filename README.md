@@ -17,13 +17,8 @@ This project was created from the ground up in the span of 4 weeks during Facebo
 
 ## Video Walkthrough
 
-Coming soon!
-Image recognition
-<img src='https://gifsstore.com/public/upload/gifs/15653843891565384386.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-
-![](img src='https://gifsstore.com/public/upload/gifs/15653843891565384386.gif')
-
-[![Demo CountPages alpha](https://gifsstore.com/public/upload/gifs/15653843891565384386.gif]
+Image recognition: https://gifsstore.com/public/upload/gifs/15653843891565384386.gif
+Track history: https://gifsstore.com/public/upload/gifs/15653871041565387101.gif
 
 ## Credits
 
