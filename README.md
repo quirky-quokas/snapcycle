@@ -17,8 +17,10 @@ This project was created from the ground up in the span of 4 weeks during Facebo
 
 ## Video Walkthrough
 
-Image recognition: https://gifsstore.com/public/upload/gifs/15653843891565384386.gif
-Track history: https://gifsstore.com/public/upload/gifs/15653871041565387101.gif
+More videos coming soon!
+
+- Image recognition: https://gifsstore.com/public/upload/gifs/15653843891565384386.gif
+- Track history: https://gifsstore.com/public/upload/gifs/15653871041565387101.gif
 
 ## Credits
 
