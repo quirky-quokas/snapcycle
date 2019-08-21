@@ -19,7 +19,7 @@ This project was created from the ground up in the span of 4 weeks during Facebo
 
 Coming soon!
 Image recognition
-<img src='https://gifsstore.com/public/upload/gifs/15653843891565384386.gif' title='Video Walkthrough 1' width='' alt='Video Walkthrough 1' />
+<img src='https://gifsstore.com/public/upload/gifs/15653843891565384386.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 ## Credits
 
