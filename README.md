@@ -15,12 +15,10 @@ This project was created from the ground up in the span of 4 weeks during Facebo
 - User can participate and win competitions with their community
 - User can view current environmental news 
 
-## Video Walkthrough
+## Video Walkthroughs
 
-More videos coming soon!
-
-- Image recognition: https://gifsstore.com/public/upload/gifs/15653843891565384386.gif
-- Track history: https://gifsstore.com/public/upload/gifs/15653871041565387101.gif
+<img src='https://gifsstore.com/public/upload/gifs/15653843891565384386.gif' title='Image Recognition' width='' alt='Video Walkthrough' />
+<img src='https://gifsstore.com/public/upload/gifs/15653871041565387101.gif' title='Track History' width='' alt='Video Walkthrough' />
 
 ## Credits
 
